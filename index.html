@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wisdom Academy</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    :root{
+      --primary:#0d2b45;
+      --accent:#1fb6b9;
+      --accent-dark:#15989b;
+      --light:#f5f9fc;
+      --text:#1f2d3d;
+      --gray:#6b7c93;
+      --border:#dcebf2;
+      --hover-contrast:#E6FF00;
+    }
+
+    body{
+      font-family:Arial, Helvetica, sans-serif;
+      background:var(--light);
+      color:var(--text);
+      line-height:1.6;
+    }
+
+    .container{
+      width:90%;
+      max-width:1280px;
+      margin:auto;
+    }
+
+    .navbar{
+      background:rgba(245,249,252,0.96);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid var(--border);
+      position:sticky;
+      top:0;
+      z-index:100;
+    }
+
+    .nav-content{
+      height:95px;
+      display:grid;
+      grid-template-columns:280px 1fr 180px;
+      align-items:center;
+      gap:20px;
+    }
+
+    .logo{
+      display:flex;
+      align-items:center;
+      text-decoration:none;
+    }
+
+    .logo img{
+      height:68px;
+      width:auto;
+      display:block;
+      cursor:pointer;
+    }
+
+    .nav-menu{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:34px;
+    }
+
+    .nav-menu a,
+    .dropbtn{
+      color:var(--text);
+      text-decoration:none;
+      font-size:0.95rem;
+      font-weight:700;
+      background:none;
+      border:none;
+      cursor:pointer;
+      font-family:Arial, Helvetica, sans-serif;
+    }
+
+    .nav-menu a:hover,
+    .dropbtn:hover{
+      color:var(--accent-dark);
+    }
+
+    .nav-actions{
+      display:flex;
+      justify-content:flex-end;
+      align-items:center;
+    }
+
+    .btn-login,
+    .btn-primary{
+      background:var(--accent);
+      color:white;
+      border:none;
+      border-radius:999px;
+      padding:13px 24px;
+      font-weight:700;
+      text-decoration:none;
+      display:inline-block;
+      cursor:pointer;
+      transition:all 0.2s ease;
+    }
+
+    .btn-login:hover,
+    .btn-primary:hover{
+      background:var(--hover-contrast);
+      color:#000;
+      transform:translateY(-2px);
+    }
+
+    .dropdown{
+      position:relative;
+      padding:18px 0;
+    }
+
+    .dropdown-content{
+      display:none;
+      position:absolute;
+      top:58px;
+      left:0;
+      width:260px;
+      background:white;
+      border:1px solid var(--border);
+      border-radius:16px;
+      box-shadow:0 8px 22px rgba(13,43,69,0.08);
+      padding:10px;
+      z-index:50;
+    }
+
+    .dropdown-content a{
+      display:block;
+      padding:12px 14px;
+      border-radius:10px;
+      color:var(--primary);
+    }
+
+    .dropdown-content a:hover{
+      background:#ecf8f9;
+      color:var(--accent-dark);
+    }
+
+    .dropdown:hover .dropdown-content{
+      display:block;
+    }
+
+    .hero{
+      padding:90px 0 70px;
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.05fr 0.95fr;
+      align-items:center;
+      gap:60px;
+    }
+
+    h1{
+      font-size:clamp(2.2rem,4vw,3.5rem);
+      line-height:1.05;
+      color:var(--primary);
+      margin-bottom:26px;
+      font-weight:900;
+    }
+
+    .hero-text p{
+      max-width:590px;
+      color:var(--gray);
+      font-size:1.1rem;
+      margin-bottom:30px;
+    }
+
+    .hero-actions{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      margin-bottom:28px;
+    }
+
+    .btn-secondary{
+      color:var(--primary);
+      border:1px solid var(--border);
+      background:white;
+      border-radius:999px;
+      padding:13px 24px;
+      font-weight:700;
+      text-decoration:none;
+      transition:all 0.2s ease;
+    }
+
+    .btn-secondary:hover{
+      background:var(--hover-contrast);
+      color:#000;
+      border-color:var(--hover-contrast);
+    }
+
+    .pill-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .pill{
+      background:white;
+      border:1px solid var(--border);
+      border-radius:999px;
+      padding:8px 14px;
+      color:var(--primary);
+      font-weight:700;
+      font-size:0.9rem;
+    }
+
+    .hero-card{
+      min-height:520px;
+      border-radius:32px;
+      overflow:hidden;
+      box-shadow:0 10px 28px rgba(13,43,69,0.08);
+    }
+
+    .hero-image{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .section{
+      padding:70px 0;
+    }
+
+    .section-header{
+      max-width:720px;
+      margin-bottom:34px;
+    }
+
+    .section-header h2{
+      font-size:clamp(2rem,4vw,3rem);
+      color:var(--primary);
+      line-height:1.1;
+      margin-bottom:12px;
+    }
+
+    .section-header p{
+      color:var(--gray);
+      font-size:1.05rem;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:22px;
+    }
+
+    .card{
+      background:white;
+      border:1px solid var(--border);
+      border-radius:24px;
+      padding:26px;
+      box-shadow:0 6px 18px rgba(13,43,69,0.05);
+    }
+
+    .card-icon{
+      width:48px;
+      height:48px;
+      border-radius:16px;
+      background:#e6f7f7;
+      color:var(--accent-dark);
+      display:grid;
+      place-items:center;
+      font-weight:900;
+      margin-bottom:18px;
+    }
+
+    .card h3{
+      color:var(--primary);
+      margin-bottom:10px;
+    }
+
+    .card p{
+      color:var(--gray);
+    }
+
+
+    /* SECTION COLOR SYSTEM */
+    .cards.blue-theme .card{
+      background:linear-gradient(145deg,#0d2b45 0%,#123955 100%);
+      border:none;
+      box-shadow:0 18px 34px rgba(13,43,69,0.18);
+    }
+
+    .cards.blue-theme .card h3,
+    .cards.blue-theme .card p{
+      color:white;
+    }
+
+    .cards.blue-theme .card-icon{
+      background:rgba(255,255,255,0.12);
+      color:#E6FF00;
+    }
+
+    .cards.blue-theme .card::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:6px;
+      background:linear-gradient(90deg,#1fb6b9,#E6FF00);
+      border-radius:24px 24px 0 0;
+    }
+
+    .cards.green-theme .card{
+      background:linear-gradient(145deg,#d8ffdf 0%,#b9ffcb 100%);
+      border:1px solid #8df0a6;
+      box-shadow:0 16px 28px rgba(88,196,110,0.18);
+    }
+
+    .cards.green-theme .card h3{
+      color:#0d2b45;
+    }
+
+    .cards.green-theme .card p{
+      color:#24503a;
+    }
+
+    .cards.green-theme .card-icon{
+      background:#8dffad;
+      color:#0f5a24;
+    }
+
+    .cards.green-theme .card::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:6px;
+      background:linear-gradient(90deg,#45ff78,#E6FF00);
+      border-radius:24px 24px 0 0;
+    }
+
+    .cards.contrast-theme .card{
+      background:linear-gradient(145deg,#1b5c63 0%,#2e7d86 100%);
+      border:none;
+      box-shadow:0 18px 34px rgba(13,43,69,0.14);
+    }
+
+    .cards.contrast-theme .card h3{
+      color:white;
+    }
+
+    .cards.contrast-theme .card p{
+      color:#dceff2;
+    }
+
+    .cards.contrast-theme .card-icon{
+      background:rgba(255,255,255,0.14);
+      color:#E6FF00;
+    }
+
+    .cards.contrast-theme .card::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:6px;
+      background:linear-gradient(90deg,#7ae0e3,#E6FF00);
+      border-radius:24px 24px 0 0;
+    }
+
+    .card{
+      position:relative;
+      overflow:hidden;
+      transition:all .25s ease;
+    }
+
+    .card:hover{
+      transform:translateY(-6px);
+    }
+
+
+    .cta-band{
+      background:var(--primary);
+      color:white;
+      border-radius:34px;
+      padding:48px;
+      display:flex;
+      justify-content:space-between;
+      gap:24px;
+      align-items:center;
+    }
+
+    .cta-band h2{
+      font-size:clamp(1.8rem,4vw,3rem);
+      line-height:1.1;
+      margin-bottom:12px;
+    }
+
+    .cta-band p{
+      color:#c9d8e3;
+      max-width:620px;
+    }
+
+    footer{
+      padding:40px 0;
+      color:var(--gray);
+      border-top:1px solid var(--border);
+      margin-top:60px;
+      text-align:center;
+    }
+
+    @media(max-width:980px){
+      .nav-content{
+        grid-template-columns:1fr;
+        height:auto;
+        padding:20px 0;
+      }
+
+      .logo{
+        justify-content:center;
+      }
+
+      .nav-menu{
+        flex-wrap:wrap;
+        gap:20px;
+      }
+
+      .nav-actions{
+        justify-content:center;
+      }
+
+      .hero-grid,
+      .cards{
+        grid-template-columns:1fr;
+      }
+
+  
+    /* SECTION COLOR SYSTEM */
+    .cards.blue-theme .card{
+      background:linear-gradient(145deg,#0d2b45 0%,#123955 100%);
+      border:none;
+      box-shadow:0 18px 34px rgba(13,43,69,0.18);
+    }
+
+    .cards.blue-theme .card h3,
+    .cards.blue-theme .card p{
+      color:white;
+    }
+
+    .cards.blue-theme .card-icon{
+      background:rgba(255,255,255,0.12);
+      color:#E6FF00;
+    }
+
+    .cards.blue-theme .card::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:6px;
+      background:linear-gradient(90deg,#1fb6b9,#E6FF00);
+      border-radius:24px 24px 0 0;
+    }
+
+    .cards.green-theme .card{
+      background:linear-gradient(145deg,#d8ffdf 0%,#b9ffcb 100%);
+      border:1px solid #8df0a6;
+      box-shadow:0 16px 28px rgba(88,196,110,0.18);
+    }
+
+    .cards.green-theme .card h3{
+      color:#0d2b45;
+    }
+
+    .cards.green-theme .card p{
+      color:#24503a;
+    }
+
+    .cards.green-theme .card-icon{
+      background:#8dffad;
+      color:#0f5a24;
+    }
+
+    .cards.green-theme .card::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:6px;
+      background:linear-gradient(90deg,#45ff78,#E6FF00);
+      border-radius:24px 24px 0 0;
+    }
+
+    .cards.contrast-theme .card{
+      background:linear-gradient(145deg,#1b5c63 0%,#2e7d86 100%);
+      border:none;
+      box-shadow:0 18px 34px rgba(13,43,69,0.14);
+    }
+
+    .cards.contrast-theme .card h3{
+      color:white;
+    }
+
+    .cards.contrast-theme .card p{
+      color:#dceff2;
+    }
+
+    .cards.contrast-theme .card-icon{
+      background:rgba(255,255,255,0.14);
+      color:#E6FF00;
+    }
+
+    .cards.contrast-theme .card::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:6px;
+      background:linear-gradient(90deg,#7ae0e3,#E6FF00);
+      border-radius:24px 24px 0 0;
+    }
+
+    .card{
+      position:relative;
+      overflow:hidden;
+      transition:all .25s ease;
+    }
+
+    .card:hover{
+      transform:translateY(-6px);
+    }
+
+
+    .cta-band{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="navbar">
+    <div class="container nav-content">
+
+      <a href="wisdom_homepage.html" class="logo">
+        <img src="logo.jpg" alt="Wisdom Academy Logo">
+      </a>
+
+      <nav class="nav-menu">
+
+        <a href="wisdom_homepage.html">Inicio</a>
+
+        <div class="dropdown">
+          <button class="dropbtn">Servicios ▾</button>
+
+          <div class="dropdown-content">
+            <a href="wisdom_formacion_page.html">Formación</a>
+            <a href="wisdom_interpretacion_page.html">Interpretación</a>
+            <a href="wisdom_comofunciona_preview.html">Cómo funciona</a>
+            <a href="wisdom_material_gratuito_page.html">Material gratuito</a>
+          </div>
+        </div>
+
+        <div class="dropdown">
+          <button class="dropbtn">Contacto ▾</button>
+
+          <div class="dropdown-content">
+            <a href="wisdom_contacto_page.html">Formato de contacto</a>
+            <a href="wisdom_contacto_ventas_page.html">Contacto de ventas</a>
+          </div>
+        </div>
+
+      </nav>
+
+      <div class="nav-actions">
+        <a class="btn-login" href="dashboard.html">Inicio de sesión</a>
+      </div>
+
+    </div>
+  </header>
+
+  <main>
+
+    <section class="hero">
+      <div class="container hero-grid">
+
+        <div class="hero-text">
+          <h1>SOLUCIONES REALES<br>DE COMUNICACIÓN EN<br>OTROS IDIOMAS.</h1>
+
+          <p>
+            Entrenamos personas para hablar, entender y responder con confianza en situaciones reales.
+          </p>
+
+          <div class="hero-actions">
+            <a href="wisdom_formacion_page.html" class="btn-primary">Conoce nuestros cursos</a>
+            <a href="wisdom_material_gratuito_page.html" class="btn-secondary">Material gratuito</a>
+          </div>
+
+          <div class="pill-row">
+            <span class="pill">Interpretación</span>
+            <span class="pill">Práctica</span>
+            <span class="pill">Aplicación</span>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <img src="majo.jpg" alt="Wisdom Academy Student" class="hero-image">
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+
+        <div class="section-header">
+          <h2>Cómo resolvemos problemas reales de comunicación</h2>
+          <p>En WISDOM, contamos con distintas modalidades de servicio para responder a diferentes necesidades.</p>
+        </div>
+
+        <div class="cards blue-theme">
+
+          <article class="card">
+            <div class="card-icon">1</div>
+            <h3>ENTENDER TU OBJETIVO</h3>
+            <p>Partimos de tu contexto real.</p>
+            <p>Definimos para qué necesitas el idioma y en qué situaciones debes comunicarte.</p>
+          </article>
+
+          <article class="card">
+            <div class="card-icon">2</div>
+            <h3>ENTRENAR LA COMUNICACIÓN</h3>
+            <p>Entrenamiento práctico y guiado.</p>
+            <p>Hablas desde el primer día en grupos pequeños, con acompañamiento constante.</p>
+          </article>
+
+          <article class="card">
+            <div class="card-icon">3</div>
+            <h3>MEDIR Y AJUSTAR</h3>
+            <p>Progreso visible y aplicable.</p>
+            <p>Medimos cómo usas el idioma y ajustamos para que avances con claridad.</p>
+          </article>
+
+        </div>
+
+        <div style="margin-top:32px;">
+          <a class="btn-primary" href="wisdom_contacto_page.html">CUÉNTANOS TU OBJETIVO</a>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+
+        <div class="section-header">
+          <h2>Material gratuito para mejorar tu comunicación</h2>
+          <p>Descárgalo y empieza a practicar con una guía clara y aplicada.</p>
+        </div>
+
+        <div class="cards green-theme">
+
+          <article class="card">
+            <div class="card-icon">A</div>
+            <h3>Ejercicios prácticos</h3>
+            <p>Speaking y listening aplicados.</p>
+          </article>
+
+          <article class="card">
+            <div class="card-icon">B</div>
+            <h3>Guía de uso</h3>
+            <p>Aplicación en situaciones reales.</p>
+          </article>
+
+          <article class="card">
+            <div class="card-icon">C</div>
+            <h3>Recomendaciones</h3>
+            <p>Para avanzar más rápido y con claridad.</p>
+          </article>
+
+        </div>
+
+        <div style="margin-top:32px;">
+          <a class="btn-primary" href="wisdom_material_gratuito_page.html">DESCARGA MATERIAL GRATIS</a>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+
+        <div class="section-header">
+          <h2>Soluciones de comunicación para personas y organizaciones</h2>
+        </div>
+
+        <div class="cards contrast-theme">
+
+          <article class="card">
+            <div class="card-icon">P</div>
+            <h3>PERSONAS</h3>
+            <p>Para quienes necesitan comunicarse mejor en otro idioma.</p>
+            <p>Trabajo, estudio, viajes o crecimiento personal.</p>
+          </article>
+
+          <article class="card">
+            <div class="card-icon">E</div>
+            <h3>EMPRESAS</h3>
+            <p>Para equipos que necesitan comunicarse sin fricciones.</p>
+            <p>Reuniones, procesos, clientes y entornos internacionales.</p>
+          </article>
+
+          <article class="card">
+            <div class="card-icon">I</div>
+            <h3>COMUNICACIÓN PROFESIONAL MULTILINGÜE</h3>
+            <p>Servicios de interpretación profesional.</p>
+            <p>Para contextos donde la precisión del mensaje es clave.</p>
+          </article>
+
+        </div>
+
+        <div style="margin-top:32px;">
+          <a class="btn-primary" href="wisdom_contacto_ventas_page.html">CUÉNTANOS TU REQUERIMIENTO</a>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+
+        <div class="cta-band">
+          <div>
+            <h2>Comienza con claridad.</h2>
+            <p>Formación, interpretación y soluciones reales de comunicación en otros idiomas.</p>
+          </div>
+
+          <a class="btn-primary" href="wisdom_contacto_page.html">Ir al contacto</a>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    Wisdom Academy · Communication
+  </footer>
+
+</body>
+</html>
