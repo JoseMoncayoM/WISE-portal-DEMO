@@ -1,0 +1,2402 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Administrador | Wisdom Academy</title>
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+
+    :root{
+      --primary:#0d2b45;
+      --accent:#1fb6b9;
+      --light:#f5f9fc;
+      --white:#ffffff;
+      --text:#1f2d3d;
+      --gray:#6b7c93;
+      --border:#dcebf2;
+      --hover:#E6FF00;
+      --soft-accent:#e7f8f8;
+    }
+
+    body{font-family:Inter, Arial, sans-serif;background:var(--light);color:var(--text)}
+
+    .app{min-height:100vh;display:grid;grid-template-columns:260px 1fr}
+
+    .sidebar{background:var(--white);border-right:1px solid var(--border);padding:28px 22px;position:sticky;top:0;height:100vh}
+
+    .logo{
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  margin-bottom:24px;
+}
+.logo img{
+  width:145px;
+  max-width:100%;
+  height:auto;
+  object-fit:contain;
+}
+
+    .menu-group{margin-bottom:20px}
+
+    .menu-title{font-size:.75rem;color:var(--gray);font-weight:800;letter-spacing:.12em;margin-bottom:8px;cursor:pointer;display:flex;justify-content:space-between}
+
+    .menu-items{display:none}
+
+    .menu-group.active .menu-items{display:block}
+
+    .side-link{display:flex;align-items:center;gap:10px;color:var(--text);text-decoration:none;padding:10px 12px;border-radius:12px;font-weight:700;font-size:.9rem;margin-bottom:6px}
+
+    .side-link:hover,.side-link.active{background:var(--soft-accent)}
+
+    .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+
+    .main{padding:30px}
+
+    .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px}
+
+    h1{color:var(--primary);font-size:2rem}
+
+    .btn{padding:10px 18px;border-radius:999px;font-weight:800;border:none;cursor:pointer}
+
+    .btn-primary{background:var(--accent);color:white}
+
+    .btn:hover{background:var(--hover);color:black}
+
+    .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:30px}
+
+    .metric{background:white;padding:20px;border-radius:20px;border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:86px}
+
+    .metric span{font-size:.72rem;color:var(--gray);font-weight:800;text-transform:uppercase;letter-spacing:.06em;max-width:120px;line-height:1.2}
+
+    .metric strong{font-size:2rem;color:var(--primary);margin-left:auto;text-align:right;min-width:42px;line-height:1}
+
+    .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:20px;margin-bottom:20px}
+
+    .panel{background:white;border:1px solid var(--border);border-radius:20px;padding:20px}
+
+    .class-card{border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:12px;background:#fbfdff}
+
+    .progress{height:8px;background:#eaf2f6;border-radius:999px;overflow:hidden}
+
+    .progress span{display:block;height:100%;background:var(--accent)}
+
+    .tables{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+
+    table{width:100%;border-collapse:collapse}
+
+    td{padding:10px;border-top:1px solid var(--border)}
+
+    .status{background:var(--soft-accent);padding:4px 8px;border-radius:999px;color:var(--accent);font-size:.7rem;font-weight:800}
+
+    .status.warning{background:#fff8d6;color:#8a6d00}
+
+    .status.danger{background:#ffefef;color:#b00020}
+
+    .alert-card{border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:12px;background:#fbfdff}
+
+    .alert-card strong{color:var(--primary);display:block;margin:7px 0 4px}
+
+    .alert-card small{color:var(--gray);display:block;line-height:1.35}
+.alert-card a{color:var(--accent);font-weight:900;text-decoration:none}
+.alert-card a:hover{text-decoration:underline}
+.alert-count{margin-left:8px;background:#ffefef;color:#b00020;border-radius:999px;padding:2px 8px;font-size:.72rem;font-weight:900}
+
+
+    .empty{color:var(--gray);padding:14px;border:1px dashed var(--border);border-radius:14px;background:#fbfdff;margin-top:12px}
+
+
+
+    .user-box{margin-top:24px;padding:14px;border-radius:16px;background:var(--soft-accent);border:1px solid var(--border)}
+    .user-box strong{display:block;color:var(--primary);font-size:.9rem;margin-bottom:4px}
+    .user-box small{display:block;color:var(--gray);font-weight:700;line-height:1.35}
+    .logout-btn{width:100%;margin-top:12px;padding:10px 12px;border-radius:999px;border:1px solid var(--border);background:white;color:var(--primary);font-weight:900;cursor:pointer}
+    .logout-btn:hover{background:var(--hover);color:black}
+    .role-hidden{display:none!important}
+    .role-pill{display:inline-block;margin-left:10px;background:var(--soft-accent);color:var(--accent);font-size:.75rem;font-weight:900;padding:5px 10px;border-radius:999px;vertical-align:middle}
+    .session-warning{display:none;margin-bottom:18px;padding:12px 14px;border-radius:14px;background:#fff8d6;color:#8a6d00;font-weight:800;border:1px solid #f4df8a}
+
+
+
+    .summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:14px}
+    .summary-card{border:1px solid var(--border);border-radius:16px;padding:16px;background:#fbfdff}
+    .summary-card small{display:block;color:var(--gray);font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+    .summary-card strong{display:block;font-size:1.7rem;color:var(--primary);line-height:1}
+    .summary-card.danger{background:#ffefef;border-color:#ffd1d1}
+    .summary-card.warning{background:#fff8d6;border-color:#f4df8a}
+    .summary-card.good{background:#effcf4;border-color:#c7f0d6}
+    .executive-line{margin-top:14px;padding:12px 14px;border-radius:14px;background:var(--soft-accent);border:1px solid var(--border);font-weight:800;color:var(--primary);line-height:1.35}
+    .action-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .btn-small{padding:8px 12px;font-size:.72rem;border-radius:999px}
+    .btn-secondary{background:white;color:var(--primary);border:1px solid var(--border)}
+    .btn-danger{background:#b00020;color:white}
+    .btn-warning{background:#fff8d6;color:#8a6d00;border:1px solid #f4df8a}
+    .critical-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;padding:12px 14px;border-radius:16px;background:#ffefef;border:1px solid #ffd1d1;color:#b00020;font-weight:900}
+    .critical-bar.ok{background:#effcf4;border-color:#c7f0d6;color:#146c2e}
+    .finance-mini{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+    .finance-mini div{border:1px solid var(--border);border-radius:14px;padding:12px;background:#fbfdff}
+    .finance-mini small{display:block;color:var(--gray);font-weight:800;margin-bottom:4px}
+    .finance-mini strong{color:var(--primary);font-size:1.25rem}
+    .lock-card{border:1px solid #ffd1d1;background:#ffefef;color:#b00020;border-radius:16px;padding:14px;margin-bottom:12px}
+    .lock-card strong{display:block;margin-bottom:4px}
+    .lock-card small{display:block;line-height:1.35}
+    .hidden-panel{display:none!important}
+
+    @media(max-width:900px){.app{grid-template-columns:1fr}.grid,.tables,.summary-grid,.finance-mini,.academic-kpi-grid{grid-template-columns:1fr}.sidebar{position:relative;height:auto}}
+
+    .academic-kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:14px}
+    .academic-kpi{border:1px solid var(--border);border-radius:16px;padding:16px;background:#fbfdff}
+    .academic-kpi small{display:block;color:var(--gray);font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+    .academic-kpi strong{display:block;font-size:1.7rem;color:var(--primary);line-height:1}
+    .academic-kpi.danger{background:#ffefef;border-color:#ffd1d1}
+    .academic-kpi.warning{background:#fff8d6;border-color:#f4df8a}
+    .academic-kpi.good{background:#effcf4;border-color:#c7f0d6}
+    .academic-list{margin-top:14px;display:grid;gap:10px}
+    .academic-item{border:1px solid var(--border);border-radius:14px;padding:12px;background:#fbfdff;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+    .academic-item strong{color:var(--primary);display:block;margin-bottom:3px}
+    .academic-item small{color:var(--gray);display:block;line-height:1.35}
+    .academic-item.danger{background:#ffefef;border-color:#ffd1d1}
+    .academic-item.warning{background:#fff8d6;border-color:#f4df8a}
+    .academic-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+
+  
+/* ===========================
+   WISDOM PREMIUM UI LAYER
+   Visual upgrade only. Logic untouched.
+=========================== */
+:root{
+  --premium-bg:#eef5f7;
+  --premium-surface:#ffffff;
+  --premium-ink:#0b2438;
+  --premium-muted:#68798d;
+  --premium-line:#d8e6ed;
+  --premium-blue:#123e68;
+  --premium-teal:#16aeb7;
+  --premium-teal-soft:#e6f7f8;
+  --premium-lime:#e6ff00;
+  --premium-danger:#b00020;
+  --premium-danger-bg:#fff0f2;
+  --premium-warning:#8a6100;
+  --premium-warning-bg:#fff8dd;
+  --premium-ok:#146c2e;
+  --premium-ok-bg:#edf9f0;
+  --premium-shadow:0 18px 44px rgba(13,43,69,.10);
+  --premium-shadow-soft:0 10px 24px rgba(13,43,69,.07);
+}
+body{
+  background:
+    radial-gradient(circle at top left, rgba(31,182,185,.14), transparent 36%),
+    linear-gradient(180deg,#f7fbfc 0%, var(--premium-bg) 100%)!important;
+  color:var(--premium-ink)!important;
+}
+.sidebar{
+  background:rgba(255,255,255,.88)!important;
+  backdrop-filter:blur(16px);
+  box-shadow:12px 0 32px rgba(13,43,69,.045);
+}
+.logo{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  padding:10px 0 18px!important;
+  margin-bottom:24px!important;
+  border-bottom:1px solid var(--premium-line)!important;
+}
+.logo img{
+  width:145px!important;
+  max-width:100%!important;
+  height:auto!important;
+  object-fit:contain!important;
+  display:block!important;
+}
+.menu-title{
+  color:#8796a8!important;
+  font-size:.7rem!important;
+}
+.side-link{
+  border:1px solid transparent;
+  transition:.18s ease;
+}
+.side-link:hover,.side-link.active{
+  background:linear-gradient(135deg,var(--premium-teal-soft),#f7ffff)!important;
+  border-color:#caeff2;
+  transform:translateX(2px);
+}
+.dot{
+  box-shadow:0 0 0 4px rgba(31,182,185,.12);
+}
+.user-box{
+  background:linear-gradient(135deg,#f7ffff,var(--premium-teal-soft))!important;
+  box-shadow:var(--premium-shadow-soft);
+}
+.main,.container{
+  animation:premiumFade .35s ease both;
+}
+@keyframes premiumFade{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.topbar{
+  background:linear-gradient(135deg,var(--premium-blue),#1f5f93);
+  color:white;
+  border-radius:28px;
+  padding:24px 26px;
+  box-shadow:var(--premium-shadow);
+  margin-bottom:22px!important;
+}
+.topbar h1{
+  color:white!important;
+  letter-spacing:-.04em;
+  font-size:clamp(2rem,4vw,3rem)!important;
+}
+.role-pill{
+  background:rgba(255,255,255,.18)!important;
+  color:white!important;
+  border:1px solid rgba(255,255,255,.22);
+}
+.btn{
+  transition:.18s ease!important;
+  box-shadow:none;
+}
+.btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 10px 22px rgba(13,43,69,.12);
+}
+.btn-primary,.btn:not(.btn-secondary):not(.btn-danger):not(.btn-warning){
+  background:var(--premium-teal)!important;
+  color:white!important;
+}
+.btn-secondary{
+  background:white!important;
+  color:var(--premium-blue)!important;
+  border:1px solid var(--premium-line)!important;
+}
+.btn-danger{
+  background:var(--premium-danger-bg)!important;
+  color:var(--premium-danger)!important;
+  border:1px solid #ffd0d8!important;
+}
+.metrics,.summary-grid,.academic-kpi-grid,.eval-metrics{
+  gap:16px!important;
+}
+.metric,.summary-card,.academic-kpi,.eval-metric{
+  position:relative;
+  overflow:hidden;
+  background:rgba(255,255,255,.94)!important;
+  border:1px solid rgba(216,230,237,.95)!important;
+  border-radius:24px!important;
+  box-shadow:var(--premium-shadow-soft);
+}
+.metric::after,.summary-card::after,.academic-kpi::after,.eval-metric::after{
+  content:"";
+  position:absolute;
+  inset:auto 14px 12px auto;
+  width:38px;
+  height:38px;
+  border-radius:999px;
+  background:rgba(31,182,185,.11);
+}
+.metric span,.summary-card small,.academic-kpi small,.eval-metric small{
+  color:var(--premium-muted)!important;
+  letter-spacing:.09em!important;
+}
+.metric strong,.summary-card strong,.academic-kpi strong,.eval-metric strong{
+  color:var(--premium-blue)!important;
+  font-size:clamp(1.8rem,3vw,2.55rem)!important;
+}
+.panel,.card{
+  background:rgba(255,255,255,.96)!important;
+  border:1px solid rgba(216,230,237,.95)!important;
+  border-radius:26px!important;
+  box-shadow:var(--premium-shadow-soft);
+}
+.panel h2,.card h3{
+  color:var(--premium-blue)!important;
+  letter-spacing:-.025em;
+  margin-bottom:12px;
+}
+.class-card,.alert-card,.request-card,.intervention-card,.result-item,.lock-card{
+  border-radius:20px!important;
+  border:1px solid var(--premium-line)!important;
+  box-shadow:0 8px 18px rgba(13,43,69,.045);
+}
+.alert-card,.academic-item{
+  transition:.18s ease;
+}
+.alert-card:hover,.academic-item:hover{
+  transform:translateY(-1px);
+  box-shadow:var(--premium-shadow-soft);
+}
+.status,.pill{
+  border-radius:999px!important;
+  font-weight:900!important;
+  letter-spacing:.02em;
+}
+.status.danger,.pill.danger,.academic-item.danger,.summary-card.danger,.academic-kpi.danger,.intervention-card.critical{
+  background:var(--premium-danger-bg)!important;
+  border-color:#ffd0d8!important;
+  color:var(--premium-danger)!important;
+}
+.status.warning,.pill.warning,.academic-item.warning,.summary-card.warning,.academic-kpi.warning,.intervention-card.risk{
+  background:var(--premium-warning-bg)!important;
+  border-color:#f6df94!important;
+  color:var(--premium-warning)!important;
+}
+.pill.ok,.summary-card.good,.academic-kpi.good,.intervention-card.closed{
+  background:var(--premium-ok-bg)!important;
+  border-color:#c9ebd3!important;
+  color:var(--premium-ok)!important;
+}
+.critical-bar{
+  border-radius:20px!important;
+  box-shadow:var(--premium-shadow-soft);
+}
+.executive-line,.notice,.session-warning,.eval-alert{
+  border-radius:18px!important;
+  box-shadow:0 8px 18px rgba(13,43,69,.035);
+}
+table{
+  border-collapse:separate!important;
+  border-spacing:0;
+}
+td,th{
+  border-top:0!important;
+  border-bottom:1px solid var(--premium-line)!important;
+}
+th{
+  color:var(--premium-muted)!important;
+  font-size:.72rem;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+.progress{
+  height:11px!important;
+  background:#eaf3f6!important;
+}
+.progress span{
+  background:linear-gradient(90deg,var(--premium-teal),#72d8df)!important;
+}
+.empty{
+  border-radius:20px!important;
+  background:#f8fbfc!important;
+}
+
+
+/* Dashboard premium composition */
+.main::before{
+  content:"Centro de control académico";
+  display:block;
+  color:var(--premium-muted);
+  text-transform:uppercase;
+  font-weight:900;
+  letter-spacing:.16em;
+  margin-bottom:10px;
+  font-size:.72rem;
+}
+#summaryPanel{
+  border:0!important;
+  background:linear-gradient(135deg,#ffffff,#f2fbfc)!important;
+}
+#academicControlPanel{
+  border:1px solid #bfecef!important;
+  background:linear-gradient(135deg,#ffffff,#effcfd)!important;
+}
+#academicControlPanel h2::after{
+  content:"Prioridad diaria";
+  display:inline-block;
+  margin-left:10px;
+  padding:5px 10px;
+  border-radius:999px;
+  background:var(--premium-teal-soft);
+  color:var(--premium-teal);
+  font-size:.68rem;
+  vertical-align:middle;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+}
+.alert-card strong::before{
+  content:"• ";
+  color:var(--premium-teal);
+}
+.finance-mini div{
+  border-radius:18px!important;
+  box-shadow:0 6px 14px rgba(13,43,69,.035);
+}
+
+
+.loop-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 10px;
+  border-radius:999px;
+  background:var(--premium-teal-soft,#e6f7f8);
+  color:var(--premium-blue,#123e68);
+  font-size:.72rem;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+}
+
+
+.message-mini-list{display:grid;gap:10px;margin-top:12px}
+.message-mini-card{border:1px solid var(--premium-line,var(--border));border-radius:16px;padding:12px;background:#fbfdff}
+.message-mini-card strong{display:block;color:var(--premium-blue,var(--primary));margin-bottom:4px}
+.message-mini-card small{display:block;color:var(--gray);line-height:1.35}
+.message-mini-card.danger{background:#fff0f2;border-color:#ffd0d8}
+.message-mini-card.warning{background:#fff8dd;border-color:#f6df94}
+.message-kpi{cursor:pointer}
+.message-kpi:hover{transform:translateY(-1px)}
+
+
+.notification-mini-list{display:grid;gap:10px;margin-top:12px}
+.notification-mini-card{border:1px solid var(--premium-line,var(--border));border-radius:16px;padding:12px;background:#fbfdff}
+.notification-mini-card.warning{background:#fff8dd;border-color:#f6df94}
+.notification-mini-card.danger{background:#fff0f2;border-color:#ffd0d8}
+.notification-mini-card.success{background:#edf9f0;border-color:#c9ebd3}
+.notification-mini-card strong{display:block;color:var(--premium-blue,var(--primary));margin-bottom:4px}
+.notification-mini-card small{display:block;color:var(--gray);line-height:1.35}
+.sidebar .alert-count{margin-left:auto}
+
+</style>
+</head>
+<body>
+
+<div class="app">
+
+<aside class="sidebar">
+  <div class="logo"><img src="logo.jpg" alt="Wisdom Academy Logo"></div>
+
+  <div class="menu-group active">
+    <div class="menu-title">Panel ▾</div>
+    <div class="menu-items">
+      <a class="side-link active" href="dashboard.html"><span class="dot"></span> Dashboard</a>
+    </div>
+  </div>
+
+  <div class="menu-group">
+    <div class="menu-title">Personas ▾</div>
+    <div class="menu-items">
+      <a class="side-link" data-roles="admin" href="estudiantes.html"><span class="dot"></span> Estudiantes</a>
+      <a class="side-link" data-roles="admin" href="profesores.html"><span class="dot"></span> Profesores</a>
+      <a class="side-link" data-roles="admin" href="usuarios.html"><span class="dot"></span> Usuarios</a>
+    </div>
+  </div>
+
+  <div class="menu-group">
+    <div class="menu-title">Servicios ▾</div>
+    <div class="menu-items">
+      <a class="side-link" data-roles="admin,teacher" href="grupales.html"><span class="dot"></span> Grupales</a>
+      <a class="side-link" data-roles="admin,teacher" href="privadas.html"><span class="dot"></span> Privadas / Semi</a>
+    </div>
+  </div>
+
+  <div class="menu-group">
+    <div class="menu-title">Gestión ▾</div>
+    <div class="menu-items">
+      <a class="side-link" data-roles="admin,teacher,student" href="calendario.html"><span class="dot"></span> Calendario</a>
+      <a class="side-link" data-roles="admin" href="finanzas.html"><span class="dot"></span> Finanzas</a>
+      <a class="side-link" data-roles="admin" href="solicitudes.html"><span class="dot"></span> Solicitudes</a>
+      <a class="side-link" data-roles="admin,teacher,student" href="reportes.html"><span class="dot"></span> Reportes</a>
+      <a class="side-link" data-roles="admin,teacher" href="mensajes.html"><span class="dot"></span> Mensajes <span id="sidebarMessagesBadge" class="alert-count" style="display:none">0</span></a>
+      <a class="side-link" data-roles="admin,teacher" href="#notificationsPanel" onclick="focusNotificationsPanel(event)"><span class="dot"></span> Notificaciones <span id="sidebarNotificationsBadge" class="alert-count" style="display:none">0</span></a>
+    </div>
+  </div>
+
+
+
+  <div class="menu-group active">
+    <div class="menu-title">Diagnóstico ▾</div>
+    <div class="menu-items">
+      <a class="side-link" data-roles="admin,teacher" href="placement_portal_integrado.html"><span class="dot"></span> Nuevo diagnóstico</a>
+      <a class="side-link" data-roles="admin,teacher" href="diagnostico_resultados.html"><span class="dot"></span> Resultados diagnóstico</a>
+    </div>
+  </div>
+
+  <div class="menu-group">
+    <div class="menu-title">Práctica y exámenes ▾</div>
+    <div class="menu-items">
+      <a class="side-link" data-roles="admin,teacher,student" href="Grammar_portal.html"><span class="dot"></span> Grammar</a>
+      <a class="side-link" data-roles="admin,teacher,student" href="Listening_portal.html"><span class="dot"></span> Listening</a>
+      <a class="side-link" data-roles="admin,teacher,student" href="Speaking_portal.html"><span class="dot"></span> Speaking</a>
+      <a class="side-link" data-roles="admin,teacher" href="evaluaciones.html"><span class="dot"></span> Evaluaciones</a>
+      <a class="side-link" data-roles="admin,teacher,student" href="resultados.html"><span class="dot"></span> Resultados</a>
+    </div>
+  </div>
+
+  <div class="user-box">
+    <strong id="sidebarUserName">Usuario</strong>
+    <small id="sidebarUserRole">Rol</small>
+    <small id="sidebarUserEmail">correo</small>
+    <button class="logout-btn" onclick="logout()">Cerrar sesión</button>
+  </div>
+
+</aside>
+
+<main class="main">
+
+  <div class="topbar">
+    <div><h1>Dashboard <span id="rolePill" class="role-pill">Rol</span></h1><div style="color:rgba(255,255,255,.78);font-weight:800;margin-top:8px">Gestiona alertas, resultados, intervenciones y operación diaria. <span class="loop-badge">Loop académico activo</span></div></div>
+    <button class="btn btn-primary" data-roles="admin" onclick="window.location.href='estudiantes.html'">Crear estudiante</button>
+  </div>
+
+  <div id="sessionWarning" class="session-warning"></div>
+
+  <div class="metrics">
+    <div class="metric"><span>Estudiantes</span><strong id="studentsCount">0</strong></div>
+    <div class="metric"><span>Profesores</span><strong id="teachersCount">0</strong></div>
+    <div class="metric"><span>Grupos</span><strong id="groupsCount">0</strong></div>
+    <div class="metric"><span>Privadas</span><strong id="privateCount">0</strong></div>
+  </div>
+
+  <div class="panel" id="summaryPanel" style="margin-bottom:20px">
+    <h2>Resumen ejecutivo</h2>
+    <div id="dailySummary"></div>
+  </div>
+
+
+  
+  <div class="panel" id="placementPanel" data-roles="admin,teacher" style="margin-bottom:20px">
+    <h2>Diagnóstico</h2>
+    <div class="executive-line">
+      Usa el WISE Placement Test para diagnosticar estudiantes nuevos o validar nivel inicial. Los resultados quedan en el historial de diagnóstico y generan notificación en dashboard.
+    </div>
+    <div class="action-row">
+      <button class="btn btn-primary btn-small" onclick="window.location.href='placement_portal_integrado.html'">Nuevo diagnóstico</button>
+      <button class="btn btn-secondary btn-small" onclick="window.location.href='diagnostico_resultados.html'">Ver resultados diagnóstico</button>
+    </div>
+  </div>
+
+  <div class="panel" id="academicControlPanel" style="margin-bottom:20px">
+    <h2>Control académico</h2>
+    <div id="academicControl"></div>
+  </div>
+
+  <div class="grid">
+
+    <div class="panel">
+      <h2>Clases grupales</h2>
+      <div id="groupsList"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Alertas académicas y administrativas</h2>
+      <div id="criticalBar" class="critical-bar ok">Sin alertas críticas <span id="criticalCount">0</span></div>
+      <div id="alertsList"></div>
+    </div>
+
+  </div>
+
+  <div class="tables">
+
+    <div class="panel">
+      <h2>Privadas</h2>
+      <div id="privateList"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Solicitudes</h2>
+      <table id="requestsTable">
+        <tr><td colspan="3">No hay solicitudes registradas.</td></tr>
+      </table>
+    </div>
+
+  </div>
+
+  
+  
+  <div class="grid" style="margin-top:20px">
+    <div class="panel" id="notificationsPanel" data-roles="admin,teacher">
+      <h2>Notificaciones</h2>
+      <div id="notificationsPulse"></div>
+    </div>
+
+    <div class="panel" id="notificationsActionsPanel" data-roles="admin,teacher">
+      <h2>Acciones de notificación</h2>
+      <div id="notificationsActions"></div>
+    </div>
+  </div>
+
+
+  <div class="grid" style="margin-top:20px">
+    <div class="panel" id="messagesPanel" data-roles="admin,teacher">
+      <h2>Mensajes WhatsApp</h2>
+      <div id="messagesPulse"></div>
+    </div>
+
+    <div class="panel" id="messagesActionsPanel" data-roles="admin,teacher">
+      <h2>Acciones de mensajes</h2>
+      <div id="messagesActions"></div>
+    </div>
+  </div>
+
+
+  <div class="grid" style="margin-top:20px">
+    <div class="panel" id="financePulsePanel" data-roles="admin">
+      <h2>Pulso financiero</h2>
+      <div id="financePulse"></div>
+    </div>
+
+    <div class="panel" id="locksPanel">
+      <h2>Bloqueos inteligentes sugeridos</h2>
+      <div id="smartLocks"></div>
+    </div>
+  </div>
+
+</main>
+
+</div>
+<script src="storage.js"></script>
+<script src="schemaRegistry.js"></script>
+<script>
+  const CURRENT_USER_KEY = 'wisdom_current_user';
+  const USERS_KEY = 'wisdom_users';
+
+  function safeParseObject(value, fallback = null) {
+    try {
+      const parsed = value ? JSON.parse(value) : fallback;
+      return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : fallback;
+    } catch (error) {
+      return fallback;
+    }
+  }
+
+  function normalizeRole(role) {
+    const raw = String(role || '').trim().toLowerCase();
+    const clean = raw.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+    if (['admin', 'administrador', 'administrativo', 'administrator'].includes(clean)) return 'admin';
+    if (['teacher', 'profesor', 'docente', 'instructor'].includes(clean)) return 'teacher';
+    if (['student', 'estudiante', 'alumno', 'learner'].includes(clean)) return 'student';
+
+    return clean;
+  }
+
+  const currentUser = (typeof WisdomStorage !== 'undefined' && WisdomStorage && typeof WisdomStorage.get === 'function')
+    ? WisdomStorage.get(CURRENT_USER_KEY, null)
+    : safeParseObject(localStorage.getItem(CURRENT_USER_KEY), null);
+
+  if (!currentUser) {
+    window.location.href = 'login.html';
+  } else {
+    currentUser.role = normalizeRole(currentUser.role || currentUser.userRole || currentUser.type || currentUser.profile || currentUser.access);
+  }
+
+  if (!currentUser || !currentUser.role) {
+    window.location.href = 'login.html';
+  }
+
+  function logout() {
+    if (typeof WisdomStorage !== 'undefined' && WisdomStorage && typeof WisdomStorage.remove === 'function') {
+      WisdomStorage.remove(CURRENT_USER_KEY);
+    } else {
+      localStorage.removeItem(CURRENT_USER_KEY);
+    }
+    window.location.href = 'login.html';
+  }
+
+  function getRoleLabel(role) {
+    const labels = {
+      admin: 'Administrativo',
+      teacher: 'Profesor',
+      student: 'Estudiante'
+    };
+    const normalized = normalizeRole(role);
+    return labels[normalized] || role || 'Usuario';
+  }
+
+  function canRoleAccess(allowedRoles) {
+    if (!allowedRoles) return true;
+    const allowed = allowedRoles.split(',').map(role => normalizeRole(role.trim()));
+    return allowed.includes(currentUser.role);
+  }
+
+  function applyRoleVisibility() {
+    document.querySelectorAll('[data-roles]').forEach(element => {
+      element.classList.remove('role-hidden');
+      const allowed = element.getAttribute('data-roles');
+      if (!canRoleAccess(allowed)) element.classList.add('role-hidden');
+    });
+
+    document.querySelectorAll('.menu-group').forEach(group => {
+      group.classList.remove('role-hidden');
+      const links = Array.from(group.querySelectorAll('.side-link'));
+      const visibleLinks = links.filter(link => !link.classList.contains('role-hidden'));
+      if (links.length && !visibleLinks.length) group.classList.add('role-hidden');
+    });
+  }
+
+  function renderSessionInfo() {
+    document.getElementById('sidebarUserName').innerText = currentUser.name || 'Usuario Wisdom';
+    document.getElementById('sidebarUserRole').innerText = getRoleLabel(currentUser.role);
+    document.getElementById('sidebarUserEmail').innerText = currentUser.email || '';
+    document.getElementById('rolePill').innerText = getRoleLabel(currentUser.role);
+
+    const warning = document.getElementById('sessionWarning');
+
+    if (currentUser.role === 'teacher') {
+      warning.style.display = 'block';
+      warning.innerText = 'Vista de profesor: mostrando solo grupos, privadas, estudiantes y alertas asociados a su teacherId.';
+    }
+
+    if (currentUser.role === 'student') {
+      warning.style.display = 'block';
+      warning.innerText = 'Vista de estudiante: este usuario debe quedar en modo lectura. El dossier del estudiante se conecta en el siguiente paso.';
+    }
+  }
+
+  const STUDENTS_KEY = 'wisdom_students_demo';
+  const GROUPS_KEY = 'wisdom_groups_demo';
+  const PRIVATE_KEY = 'wisdom_private_demo';
+  const TEACHERS_KEY = 'wisdom_teachers_demo';
+  const REQUESTS_KEY = 'wisdom_requests_demo';
+  const AVAILABILITY_KEY = 'wisdom_teacher_availability';
+  const MANUAL_EVENTS_KEY = 'wisdom_calendar_manual_events';
+  const ASSESSMENT_RESULTS_KEY = 'wisdom_assessment_results';
+  const EXAM_RESULTS_KEY = 'wisdom_exam_results';
+  const NOTIFICATIONS_KEY = 'wisdom_notifications_demo';
+  const EVALUATIONS_KEY = 'wisdom_evaluations';
+  const INTERVENTIONS_KEY = 'wisdom_interventions';
+  const MESSAGES_KEY = 'wisdom_messages';
+
+  function safeParse(value, fallback = []) {
+    try {
+      const parsed = value ? JSON.parse(value) : fallback;
+      return Array.isArray(parsed) ? parsed : fallback;
+    } catch (error) {
+      return fallback;
+    }
+  }
+
+  function loadData(key) {
+    let value;
+
+    if (typeof WisdomStorage !== 'undefined' && WisdomStorage && typeof WisdomStorage.get === 'function') {
+      value = WisdomStorage.get(key, []);
+    } else {
+      value = safeParse(localStorage.getItem(key), []);
+    }
+
+    return Array.isArray(value) ? value : [];
+  }
+
+  function getTeacherIdFromUser() {
+    return currentUser.teacherId || currentUser.id || currentUser.teacherCode || '';
+  }
+
+  function normalizeTeacher(teacher = {}) {
+    const base = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeTeacher)
+      ? SchemaRegistry.normalizeTeacher(teacher)
+      : {...teacher};
+
+    const id = base.id || base.teacherId || base.code || base.teacherCode || '';
+
+    return {
+      ...base,
+      id,
+      teacherId: id,
+      teacherCode: base.teacherCode || id,
+      code: base.code || id
+    };
+  }
+
+  function getTeachers() {
+    return loadData(TEACHERS_KEY).map(normalizeTeacher);
+  }
+
+  function getTeacherNameById(teacherId) {
+    if (!teacherId) return '';
+    const teacher = getTeachers().find(item => item.teacherId === teacherId || item.id === teacherId || item.code === teacherId);
+    return teacher?.name || '';
+  }
+
+  function findTeacherForCurrentUser() {
+    if (currentUser.role !== 'teacher') return null;
+
+    const teacherId = getTeacherIdFromUser();
+    const teachers = getTeachers();
+
+    return teachers.find(teacher =>
+      (teacherId && teacher.teacherId === teacherId) ||
+      (teacher.email && currentUser.email && teacher.email.toLowerCase() === currentUser.email.toLowerCase()) ||
+      (teacher.name && currentUser.name && teacher.name === currentUser.name)
+    ) || null;
+  }
+
+  function getEffectiveTeacherId() {
+    const teacher = findTeacherForCurrentUser();
+    return getTeacherIdFromUser() || teacher?.teacherId || '';
+  }
+
+  function getEffectiveTeacherName() {
+    const teacher = findTeacherForCurrentUser();
+    return teacher?.name || currentUser.name || '';
+  }
+
+  function groupBelongsToCurrentTeacher(group) {
+    if (currentUser.role !== 'teacher') return true;
+
+    const teacherId = getEffectiveTeacherId();
+    const teacherName = getEffectiveTeacherName();
+
+    return (
+      (teacherId && (group.teacherId === teacherId || group.teacherCode === teacherId)) ||
+      (teacherName && group.teacher === teacherName) ||
+      (currentUser.email && group.teacherEmail === currentUser.email)
+    );
+  }
+
+  function packageBelongsToCurrentTeacher(pkg) {
+    if (currentUser.role !== 'teacher') return true;
+
+    const teacherId = getEffectiveTeacherId();
+    const teacherName = getEffectiveTeacherName();
+
+    return (
+      (teacherId && (pkg.teacherId === teacherId || pkg.teacherCode === teacherId)) ||
+      (teacherName && pkg.teacher === teacherName) ||
+      (currentUser.email && pkg.teacherEmail === currentUser.email)
+    );
+  }
+
+  function studentBelongsToCurrentTeacher(student, groups, packages) {
+    if (currentUser.role !== 'teacher') return true;
+
+    const teacherId = getEffectiveTeacherId();
+    const teacherName = getEffectiveTeacherName();
+
+    if (
+      (teacherId && (student.teacherId === teacherId || student.teacherCode === teacherId)) ||
+      (teacherName && student.teacher === teacherName)
+    ) {
+      return true;
+    }
+
+    const linkedGroup = groups.some(group => {
+      if (!groupBelongsToCurrentTeacher(group)) return false;
+      return (group.students || []).some(item => item.code === student.code || item.name === student.name);
+    });
+
+    const linkedPackage = packages.map(normalizePackage).some(pkg => {
+      if (!packageBelongsToCurrentTeacher(pkg)) return false;
+      return (pkg.students || []).some(item => item.code === student.code || item.name === student.name);
+    });
+
+    return linkedGroup || linkedPackage;
+  }
+
+
+  function resultBelongsToCurrentTeacher(result, students = []) {
+    if (currentUser.role !== 'teacher') return true;
+    const teacherId = getEffectiveTeacherId();
+    if (teacherId && result.teacherId === teacherId) return true;
+    return students.some(student => student.code === result.studentId || student.studentId === result.studentId || student.name === result.studentName);
+  }
+
+  function resultBelongsToCurrentStudent(result) {
+    if (currentUser.role !== 'student') return true;
+    return result.studentId === currentUser.studentId || result.studentName === currentUser.name || result.studentEmail === currentUser.email;
+  }
+
+  function normalizeAssessmentResult(result = {}) {
+    const base = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeResult)
+      ? SchemaRegistry.normalizeResult(result)
+      : {...result};
+
+    const rawScore = base.score ?? base.finalScore ?? base.percentage ?? null;
+    const score = rawScore === null || rawScore === undefined || rawScore === '' ? null : Number(String(rawScore).replace('%','').trim());
+
+    return {
+      ...base,
+      id: base.id || base.resultId || '',
+      resultId: base.resultId || base.id || '',
+      evaluationId: base.evaluationId || base.assignmentId || base.assessmentId || '',
+      studentId: base.studentId || base.studentCode || '',
+      studentCode: base.studentCode || base.studentId || '',
+      studentName: base.studentName || base.name || base.student || 'Estudiante',
+      studentEmail: base.studentEmail || base.email || '',
+      teacherId: base.teacherId || base.teacherCode || '',
+      teacherCode: base.teacherCode || base.teacherId || '',
+      mode: String(base.mode || 'practice').toLowerCase(),
+      type: base.type || base.skill || 'Assessment',
+      level: base.level || base.level_code || '',
+      unit: base.unit || base.unit_number || '',
+      unitTitle: base.unitTitle || base.unit_title || base.title || '',
+      score: Number.isNaN(score) ? null : score,
+      percentage: base.percentage ?? base.score ?? base.finalScore ?? null,
+      finalScore: base.finalScore ?? base.score ?? base.percentage ?? null,
+      status: base.status || (String(base.mode || '').toLowerCase() === 'exam' ? 'Presentado' : 'Práctica'),
+      submittedAt: base.submittedAt || base.date || base.createdAt || new Date().toISOString()
+    };
+  }
+
+
+  function normalizeEvaluation(evaluation = {}) {
+    const base = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeEvaluation)
+      ? SchemaRegistry.normalizeEvaluation(evaluation)
+      : {...evaluation};
+
+    return {
+      ...base,
+      id: base.id || base.evaluationId || '',
+      evaluationId: base.evaluationId || base.id || '',
+      studentId: base.studentId || base.studentCode || '',
+      studentCode: base.studentCode || base.studentId || '',
+      studentName: base.studentName || base.name || 'Estudiante',
+      studentEmail: base.studentEmail || base.email || '',
+      teacherId: base.teacherId || base.teacherCode || '',
+      teacherCode: base.teacherCode || base.teacherId || '',
+      type: base.type || 'Evaluación',
+      level: base.level || '',
+      unit: base.unit || '',
+      unitTitle: base.unitTitle || '',
+      dueDate: base.dueDate || '',
+      status: base.status || 'pending',
+      submittedAt: base.submittedAt || '',
+      resultId: base.resultId || ''
+    };
+  }
+
+  function evaluationBelongsToCurrentTeacher(evaluation, students = []) {
+    if (currentUser.role !== 'teacher') return true;
+    const teacherId = getEffectiveTeacherId();
+    if (teacherId && evaluation.teacherId === teacherId) return true;
+    return students.some(student => student.code === evaluation.studentId || student.studentId === evaluation.studentId || student.name === evaluation.studentName);
+  }
+
+  function evaluationBelongsToCurrentStudent(evaluation) {
+    if (currentUser.role !== 'student') return true;
+    return evaluation.studentId === currentUser.studentId || evaluation.studentName === currentUser.name || evaluation.studentEmail === currentUser.email;
+  }
+
+  function resultMatchesEvaluation(result, evaluation) {
+    return String(result.mode).toLowerCase() === 'exam' &&
+      result.studentId === evaluation.studentId &&
+      result.type === evaluation.type &&
+      String(result.level) === String(evaluation.level) &&
+      String(result.unit) === String(evaluation.unit);
+  }
+
+  function evaluationHasResult(evaluation, results = []) {
+    if (evaluation.status === 'submitted' || evaluation.resultId) return true;
+    return results.some(result => resultMatchesEvaluation(result, evaluation));
+  }
+
+  function evaluationStatusInfo(evaluation, results = []) {
+    if (evaluation.status === 'cancelled') return {key:'cancelled', label:'Cancelada', level:'info'};
+    if (evaluationHasResult(evaluation, results)) return {key:'submitted', label:'Presentada', level:'info'};
+    const today = new Date().toISOString().slice(0,10);
+    if (evaluation.dueDate && evaluation.dueDate < today) return {key:'overdue', label:'Vencida', level:'danger'};
+    return {key:'pending', label:'Pendiente', level:'warning'};
+  }
+
+  function scoreStatus(score) {
+    if (score === null || score === undefined) return {key:'sin_nota', label:'Sin nota', level:'warning'};
+    if (score < 60) return {key:'intervencion', label:'Intervención', level:'danger'};
+    if (score < 75) return {key:'riesgo', label:'En riesgo', level:'warning'};
+    return {key:'aprobado', label:'Aprobado', level:'info'};
+  }
+
+  function studentLink(studentId) {
+    return studentId ? `dossier.html?code=${encodeURIComponent(studentId)}` : 'resultados.html';
+  }
+
+
+
+  function normalizeIntervention(item = {}) {
+    const base = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeIntervention)
+      ? SchemaRegistry.normalizeIntervention(item)
+      : {...item};
+
+    return {
+      ...base,
+      id: base.id || base.interventionId || '',
+      interventionId: base.interventionId || base.id || '',
+      evaluationId: base.evaluationId || '',
+      studentId: base.studentId || base.studentCode || '',
+      studentCode: base.studentCode || base.studentId || '',
+      studentName: base.studentName || base.name || 'Estudiante',
+      studentEmail: base.studentEmail || base.email || '',
+      teacherId: base.teacherId || base.teacherCode || '',
+      teacherCode: base.teacherCode || base.teacherId || '',
+      type: base.type || 'Intervención',
+      level: base.level || '',
+      unit: base.unit || '',
+      unitTitle: base.unitTitle || base.unit_title || '',
+      score: base.score === null || base.score === undefined || base.score === '' ? null : Number(base.score),
+      severity: base.severity || 'risk',
+      recommendation: base.recommendation || 'Asignar refuerzo académico.',
+      status: base.status || 'pending',
+      createdAt: base.createdAt || '',
+      updatedAt: base.updatedAt || ''
+    };
+  }
+
+  function interventionBelongsToCurrentTeacher(item, students = []) {
+    if (currentUser.role !== 'teacher') return true;
+    const teacherId = getEffectiveTeacherId();
+    if (teacherId && item.teacherId === teacherId) return true;
+    return students.some(student =>
+      student.code === item.studentId ||
+      student.studentId === item.studentId ||
+      student.name === item.studentName
+    );
+  }
+
+  function interventionBelongsToCurrentStudent(item) {
+    if (currentUser.role !== 'student') return true;
+    return item.studentId === currentUser.studentId ||
+      item.studentName === currentUser.name ||
+      item.studentEmail === currentUser.email;
+  }
+
+
+
+
+  function normalizeMessage(message = {}) {
+    const base = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeMessage)
+      ? SchemaRegistry.normalizeMessage(message)
+      : {...message};
+
+    return {
+      ...base,
+      id: base.id || base.messageId || '',
+      messageId: base.messageId || base.id || '',
+      source: base.source || '',
+      channel: base.channel || 'whatsapp',
+      studentId: base.studentId || base.studentCode || '',
+      studentCode: base.studentCode || base.studentId || '',
+      studentName: base.studentName || base.name || 'Estudiante',
+      studentEmail: base.studentEmail || base.email || '',
+      teacherId: base.teacherId || base.teacherCode || '',
+      teacherCode: base.teacherCode || base.teacherId || '',
+      phone: base.phone || base.whatsapp || '',
+      type: base.type || 'general',
+      text: base.text || base.message || '',
+      status: base.status || 'new',
+      linkedRequestId: base.linkedRequestId || '',
+      createdAt: base.createdAt || '',
+      updatedAt: base.updatedAt || ''
+    };
+  }
+
+  function messageBelongsToCurrentTeacher(message, students = []) {
+    if (currentUser.role !== 'teacher') return true;
+    const teacherId = getEffectiveTeacherId();
+    if (teacherId && message.teacherId === teacherId) return true;
+    return students.some(student =>
+      student.code === message.studentId ||
+      student.studentId === message.studentId ||
+      student.name === message.studentName
+    );
+  }
+
+  function messageBelongsToCurrentStudent(message) {
+    if (currentUser.role !== 'student') return true;
+    return message.studentId === currentUser.studentId ||
+      message.studentName === currentUser.name ||
+      message.studentEmail === currentUser.email;
+  }
+
+  function isActionableMessage(message) {
+    return ['new','follow_up'].includes(String(message.status || 'new'));
+  }
+
+  function messageStatusLabel(status) {
+    return {
+      new:'Nuevo',
+      read:'Leído',
+      follow_up:'Seguimiento',
+      answered:'Respondido',
+      converted_request:'Solicitud creada'
+    }[status] || 'Nuevo';
+  }
+
+  function messageTypeLabel(type) {
+    return {
+      academic:'Académico',
+      schedule:'Horario',
+      payment:'Pago',
+      certificate:'Certificado',
+      request:'Solicitud',
+      general:'General'
+    }[type] || 'General';
+  }
+
+
+  function normalizeCollectionSafe(items, normalizerName, fallbackNormalizer) {
+    const source = Array.isArray(items) ? items : [];
+
+    if (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeCollection) {
+      return SchemaRegistry.normalizeCollection(source, normalizerName).map(fallbackNormalizer);
+    }
+
+    return source.map(fallbackNormalizer);
+  }
+
+  function normalizeStudentDashboard(student = {}) {
+    const base = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeStudent)
+      ? SchemaRegistry.normalizeStudent(student)
+      : {...student};
+
+    return {
+      ...base,
+      id: base.id || base.studentId || base.code || '',
+      studentId: base.studentId || base.code || base.id || '',
+      studentCode: base.studentCode || base.code || base.studentId || base.id || '',
+      code: base.code || base.studentId || base.id || '',
+      teacherId: base.teacherId || base.teacherCode || '',
+      teacherCode: base.teacherCode || base.teacherId || ''
+    };
+  }
+
+  function normalizeGroupDashboard(group = {}) {
+    const base = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeGroup)
+      ? SchemaRegistry.normalizeGroup(group)
+      : {...group};
+
+    return {
+      ...base,
+      id: base.id || base.code || '',
+      code: base.code || base.id || '',
+      teacherId: base.teacherId || base.teacherCode || '',
+      teacherCode: base.teacherCode || base.teacherId || '',
+      students: Array.isArray(base.students) ? base.students : [],
+      attendance: base.attendance || {},
+      reports: base.reports || {},
+      reportOverrides: base.reportOverrides || {},
+      currentClass: Number(base.currentClass) || Object.keys(base.attendance || {}).length || 0
+    };
+  }
+
+  function normalizeRequestDashboard(request = {}) {
+    const base = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeRequest)
+      ? SchemaRegistry.normalizeRequest(request)
+      : {...request};
+
+    return {
+      ...base,
+      id: base.id || base.requestId || '',
+      requestId: base.requestId || base.id || '',
+      studentId: base.studentId || base.studentCode || '',
+      studentCode: base.studentCode || base.studentId || '',
+      teacherId: base.teacherId || base.teacherCode || '',
+      teacherCode: base.teacherCode || base.teacherId || '',
+      status: base.status || 'Nueva'
+    };
+  }
+
+  function getVisibleData() {
+    const allStudents = normalizeCollectionSafe(loadData(STUDENTS_KEY), 'normalizeStudent', normalizeStudentDashboard);
+    const allTeachers = normalizeCollectionSafe(loadData(TEACHERS_KEY), 'normalizeTeacher', normalizeTeacher);
+    const allGroups = normalizeCollectionSafe(loadData(GROUPS_KEY), 'normalizeGroup', normalizeGroupDashboard);
+    const allPackages = normalizeCollectionSafe(loadData(PRIVATE_KEY), 'normalizePrivatePackage', normalizePackage);
+    const allRequests = loadData(REQUESTS_KEY).map(normalizeRequestDashboard);
+
+    const rawResults = [...loadData(ASSESSMENT_RESULTS_KEY), ...loadData(EXAM_RESULTS_KEY)];
+    const allResults = normalizeCollectionSafe(rawResults, 'normalizeResult', normalizeAssessmentResult)
+      .filter((result, index, arr) => {
+        const key = result.evaluationId || result.id || `${result.studentId}-${result.type}-${result.level}-${result.unit}-${result.submittedAt}-${result.score}`;
+        return arr.findIndex(item => (item.evaluationId || item.id || `${item.studentId}-${item.type}-${item.level}-${item.unit}-${item.submittedAt}-${item.score}`) === key) === index;
+      });
+
+    const allNotifications = loadData(NOTIFICATIONS_KEY).map(normalizeNotification);
+    const allEvaluations = normalizeCollectionSafe(loadData(EVALUATIONS_KEY), 'normalizeEvaluation', normalizeEvaluation);
+    const allInterventions = normalizeCollectionSafe(loadData(INTERVENTIONS_KEY), 'normalizeIntervention', normalizeIntervention);
+    const allMessages = normalizeCollectionSafe(loadData(MESSAGES_KEY), 'normalizeMessage', normalizeMessage);
+
+    if (currentUser.role === 'teacher') {
+      const groups = allGroups.filter(groupBelongsToCurrentTeacher);
+      const packages = allPackages.filter(packageBelongsToCurrentTeacher);
+      const students = allStudents.filter(student => studentBelongsToCurrentTeacher(student, groups, packages));
+
+      return {
+        students,
+        teachers: findTeacherForCurrentUser() ? [findTeacherForCurrentUser()] : [],
+        groups,
+        packages,
+        requests: allRequests.filter(request =>
+          request.teacherId === getEffectiveTeacherId() ||
+          groups.some(group => (group.students || []).some(student => student.code === request.studentCode || student.name === request.studentName)) ||
+          packages.some(pkg => (pkg.students || []).some(student => student.code === request.studentCode || student.name === request.studentName))
+        ),
+        results: allResults.filter(result => resultBelongsToCurrentTeacher(result, students)),
+        notifications: allNotifications.filter(note => notificationBelongsToCurrentTeacher(note, students)),
+        evaluations: allEvaluations.filter(evaluation => evaluationBelongsToCurrentTeacher(evaluation, students)),
+        interventions: allInterventions.filter(item => interventionBelongsToCurrentTeacher(item, students)),
+        messages: allMessages.filter(message => messageBelongsToCurrentTeacher(message, students))
+      };
+    }
+
+    if (currentUser.role === 'student') {
+      const students = allStudents.filter(student =>
+        student.code === currentUser.studentId ||
+        student.studentId === currentUser.studentId ||
+        student.studentCode === currentUser.studentId ||
+        (student.email && currentUser.email && student.email.toLowerCase() === currentUser.email.toLowerCase())
+      );
+
+      return {
+        students,
+        teachers: [],
+        groups: [],
+        packages: [],
+        requests: allRequests.filter(request =>
+          request.studentCode === currentUser.studentId ||
+          request.studentId === currentUser.studentId ||
+          request.studentName === currentUser.name
+        ),
+        results: allResults.filter(resultBelongsToCurrentStudent),
+        notifications: allNotifications.filter(notificationBelongsToCurrentStudent),
+        evaluations: allEvaluations.filter(evaluation => evaluationBelongsToCurrentStudent(evaluation)),
+        interventions: allInterventions.filter(interventionBelongsToCurrentStudent),
+        messages: allMessages.filter(messageBelongsToCurrentStudent)
+      };
+    }
+
+    return {
+      students: allStudents,
+      teachers: allTeachers,
+      groups: allGroups,
+      packages: allPackages,
+      requests: allRequests,
+      results: allResults,
+      notifications: allNotifications,
+      evaluations: allEvaluations,
+      interventions: allInterventions,
+      messages: allMessages
+    };
+  }
+
+
+  function normalizePackage(pkg = {}) {
+    const base = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizePrivatePackage)
+      ? SchemaRegistry.normalizePrivatePackage(pkg)
+      : {...pkg};
+
+    return {
+      ...base,
+      id: base.id || base.code || '',
+      code: base.code || base.id || '',
+      teacherId: base.teacherId || base.teacherCode || '',
+      teacherCode: base.teacherCode || base.teacherId || '',
+      total: Number(base?.total) || 20,
+      students: Array.isArray(base?.students) ? base.students : [],
+      sessions: Array.isArray(base?.sessions) ? base.sessions : []
+    };
+  }
+
+  function usedHours(pkg) {
+    return normalizePackage(pkg).sessions.reduce((sum, session) => sum + (Number(session.hours) || 0), 0);
+  }
+
+  function remainingHours(pkg) {
+    const normalized = normalizePackage(pkg);
+    return Math.max(0, normalized.total - usedHours(normalized));
+  }
+
+  function extractPercentFromTracking(value) {
+    if (!value || typeof value !== 'string' || !value.includes('/')) return null;
+    const parts = value.split('/');
+    const current = parseFloat(parts[0]);
+    const total = parseFloat(parts[1]);
+    if (!total || Number.isNaN(current) || Number.isNaN(total)) return null;
+    return Math.round((current / total) * 100);
+  }
+
+  function getAttendancePercent(student) {
+    if (typeof student.attendancePercent === 'number') return student.attendancePercent;
+    if ((student.trackingLabel || '').toLowerCase().includes('clases')) {
+      return extractPercentFromTracking(student.trackingValue);
+    }
+    return null;
+  }
+
+  function getAcademicProgressPercent(student) {
+    const direct =
+      student.progressPercent ??
+      student.academicProgress ??
+      student.academicProgressPercent ??
+      student.progressReport ??
+      null;
+
+    if (typeof direct === 'number') return direct;
+    if (typeof direct === 'string') {
+      const parsed = parseFloat(direct.replace('%', '').trim());
+      return Number.isNaN(parsed) ? null : parsed;
+    }
+
+    if (student.skills && typeof student.skills === 'object') {
+      const values = Object.values(student.skills).map(Number).filter(value => !Number.isNaN(value));
+      if (values.length) return Math.round(values.reduce((sum, value) => sum + value, 0) / values.length);
+    }
+
+    return null;
+  }
+
+
+  function getGroupCurrentClass(group) {
+    return Math.max(
+      Number(group.currentClass) || 0,
+      Object.keys(group.attendance || {}).length || 0
+    );
+  }
+
+  function getReportWindow(reportNumber) {
+    if (reportNumber === 1) return { start: 15, end: 17 };
+    if (reportNumber === 2) return { start: 31, end: 33 };
+    return { start: 47, end: 48 };
+  }
+
+  function getReportKey(reportNumber) {
+    return `report${reportNumber}`;
+  }
+
+  function getReportOverrideAlerts(groups) {
+    const alerts = [];
+
+    groups.forEach(group => {
+      const overrides = group.reportOverrides || {};
+      [1, 2, 3].forEach(reportNumber => {
+        const key = getReportKey(reportNumber);
+        const override = overrides[key];
+        if (!override || override.status === 'auto') return;
+
+        const label = override.status === 'open' ? 'Reporte abierto manualmente' : 'Reporte cerrado manualmente';
+
+        alerts.push({
+          level: override.status === 'open' ? 'warning' : 'danger',
+          title: label,
+          detail: `${group.code || group.id || 'Grupo'} · ${group.name || 'Grupo sin nombre'} · Reporte ${reportNumber}. ${override.reason ? 'Razón: ' + override.reason : 'Sin razón registrada.'}`,
+          link: 'grupales.html',
+          linkText: 'Revisar grupo'
+        });
+      });
+
+      const notes = Array.isArray(group.adminNotes) ? group.adminNotes : [];
+      notes.slice(-3).forEach(note => {
+        if (!note.message || !note.message.toLowerCase().includes('clase actual corregida')) return;
+        alerts.push({
+          level: 'warning',
+          title: 'Clase actual corregida',
+          detail: `${group.code || group.id || 'Grupo'} · ${group.name || 'Grupo sin nombre'} · ${note.message}`,
+          link: 'grupales.html',
+          linkText: 'Revisar corrección'
+        });
+      });
+    });
+
+    return alerts;
+  }
+
+  function getReportWindowAlerts(groups) {
+    const alerts = [];
+
+    groups.forEach(group => {
+      const current = getGroupCurrentClass(group);
+
+      [1, 2, 3].forEach(reportNumber => {
+        const window = getReportWindow(reportNumber);
+        const key = getReportKey(reportNumber);
+        const hasSavedReports = Object.values(group.reports || {}).some(studentReports => studentReports && studentReports[key]);
+
+        if (current >= window.start && current < window.end && !hasSavedReports) {
+          alerts.push({
+            level: 'warning',
+            title: 'Ventana de reporte abierta',
+            detail: `${group.code || group.id || 'Grupo'} · ${group.name || 'Grupo sin nombre'} · Reporte ${reportNumber} disponible entre clases ${window.start} y ${window.end - 1}. Clase actual: ${current}.`,
+            link: 'grupales.html',
+            linkText: 'Diligenciar reporte'
+          });
+        }
+
+        if (current >= window.end && !hasSavedReports) {
+          alerts.push({
+            level: 'danger',
+            title: 'Reporte vencido sin guardar',
+            detail: `${group.code || group.id || 'Grupo'} · ${group.name || 'Grupo sin nombre'} · Reporte ${reportNumber} cerró en clase ${window.end}. Clase actual: ${current}.`,
+            link: 'grupales.html',
+            linkText: 'Revisar vencimiento'
+          });
+        }
+      });
+    });
+
+    return alerts;
+  }
+
+  function getCalendarAlerts() {
+    const availability = loadData(AVAILABILITY_KEY);
+    const manualEvents = loadData(MANUAL_EVENTS_KEY);
+    const alerts = [];
+
+    if (!availability.length) {
+      alerts.push({
+        level: 'warning',
+        title: 'Disponibilidad docente incompleta',
+        detail: 'No hay disponibilidad docente registrada en el calendario.',
+        link: 'calendario.html',
+        linkText: 'Abrir calendario'
+      });
+    }
+
+    if (manualEvents.length) {
+      alerts.push({
+        level: 'warning',
+        title: 'Eventos manuales en calendario',
+        detail: `${manualEvents.length} evento(s) manual(es) registrados. Revisa que no generen cruces con grupos o privadas.`,
+        link: 'calendario.html',
+        linkText: 'Ver calendario'
+      });
+    }
+
+    return alerts;
+  }
+
+
+  function getRequestStatus(request) {
+    return String(request.status || 'Nueva').trim().toLowerCase();
+  }
+
+  function isOpenRequest(request) {
+    const status = getRequestStatus(request);
+    return ['nueva', 'pendiente', 'en revisión', 'en revision', 'abierta', 'open'].includes(status);
+  }
+
+  function getPackageFinancialState(pkg) {
+    const normalized = normalizePackage(pkg);
+    const used = usedHours(normalized);
+    const remaining = remainingHours(normalized);
+    const paymentStatus = String(normalized.paymentStatus || '').toLowerCase();
+    const balance = Number(normalized.balance ?? normalized.pendingBalance ?? normalized.saldo ?? 0) || 0;
+    const agreedSession = Number(normalized.agreedPaymentSession ?? normalized.paymentSession ?? normalized.sesionPactada ?? normalized.sessionToPay ?? 0) || 0;
+    const sessions = Array.isArray(normalized.sessions) ? normalized.sessions.length : 0;
+    const isOverdueByAgreement = balance > 0 && agreedSession > 0 && sessions >= agreedSession;
+    const isOverdue = paymentStatus.includes('mora') || isOverdueByAgreement;
+
+    return {
+      used,
+      remaining,
+      sessions,
+      balance,
+      agreedSession,
+      isOverdue,
+      needsRenewal: remaining > 0 && (remaining <= 3 || sessions >= 16 || used >= 16),
+      isFinished: remaining === 0
+    };
+  }
+
+  function getGroupFinancialState(group) {
+    const current = getGroupCurrentClass(group);
+    const paymentStatus = String(group.paymentStatus || '').toLowerCase();
+    return {
+      current,
+      paymentWarning: current >= 13 && current < 17,
+      isOverdue: paymentStatus.includes('mora') || current >= 17
+    };
+  }
+
+  function buildOperationalAlerts(students, packages, groups, requests = [], results = [], notifications = [], evaluations = [], interventions = [], messages = []) {
+    const alerts = [];
+
+    alerts.push(...getReportWindowAlerts(groups));
+    alerts.push(...getReportOverrideAlerts(groups));
+    alerts.push(...getCalendarAlerts());
+
+
+
+
+    messages.filter(isActionableMessage).forEach(message => {
+      alerts.push({
+        level: message.status === 'new' ? 'danger' : 'warning',
+        title: message.status === 'new' ? 'Mensaje nuevo de WhatsApp' : 'Mensaje en seguimiento',
+        detail: `${message.studentName || 'Estudiante'} · ${messageTypeLabel(message.type)} · ${message.text ? message.text.slice(0,120) : 'Sin contenido'}${message.text && message.text.length > 120 ? '...' : ''}`,
+        link: 'mensajes.html',
+        linkText: 'Abrir inbox'
+      });
+    });
+
+
+    interventions.filter(item => item.status !== 'closed').forEach(item => {
+      alerts.push({
+        level: item.severity === 'critical' ? 'danger' : 'warning',
+        title: item.severity === 'critical' ? 'Intervención académica crítica' : 'Intervención académica pendiente',
+        detail: `${item.studentName || 'Estudiante'} · ${item.type} · ${item.level} Unidad ${item.unit} · ${item.score === null ? '--' : item.score + '%'} · ${item.recommendation}`,
+        link: studentLink(item.studentId),
+        linkText: currentUser.role === 'student' ? 'Ver mi dossier' : 'Abrir dossier'
+      });
+    });
+
+
+    evaluations.forEach(evaluation => {
+      const status = evaluationStatusInfo(evaluation, results);
+      if (status.key === 'overdue') {
+        alerts.push({
+          level: 'danger',
+          title: 'Evaluación vencida',
+          detail: `${evaluation.studentName || 'Estudiante'} · ${evaluation.type} · ${evaluation.level} Unidad ${evaluation.unit} · Venció: ${evaluation.dueDate || '-'}`,
+          link: currentUser.role === 'student' ? studentLink(evaluation.studentId) : 'evaluaciones.html',
+          linkText: currentUser.role === 'student' ? 'Ver mi dossier' : 'Gestionar evaluación'
+        });
+      }
+      if (status.key === 'pending') {
+        alerts.push({
+          level: 'warning',
+          title: 'Evaluación pendiente',
+          detail: `${evaluation.studentName || 'Estudiante'} · ${evaluation.type} · ${evaluation.level} Unidad ${evaluation.unit} · Fecha límite: ${evaluation.dueDate || 'sin fecha'}`,
+          link: currentUser.role === 'student' ? 'evaluaciones.html' : 'evaluaciones.html',
+          linkText: currentUser.role === 'student' ? 'Presentar evaluación' : 'Ver pendientes'
+        });
+      }
+    });
+
+    results.filter(result => result.mode === 'exam' && result.score !== null && result.score < 75).forEach(result => {
+      const status = scoreStatus(result.score);
+      alerts.push({
+        level: status.level,
+        title: result.score < 60 ? 'Resultado crítico de examen' : 'Resultado en riesgo',
+        detail: `${result.studentName || 'Estudiante'} · ${result.type} · ${result.level} Unidad ${result.unit} · ${result.score}%`,
+        link: currentUser.role === 'student' ? studentLink(result.studentId) : `resultados.html?student=${encodeURIComponent(result.studentId || '')}`,
+        linkText: currentUser.role === 'student' ? 'Ver mi dossier' : 'Ver resultado'
+      });
+    });
+
+
+    results.filter(result => result.mode === 'exam').slice(-12).reverse().forEach(result => {
+      const scoreText = result.score === null || result.score === undefined ? result.status : `${result.score}%`;
+      const isLow = typeof result.score === 'number' && result.score < 75;
+      const pending = String(result.status || '').toLowerCase().includes('pendiente');
+      alerts.push({
+        level: isLow || pending ? 'warning' : 'info',
+        title: pending ? 'Examen Speaking pendiente de revisión' : 'Examen presentado',
+        detail: `${result.studentName || 'Estudiante'} · ${result.type} · ${result.level} Unidad ${result.unit} · Resultado: ${scoreText}`,
+        link: currentUser.role === 'student' ? 'dossier.html' : 'evaluaciones.html',
+        linkText: currentUser.role === 'student' ? 'Ver mi resultado' : 'Ver evaluaciones'
+      });
+    });
+
+
+    notifications.filter(note => ['progress_report_private','progress_report_group'].includes(note.type)).forEach(note => {
+      if (!note.accepted) {
+        alerts.push({
+          level: 'warning',
+          title: 'Reporte pendiente de aceptación',
+          detail: `${note.studentName || 'Estudiante'} · ${note.reportNumber ? 'Reporte ' + note.reportNumber : 'Reporte'} · pendiente de aceptación.`,
+          link: notificationDisplayLink(note),
+          linkText: 'Abrir reporte'
+        });
+      }
+    });
+
+    notifications.filter(note => (note.status || 'Nueva') === 'Nueva').slice(0, 12).forEach(note => {
+      const isOperational = ['attendance_stale','private_session_stale'].includes(note.type);
+      alerts.push({
+        level: note.level === 'danger' ? 'danger' : 'warning',
+        title: notificationDisplayTitle(note),
+        detail: notificationDisplayMessage(note),
+        link: notificationDisplayLink(note) || 'evaluaciones.html',
+        linkText: note.type === 'placement'
+          ? 'Revisar diagnóstico'
+          : note.type === 'attendance_stale'
+            ? 'Abrir grupales'
+            : note.type === 'private_session_stale'
+              ? 'Abrir privadas'
+              : note.type === 'progress_report_private'
+                ? 'Abrir reporte privado'
+                : note.type === 'progress_report_group'
+                  ? 'Abrir reporte grupal'
+                  : 'Revisar'
+      });
+    });
+
+    requests.filter(isOpenRequest).forEach(request => {
+      alerts.push({
+        level: 'warning',
+        title: 'Solicitud pendiente',
+        detail: `${request.id || 'Solicitud'} · ${request.studentName || request.name || request.studentCode || 'Estudiante'} · ${request.type || 'Solicitud'} · Estado: ${request.status || 'Nueva'}`,
+        link: currentUser.role === 'student' ? 'dossier.html' : 'solicitudes.html',
+        linkText: currentUser.role === 'student' ? 'Ver mi solicitud' : 'Gestionar solicitud'
+      });
+    });
+
+    groups.forEach(group => {
+      const state = getGroupFinancialState(group);
+      const label = `${group.code || group.id || 'Grupo'} · ${group.name || 'Grupo sin nombre'}`;
+
+      if (state.paymentWarning) {
+        alerts.push({
+          level: 'warning',
+          title: 'Grupo cerca de fecha crítica de pago',
+          detail: `${label} va en clase ${state.current}/48. Revisar pago antes de clase 17.`,
+          link: currentUser.role === 'admin' ? 'finanzas.html' : 'grupales.html',
+          linkText: currentUser.role === 'admin' ? 'Revisar finanzas' : 'Revisar grupo'
+        });
+      }
+
+      if (state.isOverdue) {
+        alerts.push({
+          level: 'danger',
+          title: 'Grupo en mora o con pago vencido',
+          detail: `${label} va en clase ${state.current}/48. Debe revisarse antes de seguir avanzando.`,
+          link: currentUser.role === 'admin' ? 'finanzas.html' : 'grupales.html',
+          linkText: currentUser.role === 'admin' ? 'Resolver pago' : 'Reportar novedad'
+        });
+      }
+
+      if (state.current >= 44 && state.current < 48) {
+        alerts.push({
+          level: 'warning',
+          title: 'Grupo próximo a renovar',
+          detail: `${label} va en clase ${state.current}/48. Conviene preparar continuidad o renovación.`,
+          link: 'grupales.html',
+          linkText: 'Revisar grupo'
+        });
+      }
+
+      if (state.current >= 48) {
+        alerts.push({
+          level: 'danger',
+          title: 'Grupo terminado',
+          detail: `${label} completó 48/48 clases. Requiere cierre, renovación o continuidad.`,
+          link: 'grupales.html',
+          linkText: 'Revisar cierre'
+        });
+      }
+    });
+
+    packages.map(normalizePackage).forEach(pkg => {
+      const state = getPackageFinancialState(pkg);
+      const names = pkg.students.map(student => student.name).join(' + ') || 'Paquete sin estudiante';
+
+      if (state.isOverdue) {
+        alerts.push({
+          level: 'danger',
+          title: 'Privada / semi en mora',
+          detail: `${names} · ${state.sessions} sesiones · saldo pendiente ${state.balance || 'registrado'}${state.agreedSession ? ' · pago pactado sesión ' + state.agreedSession : ''}`,
+          link: currentUser.role === 'admin' ? 'finanzas.html' : 'privadas.html',
+          linkText: currentUser.role === 'admin' ? 'Resolver pago' : 'Reportar novedad'
+        });
+      }
+
+      if (state.needsRenewal) {
+        alerts.push({
+          level: 'warning',
+          title: 'Privada / semi próxima a renovar',
+          detail: `${names} · ${state.used} / ${pkg.total} horas · ${state.sessions} sesiones registradas · quedan ${state.remaining} horas`,
+          link: 'privadas.html',
+          linkText: 'Revisar paquete'
+        });
+      }
+
+      if (state.isFinished) {
+        alerts.push({
+          level: 'danger',
+          title: 'Paquete privado terminado',
+          detail: `${names} completó ${pkg.total} horas. Requiere renovación antes de continuar.`,
+          link: 'privadas.html',
+          linkText: 'Revisar paquete'
+        });
+      }
+    });
+
+    students.forEach(student => {
+      const attendance = getAttendancePercent(student);
+      if (attendance !== null && attendance < 70) {
+        alerts.push({
+          level: 'danger',
+          title: 'Asistencia menor al 70%',
+          detail: `${student.name || student.code} · ${attendance}% de asistencia`,
+          link: currentUser.role === 'student' ? 'dossier.html' : 'estudiantes.html',
+          linkText: currentUser.role === 'student' ? 'Ver mi dossier' : 'Revisar estudiante'
+        });
+      }
+
+      const progress = getAcademicProgressPercent(student);
+      if (progress !== null && progress < 75) {
+        alerts.push({
+          level: 'warning',
+          title: 'Progreso académico por debajo del 75%',
+          detail: `${student.name || student.code} · ${progress}% de progreso reportado`,
+          link: currentUser.role === 'student' ? 'dossier.html' : 'reportes.html',
+          linkText: currentUser.role === 'student' ? 'Ver mi progreso' : 'Revisar reporte'
+        });
+      }
+    });
+
+    const score = { danger: 0, warning: 1, info: 2 };
+    return alerts.sort((a, b) => (score[a.level] ?? 1) - (score[b.level] ?? 1));
+  }
+
+  function renderCriticalBar(alerts) {
+    const bar = document.getElementById('criticalBar');
+    const count = document.getElementById('criticalCount');
+    if (!bar || !count) return;
+    const critical = alerts.filter(alert => alert.level === 'danger').length;
+    count.innerText = critical;
+    bar.classList.toggle('ok', critical === 0);
+    bar.innerHTML = critical
+      ? `Alertas críticas que requieren acción <span id="criticalCount">${critical}</span>`
+      : `Sin alertas críticas <span id="criticalCount">0</span>`;
+  }
+
+  function renderAlerts(students, packages, groups, requests = [], results = [], notifications = [], evaluations = [], interventions = [], messages = []) {
+    const container = document.getElementById('alertsList');
+    container.innerHTML = '';
+
+    const alerts = buildOperationalAlerts(students, packages, groups, requests, results, notifications, evaluations, interventions, messages);
+    renderCriticalBar(alerts);
+
+    if (!alerts.length) {
+      container.innerHTML = '<div class="empty">No hay alertas académicas o administrativas por ahora.</div>';
+      return;
+    }
+
+    alerts.slice(0, 12).forEach(alert => {
+      const card = document.createElement('div');
+      card.className = 'alert-card';
+      card.innerHTML = `
+        <span class="status ${alert.level}">${alert.level === 'danger' ? 'Urgente' : 'Revisar'}</span>
+        <strong>${alert.title}</strong>
+        <small>${alert.detail}</small>
+        ${alert.link ? `
+          <div class="action-row">
+            <button class="btn btn-primary btn-small" onclick="window.location.href='${alert.link}'">
+              ${alert.linkText || 'Resolver'}
+            </button>
+          </div>
+        ` : ''}
+      `;
+      container.appendChild(card);
+    });
+  }
+
+
+  function renderMetrics(students, teachers, groups, packages) {
+    document.getElementById('studentsCount').innerText = students.filter(student => student.status !== 'Finalizado').length;
+    document.getElementById('teachersCount').innerText = teachers.length;
+    document.getElementById('groupsCount').innerText = groups.length;
+    document.getElementById('privateCount').innerText = packages.filter(pkg => {
+      const normalized = normalizePackage(pkg);
+      return usedHours(normalized) < normalized.total;
+    }).length;
+  }
+
+  function renderGroups(groups) {
+    const container = document.getElementById('groupsList');
+    container.innerHTML = '';
+
+    if (!groups.length) {
+      container.innerHTML = '<div class="empty">No hay grupos creados todavía.</div>';
+      return;
+    }
+
+    groups.forEach(group => {
+      const current = Number(group.currentClass) || Object.keys(group.attendance || {}).length || 0;
+      const percent = Math.min(100, (current / 48) * 100);
+
+      const card = document.createElement('div');
+      card.className = 'class-card';
+      card.innerHTML = `
+        <strong>${group.name || 'Grupo sin nombre'}</strong><br>
+        ${(group.teacher || getTeacherNameById(group.teacherId) || 'Profesor por asignar')}<br>${current} / 48 clases
+        <div class="progress"><span style="width:${percent}%"></span></div>
+      `;
+
+      container.appendChild(card);
+    });
+  }
+
+  function renderPrivatePackages(packages) {
+    const container = document.getElementById('privateList');
+    container.innerHTML = '';
+
+    if (!packages.length) {
+      container.innerHTML = '<div class="empty">No hay paquetes privados o semiprivados creados todavía.</div>';
+      return;
+    }
+
+    packages.map(normalizePackage).forEach(pkg => {
+      const used = usedHours(pkg);
+      const percent = Math.min(100, (used / pkg.total) * 100);
+      const names = pkg.students.map(student => student.name).join(' + ') || 'Paquete sin estudiante';
+
+      const card = document.createElement('div');
+      card.className = 'class-card';
+      card.innerHTML = `
+        <strong>${names}</strong><br>
+        ${(pkg.teacher || getTeacherNameById(pkg.teacherId) || 'Profesor por asignar')}<br>${used} / ${pkg.total} horas
+        <div class="progress"><span style="width:${percent}%"></span></div>
+      `;
+
+      container.appendChild(card);
+    });
+  }
+
+
+
+  function normalizeNotification(note) {
+    return {
+      ...note,
+      id: note.id || note.notificationId || `NOT-${Date.now()}`,
+      title: note.title || (note.type === 'placement' ? 'Nuevo examen diagnóstico por revisar' : 'Nueva notificación'),
+      message: note.message || note.detail || (note.type === 'placement' ? 'Un estudiante completó un WISE Placement Test. Revisa el resultado y la recomendación académica.' : 'Hay una novedad pendiente de revisión.'),
+      type: note.type || note.category || 'general',
+      status: note.status || 'Nueva',
+      level: note.level || note.priority || 'warning',
+      studentId: note.studentId || note.studentCode || '',
+      studentName: note.studentName || note.name || '',
+      groupId: note.groupId || '',
+      groupCode: note.groupCode || '',
+      groupName: note.groupName || '',
+      packageId: note.packageId || '',
+      packageCode: note.packageCode || '',
+      teacherId: note.teacherId || note.teacherCode || '',
+      accepted: Boolean(note.accepted),
+      acceptedAt: note.acceptedAt || '',
+      acceptedBy: note.acceptedBy || '',
+      reportNumber: note.reportNumber || '',
+      link: note.link || '',
+      createdAt: note.createdAt || note.date || new Date().toISOString(),
+      readAt: note.readAt || ''
+    };
+  }
+
+  function notificationBelongsToCurrentTeacher(note, students = []) {
+    if (currentUser.role !== 'teacher') return true;
+    const teacherId = getEffectiveTeacherId();
+    if (teacherId && note.teacherId === teacherId) return true;
+    return students.some(student =>
+      student.code === note.studentId ||
+      student.studentId === note.studentId ||
+      student.name === note.studentName
+    );
+  }
+
+  function notificationBelongsToCurrentStudent(note) {
+    if (currentUser.role !== 'student') return true;
+    return note.studentId === currentUser.studentId ||
+      note.studentName === currentUser.name;
+  }
+
+  function isOpenNotification(note) {
+    const status = String(note.status || 'Nueva').toLowerCase();
+    return ['nueva','new','pendiente','pending','unread'].includes(status);
+  }
+
+  function notificationLevelClass(note) {
+    const level = String(note.level || '').toLowerCase();
+    if (level === 'danger' || level === 'critical' || level === 'urgente') return 'danger';
+    if (level === 'success' || level === 'ok') return 'success';
+    return 'warning';
+  }
+
+
+  function notificationDisplayTitle(note) {
+    if (note.type === 'placement') return 'Nuevo examen diagnóstico por revisar';
+    if (note.type === 'progress_report_private') return 'Nuevo reporte de progreso privado/semi';
+    if (note.type === 'progress_report_group') return 'Nuevo reporte de progreso grupal';
+    if (note.type === 'attendance_stale') return 'Asistencia grupal sin actualizar';
+    if (note.type === 'private_session_stale') return 'Paquete privado/semi sin sesiones recientes';
+    return note.title || 'Nueva notificación';
+  }
+
+  function notificationDisplayMessage(note) {
+    if (note.type === 'placement') {
+      const student = note.studentName || note.studentId || 'Estudiante';
+      return `${student} completó un WISE Placement Test. Revisa el nivel estimado, confianza y recomendación académica.`;
+    }
+    if (note.type === 'attendance_stale') {
+      return note.message || 'Hay un grupo con asistencia sin actualizar por más de 2 días.';
+    }
+    if (note.type === 'private_session_stale') {
+      return note.message || 'Hay un paquete privado/semi sin sesiones registradas por más de 2 días.';
+    }
+    if (note.type === 'progress_report_private') {
+      return note.message || 'Hay un reporte de progreso privado/semi pendiente de revisión o aceptación.';
+    }
+    if (note.type === 'progress_report_group') {
+      return note.message || 'Hay un reporte de progreso grupal pendiente de revisión o aceptación.';
+    }
+    return note.message || 'Hay una novedad pendiente de revisión.';
+  }
+
+  function notificationDisplayLink(note) {
+    if (note.type === 'placement') return 'diagnostico_resultados.html';
+    if (note.type === 'attendance_stale') return 'grupales.html';
+    if (note.type === 'private_session_stale') return 'privadas.html';
+    if (note.type === 'progress_report_private') return 'privadas.html';
+    if (note.type === 'progress_report_group') return 'grupales.html';
+    return note.link || '';
+  }
+
+
+  function notificationTypeLabel(type) {
+    return {
+      placement:'Placement',
+      exam:'Examen',
+      message:'Mensaje',
+      request:'Solicitud',
+      attendance_stale:'Asistencia',
+      private_session_stale:'Sesiones',
+      academic:'Académico',
+      general:'General'
+    }[type] || type || 'General';
+  }
+
+  function saveNotifications(notifications) {
+    if (typeof WisdomStorage !== 'undefined' && WisdomStorage && typeof WisdomStorage.set === 'function') {
+      WisdomStorage.set(NOTIFICATIONS_KEY, notifications);
+    } else {
+      localStorage.setItem(NOTIFICATIONS_KEY, JSON.stringify(notifications));
+    }
+  }
+
+  function markNotificationRead(id) {
+    const notifications = loadData(NOTIFICATIONS_KEY);
+    const index = notifications.findIndex(note => (note.id || note.notificationId) === id);
+    if (index < 0) return;
+    notifications[index].status = 'Vista';
+    notifications[index].readAt = new Date().toISOString();
+    saveNotifications(notifications);
+    refreshDashboard();
+  }
+
+  function markAllNotificationsRead() {
+    const notifications = loadData(NOTIFICATIONS_KEY);
+    const scoped = getVisibleData().notifications.map(note => note.id);
+    const updated = notifications.map(note => {
+      const id = note.id || note.notificationId;
+      if (scoped.includes(id) && isOpenNotification(normalizeNotification(note))) {
+        return {...note, status:'Vista', readAt:new Date().toISOString()};
+      }
+      return note;
+    });
+    saveNotifications(updated);
+    refreshDashboard();
+  }
+
+  function focusNotificationsPanel(event) {
+    if (event) event.preventDefault();
+    const panel = document.getElementById('notificationsPanel');
+    if (panel) panel.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+
+
+  function renderNotificationsDashboard(notifications = []) {
+    const pulse = document.getElementById('notificationsPulse');
+    const actions = document.getElementById('notificationsActions');
+    const badge = document.getElementById('sidebarNotificationsBadge');
+
+    const visible = notifications || [];
+    const open = visible.filter(isOpenNotification);
+    const placement = visible.filter(note => note.type === 'placement');
+    const urgent = open.filter(note => notificationLevelClass(note) === 'danger');
+
+    if (badge) {
+      badge.innerText = open.length;
+      badge.style.display = open.length ? 'inline-block' : 'none';
+    }
+
+    if (pulse) {
+      if (!visible.length) {
+        pulse.innerHTML = '<div class="empty">No hay notificaciones registradas todavía.</div>';
+      } else {
+        pulse.innerHTML = `
+          <div class="summary-grid">
+            <div class="summary-card ${open.length ? 'warning' : 'good'}"><small>Pendientes</small><strong>${open.length}</strong></div>
+            <div class="summary-card ${urgent.length ? 'danger' : 'good'}"><small>Urgentes</small><strong>${urgent.length}</strong></div>
+            <div class="summary-card ${placement.length ? 'warning' : ''}"><small>Placement</small><strong>${placement.length}</strong></div>
+            <div class="summary-card ${visible.filter(note => note.type === 'attendance_stale').length ? 'danger' : 'good'}"><small>Asistencia sin actualizar</small><strong>${visible.filter(note => note.type === 'attendance_stale' && isOpenNotification(note)).length}</strong></div>
+            <div class="summary-card ${visible.filter(note => note.type === 'private_session_stale').length ? 'warning' : 'good'}"><small>Privadas sin sesiones</small><strong>${visible.filter(note => note.type === 'private_session_stale' && isOpenNotification(note)).length}</strong></div>
+            <div class="summary-card ${visible.filter(note => ['progress_report_private','progress_report_group'].includes(note.type)).length ? 'warning' : 'good'}"><small>Reportes nuevos</small><strong>${visible.filter(note => ['progress_report_private','progress_report_group'].includes(note.type) && isOpenNotification(note)).length}</strong></div>
+            <div class="summary-card"><small>Total</small><strong>${visible.length}</strong></div>
+          </div>
+          <div class="action-row">
+            <button class="btn btn-secondary btn-small" onclick="markAllNotificationsRead()">Marcar todas como vistas</button>
+          </div>
+        `;
+      }
+    }
+
+    if (actions) {
+      const recent = open
+        .sort((a,b)=>new Date(b.createdAt || 0)-new Date(a.createdAt || 0))
+        .slice(0,6);
+
+      if (!recent.length) {
+        actions.innerHTML = '<div class="empty">No hay notificaciones pendientes.</div>';
+        return;
+      }
+
+      actions.innerHTML = `
+        <div class="notification-mini-list">
+          ${recent.map(note => `
+            <div class="notification-mini-card ${notificationLevelClass(note)}">
+              <span class="status ${notificationLevelClass(note)}">${notificationTypeLabel(note.type)}</span>
+              <strong>${notificationDisplayTitle(note)}</strong>
+              <small>${notificationDisplayMessage(note)}</small>
+              <small>${note.studentName || note.studentId ? 'Estudiante: ' + (note.studentName || note.studentId) : ''}</small>
+              <small>${note.groupName || note.groupCode ? 'Grupo: ' + (note.groupName || note.groupCode) : ''}</small>
+              <small>${note.packageCode ? 'Paquete: ' + note.packageCode : ''}</small>
+              <small>${note.reportNumber ? 'Reporte: ' + note.reportNumber : ''}</small>
+              <small>${note.accepted ? 'Aceptado por: ' + (note.acceptedBy || 'usuario') : 'Pendiente de aceptación'}</small>
+              <div class="action-row">
+                ${notificationDisplayLink(note) ? `<button class="btn btn-primary btn-small" onclick="window.location.href='${notificationDisplayLink(note)}'">${note.type === 'placement' ? 'Revisar diagnóstico' : note.type === 'attendance_stale' ? 'Abrir grupales' : note.type === 'private_session_stale' ? 'Abrir privadas' : 'Abrir'}</button>` : ''}
+                ${note.studentId ? `<button class="btn btn-secondary btn-small" onclick="window.location.href='dossier.html?code=${encodeURIComponent(note.studentId)}'">Dossier</button>` : ''}
+                <button class="btn btn-secondary btn-small" onclick="markNotificationRead('${note.id}')">Vista</button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+  }
+
+
+  function renderMessagesDashboard(messages = []) {
+    const pulse = document.getElementById('messagesPulse');
+    const actions = document.getElementById('messagesActions');
+    const badge = document.getElementById('sidebarMessagesBadge');
+
+    const visibleMessages = messages || [];
+    const newMessages = visibleMessages.filter(message => message.status === 'new');
+    const followMessages = visibleMessages.filter(message => message.status === 'follow_up');
+    const convertedMessages = visibleMessages.filter(message => message.status === 'converted_request');
+    const actionable = visibleMessages.filter(isActionableMessage);
+
+    if (badge) {
+      badge.innerText = actionable.length;
+      badge.style.display = actionable.length ? 'inline-block' : 'none';
+    }
+
+    if (pulse) {
+      if (!visibleMessages.length) {
+        pulse.innerHTML = '<div class="empty">No hay mensajes registrados todavía.</div>';
+      } else {
+        pulse.innerHTML = `
+          <div class="summary-grid">
+            <div class="summary-card ${newMessages.length ? 'danger' : 'good'}"><small>Nuevos</small><strong>${newMessages.length}</strong></div>
+            <div class="summary-card ${followMessages.length ? 'warning' : 'good'}"><small>Seguimiento</small><strong>${followMessages.length}</strong></div>
+            <div class="summary-card ${convertedMessages.length ? 'good' : ''}"><small>Solicitudes creadas</small><strong>${convertedMessages.length}</strong></div>
+            <div class="summary-card ${actionable.length ? 'warning' : 'good'}"><small>Activos</small><strong>${actionable.length}</strong></div>
+          </div>
+          <div class="action-row">
+            <button class="btn btn-primary btn-small" onclick="window.location.href='mensajes.html'">Abrir inbox</button>
+            <button class="btn btn-secondary btn-small" onclick="window.location.href='solicitudes.html'">Ver solicitudes</button>
+          </div>
+        `;
+      }
+    }
+
+    if (actions) {
+      const recent = actionable
+        .sort((a,b)=>new Date(b.createdAt || 0)-new Date(a.createdAt || 0))
+        .slice(0,5);
+
+      if (!recent.length) {
+        actions.innerHTML = '<div class="empty">No hay mensajes nuevos o en seguimiento.</div>';
+        return;
+      }
+
+      actions.innerHTML = `
+        <div class="message-mini-list">
+          ${recent.map(message => `
+            <div class="message-mini-card ${message.status === 'new' ? 'danger' : 'warning'}">
+              <span class="status ${message.status === 'new' ? 'danger' : 'warning'}">${messageStatusLabel(message.status)}</span>
+              <strong>${message.studentName || 'Estudiante'} · ${messageTypeLabel(message.type)}</strong>
+              <small>${message.phone || 'Sin teléfono'} · ${message.text ? message.text.slice(0,110) : 'Sin contenido'}${message.text && message.text.length > 110 ? '...' : ''}</small>
+              <div class="action-row">
+                <button class="btn btn-primary btn-small" onclick="window.location.href='mensajes.html'">Gestionar</button>
+                ${message.studentId ? `<button class="btn btn-secondary btn-small" onclick="window.location.href='dossier.html?code=${encodeURIComponent(message.studentId)}'">Dossier</button>` : ''}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+  }
+
+
+  function renderRequests(requests) {
+    const table = document.getElementById('requestsTable');
+    table.innerHTML = '';
+
+    if (!requests.length) {
+      table.innerHTML = '<tr><td colspan="3">No hay solicitudes registradas.</td></tr>';
+      return;
+    }
+
+    requests.slice(0, 5).forEach(request => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${request.studentName || request.user || request.name || request.studentCode || 'Usuario'}</td>
+        <td>${request.type || request.subject || 'Solicitud'}</td>
+        <td><span class="status ${isOpenRequest(request) ? 'warning' : ''}">${request.status || 'Nueva'}</span></td>
+      `;
+      table.appendChild(row);
+    });
+  }
+
+
+
+  function renderAcademicControl(students, results = [], evaluations = [], interventions = []) {
+    const container = document.getElementById('academicControl');
+    if (!container) return;
+
+    const examResults = results.filter(result => result.mode === 'exam');
+    const openInterventions = interventions.filter(item => item.status !== 'closed');
+    const criticalInterventions = openInterventions.filter(item => item.severity === 'critical');
+    const scored = examResults.filter(result => result.score !== null && result.score !== undefined);
+    const avg = scored.length ? Math.round(scored.reduce((sum, result) => sum + result.score, 0) / scored.length) : null;
+
+    const critical = scored.filter(result => result.score < 60);
+    const risk = scored.filter(result => result.score >= 60 && result.score < 75);
+    const submittedEvaluations = evaluations.filter(evaluation => evaluationStatusInfo(evaluation, results).key === 'submitted');
+    const pendingEvaluations = evaluations.filter(evaluation => evaluationStatusInfo(evaluation, results).key === 'pending');
+    const overdueEvaluations = evaluations.filter(evaluation => evaluationStatusInfo(evaluation, results).key === 'overdue');
+
+    const studentIdsInRisk = new Set([...critical, ...risk].map(result => result.studentId || result.studentName).filter(Boolean));
+    const riskPercent = students.length ? Math.round((studentIdsInRisk.size / students.length) * 100) : 0;
+
+    let line = 'No hay suficiente información de exámenes para diagnóstico académico.';
+    let lineClass = 'warning';
+    if (scored.length) {
+      if (critical.length) {
+        line = `Hay ${critical.length} resultado(s) críticos por debajo de 60%. Requieren intervención académica.`;
+        lineClass = 'danger';
+      } else if (risk.length || overdueEvaluations.length) {
+        line = `Hay ${risk.length} resultado(s) en riesgo y ${overdueEvaluations.length} evaluación(es) vencida(s).`;
+        lineClass = 'warning';
+      } else {
+        line = 'Rendimiento académico estable en los exámenes registrados.';
+        lineClass = 'good';
+      }
+    }
+
+    const recentProblems = [
+      ...openInterventions.map(item => ({level:item.severity === 'critical' ? 'danger' : 'warning', title:`${item.studentName} · intervención`, detail:`${item.type} · ${item.level} Unidad ${item.unit} · ${item.score === null ? '--' : item.score + '%'}`, link:studentLink(item.studentId), label:'Abrir dossier'})),
+      ...critical.map(result => ({level:'danger', title:`${result.studentName} · ${result.type}`, detail:`${result.level} Unidad ${result.unit} · ${result.score}%`, link:`resultados.html?student=${encodeURIComponent(result.studentId || '')}`, label:'Ver resultado'})),
+      ...risk.map(result => ({level:'warning', title:`${result.studentName} · ${result.type}`, detail:`${result.level} Unidad ${result.unit} · ${result.score}%`, link:`resultados.html?student=${encodeURIComponent(result.studentId || '')}`, label:'Ver resultado'})),
+      ...overdueEvaluations.map(evaluation => ({level:'danger', title:`${evaluation.studentName} · ${evaluation.type}`, detail:`${evaluation.level} Unidad ${evaluation.unit} · vencida ${evaluation.dueDate || ''}`, link:'evaluaciones.html', label:'Gestionar'})),
+      ...pendingEvaluations.slice(0,4).map(evaluation => ({level:'warning', title:`${evaluation.studentName} · ${evaluation.type}`, detail:`${evaluation.level} Unidad ${evaluation.unit} · pendiente ${evaluation.dueDate || ''}`, link:'evaluaciones.html', label:'Ver pendiente'}))
+    ].slice(0,8);
+
+    container.innerHTML = `
+      <div class="academic-kpi-grid">
+        <div class="academic-kpi ${avg !== null && avg < 75 ? 'warning' : avg === null ? 'warning' : 'good'}"><small>Promedio exámenes</small><strong>${avg === null ? '--' : avg + '%'}</strong></div>
+        <div class="academic-kpi ${criticalInterventions.length ? 'danger' : openInterventions.length ? 'warning' : 'good'}"><small>Intervenciones</small><strong>${openInterventions.length}</strong></div>
+        <div class="academic-kpi ${risk.length ? 'warning' : 'good'}"><small>En riesgo</small><strong>${risk.length}</strong></div>
+        <div class="academic-kpi ${overdueEvaluations.length ? 'danger' : pendingEvaluations.length ? 'warning' : 'good'}"><small>Pendientes / vencidas</small><strong>${pendingEvaluations.length}/${overdueEvaluations.length}</strong></div>
+      </div>
+      <div class="executive-line ${lineClass === 'danger' ? 'summary-card danger' : ''}">${line} ${students.length ? `Estudiantes en riesgo: ${riskPercent}%.` : ''}</div>
+      <div class="action-row">
+        <button class="btn btn-primary btn-small" onclick="window.location.href='resultados.html'">Abrir resultados</button>
+        <button class="btn btn-secondary btn-small" onclick="window.location.href='evaluaciones.html'">Abrir evaluaciones</button>
+      </div>
+      <div class="academic-list">
+        ${recentProblems.length ? recentProblems.map(item => `
+          <div class="academic-item ${item.level}">
+            <div>
+              <strong>${item.title}</strong>
+              <small>${item.detail}</small>
+            </div>
+            <div class="academic-actions">
+              <button class="btn btn-primary btn-small" onclick="window.location.href='${item.link}'">${item.label}</button>
+            </div>
+          </div>
+        `).join('') : '<div class="empty">No hay problemas académicos recientes para mostrar.</div>'}
+      </div>
+    `;
+  }
+
+
+  function renderSummary(students, packages, groups, requests, messages = []) {
+    const container = document.getElementById('dailySummary');
+    if (!container) return;
+
+    const alerts = buildOperationalAlerts(students, packages, groups, requests, [], [], [], [], messages);
+    const critical = alerts.filter(alert => alert.level === 'danger').length;
+    const warnings = alerts.filter(alert => alert.level === 'warning').length;
+    const openRequests = requests.filter(isOpenRequest).length;
+    const openMessages = messages.filter(isActionableMessage).length;
+    const renewalCount = packages.map(normalizePackage).filter(pkg => getPackageFinancialState(pkg).needsRenewal).length + groups.filter(group => {
+      const current = getGroupCurrentClass(group);
+      return current >= 44 && current < 48;
+    }).length;
+    const overdueCount = packages.map(normalizePackage).filter(pkg => getPackageFinancialState(pkg).isOverdue).length + groups.filter(group => getGroupFinancialState(group).isOverdue).length;
+    const lowProgress = students.filter(student => {
+      const progress = getAcademicProgressPercent(student);
+      return progress !== null && progress < 75;
+    }).length;
+
+    let message = 'Operación estable. No hay asuntos críticos registrados.';
+    if (critical > 0) message = `Hay ${critical} alerta(s) crítica(s). Prioriza mora, reportes vencidos y paquetes terminados antes de seguir operando.`;
+    else if (warnings > 0) message = `Hay ${warnings} asunto(s) por revisar. No son bloqueo total, pero sí pueden convertirse en problema si se dejan crecer.`;
+
+    container.innerHTML = `
+      <div class="summary-grid">
+        <div class="summary-card ${critical ? 'danger' : 'good'}"><small>Críticas</small><strong>${critical}</strong></div>
+        <div class="summary-card ${overdueCount ? 'danger' : 'good'}"><small>Mora / vencidos</small><strong>${overdueCount}</strong></div>
+        <div class="summary-card ${renewalCount ? 'warning' : 'good'}"><small>Por renovar</small><strong>${renewalCount}</strong></div>
+        <div class="summary-card ${openRequests ? 'warning' : 'good'}"><small>Solicitudes abiertas</small><strong>${openRequests}</strong></div>
+        <div class="summary-card message-kpi ${openMessages ? 'warning' : 'good'}" onclick="window.location.href='mensajes.html'"><small>Mensajes activos</small><strong>${openMessages}</strong></div>
+      </div>
+      <div class="executive-line">${message} ${lowProgress ? `Además, ${lowProgress} estudiante(s) tienen progreso por debajo del 75%.` : ''}</div>
+      <div class="action-row">
+        ${currentUser.role === 'admin' ? '<button class="btn btn-primary btn-small" onclick="window.location.href=\'finanzas.html\'">Abrir finanzas</button>' : ''}
+        <button class="btn btn-secondary btn-small" onclick="window.location.href='calendario.html'">Abrir calendario</button>
+        <button class="btn btn-secondary btn-small" onclick="window.location.href='reportes.html'">Ver reportes</button>
+      </div>
+    `;
+  }
+
+  function formatCOP(value) {
+    const number = Number(value) || 0;
+    return number.toLocaleString('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
+  }
+
+  function renderFinancePulse(packages, groups) {
+    const panel = document.getElementById('financePulsePanel');
+    const container = document.getElementById('financePulse');
+    if (!panel || !container) return;
+    if (currentUser.role !== 'admin') {
+      panel.classList.add('hidden-panel');
+      return;
+    }
+
+    const totalPending = packages.map(normalizePackage).reduce((sum, pkg) => {
+      const state = getPackageFinancialState(pkg);
+      return sum + (state.isOverdue ? state.balance : 0);
+    }, 0);
+    const privateOverdue = packages.map(normalizePackage).filter(pkg => getPackageFinancialState(pkg).isOverdue).length;
+    const groupOverdue = groups.filter(group => getGroupFinancialState(group).isOverdue).length;
+    const renewal = packages.map(normalizePackage).filter(pkg => getPackageFinancialState(pkg).needsRenewal).length;
+
+    container.innerHTML = `
+      <div class="finance-mini">
+        <div><small>Privadas en mora</small><strong>${privateOverdue}</strong></div>
+        <div><small>Grupos en mora</small><strong>${groupOverdue}</strong></div>
+        <div><small>Saldo pendiente registrado</small><strong>${formatCOP(totalPending)}</strong></div>
+      </div>
+      <div class="executive-line">${renewal} paquete(s) privado/semi necesitan gestión de renovación pronto.</div>
+      <div class="action-row"><button class="btn btn-primary btn-small" onclick="window.location.href='finanzas.html'">Gestionar finanzas</button></div>
+    `;
+  }
+
+  function renderSmartLocks(students, packages, groups, requests) {
+    const container = document.getElementById('smartLocks');
+    if (!container) return;
+    const locks = [];
+
+    packages.map(normalizePackage).forEach(pkg => {
+      const state = getPackageFinancialState(pkg);
+      const names = pkg.students.map(student => student.name).join(' + ') || 'Paquete sin estudiante';
+      if (state.isOverdue) locks.push({ title: 'Bloquear nueva sesión privada', detail: `${names}: saldo pendiente o pago pactado vencido.` });
+      if (state.isFinished) locks.push({ title: 'Bloquear continuidad de paquete', detail: `${names}: paquete terminado. Renovar antes de registrar más horas.` });
+    });
+
+    groups.forEach(group => {
+      const state = getGroupFinancialState(group);
+      const label = `${group.code || group.id || 'Grupo'} · ${group.name || 'Grupo sin nombre'}`;
+      if (state.isOverdue) locks.push({ title: 'Bloquear avance de grupo', detail: `${label}: pago vencido o clase 17 alcanzada.` });
+      [1, 2, 3].forEach(reportNumber => {
+        const window = getReportWindow(reportNumber);
+        const key = getReportKey(reportNumber);
+        const hasSavedReports = Object.values(group.reports || {}).some(studentReports => studentReports && studentReports[key]);
+        if (state.current >= window.end && !hasSavedReports) {
+          locks.push({ title: 'Bloquear avance por reporte vencido', detail: `${label}: reporte ${reportNumber} vencido sin guardar.` });
+        }
+      });
+    });
+
+    if (!loadData(AVAILABILITY_KEY).length && currentUser.role === 'admin') {
+      locks.push({ title: 'Bloquear asignación sin disponibilidad', detail: 'No hay disponibilidad docente registrada. Evita agendar clases sin validar horarios.' });
+    }
+
+    if (!locks.length) {
+      container.innerHTML = '<div class="empty">No hay bloqueos sugeridos por ahora. El sistema puede operar sin restricciones fuertes.</div>';
+      return;
+    }
+
+    container.innerHTML = '';
+    locks.slice(0, 8).forEach(lock => {
+      const card = document.createElement('div');
+      card.className = 'lock-card';
+      card.innerHTML = `<strong>${lock.title}</strong><small>${lock.detail}</small>`;
+      container.appendChild(card);
+    });
+
+    const note = document.createElement('div');
+    note.className = 'empty';
+    note.innerText = 'Nota: estos bloqueos aparecen como control gerencial. Para impedir acciones de verdad, hay que replicar esta lógica en grupales.html, privadas.html y calendario.html.';
+    container.appendChild(note);
+  }
+
+  function refreshDashboard() {
+    const { students, teachers, groups, packages, requests, results, notifications, evaluations, interventions, messages } = getVisibleData();
+
+    if (currentUser.role === 'teacher') {
+      document.querySelector('.metrics .metric:nth-child(1) span').innerText = 'Mis estudiantes';
+      document.querySelector('.metrics .metric:nth-child(2) span').innerText = 'Mi perfil';
+      document.querySelector('.metrics .metric:nth-child(3) span').innerText = 'Mis grupos';
+      document.querySelector('.metrics .metric:nth-child(4) span').innerText = 'Mis privadas';
+
+      const groupsTitle = document.querySelector('#groupsList')?.closest('.panel')?.querySelector('h2');
+      const privateTitle = document.querySelector('#privateList')?.closest('.panel')?.querySelector('h2');
+      const alertsTitle = document.querySelector('#alertsList')?.closest('.panel')?.querySelector('h2');
+      const requestsPanel = document.querySelector('#requestsTable')?.closest('.panel');
+
+      if (groupsTitle) groupsTitle.innerText = 'Mis clases grupales';
+      if (privateTitle) privateTitle.innerText = 'Mis privadas / semiprivadas';
+      if (alertsTitle) alertsTitle.innerText = 'Mis alertas académicas y administrativas';
+      if (requestsPanel) requestsPanel.style.display = 'block';
+    }
+
+
+    if (currentUser.role === 'student') {
+      document.querySelector('.metrics .metric:nth-child(1) span').innerText = 'Mi perfil';
+      document.querySelector('.metrics .metric:nth-child(2) span').innerText = 'Profesores';
+      document.querySelector('.metrics .metric:nth-child(3) span').innerText = 'Grupos';
+      document.querySelector('.metrics .metric:nth-child(4) span').innerText = 'Privadas';
+
+      const groupsPanel = document.querySelector('#groupsList')?.closest('.panel');
+      const privatePanel = document.querySelector('#privateList')?.closest('.panel');
+      const financePanel = document.getElementById('financePulsePanel');
+      if (groupsPanel) groupsPanel.style.display = 'none';
+      if (privatePanel) privatePanel.style.display = 'none';
+      if (financePanel) financePanel.style.display = 'none';
+    }
+
+    renderMetrics(students, teachers, groups, packages);
+    renderSummary(students, packages, groups, requests, results);
+    renderAcademicControl(students, results, evaluations, interventions);
+    renderGroups(groups);
+    renderPrivatePackages(packages);
+    renderAlerts(students, packages, groups, requests, results, notifications, evaluations, interventions, messages);
+    renderRequests(requests);
+    renderNotificationsDashboard(notifications);
+    renderMessagesDashboard(messages);
+    renderFinancePulse(packages, groups);
+    renderSmartLocks(students, packages, groups, requests);
+  }
+
+  function setupMenuToggles() {
+    document.querySelectorAll('.menu-title').forEach(title => {
+      title.addEventListener('click', () => {
+        const group = title.closest('.menu-group');
+        if (group) group.classList.toggle('active');
+      });
+    });
+  }
+
+  setupMenuToggles();
+  renderSessionInfo();
+  applyRoleVisibility();
+  refreshDashboard();
+</script>
+
+</body>
+</html>

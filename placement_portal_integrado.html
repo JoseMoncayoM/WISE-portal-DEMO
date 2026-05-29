@@ -1,0 +1,3523 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WISE Placement Test 2.1</title>
+  <style>
+    :root {
+      --wise-blue-dark: #234874;
+      --wise-blue: #1f5fb2;
+      --wise-teal: #49b9c7;
+      --wise-teal-soft: #d8f1f3;
+      --wise-ink: #10243d;
+      --wise-muted: #65758a;
+      --wise-line: #d5e1e8;
+      --wise-surface: #ffffff;
+      --wise-page: #f3f7f8;
+      --wise-shadow: 0 18px 40px rgba(26, 74, 122, 0.12);
+      --wise-shadow-soft: 0 10px 22px rgba(31, 95, 178, 0.10);
+      --max-width: 1180px;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--wise-page);
+      color: var(--wise-ink);
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+    }
+    body { min-height: 100vh; padding: 24px; }
+    button, input, select { font: inherit; }
+    .app {
+      width: min(100%, var(--max-width));
+      margin: 0 auto;
+      display: grid;
+      gap: 24px;
+    }
+    .portal-clean-bar {
+      background: #ffffff;
+      border: 1px solid var(--wise-line);
+      border-radius: 22px;
+      padding: 14px 18px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      box-shadow: var(--wise-shadow-soft);
+    }
+    .portal-clean-bar strong { color: var(--wise-blue-dark); font-weight:900; }
+    .portal-clean-bar small { color: var(--wise-muted); font-weight:800; }
+    .portal-mode-pill {
+      background: #ffefef;
+      color: #b00020;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-weight: 900;
+      font-size: .78rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+    .hero {
+      background: linear-gradient(135deg, var(--wise-blue-dark), #2a5e97 72%);
+      color: white;
+      border-radius: 36px;
+      box-shadow: var(--wise-shadow);
+      padding: 28px;
+      display: grid;
+      gap: 16px;
+    }
+    .hero__eyebrow {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.76rem;
+      font-weight: 800;
+      opacity: 0.82;
+    }
+    .hero__title {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 4.5rem);
+      line-height: 0.92;
+      letter-spacing: -0.06em;
+      text-transform: uppercase;
+      font-weight: 900;
+    }
+    .hero__title span { display:block; color:#7bd4de; }
+    .hero__text {
+      margin: 0;
+      max-width: 78ch;
+      color: rgba(255,255,255,0.9);
+      line-height: 1.55;
+    }
+    .panel {
+      background: var(--wise-surface);
+      border-radius: 28px;
+      box-shadow: var(--wise-shadow);
+      padding: 22px;
+      display: grid;
+      gap: 18px;
+    }
+    .panel__top {
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+    .section-kicker {
+      margin: 0 0 8px;
+      color: var(--wise-blue);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 0.76rem;
+      font-weight: 800;
+    }
+    .section-title {
+      margin: 0;
+      color: var(--wise-blue-dark);
+      font-size: clamp(1.35rem, 2vw, 2rem);
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+    .summary-pill, .score-pill, .timer-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      border-radius: 999px;
+      padding: 0 16px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .summary-pill { background: var(--wise-teal-soft); color: var(--wise-blue-dark); }
+    .score-pill { background: var(--wise-blue-dark); color: white; }
+    .timer-pill {
+      background: #fff1f1;
+      color: #b42318;
+      border: 1px solid #f2c4c4;
+    }
+    .filters {
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap:14px;
+    }
+    .field { display:grid; gap:7px; }
+    .field label {
+      font-size:.82rem;
+      color:var(--wise-muted);
+      font-weight:700;
+    }
+    .field input {
+      width:100%;
+      min-height:48px;
+      border-radius:16px;
+      border:1.5px solid var(--wise-line);
+      background:#fbfdff;
+      padding:0 14px;
+      color:var(--wise-ink);
+    }
+    .actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center; display:flex; gap:10px; flex-wrap:wrap; }
+    .btn {
+  min-width: 140px;
+  justify-content: center;
+  display: inline-flex;
+  align-items: center;
+      min-height:46px;
+      border:none;
+      border-radius:999px;
+      padding:0 18px;
+      cursor:pointer;
+      font-weight:800;
+      letter-spacing:-0.01em;
+      transition: transform .16s ease, box-shadow .16s ease, opacity .16s ease;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn:disabled { opacity:.5; cursor:not-allowed; transform:none; }
+    .btn--primary { background:var(--wise-blue); color:white; box-shadow: var(--wise-shadow-soft); }
+    .btn--secondary { background:var(--wise-teal-soft); color:var(--wise-blue-dark); }
+    .btn--ghost { background:#edf4f7; color:var(--wise-blue-dark); }
+    .question-card {
+      position:relative;
+      background:#fff;
+      border:2px solid rgba(31,95,178,.14);
+      border-radius:24px;
+      padding:18px;
+      box-shadow:var(--wise-shadow-soft);
+      display:grid;
+      gap:12px;
+    }
+    .question-meta { display:flex; gap:8px; flex-wrap:wrap; }
+    .tag {
+      background:#ebf3fb;
+      color:var(--wise-blue-dark);
+      border-radius:999px;
+      padding:6px 10px;
+      font-size:.76rem;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+    }
+    .question-title { margin:0; font-size:1.15rem; color:var(--wise-blue-dark); line-height:1.35; }
+    .option-list {
+      display:grid;
+      gap:10px;
+      padding:0;
+      margin:0;
+      list-style:none;
+      border:none;
+    }
+    .option {
+      display:flex;
+      gap:12px;
+      align-items:start;
+      padding:12px 14px;
+      border-radius:16px;
+      border:1.5px solid var(--wise-line);
+      background:#fbfdff;
+      cursor:pointer;
+    }
+    .option input { margin-top:2px; accent-color:var(--wise-blue); }
+    .result-grid {
+      display:grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap:12px;
+    }
+    .metric {
+      border:1px solid var(--wise-line);
+      border-radius:18px;
+      background:#fbfdff;
+      padding:14px;
+    }
+    .metric strong {
+      display:block;
+      color:var(--wise-blue-dark);
+      font-size:1.5rem;
+      margin-bottom:4px;
+    }
+    .metric span { color:var(--wise-muted); font-weight:800; }
+    .report {
+      background:#fff;
+      border-radius:28px;
+      box-shadow:var(--wise-shadow);
+      padding:24px;
+      display:none;
+      gap:18px;
+    }
+    .report.is-visible { display:grid; }
+    .report-header {
+      display:flex;
+      justify-content:space-between;
+      gap:18px;
+      flex-wrap:wrap;
+      border-bottom:2px solid var(--wise-line);
+      padding-bottom:14px;
+    }
+    .report h2, .report h3 { color:var(--wise-blue-dark); margin:.2em 0; }
+    .report p { line-height:1.5; }
+    .report-table {
+      width:100%;
+      border-collapse:collapse;
+      overflow:hidden;
+      border-radius:16px;
+      border:1px solid var(--wise-line);
+    }
+    .report-table th, .report-table td {
+      border-bottom:1px solid var(--wise-line);
+      padding:10px;
+      text-align:left;
+    }
+    .report-table th { background:#ebf3fb; color:var(--wise-blue-dark); }
+    .list-box {
+      display:grid;
+      gap:8px;
+      margin:0;
+      padding-left:20px;
+    }
+    .notice {
+      padding:14px;
+      border-radius:16px;
+      background:#eef7ff;
+      color:var(--wise-blue-dark);
+      border:1px solid #cfe0f1;
+      font-weight:700;
+    }
+    @media (max-width: 900px) {
+      .filters, .result-grid { grid-template-columns:1fr; }
+      body { padding:16px; }
+      .actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center; display:grid; grid-template-columns:1fr; }
+      .btn, .summary-pill, .score-pill, .timer-pill { width:100%; }
+    }
+    @media print {
+      @page { margin: 16mm; }
+      body { background:white; padding:0; }
+      body * { visibility:hidden !important; }
+      #placementReport, #placementReport * { visibility:visible !important; }
+      #placementReport {
+        position:absolute;
+        left:0;
+        top:0;
+        width:100%;
+        display:block !important;
+        box-shadow:none !important;
+        border-radius:0 !important;
+        padding:0 !important;
+      }
+      .no-print { display:none !important; }
+      .report-table th { background:#f2f2f2 !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <section class="portal-clean-bar no-print">
+      <div>
+        <strong>Wisdom Academy</strong><br>
+        <small>WISE Placement Test · CEFR diagnostic</small>
+      </div>
+      <span class="portal-mode-pill">Placement</span>
+    </section>
+
+    <section class="hero no-print">
+      <p class="hero__eyebrow">WISE Placement Test</p>
+      <h1 class="hero__title">Diagnóstico <span>A1–B2</span></h1>
+      <p class="hero__text">
+        Evaluación randomizada de reconocimiento con lógica anti-azar. El sistema genera un reporte de nivel estimado, confianza, fortalezas, debilidades y patrones de error. No guarda resultados: solo permite imprimir o guardar PDF.
+      </p>
+    </section>
+
+    <section class="panel no-print" id="setupPanel">
+      <div class="panel__top">
+        <div>
+          <p class="section-kicker">Configuración</p>
+          <h2 class="section-title">Datos del diagnóstico</h2>
+        </div>
+        <div class="summary-pill">25 preguntas + validación</div>
+      </div>
+      <div class="filters">
+        <div class="field">
+          <label for="studentName">Student name</label>
+          <input id="studentName" placeholder="Nombre del estudiante" />
+        </div>
+        <div class="field">
+          <label for="advisorName">Advisor / Teacher</label>
+          <input id="advisorName" placeholder="Nombre del asesor o profesor" />
+        </div>
+        <div class="field">
+          <label for="testDate">Date</label>
+          <input id="testDate" type="date" />
+        </div>
+      </div>
+      <div class="notice">
+        Distribución: 5 A1 · 5 A2 · 7 B1 · 8 B2. Si el resultado entra en B1/B2, se agregan 2 preguntas de validación.
+      </div>
+      <div class="actions">
+        <button class="btn btn--primary" id="startBtn">Start placement</button>
+        <button class="btn btn--ghost" id="resetBtn">Reset</button>
+      </div>
+    </section>
+
+    <section class="panel no-print" id="questionPanel" style="display:none;">
+      <div class="panel__top">
+        <div>
+          <p class="section-kicker">Question area</p>
+          <h2 class="section-title" id="questionCounter">Question 1</h2>
+        </div>
+        <div class="score-pill" id="progressPill">0 / 25 answered</div>
+      </div>
+      <div id="questionHost"></div>
+      <div class="actions">
+        <button class="btn btn--secondary" id="prevBtn">Previous</button>
+        <button class="btn btn--primary" id="nextBtn">Next</button>
+        <button class="btn btn--primary" id="finishBtn" style="display:none;">Finish and generate report</button>
+      </div>
+    </section>
+
+    <section id="placementReport" class="report">
+      <div class="report-header">
+        <div>
+          <p class="section-kicker">Wisdom Academy</p>
+          <h2>WISE Placement Test Report</h2>
+          <p id="reportMeta"></p>
+        </div>
+        <div>
+          <h3 id="reportEstimatedLevel">Nivel estimado</h3>
+          <p id="reportConfianza"></p>
+        </div>
+      </div>
+
+      <div class="result-grid">
+        <div class="metric"><strong id="overallScore">0%</strong><span>Puntaje general</span></div>
+        <div class="metric"><strong id="estimatedLevelMetric">—</strong><span>Nivel estimado</span></div>
+        <div class="metric"><strong id="confidenceMetric">—</strong><span>Confianza</span></div>
+        <div class="metric"><strong id="totalPreguntasMetric">25</strong><span>Preguntas</span></div>
+      </div>
+
+      <div>
+        <h3>Desglose por nivel</h3>
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th>Level</th>
+              <th>Correct</th>
+              <th>Total</th>
+              <th>Percentage</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="levelBreakdownBody"></tbody>
+        </table>
+      </div>
+
+      <div>
+        <h3>Áreas débiles</h3>
+        <ul id="weakAreasList" class="list-box"></ul>
+      </div>
+
+      <div>
+        <h3>Patrones de error</h3>
+        <ul id="errorPatternsList" class="list-box"></ul>
+      </div>
+
+      <div>
+        <h3>Recomendación</h3>
+        <p id="recommendationText"></p>
+      </div>
+
+      <div>
+        <h3>Nota interna</h3>
+        <p id="internalNote"></p>
+      </div>
+
+      <div class="actions no-print">
+        <button class="btn btn--primary" onclick="window.print()">Imprimir / Guardar PDF</button>
+        <button class="btn btn--secondary" onclick="window.location.href='diagnostico_resultados.html'">Ver resultados guardados</button>
+        <button class="btn btn--ghost" onclick="restartPlacement()">Nuevo test</button>
+      </div>
+    </section>
+  </div>
+
+<script>
+const WisdomStorage = window.WisdomStorage || {
+  get(key, fallback = null){
+    try{
+      const raw = localStorage.getItem(key);
+      return raw === null ? fallback : JSON.parse(raw);
+    }catch(error){
+      return fallback;
+    }
+  },
+  set(key, value){
+    localStorage.setItem(key, JSON.stringify(value));
+    return value;
+  },
+  remove(key){
+    localStorage.removeItem(key);
+  },
+  exists(key){
+    return localStorage.getItem(key) !== null;
+  },
+  clear(){
+    localStorage.clear();
+  }
+};
+
+const WISDOM_LAST_PLACEMENT_KEY = "wisdom_last_placement_result";
+
+const PLACEMENT_QUESTION_BANK = [
+  {
+    "id": "PT-A1-001",
+    "level_code": "A1",
+    "cefr_area": "to_be",
+    "difficulty": "easy",
+    "prompt": "I ___ from Colombia.",
+    "options": [
+      "am",
+      "is",
+      "are"
+    ],
+    "correct_index": 0,
+    "error_type": "to_be_agreement"
+  },
+  {
+    "id": "PT-A1-002",
+    "level_code": "A1",
+    "cefr_area": "to_be",
+    "difficulty": "easy",
+    "prompt": "She ___ a teacher.",
+    "options": [
+      "am",
+      "is",
+      "are"
+    ],
+    "correct_index": 1,
+    "error_type": "to_be_agreement"
+  },
+  {
+    "id": "PT-A1-003",
+    "level_code": "A1",
+    "cefr_area": "to_be",
+    "difficulty": "easy",
+    "prompt": "They ___ my friends.",
+    "options": [
+      "am",
+      "is",
+      "are"
+    ],
+    "correct_index": 2,
+    "error_type": "to_be_agreement"
+  },
+  {
+    "id": "PT-A1-004",
+    "level_code": "A1",
+    "cefr_area": "to_be_negative",
+    "difficulty": "easy",
+    "prompt": "He ___ not at home.",
+    "options": [
+      "am",
+      "is",
+      "are"
+    ],
+    "correct_index": 1,
+    "error_type": "to_be_negative"
+  },
+  {
+    "id": "PT-A1-005",
+    "level_code": "A1",
+    "cefr_area": "to_be_question",
+    "difficulty": "easy",
+    "prompt": "___ you from Mexico?",
+    "options": [
+      "Am",
+      "Is",
+      "Are"
+    ],
+    "correct_index": 2,
+    "error_type": "question_structure"
+  },
+  {
+    "id": "PT-A1-006",
+    "level_code": "A1",
+    "cefr_area": "subject_pronouns",
+    "difficulty": "easy",
+    "prompt": "Maria is my friend. ___ is very nice.",
+    "options": [
+      "He",
+      "She",
+      "They"
+    ],
+    "correct_index": 1,
+    "error_type": "pronoun_reference"
+  },
+  {
+    "id": "PT-A1-007",
+    "level_code": "A1",
+    "cefr_area": "subject_pronouns",
+    "difficulty": "easy",
+    "prompt": "Carlos and Ana are students. ___ are in class.",
+    "options": [
+      "He",
+      "She",
+      "They"
+    ],
+    "correct_index": 2,
+    "error_type": "pronoun_reference"
+  },
+  {
+    "id": "PT-A1-008",
+    "level_code": "A1",
+    "cefr_area": "possessive_adjectives",
+    "difficulty": "easy",
+    "prompt": "I am David. ___ name is David.",
+    "options": [
+      "My",
+      "Your",
+      "His"
+    ],
+    "correct_index": 0,
+    "error_type": "possessive_confusion"
+  },
+  {
+    "id": "PT-A1-009",
+    "level_code": "A1",
+    "cefr_area": "possessive_adjectives",
+    "difficulty": "easy",
+    "prompt": "She is Laura. ___ brother is Juan.",
+    "options": [
+      "His",
+      "Her",
+      "Their"
+    ],
+    "correct_index": 1,
+    "error_type": "possessive_confusion"
+  },
+  {
+    "id": "PT-A1-010",
+    "level_code": "A1",
+    "cefr_area": "articles",
+    "difficulty": "easy",
+    "prompt": "This is ___ apple.",
+    "options": [
+      "a",
+      "an",
+      "the"
+    ],
+    "correct_index": 1,
+    "error_type": "article_error"
+  },
+  {
+    "id": "PT-A1-011",
+    "level_code": "A1",
+    "cefr_area": "articles",
+    "difficulty": "easy",
+    "prompt": "She is ___ doctor.",
+    "options": [
+      "a",
+      "an",
+      "are"
+    ],
+    "correct_index": 0,
+    "error_type": "article_error"
+  },
+  {
+    "id": "PT-A1-012",
+    "level_code": "A1",
+    "cefr_area": "plural_nouns",
+    "difficulty": "easy",
+    "prompt": "I have two ___.",
+    "options": [
+      "book",
+      "books",
+      "bookes"
+    ],
+    "correct_index": 1,
+    "error_type": "plural_form"
+  },
+  {
+    "id": "PT-A1-013",
+    "level_code": "A1",
+    "cefr_area": "plural_nouns",
+    "difficulty": "easy",
+    "prompt": "There are three ___ in the room.",
+    "options": [
+      "child",
+      "children",
+      "childs"
+    ],
+    "correct_index": 1,
+    "error_type": "irregular_plural"
+  },
+  {
+    "id": "PT-A1-014",
+    "level_code": "A1",
+    "cefr_area": "demonstratives",
+    "difficulty": "easy",
+    "prompt": "___ is my phone.",
+    "options": [
+      "This",
+      "These",
+      "Those"
+    ],
+    "correct_index": 0,
+    "error_type": "demonstrative_number"
+  },
+  {
+    "id": "PT-A1-015",
+    "level_code": "A1",
+    "cefr_area": "demonstratives",
+    "difficulty": "easy",
+    "prompt": "___ are my keys.",
+    "options": [
+      "This",
+      "That",
+      "These"
+    ],
+    "correct_index": 2,
+    "error_type": "demonstrative_number"
+  },
+  {
+    "id": "PT-A1-016",
+    "level_code": "A1",
+    "cefr_area": "simple_present",
+    "difficulty": "easy",
+    "prompt": "I ___ coffee every morning.",
+    "options": [
+      "drink",
+      "drinks",
+      "drinking"
+    ],
+    "correct_index": 0,
+    "error_type": "verb_form"
+  },
+  {
+    "id": "PT-A1-017",
+    "level_code": "A1",
+    "cefr_area": "simple_present",
+    "difficulty": "easy",
+    "prompt": "She ___ English at night.",
+    "options": [
+      "study",
+      "studies",
+      "studying"
+    ],
+    "correct_index": 1,
+    "error_type": "third_person_s"
+  },
+  {
+    "id": "PT-A1-018",
+    "level_code": "A1",
+    "cefr_area": "simple_present_negative",
+    "difficulty": "medium",
+    "prompt": "I ___ like coffee.",
+    "options": [
+      "don’t",
+      "doesn’t",
+      "am not"
+    ],
+    "correct_index": 0,
+    "error_type": "auxiliary_error"
+  },
+  {
+    "id": "PT-A1-019",
+    "level_code": "A1",
+    "cefr_area": "simple_present_negative",
+    "difficulty": "medium",
+    "prompt": "He ___ play soccer.",
+    "options": [
+      "don’t",
+      "doesn’t",
+      "isn’t"
+    ],
+    "correct_index": 1,
+    "error_type": "auxiliary_error"
+  },
+  {
+    "id": "PT-A1-020",
+    "level_code": "A1",
+    "cefr_area": "simple_present_question",
+    "difficulty": "medium",
+    "prompt": "___ you work on Saturdays?",
+    "options": [
+      "Do",
+      "Does",
+      "Are"
+    ],
+    "correct_index": 0,
+    "error_type": "question_structure"
+  },
+  {
+    "id": "PT-A1-021",
+    "level_code": "A1",
+    "cefr_area": "simple_present_question",
+    "difficulty": "medium",
+    "prompt": "___ she live in Bogotá?",
+    "options": [
+      "Do",
+      "Does",
+      "Is"
+    ],
+    "correct_index": 1,
+    "error_type": "question_structure"
+  },
+  {
+    "id": "PT-A1-022",
+    "level_code": "A1",
+    "cefr_area": "frequency_adverbs",
+    "difficulty": "medium",
+    "prompt": "She ___ goes to the gym.",
+    "options": [
+      "always",
+      "is always",
+      "always is"
+    ],
+    "correct_index": 0,
+    "error_type": "word_order"
+  },
+  {
+    "id": "PT-A1-023",
+    "level_code": "A1",
+    "cefr_area": "frequency_adverbs",
+    "difficulty": "medium",
+    "prompt": "I ___ watch TV at night.",
+    "options": [
+      "usually",
+      "am usually",
+      "usually am"
+    ],
+    "correct_index": 0,
+    "error_type": "word_order"
+  },
+  {
+    "id": "PT-A1-024",
+    "level_code": "A1",
+    "cefr_area": "there_is_are",
+    "difficulty": "easy",
+    "prompt": "There ___ a book on the table.",
+    "options": [
+      "is",
+      "are",
+      "am"
+    ],
+    "correct_index": 0,
+    "error_type": "there_is_are"
+  },
+  {
+    "id": "PT-A1-025",
+    "level_code": "A1",
+    "cefr_area": "there_is_are",
+    "difficulty": "easy",
+    "prompt": "There ___ two chairs in the room.",
+    "options": [
+      "is",
+      "are",
+      "am"
+    ],
+    "correct_index": 1,
+    "error_type": "there_is_are"
+  },
+  {
+    "id": "PT-A1-026",
+    "level_code": "A1",
+    "cefr_area": "can_ability",
+    "difficulty": "easy",
+    "prompt": "I ___ swim.",
+    "options": [
+      "can",
+      "to can",
+      "can to"
+    ],
+    "correct_index": 0,
+    "error_type": "modal_structure"
+  },
+  {
+    "id": "PT-A1-027",
+    "level_code": "A1",
+    "cefr_area": "can_negative",
+    "difficulty": "easy",
+    "prompt": "She ___ drive.",
+    "options": [
+      "can’t",
+      "doesn’t can",
+      "not can"
+    ],
+    "correct_index": 0,
+    "error_type": "modal_negative"
+  },
+  {
+    "id": "PT-A1-028",
+    "level_code": "A1",
+    "cefr_area": "can_question",
+    "difficulty": "medium",
+    "prompt": "___ you speak English?",
+    "options": [
+      "Can",
+      "Do can",
+      "Are can"
+    ],
+    "correct_index": 0,
+    "error_type": "modal_question"
+  },
+  {
+    "id": "PT-A1-029",
+    "level_code": "A1",
+    "cefr_area": "prepositions_place",
+    "difficulty": "easy",
+    "prompt": "The book is ___ the table.",
+    "options": [
+      "on",
+      "in",
+      "at"
+    ],
+    "correct_index": 0,
+    "error_type": "preposition_error"
+  },
+  {
+    "id": "PT-A1-030",
+    "level_code": "A1",
+    "cefr_area": "prepositions_place",
+    "difficulty": "easy",
+    "prompt": "She is ___ the room.",
+    "options": [
+      "on",
+      "in",
+      "at"
+    ],
+    "correct_index": 1,
+    "error_type": "preposition_error"
+  },
+  {
+    "id": "PT-A1-031",
+    "level_code": "A1",
+    "cefr_area": "prepositions_time",
+    "difficulty": "easy",
+    "prompt": "I wake up ___ 6:00.",
+    "options": [
+      "on",
+      "in",
+      "at"
+    ],
+    "correct_index": 2,
+    "error_type": "preposition_error"
+  },
+  {
+    "id": "PT-A1-032",
+    "level_code": "A1",
+    "cefr_area": "prepositions_time",
+    "difficulty": "easy",
+    "prompt": "We have class ___ Monday.",
+    "options": [
+      "on",
+      "in",
+      "at"
+    ],
+    "correct_index": 0,
+    "error_type": "preposition_error"
+  },
+  {
+    "id": "PT-A1-033",
+    "level_code": "A1",
+    "cefr_area": "countable_uncountable",
+    "difficulty": "medium",
+    "prompt": "There is ___ water in the bottle.",
+    "options": [
+      "some",
+      "many",
+      "a"
+    ],
+    "correct_index": 0,
+    "error_type": "countability"
+  },
+  {
+    "id": "PT-A1-034",
+    "level_code": "A1",
+    "cefr_area": "countable_uncountable",
+    "difficulty": "medium",
+    "prompt": "There are ___ apples on the table.",
+    "options": [
+      "some",
+      "much",
+      "a"
+    ],
+    "correct_index": 0,
+    "error_type": "countability"
+  },
+  {
+    "id": "PT-A1-035",
+    "level_code": "A1",
+    "cefr_area": "wh_questions",
+    "difficulty": "easy",
+    "prompt": "___ is your name?",
+    "options": [
+      "What",
+      "Where",
+      "Who"
+    ],
+    "correct_index": 0,
+    "error_type": "question_word"
+  },
+  {
+    "id": "PT-A1-036",
+    "level_code": "A1",
+    "cefr_area": "wh_questions",
+    "difficulty": "easy",
+    "prompt": "___ are you from?",
+    "options": [
+      "What",
+      "Where",
+      "When"
+    ],
+    "correct_index": 1,
+    "error_type": "question_word"
+  },
+  {
+    "id": "PT-A1-037",
+    "level_code": "A1",
+    "cefr_area": "wh_questions",
+    "difficulty": "medium",
+    "prompt": "___ do you go to work?",
+    "options": [
+      "How",
+      "What",
+      "Who"
+    ],
+    "correct_index": 0,
+    "error_type": "question_word"
+  },
+  {
+    "id": "PT-A1-038",
+    "level_code": "A1",
+    "cefr_area": "basic_connectors",
+    "difficulty": "easy",
+    "prompt": "I like coffee ___ tea.",
+    "options": [
+      "and",
+      "but",
+      "because"
+    ],
+    "correct_index": 0,
+    "error_type": "connector_meaning"
+  },
+  {
+    "id": "PT-A1-039",
+    "level_code": "A1",
+    "cefr_area": "basic_connectors",
+    "difficulty": "medium",
+    "prompt": "I like coffee, ___ I don’t like tea.",
+    "options": [
+      "and",
+      "but",
+      "because"
+    ],
+    "correct_index": 1,
+    "error_type": "connector_meaning"
+  },
+  {
+    "id": "PT-A1-040",
+    "level_code": "A1",
+    "cefr_area": "mixed_structure",
+    "difficulty": "hard",
+    "prompt": "She ___ coffee every morning, but I ___.",
+    "options": [
+      "drinks / don’t",
+      "drink / doesn’t",
+      "drinking / am not"
+    ],
+    "correct_index": 0,
+    "error_type": "mixed_agreement"
+  },
+  {
+    "id": "PT-A2-001",
+    "level_code": "A2",
+    "cefr_area": "past_simple",
+    "difficulty": "easy",
+    "prompt": "I ___ to the beach last weekend.",
+    "options": [
+      "go",
+      "went",
+      "gone"
+    ],
+    "correct_index": 1,
+    "error_type": "tense_confusion"
+  },
+  {
+    "id": "PT-A2-002",
+    "level_code": "A2",
+    "cefr_area": "past_continuous",
+    "difficulty": "medium",
+    "prompt": "She ___ dinner when I called her.",
+    "options": [
+      "cooked",
+      "was cooking",
+      "is cooking"
+    ],
+    "correct_index": 1,
+    "error_type": "aspect_confusion"
+  },
+  {
+    "id": "PT-A2-003",
+    "level_code": "A2",
+    "cefr_area": "past_simple_negative",
+    "difficulty": "easy",
+    "prompt": "We didn’t ___ anything yesterday.",
+    "options": [
+      "do",
+      "did",
+      "doing"
+    ],
+    "correct_index": 0,
+    "error_type": "auxiliary_error"
+  },
+  {
+    "id": "PT-A2-004",
+    "level_code": "A2",
+    "cefr_area": "past_simple_question",
+    "difficulty": "medium",
+    "prompt": "___ you see the movie last night?",
+    "options": [
+      "Did",
+      "Do",
+      "Were"
+    ],
+    "correct_index": 0,
+    "error_type": "question_structure"
+  },
+  {
+    "id": "PT-A2-005",
+    "level_code": "A2",
+    "cefr_area": "past_simple_irregular",
+    "difficulty": "medium",
+    "prompt": "He ___ a great book last month.",
+    "options": [
+      "write",
+      "wrote",
+      "written"
+    ],
+    "correct_index": 1,
+    "error_type": "irregular_verb"
+  },
+  {
+    "id": "PT-A2-006",
+    "level_code": "A2",
+    "cefr_area": "frequency",
+    "difficulty": "easy",
+    "prompt": "She ___ goes to the gym.",
+    "options": [
+      "always",
+      "is always",
+      "always is"
+    ],
+    "correct_index": 0,
+    "error_type": "word_order"
+  },
+  {
+    "id": "PT-A2-007",
+    "level_code": "A2",
+    "cefr_area": "present_simple",
+    "difficulty": "easy",
+    "prompt": "He ___ coffee every morning.",
+    "options": [
+      "drink",
+      "drinks",
+      "drinking"
+    ],
+    "correct_index": 1,
+    "error_type": "third_person_s"
+  },
+  {
+    "id": "PT-A2-008",
+    "level_code": "A2",
+    "cefr_area": "present_simple_negative",
+    "difficulty": "medium",
+    "prompt": "She doesn’t ___ meat.",
+    "options": [
+      "eat",
+      "eats",
+      "ate"
+    ],
+    "correct_index": 0,
+    "error_type": "auxiliary_error"
+  },
+  {
+    "id": "PT-A2-009",
+    "level_code": "A2",
+    "cefr_area": "modals_advice",
+    "difficulty": "easy",
+    "prompt": "You ___ study more if you want to pass.",
+    "options": [
+      "should",
+      "must to",
+      "have"
+    ],
+    "correct_index": 0,
+    "error_type": "modal_structure"
+  },
+  {
+    "id": "PT-A2-010",
+    "level_code": "A2",
+    "cefr_area": "modals_permission",
+    "difficulty": "medium",
+    "prompt": "___ I use your phone?",
+    "options": [
+      "Can",
+      "Should",
+      "Must"
+    ],
+    "correct_index": 0,
+    "error_type": "modal_meaning"
+  },
+  {
+    "id": "PT-A2-011",
+    "level_code": "A2",
+    "cefr_area": "modals_obligation",
+    "difficulty": "medium",
+    "prompt": "You ___ wear a helmet.",
+    "options": [
+      "must",
+      "can",
+      "might"
+    ],
+    "correct_index": 0,
+    "error_type": "modal_meaning"
+  },
+  {
+    "id": "PT-A2-012",
+    "level_code": "A2",
+    "cefr_area": "comparatives",
+    "difficulty": "easy",
+    "prompt": "This car is ___ than that one.",
+    "options": [
+      "fast",
+      "faster",
+      "fastest"
+    ],
+    "correct_index": 1,
+    "error_type": "form_error"
+  },
+  {
+    "id": "PT-A2-013",
+    "level_code": "A2",
+    "cefr_area": "comparatives_long",
+    "difficulty": "medium",
+    "prompt": "This movie is ___ than the other one.",
+    "options": [
+      "more interesting",
+      "interestinger",
+      "most interesting"
+    ],
+    "correct_index": 0,
+    "error_type": "form_error"
+  },
+  {
+    "id": "PT-A2-014",
+    "level_code": "A2",
+    "cefr_area": "quantifiers",
+    "difficulty": "easy",
+    "prompt": "There isn’t ___ milk left.",
+    "options": [
+      "some",
+      "any",
+      "many"
+    ],
+    "correct_index": 1,
+    "error_type": "countability"
+  },
+  {
+    "id": "PT-A2-015",
+    "level_code": "A2",
+    "cefr_area": "quantifiers",
+    "difficulty": "medium",
+    "prompt": "We have ___ friends in this city.",
+    "options": [
+      "much",
+      "many",
+      "any"
+    ],
+    "correct_index": 1,
+    "error_type": "countability"
+  },
+  {
+    "id": "PT-A2-016",
+    "level_code": "A2",
+    "cefr_area": "prepositions_time",
+    "difficulty": "easy",
+    "prompt": "I work ___ Monday.",
+    "options": [
+      "in",
+      "on",
+      "at"
+    ],
+    "correct_index": 1,
+    "error_type": "preposition_error"
+  },
+  {
+    "id": "PT-A2-017",
+    "level_code": "A2",
+    "cefr_area": "prepositions_place",
+    "difficulty": "easy",
+    "prompt": "She is ___ the office.",
+    "options": [
+      "in",
+      "on",
+      "at"
+    ],
+    "correct_index": 0,
+    "error_type": "preposition_error"
+  },
+  {
+    "id": "PT-A2-018",
+    "level_code": "A2",
+    "cefr_area": "future_will",
+    "difficulty": "medium",
+    "prompt": "I think it ___ rain tomorrow.",
+    "options": [
+      "will",
+      "is going",
+      "going to"
+    ],
+    "correct_index": 0,
+    "error_type": "future_prediction"
+  },
+  {
+    "id": "PT-A2-019",
+    "level_code": "A2",
+    "cefr_area": "going_to",
+    "difficulty": "medium",
+    "prompt": "I ___ visit my parents this weekend.",
+    "options": [
+      "will",
+      "am going to",
+      "going"
+    ],
+    "correct_index": 1,
+    "error_type": "structure_error"
+  },
+  {
+    "id": "PT-A2-020",
+    "level_code": "A2",
+    "cefr_area": "past_continuous",
+    "difficulty": "medium",
+    "prompt": "They ___ TV when I arrived.",
+    "options": [
+      "watched",
+      "were watching",
+      "watch"
+    ],
+    "correct_index": 1,
+    "error_type": "aspect_confusion"
+  },
+  {
+    "id": "PT-A2-021",
+    "level_code": "A2",
+    "cefr_area": "mixed",
+    "difficulty": "hard",
+    "prompt": "She ___ dinner when the phone ___.",
+    "options": [
+      "was cooking / rang",
+      "cooked / rings",
+      "is cooking / rang"
+    ],
+    "correct_index": 0,
+    "error_type": "aspect_confusion"
+  },
+  {
+    "id": "PT-A2-022",
+    "level_code": "A2",
+    "cefr_area": "mixed",
+    "difficulty": "hard",
+    "prompt": "We ___ to the party because we ___ tired.",
+    "options": [
+      "didn’t go / were",
+      "don’t go / are",
+      "didn’t went / were"
+    ],
+    "correct_index": 0,
+    "error_type": "tense_confusion"
+  },
+  {
+    "id": "PT-A2-023",
+    "level_code": "A2",
+    "cefr_area": "mixed",
+    "difficulty": "hard",
+    "prompt": "He ___ late.",
+    "options": [
+      "is usually arriving",
+      "usually arrives",
+      "arrives usually"
+    ],
+    "correct_index": 1,
+    "error_type": "word_order"
+  },
+  {
+    "id": "PT-A2-024",
+    "level_code": "A2",
+    "cefr_area": "present_simple",
+    "difficulty": "easy",
+    "prompt": "They ___ soccer every weekend.",
+    "options": [
+      "play",
+      "plays",
+      "playing"
+    ],
+    "correct_index": 0,
+    "error_type": "agreement"
+  },
+  {
+    "id": "PT-A2-025",
+    "level_code": "A2",
+    "cefr_area": "past_simple",
+    "difficulty": "easy",
+    "prompt": "We ___ a great time yesterday.",
+    "options": [
+      "have",
+      "had",
+      "has"
+    ],
+    "correct_index": 1,
+    "error_type": "tense_confusion"
+  },
+  {
+    "id": "PT-A2-026",
+    "level_code": "A2",
+    "cefr_area": "modals",
+    "difficulty": "easy",
+    "prompt": "You ___ drive without a license.",
+    "options": [
+      "mustn’t",
+      "can",
+      "should"
+    ],
+    "correct_index": 0,
+    "error_type": "meaning_error"
+  },
+  {
+    "id": "PT-A2-027",
+    "level_code": "A2",
+    "cefr_area": "comparatives",
+    "difficulty": "easy",
+    "prompt": "This test is ___ than the last one.",
+    "options": [
+      "easy",
+      "easier",
+      "easiest"
+    ],
+    "correct_index": 1,
+    "error_type": "form_error"
+  },
+  {
+    "id": "PT-A2-028",
+    "level_code": "A2",
+    "cefr_area": "future",
+    "difficulty": "medium",
+    "prompt": "She ___ start a new job next week.",
+    "options": [
+      "will",
+      "is going to",
+      "go"
+    ],
+    "correct_index": 1,
+    "error_type": "future_plan"
+  },
+  {
+    "id": "PT-A2-029",
+    "level_code": "A2",
+    "cefr_area": "quantifiers",
+    "difficulty": "easy",
+    "prompt": "There are ___ students in the class.",
+    "options": [
+      "much",
+      "many",
+      "any"
+    ],
+    "correct_index": 1,
+    "error_type": "countability"
+  },
+  {
+    "id": "PT-A2-030",
+    "level_code": "A2",
+    "cefr_area": "prepositions",
+    "difficulty": "easy",
+    "prompt": "The book is ___ the table.",
+    "options": [
+      "on",
+      "in",
+      "at"
+    ],
+    "correct_index": 0,
+    "error_type": "preposition_error"
+  },
+  {
+    "id": "PT-A2-031",
+    "level_code": "A2",
+    "cefr_area": "past_continuous",
+    "difficulty": "medium",
+    "prompt": "I ___ studying when you called.",
+    "options": [
+      "was",
+      "were",
+      "am"
+    ],
+    "correct_index": 0,
+    "error_type": "structure_error"
+  },
+  {
+    "id": "PT-A2-032",
+    "level_code": "A2",
+    "cefr_area": "present_simple",
+    "difficulty": "easy",
+    "prompt": "He ___ TV every night.",
+    "options": [
+      "watch",
+      "watches",
+      "watching"
+    ],
+    "correct_index": 1,
+    "error_type": "agreement"
+  },
+  {
+    "id": "PT-A2-033",
+    "level_code": "A2",
+    "cefr_area": "modals",
+    "difficulty": "medium",
+    "prompt": "You ___ finish your homework.",
+    "options": [
+      "should",
+      "might",
+      "can"
+    ],
+    "correct_index": 0,
+    "error_type": "modal_meaning"
+  },
+  {
+    "id": "PT-A2-034",
+    "level_code": "A2",
+    "cefr_area": "past_simple",
+    "difficulty": "medium",
+    "prompt": "They ___ to Bogotá last year.",
+    "options": [
+      "go",
+      "went",
+      "gone"
+    ],
+    "correct_index": 1,
+    "error_type": "irregular_verb"
+  },
+  {
+    "id": "PT-A2-035",
+    "level_code": "A2",
+    "cefr_area": "future",
+    "difficulty": "medium",
+    "prompt": "I ___ call you later.",
+    "options": [
+      "will",
+      "am",
+      "going"
+    ],
+    "correct_index": 0,
+    "error_type": "structure_error"
+  },
+  {
+    "id": "PT-A2-036",
+    "level_code": "A2",
+    "cefr_area": "comparatives",
+    "difficulty": "medium",
+    "prompt": "This problem is ___ than that one.",
+    "options": [
+      "more difficult",
+      "difficulter",
+      "most difficult"
+    ],
+    "correct_index": 0,
+    "error_type": "form_error"
+  },
+  {
+    "id": "PT-A2-037",
+    "level_code": "A2",
+    "cefr_area": "quantifiers",
+    "difficulty": "easy",
+    "prompt": "We don’t have ___ time.",
+    "options": [
+      "many",
+      "much",
+      "any"
+    ],
+    "correct_index": 1,
+    "error_type": "countability"
+  },
+  {
+    "id": "PT-A2-038",
+    "level_code": "A2",
+    "cefr_area": "prepositions",
+    "difficulty": "easy",
+    "prompt": "I wake up ___ 7 AM.",
+    "options": [
+      "on",
+      "in",
+      "at"
+    ],
+    "correct_index": 2,
+    "error_type": "preposition_error"
+  },
+  {
+    "id": "PT-A2-039",
+    "level_code": "A2",
+    "cefr_area": "past_continuous",
+    "difficulty": "medium",
+    "prompt": "She ___ working all day.",
+    "options": [
+      "was",
+      "were",
+      "is"
+    ],
+    "correct_index": 0,
+    "error_type": "structure_error"
+  },
+  {
+    "id": "PT-A2-040",
+    "level_code": "A2",
+    "cefr_area": "mixed",
+    "difficulty": "hard",
+    "prompt": "He ___ to work because he ___ sick.",
+    "options": [
+      "didn’t go / was",
+      "don’t go / is",
+      "didn’t went / was"
+    ],
+    "correct_index": 0,
+    "error_type": "tense_confusion"
+  },
+  {
+    "id": "PT-B1-001",
+    "level_code": "B1",
+    "cefr_area": "present_perfect_experience",
+    "difficulty": "easy",
+    "prompt": "I have ___ to Europe twice.",
+    "options": [
+      "been",
+      "gone",
+      "went"
+    ],
+    "correct_index": 0,
+    "error_type": "tense_confusion"
+  },
+  {
+    "id": "PT-B1-002",
+    "level_code": "B1",
+    "cefr_area": "present_perfect_for_since",
+    "difficulty": "medium",
+    "prompt": "She has lived here ___ 2018.",
+    "options": [
+      "for",
+      "since",
+      "during"
+    ],
+    "correct_index": 1,
+    "error_type": "for_since_confusion"
+  },
+  {
+    "id": "PT-B1-003",
+    "level_code": "B1",
+    "cefr_area": "present_perfect_already_yet",
+    "difficulty": "medium",
+    "prompt": "I have ___ finished my homework.",
+    "options": [
+      "yet",
+      "already",
+      "still"
+    ],
+    "correct_index": 1,
+    "error_type": "adverb_confusion"
+  },
+  {
+    "id": "PT-B1-004",
+    "level_code": "B1",
+    "cefr_area": "present_perfect_negative",
+    "difficulty": "medium",
+    "prompt": "She hasn’t ___ her project yet.",
+    "options": [
+      "finish",
+      "finished",
+      "finishing"
+    ],
+    "correct_index": 1,
+    "error_type": "past_participle"
+  },
+  {
+    "id": "PT-B1-005",
+    "level_code": "B1",
+    "cefr_area": "present_perfect_vs_past",
+    "difficulty": "hard",
+    "prompt": "I ___ that movie last year.",
+    "options": [
+      "have seen",
+      "saw",
+      "see"
+    ],
+    "correct_index": 1,
+    "error_type": "time_marker_conflict"
+  },
+  {
+    "id": "PT-B1-006",
+    "level_code": "B1",
+    "cefr_area": "modals_advice",
+    "difficulty": "easy",
+    "prompt": "You ___ see a doctor.",
+    "options": [
+      "should",
+      "must to",
+      "can"
+    ],
+    "correct_index": 0,
+    "error_type": "modal_structure"
+  },
+  {
+    "id": "PT-B1-007",
+    "level_code": "B1",
+    "cefr_area": "modals_possibility",
+    "difficulty": "medium",
+    "prompt": "It ___ rain later.",
+    "options": [
+      "might",
+      "must",
+      "should"
+    ],
+    "correct_index": 0,
+    "error_type": "modal_meaning"
+  },
+  {
+    "id": "PT-B1-008",
+    "level_code": "B1",
+    "cefr_area": "modals_obligation",
+    "difficulty": "medium",
+    "prompt": "You ___ wear a uniform at school.",
+    "options": [
+      "must",
+      "might",
+      "can"
+    ],
+    "correct_index": 0,
+    "error_type": "modal_meaning"
+  },
+  {
+    "id": "PT-B1-009",
+    "level_code": "B1",
+    "cefr_area": "modals_deduction",
+    "difficulty": "hard",
+    "prompt": "He ___ be at home. The lights are on.",
+    "options": [
+      "must",
+      "might",
+      "should"
+    ],
+    "correct_index": 0,
+    "error_type": "modal_logic"
+  },
+  {
+    "id": "PT-B1-010",
+    "level_code": "B1",
+    "cefr_area": "comparatives",
+    "difficulty": "easy",
+    "prompt": "This book is ___ than that one.",
+    "options": [
+      "better",
+      "gooder",
+      "more good"
+    ],
+    "correct_index": 0,
+    "error_type": "irregular_form"
+  },
+  {
+    "id": "PT-B1-011",
+    "level_code": "B1",
+    "cefr_area": "superlatives",
+    "difficulty": "easy",
+    "prompt": "This is the ___ day of my life.",
+    "options": [
+      "best",
+      "better",
+      "good"
+    ],
+    "correct_index": 0,
+    "error_type": "form_error"
+  },
+  {
+    "id": "PT-B1-012",
+    "level_code": "B1",
+    "cefr_area": "comparatives_long",
+    "difficulty": "medium",
+    "prompt": "This exercise is ___ than the last one.",
+    "options": [
+      "more difficult",
+      "difficulter",
+      "most difficult"
+    ],
+    "correct_index": 0,
+    "error_type": "form_error"
+  },
+  {
+    "id": "PT-B1-013",
+    "level_code": "B1",
+    "cefr_area": "zero_conditional",
+    "difficulty": "easy",
+    "prompt": "If you heat water, it ___.",
+    "options": [
+      "boils",
+      "will boil",
+      "boiled"
+    ],
+    "correct_index": 0,
+    "error_type": "structure_error"
+  },
+  {
+    "id": "PT-B1-014",
+    "level_code": "B1",
+    "cefr_area": "first_conditional",
+    "difficulty": "medium",
+    "prompt": "If it rains, we ___ at home.",
+    "options": [
+      "stay",
+      "will stay",
+      "stayed"
+    ],
+    "correct_index": 1,
+    "error_type": "structure_error"
+  },
+  {
+    "id": "PT-B1-015",
+    "level_code": "B1",
+    "cefr_area": "first_conditional",
+    "difficulty": "medium",
+    "prompt": "If I ___ time, I will call you.",
+    "options": [
+      "have",
+      "will have",
+      "had"
+    ],
+    "correct_index": 0,
+    "error_type": "future_structure"
+  },
+  {
+    "id": "PT-B1-016",
+    "level_code": "B1",
+    "cefr_area": "relative_clauses",
+    "difficulty": "medium",
+    "prompt": "The person ___ called you is my friend.",
+    "options": [
+      "who",
+      "which",
+      "where"
+    ],
+    "correct_index": 0,
+    "error_type": "relative_pronoun"
+  },
+  {
+    "id": "PT-B1-017",
+    "level_code": "B1",
+    "cefr_area": "relative_clauses",
+    "difficulty": "medium",
+    "prompt": "The book ___ I bought is interesting.",
+    "options": [
+      "who",
+      "which",
+      "where"
+    ],
+    "correct_index": 1,
+    "error_type": "relative_pronoun"
+  },
+  {
+    "id": "PT-B1-018",
+    "level_code": "B1",
+    "cefr_area": "quantifiers",
+    "difficulty": "easy",
+    "prompt": "There are ___ students here.",
+    "options": [
+      "many",
+      "much",
+      "little"
+    ],
+    "correct_index": 0,
+    "error_type": "countability"
+  },
+  {
+    "id": "PT-B1-019",
+    "level_code": "B1",
+    "cefr_area": "quantifiers",
+    "difficulty": "medium",
+    "prompt": "We don’t have ___ time.",
+    "options": [
+      "many",
+      "much",
+      "any"
+    ],
+    "correct_index": 1,
+    "error_type": "countability"
+  },
+  {
+    "id": "PT-B1-020",
+    "level_code": "B1",
+    "cefr_area": "passive_voice",
+    "difficulty": "medium",
+    "prompt": "The cake ___ by my mom.",
+    "options": [
+      "made",
+      "was made",
+      "is making"
+    ],
+    "correct_index": 1,
+    "error_type": "passive_structure"
+  },
+  {
+    "id": "PT-B1-021",
+    "level_code": "B1",
+    "cefr_area": "passive_voice",
+    "difficulty": "medium",
+    "prompt": "English ___ all over the world.",
+    "options": [
+      "speaks",
+      "is spoken",
+      "spoken"
+    ],
+    "correct_index": 1,
+    "error_type": "passive_structure"
+  },
+  {
+    "id": "PT-B1-022",
+    "level_code": "B1",
+    "cefr_area": "mixed",
+    "difficulty": "hard",
+    "prompt": "I ___ him yesterday, but I ___ him many times before.",
+    "options": [
+      "met / have seen",
+      "have met / saw",
+      "met / saw"
+    ],
+    "correct_index": 0,
+    "error_type": "tense_sequence"
+  },
+  {
+    "id": "PT-B1-023",
+    "level_code": "B1",
+    "cefr_area": "mixed",
+    "difficulty": "hard",
+    "prompt": "She ___ never ___ sushi before.",
+    "options": [
+      "has / eaten",
+      "did / eat",
+      "has / ate"
+    ],
+    "correct_index": 0,
+    "error_type": "perfect_structure"
+  },
+  {
+    "id": "PT-B1-024",
+    "level_code": "B1",
+    "cefr_area": "word_order",
+    "difficulty": "medium",
+    "prompt": "He ___ late.",
+    "options": [
+      "is always arriving",
+      "always arrives",
+      "arrives always"
+    ],
+    "correct_index": 1,
+    "error_type": "word_order"
+  },
+  {
+    "id": "PT-B1-025",
+    "level_code": "B1",
+    "cefr_area": "word_order",
+    "difficulty": "medium",
+    "prompt": "She usually ___ coffee in the morning.",
+    "options": [
+      "drink",
+      "drinks",
+      "drinking"
+    ],
+    "correct_index": 1,
+    "error_type": "agreement"
+  },
+  {
+    "id": "PT-B1-026",
+    "level_code": "B1",
+    "cefr_area": "present_perfect",
+    "difficulty": "medium",
+    "prompt": "I ___ my keys.",
+    "options": [
+      "lost",
+      "have lost",
+      "lose"
+    ],
+    "correct_index": 1,
+    "error_type": "tense_confusion"
+  },
+  {
+    "id": "PT-B1-027",
+    "level_code": "B1",
+    "cefr_area": "modals",
+    "difficulty": "medium",
+    "prompt": "You ___ smoke here.",
+    "options": [
+      "mustn’t",
+      "can",
+      "should"
+    ],
+    "correct_index": 0,
+    "error_type": "meaning_error"
+  },
+  {
+    "id": "PT-B1-028",
+    "level_code": "B1",
+    "cefr_area": "conditionals",
+    "difficulty": "medium",
+    "prompt": "If you study, you ___ pass.",
+    "options": [
+      "will",
+      "would",
+      "passed"
+    ],
+    "correct_index": 0,
+    "error_type": "structure_error"
+  },
+  {
+    "id": "PT-B1-029",
+    "level_code": "B1",
+    "cefr_area": "comparatives",
+    "difficulty": "easy",
+    "prompt": "My house is ___ than yours.",
+    "options": [
+      "big",
+      "bigger",
+      "biggest"
+    ],
+    "correct_index": 1,
+    "error_type": "form_error"
+  },
+  {
+    "id": "PT-B1-030",
+    "level_code": "B1",
+    "cefr_area": "passive",
+    "difficulty": "medium",
+    "prompt": "The letter ___ yesterday.",
+    "options": [
+      "sent",
+      "was sent",
+      "send"
+    ],
+    "correct_index": 1,
+    "error_type": "structure_error"
+  },
+  {
+    "id": "PT-B1-031",
+    "level_code": "B1",
+    "cefr_area": "present_perfect_for_since",
+    "difficulty": "medium",
+    "prompt": "We have worked together ___ three years.",
+    "options": [
+      "since",
+      "for",
+      "during"
+    ],
+    "correct_index": 1,
+    "error_type": "for_since_confusion"
+  },
+  {
+    "id": "PT-B1-032",
+    "level_code": "B1",
+    "cefr_area": "present_perfect_vs_past",
+    "difficulty": "hard",
+    "prompt": "She ___ to Italy in 2020.",
+    "options": [
+      "has gone",
+      "went",
+      "has been"
+    ],
+    "correct_index": 1,
+    "error_type": "time_marker_conflict"
+  },
+  {
+    "id": "PT-B1-033",
+    "level_code": "B1",
+    "cefr_area": "present_perfect_question",
+    "difficulty": "medium",
+    "prompt": "___ you ever tried Thai food?",
+    "options": [
+      "Did",
+      "Have",
+      "Do"
+    ],
+    "correct_index": 1,
+    "error_type": "perfect_question_structure"
+  },
+  {
+    "id": "PT-B1-034",
+    "level_code": "B1",
+    "cefr_area": "modals_possibility",
+    "difficulty": "medium",
+    "prompt": "She ___ be at work. I'm not completely sure.",
+    "options": [
+      "must",
+      "might",
+      "has to"
+    ],
+    "correct_index": 1,
+    "error_type": "modal_meaning"
+  },
+  {
+    "id": "PT-B1-035",
+    "level_code": "B1",
+    "cefr_area": "modals_obligation",
+    "difficulty": "medium",
+    "prompt": "I ___ finish this report today. My boss needs it tomorrow.",
+    "options": [
+      "can",
+      "have to",
+      "might"
+    ],
+    "correct_index": 1,
+    "error_type": "modal_meaning"
+  },
+  {
+    "id": "PT-B1-036",
+    "level_code": "B1",
+    "cefr_area": "modals_advice",
+    "difficulty": "medium",
+    "prompt": "If you feel sick, you ___ go home and rest.",
+    "options": [
+      "should",
+      "can to",
+      "must to"
+    ],
+    "correct_index": 0,
+    "error_type": "modal_structure"
+  },
+  {
+    "id": "PT-B1-037",
+    "level_code": "B1",
+    "cefr_area": "first_conditional",
+    "difficulty": "medium",
+    "prompt": "If she ___ late, we will start without her.",
+    "options": [
+      "arrives",
+      "will arrive",
+      "arrived"
+    ],
+    "correct_index": 0,
+    "error_type": "future_structure"
+  },
+  {
+    "id": "PT-B1-038",
+    "level_code": "B1",
+    "cefr_area": "first_conditional",
+    "difficulty": "hard",
+    "prompt": "We won’t finish on time unless everyone ___.",
+    "options": [
+      "helps",
+      "will help",
+      "helped"
+    ],
+    "correct_index": 0,
+    "error_type": "unless_structure"
+  },
+  {
+    "id": "PT-B1-039",
+    "level_code": "B1",
+    "cefr_area": "second_conditional_intro",
+    "difficulty": "hard",
+    "prompt": "If I ___ more money, I would travel more.",
+    "options": [
+      "have",
+      "had",
+      "will have"
+    ],
+    "correct_index": 1,
+    "error_type": "conditional_structure"
+  },
+  {
+    "id": "PT-B1-040",
+    "level_code": "B1",
+    "cefr_area": "relative_clauses",
+    "difficulty": "medium",
+    "prompt": "This is the restaurant ___ we had dinner.",
+    "options": [
+      "who",
+      "where",
+      "which"
+    ],
+    "correct_index": 1,
+    "error_type": "relative_pronoun"
+  },
+  {
+    "id": "PT-B1-041",
+    "level_code": "B1",
+    "cefr_area": "relative_clauses",
+    "difficulty": "hard",
+    "prompt": "The man ___ daughter studies with me is a doctor.",
+    "options": [
+      "who",
+      "whose",
+      "which"
+    ],
+    "correct_index": 1,
+    "error_type": "relative_pronoun"
+  },
+  {
+    "id": "PT-B1-042",
+    "level_code": "B1",
+    "cefr_area": "passive_voice",
+    "difficulty": "medium",
+    "prompt": "This song ___ by millions of people.",
+    "options": [
+      "listens",
+      "is listened to",
+      "is listening"
+    ],
+    "correct_index": 1,
+    "error_type": "passive_structure"
+  },
+  {
+    "id": "PT-B1-043",
+    "level_code": "B1",
+    "cefr_area": "passive_voice",
+    "difficulty": "hard",
+    "prompt": "The emails ___ yesterday morning.",
+    "options": [
+      "were sent",
+      "sent",
+      "were send"
+    ],
+    "correct_index": 0,
+    "error_type": "passive_past"
+  },
+  {
+    "id": "PT-B1-044",
+    "level_code": "B1",
+    "cefr_area": "reported_speech_intro",
+    "difficulty": "medium",
+    "prompt": "She said she ___ busy.",
+    "options": [
+      "is",
+      "was",
+      "were"
+    ],
+    "correct_index": 1,
+    "error_type": "reported_speech_backshift"
+  },
+  {
+    "id": "PT-B1-045",
+    "level_code": "B1",
+    "cefr_area": "reported_speech_intro",
+    "difficulty": "hard",
+    "prompt": "He told me he ___ the answer.",
+    "options": [
+      "knows",
+      "knew",
+      "know"
+    ],
+    "correct_index": 1,
+    "error_type": "reported_speech_backshift"
+  },
+  {
+    "id": "PT-B1-046",
+    "level_code": "B1",
+    "cefr_area": "gerunds_infinitives",
+    "difficulty": "medium",
+    "prompt": "I enjoy ___ English with other people.",
+    "options": [
+      "practice",
+      "to practice",
+      "practicing"
+    ],
+    "correct_index": 2,
+    "error_type": "gerund_pattern"
+  },
+  {
+    "id": "PT-B1-047",
+    "level_code": "B1",
+    "cefr_area": "gerunds_infinitives",
+    "difficulty": "medium",
+    "prompt": "She decided ___ a new course.",
+    "options": [
+      "take",
+      "to take",
+      "taking"
+    ],
+    "correct_index": 1,
+    "error_type": "infinitive_pattern"
+  },
+  {
+    "id": "PT-B1-048",
+    "level_code": "B1",
+    "cefr_area": "linking_words",
+    "difficulty": "medium",
+    "prompt": "I was tired, ___ I finished the project.",
+    "options": [
+      "because",
+      "but",
+      "so"
+    ],
+    "correct_index": 1,
+    "error_type": "connector_meaning"
+  },
+  {
+    "id": "PT-B1-049",
+    "level_code": "B1",
+    "cefr_area": "linking_words",
+    "difficulty": "medium",
+    "prompt": "She stayed home ___ she was sick.",
+    "options": [
+      "because",
+      "although",
+      "however"
+    ],
+    "correct_index": 0,
+    "error_type": "connector_meaning"
+  },
+  {
+    "id": "PT-B1-050",
+    "level_code": "B1",
+    "cefr_area": "mixed_structure",
+    "difficulty": "hard",
+    "prompt": "I ___ working when she ___ me.",
+    "options": [
+      "was / called",
+      "am / called",
+      "was / call"
+    ],
+    "correct_index": 0,
+    "error_type": "tense_sequence"
+  },
+  {
+    "id": "PT-B2-001",
+    "level_code": "B2",
+    "cefr_area": "second_conditional",
+    "difficulty": "medium",
+    "prompt": "If I ___ more time, I would take another course.",
+    "options": [
+      "have",
+      "had",
+      "will have"
+    ],
+    "correct_index": 1,
+    "error_type": "conditional_structure"
+  },
+  {
+    "id": "PT-B2-002",
+    "level_code": "B2",
+    "cefr_area": "third_conditional",
+    "difficulty": "hard",
+    "prompt": "If she ___ earlier, she wouldn’t have missed the meeting.",
+    "options": [
+      "left",
+      "had left",
+      "would leave"
+    ],
+    "correct_index": 1,
+    "error_type": "third_conditional"
+  },
+  {
+    "id": "PT-B2-003",
+    "level_code": "B2",
+    "cefr_area": "mixed_conditionals",
+    "difficulty": "hard",
+    "prompt": "If I had studied medicine, I ___ a doctor now.",
+    "options": [
+      "would be",
+      "would have been",
+      "will be"
+    ],
+    "correct_index": 0,
+    "error_type": "mixed_conditional"
+  },
+  {
+    "id": "PT-B2-004",
+    "level_code": "B2",
+    "cefr_area": "wish_regret",
+    "difficulty": "medium",
+    "prompt": "I wish I ___ more careful yesterday.",
+    "options": [
+      "was",
+      "had been",
+      "would be"
+    ],
+    "correct_index": 1,
+    "error_type": "wish_structure"
+  },
+  {
+    "id": "PT-B2-005",
+    "level_code": "B2",
+    "cefr_area": "wish_present",
+    "difficulty": "medium",
+    "prompt": "I wish I ___ more free time.",
+    "options": [
+      "have",
+      "had",
+      "will have"
+    ],
+    "correct_index": 1,
+    "error_type": "unreal_present"
+  },
+  {
+    "id": "PT-B2-006",
+    "level_code": "B2",
+    "cefr_area": "reported_speech",
+    "difficulty": "medium",
+    "prompt": "She said she ___ tired after the trip.",
+    "options": [
+      "is",
+      "was",
+      "has been"
+    ],
+    "correct_index": 1,
+    "error_type": "reported_speech_backshift"
+  },
+  {
+    "id": "PT-B2-007",
+    "level_code": "B2",
+    "cefr_area": "reported_speech",
+    "difficulty": "hard",
+    "prompt": "He told me he ___ the report before the meeting.",
+    "options": [
+      "finished",
+      "had finished",
+      "has finished"
+    ],
+    "correct_index": 1,
+    "error_type": "tense_backshift"
+  },
+  {
+    "id": "PT-B2-008",
+    "level_code": "B2",
+    "cefr_area": "reported_questions",
+    "difficulty": "hard",
+    "prompt": "She asked me where I ___.",
+    "options": [
+      "live",
+      "did live",
+      "lived"
+    ],
+    "correct_index": 2,
+    "error_type": "indirect_question_order"
+  },
+  {
+    "id": "PT-B2-009",
+    "level_code": "B2",
+    "cefr_area": "passive_voice",
+    "difficulty": "medium",
+    "prompt": "The project ___ by the team next week.",
+    "options": [
+      "will complete",
+      "will be completed",
+      "will completed"
+    ],
+    "correct_index": 1,
+    "error_type": "passive_structure"
+  },
+  {
+    "id": "PT-B2-010",
+    "level_code": "B2",
+    "cefr_area": "passive_voice",
+    "difficulty": "hard",
+    "prompt": "The documents ___ before the manager arrived.",
+    "options": [
+      "had been signed",
+      "were signing",
+      "had signed"
+    ],
+    "correct_index": 0,
+    "error_type": "past_perfect_passive"
+  },
+  {
+    "id": "PT-B2-011",
+    "level_code": "B2",
+    "cefr_area": "passive_modals",
+    "difficulty": "hard",
+    "prompt": "This problem ___ immediately.",
+    "options": [
+      "must solve",
+      "must be solved",
+      "must solved"
+    ],
+    "correct_index": 1,
+    "error_type": "modal_passive"
+  },
+  {
+    "id": "PT-B2-012",
+    "level_code": "B2",
+    "cefr_area": "perfect_modals",
+    "difficulty": "hard",
+    "prompt": "You ___ me earlier. I could have helped.",
+    "options": [
+      "should tell",
+      "should have told",
+      "must tell"
+    ],
+    "correct_index": 1,
+    "error_type": "perfect_modal"
+  },
+  {
+    "id": "PT-B2-013",
+    "level_code": "B2",
+    "cefr_area": "perfect_modals_deduction",
+    "difficulty": "hard",
+    "prompt": "He ___ forgotten the meeting. He never arrived.",
+    "options": [
+      "must have",
+      "should have",
+      "can have"
+    ],
+    "correct_index": 0,
+    "error_type": "modal_deduction_past"
+  },
+  {
+    "id": "PT-B2-014",
+    "level_code": "B2",
+    "cefr_area": "present_perfect_continuous",
+    "difficulty": "medium",
+    "prompt": "She ___ working here for five years.",
+    "options": [
+      "is",
+      "has been",
+      "was"
+    ],
+    "correct_index": 1,
+    "error_type": "perfect_continuous"
+  },
+  {
+    "id": "PT-B2-015",
+    "level_code": "B2",
+    "cefr_area": "present_perfect_continuous",
+    "difficulty": "hard",
+    "prompt": "I’m tired because I ___ all morning.",
+    "options": [
+      "have been working",
+      "worked",
+      "am working"
+    ],
+    "correct_index": 0,
+    "error_type": "cause_result_perfect_continuous"
+  },
+  {
+    "id": "PT-B2-016",
+    "level_code": "B2",
+    "cefr_area": "past_perfect",
+    "difficulty": "medium",
+    "prompt": "When I arrived, they ___ already left.",
+    "options": [
+      "have",
+      "had",
+      "were"
+    ],
+    "correct_index": 1,
+    "error_type": "past_perfect"
+  },
+  {
+    "id": "PT-B2-017",
+    "level_code": "B2",
+    "cefr_area": "past_perfect_continuous",
+    "difficulty": "hard",
+    "prompt": "She was exhausted because she ___ for hours.",
+    "options": [
+      "had been studying",
+      "has studied",
+      "was studying"
+    ],
+    "correct_index": 0,
+    "error_type": "past_perfect_continuous"
+  },
+  {
+    "id": "PT-B2-018",
+    "level_code": "B2",
+    "cefr_area": "relative_clauses",
+    "difficulty": "medium",
+    "prompt": "The woman ___ car was stolen called the police.",
+    "options": [
+      "who",
+      "whose",
+      "which"
+    ],
+    "correct_index": 1,
+    "error_type": "relative_pronoun"
+  },
+  {
+    "id": "PT-B2-019",
+    "level_code": "B2",
+    "cefr_area": "relative_clauses",
+    "difficulty": "hard",
+    "prompt": "The company, ___ was founded in 1998, is expanding.",
+    "options": [
+      "that",
+      "which",
+      "who"
+    ],
+    "correct_index": 1,
+    "error_type": "non_defining_relative_clause"
+  },
+  {
+    "id": "PT-B2-020",
+    "level_code": "B2",
+    "cefr_area": "gerunds_infinitives",
+    "difficulty": "medium",
+    "prompt": "I avoid ___ late to meetings.",
+    "options": [
+      "arrive",
+      "to arrive",
+      "arriving"
+    ],
+    "correct_index": 2,
+    "error_type": "gerund_pattern"
+  },
+  {
+    "id": "PT-B2-021",
+    "level_code": "B2",
+    "cefr_area": "gerunds_infinitives",
+    "difficulty": "hard",
+    "prompt": "She agreed ___ us with the project.",
+    "options": [
+      "help",
+      "to help",
+      "helping"
+    ],
+    "correct_index": 1,
+    "error_type": "infinitive_pattern"
+  },
+  {
+    "id": "PT-B2-022",
+    "level_code": "B2",
+    "cefr_area": "linking_words",
+    "difficulty": "medium",
+    "prompt": "___ it was raining, we continued playing.",
+    "options": [
+      "Although",
+      "Because",
+      "However"
+    ],
+    "correct_index": 0,
+    "error_type": "connector_meaning"
+  },
+  {
+    "id": "PT-B2-023",
+    "level_code": "B2",
+    "cefr_area": "linking_words",
+    "difficulty": "hard",
+    "prompt": "The plan was expensive. ___, it was effective.",
+    "options": [
+      "Although",
+      "However",
+      "Because"
+    ],
+    "correct_index": 1,
+    "error_type": "contrast_connector"
+  },
+  {
+    "id": "PT-B2-024",
+    "level_code": "B2",
+    "cefr_area": "inversion",
+    "difficulty": "hard",
+    "prompt": "Never ___ such a beautiful place.",
+    "options": [
+      "I have seen",
+      "have I seen",
+      "I saw"
+    ],
+    "correct_index": 1,
+    "error_type": "negative_inversion"
+  },
+  {
+    "id": "PT-B2-025",
+    "level_code": "B2",
+    "cefr_area": "inversion",
+    "difficulty": "hard",
+    "prompt": "Not only ___ the problem, but she also solved it.",
+    "options": [
+      "she identified",
+      "did she identify",
+      "she did identify"
+    ],
+    "correct_index": 1,
+    "error_type": "inversion_structure"
+  },
+  {
+    "id": "PT-B2-026",
+    "level_code": "B2",
+    "cefr_area": "causative_have",
+    "difficulty": "hard",
+    "prompt": "I need to ___ my car repaired.",
+    "options": [
+      "make",
+      "have",
+      "do"
+    ],
+    "correct_index": 1,
+    "error_type": "causative_structure"
+  },
+  {
+    "id": "PT-B2-027",
+    "level_code": "B2",
+    "cefr_area": "articles",
+    "difficulty": "medium",
+    "prompt": "She works as ___ engineer.",
+    "options": [
+      "a",
+      "an",
+      "the"
+    ],
+    "correct_index": 1,
+    "error_type": "article_error"
+  },
+  {
+    "id": "PT-B2-028",
+    "level_code": "B2",
+    "cefr_area": "articles",
+    "difficulty": "hard",
+    "prompt": "___ rich should pay more taxes.",
+    "options": [
+      "A",
+      "The",
+      "An"
+    ],
+    "correct_index": 1,
+    "error_type": "generic_group_article"
+  },
+  {
+    "id": "PT-B2-029",
+    "level_code": "B2",
+    "cefr_area": "advanced_quantifiers",
+    "difficulty": "medium",
+    "prompt": "There are very ___ people who can solve this problem.",
+    "options": [
+      "few",
+      "little",
+      "less"
+    ],
+    "correct_index": 0,
+    "error_type": "quantifier_error"
+  },
+  {
+    "id": "PT-B2-030",
+    "level_code": "B2",
+    "cefr_area": "advanced_quantifiers",
+    "difficulty": "hard",
+    "prompt": "We have ___ information to make a final decision.",
+    "options": [
+      "too few",
+      "too little",
+      "too many"
+    ],
+    "correct_index": 1,
+    "error_type": "countability"
+  },
+  {
+    "id": "PT-B2-031",
+    "level_code": "B2",
+    "cefr_area": "phrasal_verbs",
+    "difficulty": "medium",
+    "prompt": "We need to ___ the meeting until Friday.",
+    "options": [
+      "put off",
+      "put on",
+      "put out"
+    ],
+    "correct_index": 0,
+    "error_type": "phrasal_verb_meaning"
+  },
+  {
+    "id": "PT-B2-032",
+    "level_code": "B2",
+    "cefr_area": "phrasal_verbs",
+    "difficulty": "medium",
+    "prompt": "She ___ smoking last year.",
+    "options": [
+      "gave up",
+      "gave in",
+      "gave out"
+    ],
+    "correct_index": 0,
+    "error_type": "phrasal_verb_meaning"
+  },
+  {
+    "id": "PT-B2-033",
+    "level_code": "B2",
+    "cefr_area": "phrasal_verbs",
+    "difficulty": "hard",
+    "prompt": "The company will ___ a new policy next month.",
+    "options": [
+      "bring out",
+      "bring up",
+      "bring in"
+    ],
+    "correct_index": 2,
+    "error_type": "phrasal_verb_meaning"
+  },
+  {
+    "id": "PT-B2-034",
+    "level_code": "B2",
+    "cefr_area": "mixed_tenses",
+    "difficulty": "hard",
+    "prompt": "By the time we arrived, the movie ___.",
+    "options": [
+      "started",
+      "had started",
+      "has started"
+    ],
+    "correct_index": 1,
+    "error_type": "tense_sequence"
+  },
+  {
+    "id": "PT-B2-035",
+    "level_code": "B2",
+    "cefr_area": "mixed_tenses",
+    "difficulty": "hard",
+    "prompt": "I ___ English for years before I moved abroad.",
+    "options": [
+      "studied",
+      "had been studying",
+      "have studied"
+    ],
+    "correct_index": 1,
+    "error_type": "past_perfect_continuous"
+  },
+  {
+    "id": "PT-B2-036",
+    "level_code": "B2",
+    "cefr_area": "conditionals_mixed",
+    "difficulty": "hard",
+    "prompt": "If he had taken the job, he ___ in Canada now.",
+    "options": [
+      "would live",
+      "would have lived",
+      "will live"
+    ],
+    "correct_index": 0,
+    "error_type": "mixed_conditional"
+  },
+  {
+    "id": "PT-B2-037",
+    "level_code": "B2",
+    "cefr_area": "conditionals_third",
+    "difficulty": "hard",
+    "prompt": "We would have arrived on time if the train ___ delayed.",
+    "options": [
+      "wasn’t",
+      "hadn’t been",
+      "wouldn’t be"
+    ],
+    "correct_index": 1,
+    "error_type": "third_conditional"
+  },
+  {
+    "id": "PT-B2-038",
+    "level_code": "B2",
+    "cefr_area": "passive_reporting",
+    "difficulty": "hard",
+    "prompt": "The suspect is believed ___ the country.",
+    "options": [
+      "to leave",
+      "to have left",
+      "leaving"
+    ],
+    "correct_index": 1,
+    "error_type": "passive_reporting_structure"
+  },
+  {
+    "id": "PT-B2-039",
+    "level_code": "B2",
+    "cefr_area": "advanced_passive",
+    "difficulty": "hard",
+    "prompt": "The building ___ renovated when the accident happened.",
+    "options": [
+      "was being",
+      "was",
+      "had"
+    ],
+    "correct_index": 0,
+    "error_type": "passive_continuous"
+  },
+  {
+    "id": "PT-B2-040",
+    "level_code": "B2",
+    "cefr_area": "indirect_questions",
+    "difficulty": "medium",
+    "prompt": "Could you tell me where the station ___?",
+    "options": [
+      "is",
+      "does",
+      "is it"
+    ],
+    "correct_index": 0,
+    "error_type": "indirect_question_order"
+  },
+  {
+    "id": "PT-B2-041",
+    "level_code": "B2",
+    "cefr_area": "indirect_questions",
+    "difficulty": "hard",
+    "prompt": "Do you know what time the meeting ___?",
+    "options": [
+      "starts",
+      "does start",
+      "start"
+    ],
+    "correct_index": 0,
+    "error_type": "embedded_question"
+  },
+  {
+    "id": "PT-B2-042",
+    "level_code": "B2",
+    "cefr_area": "subjunctive",
+    "difficulty": "hard",
+    "prompt": "It is essential that he ___ on time.",
+    "options": [
+      "is",
+      "be",
+      "will be"
+    ],
+    "correct_index": 1,
+    "error_type": "subjunctive_structure"
+  },
+  {
+    "id": "PT-B2-043",
+    "level_code": "B2",
+    "cefr_area": "prepositions_advanced",
+    "difficulty": "medium",
+    "prompt": "She is responsible ___ managing the team.",
+    "options": [
+      "of",
+      "for",
+      "about"
+    ],
+    "correct_index": 1,
+    "error_type": "preposition_collocation"
+  },
+  {
+    "id": "PT-B2-044",
+    "level_code": "B2",
+    "cefr_area": "prepositions_advanced",
+    "difficulty": "medium",
+    "prompt": "He insisted ___ paying for dinner.",
+    "options": [
+      "in",
+      "on",
+      "at"
+    ],
+    "correct_index": 1,
+    "error_type": "verb_preposition"
+  },
+  {
+    "id": "PT-B2-045",
+    "level_code": "B2",
+    "cefr_area": "advanced_modals",
+    "difficulty": "hard",
+    "prompt": "You ___ seen her. She was abroad all week.",
+    "options": [
+      "can’t have",
+      "must have",
+      "should have"
+    ],
+    "correct_index": 0,
+    "error_type": "modal_deduction_past"
+  },
+  {
+    "id": "PT-B2-046",
+    "level_code": "B2",
+    "cefr_area": "advanced_modals",
+    "difficulty": "hard",
+    "prompt": "They ___ arrived by now, but I’m not sure.",
+    "options": [
+      "must have",
+      "might have",
+      "should"
+    ],
+    "correct_index": 1,
+    "error_type": "modal_possibility_past"
+  },
+  {
+    "id": "PT-B2-047",
+    "level_code": "B2",
+    "cefr_area": "emphasis",
+    "difficulty": "hard",
+    "prompt": "What I really need ___ more time.",
+    "options": [
+      "is",
+      "are",
+      "be"
+    ],
+    "correct_index": 0,
+    "error_type": "cleft_sentence"
+  },
+  {
+    "id": "PT-B2-048",
+    "level_code": "B2",
+    "cefr_area": "mixed_structure",
+    "difficulty": "hard",
+    "prompt": "Had I known about the problem, I ___ earlier.",
+    "options": [
+      "would call",
+      "would have called",
+      "called"
+    ],
+    "correct_index": 1,
+    "error_type": "inverted_conditional"
+  },
+  {
+    "id": "PT-B2-049",
+    "level_code": "B2",
+    "cefr_area": "mixed_structure",
+    "difficulty": "hard",
+    "prompt": "No sooner ___ the meeting than the power went out.",
+    "options": [
+      "had we started",
+      "we had started",
+      "did we started"
+    ],
+    "correct_index": 0,
+    "error_type": "advanced_inversion"
+  },
+  {
+    "id": "PT-B2-050",
+    "level_code": "B2",
+    "cefr_area": "mixed_structure",
+    "difficulty": "hard",
+    "prompt": "Despite ___ tired, she finished the presentation.",
+    "options": [
+      "being",
+      "to be",
+      "was"
+    ],
+    "correct_index": 0,
+    "error_type": "gerund_after_preposition"
+  }
+];
+
+const PLACEMENT_DISTRIBUTION = { A1: 5, A2: 5, B1: 7, B2: 8 };
+const LEVEL_RULES = {
+  A1: { total: 5, solid: 4 },
+  A2: { total: 5, solid: 4 },
+  B1: { total: 7, solid: 5 },
+  B2: { total: 8, solid: 6 }
+};
+
+let currentExam = [];
+let currentIndex = 0;
+let answers = {};
+
+const $ = (id) => document.getElementById(id);
+
+function shuffle(array) {
+  const copy = [...array];
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
+}
+
+function pickDiversePreguntas(questions, count) {
+  const byArea = {};
+  questions.forEach(q => {
+    byArea[q.cefr_area] = byArea[q.cefr_area] || [];
+    byArea[q.cefr_area].push(q);
+  });
+
+  const selected = [];
+  const areas = shuffle(Object.keys(byArea));
+
+  for (const area of areas) {
+    if (selected.length >= count) break;
+    selected.push(shuffle(byArea[area])[0]);
+  }
+
+  if (selected.length < count) {
+    const selectedIds = new Set(selected.map(q => q.id));
+    const remaining = shuffle(questions.filter(q => !selectedIds.has(q.id)));
+    selected.push(...remaining.slice(0, count - selected.length));
+  }
+
+  return selected.slice(0, count);
+}
+
+function normalizeQuestion(question, index = 0) {
+  const normalized = {
+    ...question,
+    id: String(question.id || `PT-AUTO-${index + 1}`),
+    level_code: String(question.level_code || question.level || '').toUpperCase(),
+    cefr_area: String(question.cefr_area || question.area || 'general'),
+    difficulty: String(question.difficulty || 'medium'),
+    prompt: String(question.prompt || '').trim(),
+    options: Array.isArray(question.options) ? question.options.map(option => String(option)) : [],
+    correct_index: Number(question.correct_index),
+    error_type: String(question.error_type || question.cefr_area || 'general_error')
+  };
+
+  if(Number.isNaN(normalized.correct_index)) normalized.correct_index = 0;
+  return normalized;
+}
+
+const NORMALIZED_PLACEMENT_QUESTION_BANK = PLACEMENT_QUESTION_BANK
+  .map(normalizeQuestion)
+  .filter(question =>
+    question.id &&
+    question.level_code &&
+    question.prompt &&
+    question.options.length &&
+    question.correct_index >= 0 &&
+    question.correct_index < question.options.length
+  );
+
+function generatePlacementExam() {
+  let exam = [];
+  Object.entries(PLACEMENT_DISTRIBUTION).forEach(([level, count]) => {
+    const levelPreguntas = NORMALIZED_PLACEMENT_QUESTION_BANK.filter(q => q.level_code === level);
+    exam.push(...pickDiversePreguntas(levelPreguntas, count));
+  });
+  return shuffle(exam);
+}
+
+function startPlacement() {
+  currentExam = generatePlacementExam();
+  currentIndex = 0;
+  answers = {};
+  $("setupPanel").style.display = "none";
+  $("questionPanel").style.display = "grid";
+  $("placementReport").classList.remove("is-visible");
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = currentExam[currentIndex];
+  $("questionCounter").textContent = `Question ${currentIndex + 1} of ${currentExam.length}`;
+  $("progressPill").textContent = `${Object.keys(answers).length} / ${currentExam.length} answered`;
+
+  $("questionHost").innerHTML = `
+    <article class="question-card">
+      <div class="question-meta">
+        <span class="tag">${q.level_code}</span>
+        <span class="tag">${q.cefr_area.replaceAll("_", " ")}</span>
+        <span class="tag">${q.difficulty}</span>
+      </div>
+      <h3 class="question-title">${q.prompt}</h3>
+      <fieldset class="option-list">
+        ${q.options.map((opt, idx) => `
+          <label class="option">
+            <input type="radio" name="answer" value="${idx}" ${answers[q.id] === idx ? "checked" : ""} />
+            <span>${String.fromCharCode(97 + idx)}) ${opt}</span>
+          </label>
+        `).join("")}
+      </fieldset>
+    </article>
+  `;
+
+  document.querySelectorAll('input[name="answer"]').forEach(input => {
+    input.addEventListener("change", () => {
+      answers[q.id] = Number(input.value);
+      $("progressPill").textContent = `${Object.keys(answers).length} / ${currentExam.length} answered`;
+    });
+  });
+
+  $("prevBtn").disabled = currentIndex === 0;
+  $("nextBtn").style.display = currentIndex === currentExam.length - 1 ? "none" : "inline-flex";
+  $("finishBtn").style.display = currentIndex === currentExam.length - 1 ? "inline-flex" : "none";
+}
+
+function nextQuestion() {
+  if (currentIndex < currentExam.length - 1) {
+    currentIndex++;
+    renderQuestion();
+  }
+}
+
+function prevQuestion() {
+  if (currentIndex > 0) {
+    currentIndex--;
+    renderQuestion();
+  }
+}
+
+function finishPlacement() {
+  const unanswered = currentExam.filter(q => answers[q.id] === undefined);
+  if (unanswered.length > 0) {
+    const proceed = confirm(`There are ${unanswered.length} unanswered questions. Finish anyway?`);
+    if (!proceed) return;
+  }
+  generateReport();
+  $("questionPanel").style.display = "none";
+  $("placementReport").classList.add("is-visible");
+  window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+}
+
+function calculateResults() {
+  const levelStats = {
+    A1: { correct: 0, total: 0 },
+    A2: { correct: 0, total: 0 },
+    B1: { correct: 0, total: 0 },
+    B2: { correct: 0, total: 0 }
+  };
+  const weakAreas = {};
+  const errorPatterns = {};
+  let correctTotal = 0;
+
+  currentExam.forEach(q => {
+    const selected = answers[q.id];
+    const isCorrect = selected === q.correct_index;
+    levelStats[q.level_code].total++;
+    if (isCorrect) {
+      levelStats[q.level_code].correct++;
+      correctTotal++;
+    } else {
+      weakAreas[q.cefr_area] = (weakAreas[q.cefr_area] || 0) + 1;
+      errorPatterns[q.error_type] = (errorPatterns[q.error_type] || 0) + 1;
+    }
+  });
+
+  const levelDecision = decideLevel(levelStats);
+  const total = currentExam.length;
+  const overall = Math.round((correctTotal / total) * 100);
+
+  return {
+    levelStats,
+    weakAreas,
+    errorPatterns,
+    correctTotal,
+    total,
+    overall,
+    ...levelDecision
+  };
+}
+
+function decideLevel(levelStats) {
+  const solid = {
+    A1: levelStats.A1.correct >= 4,
+    A2: levelStats.A2.correct >= 4,
+    B1: levelStats.B1.correct >= 5,
+    B2: levelStats.B2.correct >= 6
+  };
+
+  if (solid.B2) {
+    return {
+      estimatedLevel: "B2",
+      confidence: levelStats.B2.correct >= 7 ? "High" : "Medium",
+      recommendation: "The student shows B2-level control. Place in advanced work focused on fluency, nuance, complex grammar, professional communication, and accuracy under pressure.",
+      internalNote: "B2 is supported by strong performance in advanced structures. A short speaking confirmation is still recommended before assigning high-performance tasks."
+    };
+  }
+
+  if (solid.B1) {
+    const confidence = levelStats.B2.correct >= 3 ? "Medium-High" : "Medium";
+    return {
+      estimatedLevel: "B1",
+      confidence,
+      recommendation: "The student can enter B1 or continue in B1 development. Focus on present perfect, modals, conditionals, passive voice, connectors, and controlled production.",
+      internalNote: "This student is likely functional but may still have accuracy gaps. Avoid placing directly into B2 unless oral performance confirms it."
+    };
+  }
+
+  if (solid.A2) {
+    const confidence = levelStats.B1.correct >= 3 ? "Medium" : "High";
+    return {
+      estimatedLevel: "A2 high / B1 developing",
+      confidence,
+      recommendation: "The student has a functional foundation but needs reinforcement before full B1 work. Recommended route: A2 consolidation plus B1 bridge.",
+      internalNote: "Commercially, this is a strong candidate for a structured transition plan. Do not overplace based on isolated B1 guesses."
+    };
+  }
+
+  if (solid.A1) {
+    return {
+      estimatedLevel: "A1 / A2 entry",
+      confidence: "Medium",
+      recommendation: "The student has basic control but needs foundation work before moving into A2. Focus on sentence structure, simple present, questions, negatives, and core vocabulary.",
+      internalNote: "The student may know memorized expressions but still needs structural consolidation."
+    };
+  }
+
+  return {
+    estimatedLevel: "A1 entry",
+    confidence: "Low",
+    recommendation: "The student should begin with essential foundations: to be, subject pronouns, basic sentence order, simple present, questions, and survival communication.",
+    internalNote: "Low confidence means the result may reflect guessing or very limited exposure. Start from foundations."
+  };
+}
+
+function topItems(obj, limit = 6) {
+  return Object.entries(obj)
+    .sort((a,b) => b[1] - a[1])
+    .slice(0, limit);
+}
+
+function formatArea(area) {
+  return area.replaceAll("_", " ");
+}
+
+
+const WISDOM_PLACEMENT_RESULTS_KEY = "wisdom_placement_results";
+const WISDOM_NOTIFICATIONS_KEY = "wisdom_notifications_demo";
+const WISDOM_STUDENTS_KEY = "wisdom_students_demo";
+let wisdomLastSavedPlacementId = "";
+
+function wisdomReadArray(key){
+  const data = WisdomStorage.get(key, []);
+  return Array.isArray(data) ? data : [];
+}
+
+function wisdomWriteArray(key,data){
+  WisdomStorage.set(key, Array.isArray(data) ? data : []);
+}
+
+function wisdomNextId(items,prefix){
+  const nums = items
+    .map(item => item.id || item.placementId || item.notificationId || "")
+    .filter(id => typeof id === "string" && id.startsWith(prefix + "-"))
+    .map(id => parseInt(id.replace(prefix + "-", ""), 10))
+    .filter(num => !Number.isNaN(num));
+  const next = nums.length ? Math.max(...nums) + 1 : 1;
+  return `${prefix}-${String(next).padStart(4,"0")}`;
+}
+
+function wisdomFindStudentByName(name){
+  const normalized = String(name || "").trim().toLowerCase();
+  if(!normalized) return null;
+  return wisdomReadArray(WISDOM_STUDENTS_KEY).find(student =>
+    String(student.name || "").trim().toLowerCase() === normalized ||
+    String(student.email || "").trim().toLowerCase() === normalized ||
+    String(student.code || student.studentId || "").trim().toLowerCase() === normalized
+  ) || null;
+}
+
+function wisdomPlacementSignature(result, name, date){
+  const answerKey = currentExam
+    .map(question => `${question.id}:${answers[question.id] ?? 'NA'}`)
+    .join('|');
+  return [
+    String(name || '').trim().toLowerCase(),
+    String(date || '').trim(),
+    String(result.estimatedLevel || ''),
+    String(result.overall ?? ''),
+    answerKey
+  ].join('::');
+}
+
+function wisdomSaveLastPlacement(payload){
+  WisdomStorage.set(WISDOM_LAST_PLACEMENT_KEY, {
+    ...payload,
+    temporary:true,
+    savedAt:new Date().toISOString()
+  });
+}
+
+function wisdomSavePlacementResult(result){
+  const name = $("studentName").value.trim() || "Student";
+  const advisor = $("advisorName").value.trim() || "Wisdom Academy";
+  const date = $("testDate").value || new Date().toISOString().slice(0,10);
+  const matchedStudent = wisdomFindStudentByName(name);
+
+  const placementResults = wisdomReadArray(WISDOM_PLACEMENT_RESULTS_KEY);
+  const signature = wisdomPlacementSignature(result, name, date);
+  const existing = placementResults.find(item => item.signature === signature || (wisdomLastSavedPlacementId && item.id === wisdomLastSavedPlacementId));
+  const id = existing?.id || wisdomNextId(placementResults, "PLC");
+
+  const levelBreakdown = Object.fromEntries(["A1","A2","B1","B2"].map(level => {
+    const stat = result.levelStats[level] || {correct:0,total:0};
+    const percentage = stat.total ? Math.round((stat.correct / stat.total) * 100) : 0;
+    return [level, {...stat, percentage}];
+  }));
+
+  const weakAreas = topItems(result.weakAreas).map(([area,count]) => `${formatArea(area)}: ${count} error(es)`);
+  const errorPatterns = topItems(result.errorPatterns).map(([error,count]) => `${formatArea(error)}: ${count} ocurrencia(s)`);
+
+  const payload = {
+    id,
+    placementId:id,
+    source:"placement_test",
+    type:"placement",
+    mode:"exam",
+    studentId: matchedStudent?.code || matchedStudent?.studentId || "",
+    studentCode: matchedStudent?.code || matchedStudent?.studentId || "",
+    studentName:name,
+    studentEmail: matchedStudent?.email || "",
+    studentPhone: matchedStudent?.phone || matchedStudent?.whatsapp || "",
+    teacherId: matchedStudent?.teacherId || matchedStudent?.teacherCode || "",
+    advisorName:advisor,
+    date,
+    createdAt: existing?.createdAt || new Date().toISOString(),
+    updatedAt:new Date().toISOString(),
+    submittedAt: existing?.submittedAt || new Date().toISOString(),
+    schemaVersion:"placement.v1",
+    signature,
+    estimatedLevel:result.estimatedLevel,
+    level:result.estimatedLevel,
+    confidence:result.confidence,
+    overallScore:result.overall,
+    score:result.overall,
+    overall:result.overall,
+    totalQuestions:result.total,
+    total:result.total,
+    correctTotal:result.correctTotal,
+    breakdown:levelBreakdown,
+    levelBreakdown,
+    weakAreas,
+    errorPatterns,
+    recommendation:result.recommendation,
+    recommendationText:result.recommendation,
+    internalNote:result.internalNote,
+    questionIds: currentExam.map(question => question.id),
+    answers: currentExam.map(question => ({
+      questionId: question.id,
+      level: question.level_code,
+      area: question.cefr_area,
+      selectedIndex: answers[question.id] ?? null,
+      correctIndex: question.correct_index,
+      correct: answers[question.id] === question.correct_index
+    }))
+  };
+
+  if(existing){
+    const index = placementResults.findIndex(item => item.id === existing.id);
+    placementResults[index] = {...existing, ...payload};
+  }else{
+    placementResults.push(payload);
+  }
+  wisdomWriteArray(WISDOM_PLACEMENT_RESULTS_KEY, placementResults);
+  wisdomSaveLastPlacement(payload);
+
+  const notifications = wisdomReadArray(WISDOM_NOTIFICATIONS_KEY);
+  const alreadyNotified = notifications.some(notification => notification.type === "placement" && notification.resultId === id);
+  if(!alreadyNotified){
+  notifications.unshift({
+    id: wisdomNextId(notifications, "NOT"),
+    notificationId:"",
+    type:"placement",
+    title:"Nuevo examen diagnóstico por revisar",
+    message:`${name} completó un WISE Placement Test. Nivel estimado: ${result.estimatedLevel} · Puntaje: ${result.overall}% · Confianza: ${result.confidence}.`,
+    status:"Nueva",
+    level:"warning",
+    link:"diagnostico_resultados.html",
+    studentId: payload.studentId,
+    studentCode: payload.studentCode,
+    studentName:name,
+    teacherId: payload.teacherId,
+    resultId:id,
+    createdAt:new Date().toISOString()
+  });
+  notifications[0].notificationId = notifications[0].id;
+  wisdomWriteArray(WISDOM_NOTIFICATIONS_KEY, notifications);
+  }
+
+  wisdomLastSavedPlacementId = id;
+  return payload;
+}
+
+function generateReport() {
+  const r = calculateResults();
+  const name = $("studentName").value.trim() || "Student";
+  const advisor = $("advisorName").value.trim() || "Wisdom Academy";
+  const date = $("testDate").value || new Date().toISOString().slice(0,10);
+
+  $("reportMeta").innerHTML = `<strong>Student:</strong> ${name}<br><strong>Advisor:</strong> ${advisor}<br><strong>Date:</strong> ${date}`;
+  $("reportEstimatedLevel").textContent = `Nivel estimado: ${r.estimatedLevel}`;
+  $("reportConfianza").innerHTML = `<strong>Confianza:</strong> ${r.confidence}`;
+  $("overallScore").textContent = `${r.overall}%`;
+  $("estimatedLevelMetric").textContent = r.estimatedLevel;
+  $("confidenceMetric").textContent = r.confidence;
+  $("totalPreguntasMetric").textContent = r.total;
+
+  const rows = ["A1","A2","B1","B2"].map(level => {
+    const stat = r.levelStats[level];
+    const pct = stat.total ? Math.round((stat.correct / stat.total) * 100) : 0;
+    const solid = stat.correct >= LEVEL_RULES[level].solid;
+    const status = solid ? "Solid" : (pct >= 45 ? "Partial" : "Weak");
+    return `<tr>
+      <td>${level}</td>
+      <td>${stat.correct}</td>
+      <td>${stat.total}</td>
+      <td>${pct}%</td>
+      <td>${status}</td>
+    </tr>`;
+  }).join("");
+  $("levelBreakdownBody").innerHTML = rows;
+
+  const weak = topItems(r.weakAreas);
+  $("weakAreasList").innerHTML = weak.length
+    ? weak.map(([area,count]) => `<li><strong>${formatArea(area)}:</strong> ${count} error(s)</li>`).join("")
+    : "<li>No major weak areas detected in this sample.</li>";
+
+  const errors = topItems(r.errorPatterns);
+  $("errorPatternsList").innerHTML = errors.length
+    ? errors.map(([err,count]) => `<li><strong>${formatArea(err)}:</strong> ${count} occurrence(s)</li>`).join("")
+    : "<li>No significant error pattern detected.</li>";
+
+  $("recommendationText").textContent = r.recommendation;
+  $("internalNote").textContent = r.internalNote;
+
+  try {
+    const savedPlacement = wisdomSavePlacementResult(r);
+    $("reportMeta").innerHTML += `<br><strong>Portal result:</strong> ${savedPlacement.id}<br><strong>Estado:</strong> Guardado y notificado en dashboard`;
+  } catch (error) {
+    console.error("No se pudo guardar el diagnóstico en el portal:", error);
+  }
+}
+
+function restartPlacement() {
+  $("placementReport").classList.remove("is-visible");
+  $("setupPanel").style.display = "grid";
+  $("questionPanel").style.display = "none";
+  currentExam = [];
+  answers = {};
+  currentIndex = 0;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+$("testDate").value = new Date().toISOString().slice(0,10);
+const wisdomCurrentUser = WisdomStorage.get("wisdom_current_user", null);
+if(wisdomCurrentUser?.name && !$('advisorName').value){
+  $('advisorName').value = wisdomCurrentUser.name;
+}
+
+$("startBtn").addEventListener("click", startPlacement);
+$("resetBtn").addEventListener("click", restartPlacement);
+$("nextBtn").addEventListener("click", nextQuestion);
+$("prevBtn").addEventListener("click", prevQuestion);
+$("finishBtn").addEventListener("click", finishPlacement);
+
+function sendResultsWhatsApp() {
+  const name = document.getElementById("studentName").value || "Estudiante";
+  const level = document.getElementById("estimatedLevelMetric").textContent;
+  const confidence = document.getElementById("confidenceMetric").textContent;
+
+  const weakAreas = Array.from(document.querySelectorAll("#weakAreasList li"))
+    .map(li => li.textContent)
+    .slice(0, 3)
+    .join(" | ");
+
+  const text = `
+📊 WISE Placement Test
+
+👤 Nombre: ${name}
+
+🎯 Nivel estimado: ${level}
+📈 Confianza: ${confidence}
+
+⚠️ Áreas a trabajar:
+${weakAreas || "Sin áreas críticas detectadas"}
+
+📎 Adjunta el PDF generado al enviar este mensaje.
+`;
+
+  const phone = "573186435938"; // ⚠️ CAMBIAR POR TU NÚMERO REAL
+
+  const url = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+
+  window.open(url, "_blank");
+}
+
+</script>
+</body>
+</html>

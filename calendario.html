@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Calendario | Wisdom</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#0d2b45;--accent:#1fb6b9;--light:#f5f9fc;--white:#fff;--text:#1f2d3d;--gray:#6b7c93;--border:#dcebf2;--hover:#E6FF00;--soft:#e7f8f8;--danger:#ffefef;--warning:#fff8d6;--ok:#eef7ee}
+body{font-family:Inter,Arial,sans-serif;background:var(--light);color:var(--text)}
+.wrap{max-width:1280px;margin:auto;padding:28px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;gap:18px}
+h1{color:var(--primary);font-size:1.9rem;font-weight:900}
+h2,h3{color:var(--primary)}
+.sub{color:var(--gray);font-size:.9rem;margin-top:4px}
+.btn{padding:10px 16px;border-radius:999px;border:none;font-weight:800;cursor:pointer;text-decoration:none;display:inline-block}
+.btn-primary{background:var(--accent);color:white}.btn-secondary{background:white;color:var(--primary);border:1px solid var(--border)}
+.btn-danger{background:#ffefef;color:#b00020;border:1px solid #ffd1d1}
+.btn:hover{background:var(--hover);color:black}
+.card{background:white;border:1px solid var(--border);border-radius:20px;padding:20px;margin-bottom:20px;box-shadow:0 8px 24px rgba(13,43,69,.05)}
+.grid{display:grid;grid-template-columns:1.1fr 2fr;gap:20px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:.8rem;font-weight:900;color:var(--primary)}
+.field input,.field select{padding:11px;border-radius:12px;border:1px solid var(--border);font:inherit;background:white}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.pill{background:var(--soft);color:var(--accent);padding:5px 10px;border-radius:999px;font-size:.75rem;font-weight:900;display:inline-block}
+.pill.warning{background:var(--warning);color:#8a6d00}.pill.danger{background:var(--danger);color:#b00020}.pill.ok{background:var(--ok);color:#257a36}
+.calendar{display:grid;grid-template-columns:80px repeat(6,1fr);border:1px solid var(--border);border-radius:18px;overflow:hidden;background:white}
+.cal-head,.time-cell,.day-cell{border-right:1px solid var(--border);border-bottom:1px solid var(--border);min-height:66px;padding:8px}
+.cal-head{background:var(--primary);color:white;font-weight:900;text-align:center;min-height:auto}
+.time-cell{background:#f8fbfd;color:var(--gray);font-size:.78rem;font-weight:900}
+.day-cell{position:relative;background:white}
+.day-cell.unavailable{background:#fafafa}
+.event{border-radius:12px;padding:7px;margin-bottom:6px;font-size:.75rem;line-height:1.25;background:var(--soft);border:1px solid #cceeee;color:var(--primary)}
+.event.private{background:#f3f8ff;border-color:#d7e8ff}
+.event.manual{background:#fff8d6;border-color:#f0df88}
+.event.conflict{background:#ffefef;border-color:#ffd1d1;color:#9a001c}
+.availability-list,.conflict-list{display:flex;flex-direction:column;gap:10px}
+.list-item{border:1px solid var(--border);border-radius:16px;padding:12px;background:#fbfeff}
+.list-item strong{color:var(--primary)}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.modal{position:fixed;inset:0;background:rgba(13,43,69,.35);display:none;align-items:center;justify-content:center;padding:20px;z-index:20}
+.modal.active{display:flex}
+.modal-box{width:100%;max-width:640px;background:white;border:1px solid var(--border);border-radius:22px;padding:24px;box-shadow:0 20px 50px rgba(13,43,69,.18)}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+
+.user-box{display:flex;align-items:center;gap:10px;background:white;border:1px solid var(--border);border-radius:999px;padding:8px 12px}
+.user-box strong{color:var(--primary);font-size:.85rem;display:block;line-height:1.1}
+.user-box small{color:var(--gray);font-size:.72rem;display:block;line-height:1.1}
+.btn-logout{background:#ffefef;color:#b00020;border:1px solid #ffd1d1}
+.role-warning{display:none;background:#fff8d6;border:1px solid #f0df88;color:#8a6d00;border-radius:16px;padding:12px 14px;margin-bottom:18px;font-weight:800}
+.readonly-disabled{opacity:.45;pointer-events:none;filter:grayscale(.3)}
+
+@media(max-width:1050px){.grid{grid-template-columns:1fr}.calendar{font-size:.85rem}}
+@media(max-width:760px){.calendar{grid-template-columns:70px repeat(3,1fr);overflow:auto}.hide-mobile{display:none}.form-grid{grid-template-columns:1fr}.topbar{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="roleWarning" class="role-warning"></div>
+  <div class="topbar">
+    <div>
+      <h1>Calendario académico</h1>
+      <div class="sub">Cronograma semanal, disponibilidad docente y alertas de cruces.</div>
+    </div>
+    <div class="toolbar">
+      <div class="user-box">
+        <div>
+          <strong id="currentUserName">Usuario</strong>
+          <small id="currentUserRole">Rol</small>
+        </div>
+      </div>
+      <button class="btn btn-secondary" onclick="window.location.href='dashboard.html'">Dashboard</button>
+      <button class="btn btn-primary admin-only" onclick="openEventModal()">Agregar clase manual</button>
+      <button class="btn btn-logout" onclick="logout()">Cerrar sesión</button>
+    </div>
+  </div>
+
+  <div class="grid">
+    <aside>
+      <div class="card">
+        <h3>Filtros</h3><br>
+        <div class="form-grid">
+          <div class="field">
+            <label>Profesor</label>
+            <select id="teacherFilter" onchange="renderAll()"></select>
+          </div>
+          <div class="field">
+            <label>Modalidad</label>
+            <select id="modalityFilter" onchange="renderAll()">
+              <option value="all">Todas</option>
+              <option value="Presencial">Presencial</option>
+              <option value="Virtual">Virtual</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="card admin-teacher-only">
+        <h3>Disponibilidad docente</h3>
+        <div class="sub">Registra los horarios en los que un profesor sí puede trabajar.</div><br>
+        <div class="form-grid">
+          <div class="field"><label>Profesor</label><select id="availabilityTeacher"></select></div>
+          <div class="field"><label>Día</label><select id="availabilityDay"></select></div>
+          <div class="field"><label>Desde</label><input id="availabilityStart" type="time"></div>
+          <div class="field"><label>Hasta</label><input id="availabilityEnd" type="time"></div>
+          <div class="field"><label>Modalidad</label><select id="availabilityModality"><option>Presencial</option><option>Virtual</option><option>Ambas</option></select></div>
+          <div class="field"><label>Nota</label><input id="availabilityNote" placeholder="Ej: solo sede norte, no festivos..."></div>
+        </div>
+        <br><button class="btn btn-primary" onclick="addAvailability()">Guardar disponibilidad</button>
+        <br><br><div class="availability-list" id="availabilityList"></div>
+      </div>
+
+      <div class="card">
+        <h3>Alertas de calendario</h3>
+        <div class="sub">Cruces, clases fuera de disponibilidad o datos incompletos.</div><br>
+        <div class="conflict-list" id="conflictList"></div>
+      </div>
+    </aside>
+
+    <main>
+      <div class="card">
+        <div class="topbar" style="margin-bottom:12px">
+          <div>
+            <h3>Vista semanal</h3>
+            <div class="sub">Lunes a sábado · 6:00 AM a 9:00 PM</div>
+          </div>
+          <span class="pill" id="eventCountPill">0 eventos</span>
+        </div>
+        <div class="calendar" id="weeklyCalendar"></div>
+      </div>
+
+      <div class="card">
+        <h3>Eventos detectados desde el sistema</h3>
+        <div class="sub">Lee grupos desde <strong>wisdom_groups_demo</strong>, privadas desde <strong>wisdom_private_demo</strong> y eventos manuales del calendario.</div><br>
+        <div id="eventList"></div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<div class="modal" id="eventModal">
+  <div class="modal-box">
+    <h2>Agregar clase manual</h2>
+    <div class="form-grid">
+      <div class="field"><label>Tipo</label><select id="manualType"><option>Privada</option><option>Semiprivada</option><option>Grupo</option><option>Bloque administrativo</option></select></div>
+      <div class="field"><label>Título</label><input id="manualTitle" placeholder="Ej: Clase privada Juan"></div>
+      <div class="field"><label>Profesor</label><select id="manualTeacher"></select></div>
+      <div class="field"><label>Día</label><select id="manualDay"></select></div>
+      <div class="field"><label>Inicio</label><input id="manualStart" type="time"></div>
+      <div class="field"><label>Fin</label><input id="manualEnd" type="time"></div>
+      <div class="field"><label>Modalidad</label><select id="manualModality"><option>Presencial</option><option>Virtual</option></select></div>
+      <div class="field"><label>Lugar / enlace</label><input id="manualLocation" placeholder="Salón 1 / Meet / Zoom"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeEventModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="addManualEvent()">Guardar evento</button>
+    </div>
+  </div>
+</div>
+
+<script src="storage.js"></script>
+<script src="schemaRegistry.js"></script>
+<script>
+
+const USERS_KEY='wisdom_users'
+const CURRENT_USER_KEY='wisdom_current_user'
+
+const users=WisdomStorage.get(USERS_KEY,[])
+if(!users.length){
+  window.location.href='login.html'
+}
+
+const currentUser=WisdomStorage.get(CURRENT_USER_KEY,null)
+if(!currentUser||!currentUser.role){
+  window.location.href='login.html'
+}
+
+function roleLabel(role){
+  if(role==='admin')return 'Administrativo'
+  if(role==='teacher')return 'Profesor'
+  if(role==='student')return 'Estudiante'
+  return role||'Usuario'
+}
+
+function logout(){
+  WisdomStorage.remove(CURRENT_USER_KEY)
+  window.location.href='login.html'
+}
+
+function applyRoleAccess(){
+  document.getElementById('currentUserName').textContent=currentUser.name||currentUser.email||'Usuario'
+  document.getElementById('currentUserRole').textContent=roleLabel(currentUser.role)
+
+  const warning=document.getElementById('roleWarning')
+  if(currentUser.role==='teacher'){
+    warning.style.display='block'
+    warning.textContent='Vista profesor: puedes revisar tu calendario y reportar disponibilidad. Los eventos manuales quedan reservados para administración.'
+    document.querySelectorAll('.admin-only').forEach(el=>el.style.display='none')
+  }
+  if(currentUser.role==='student'){
+    warning.style.display='block'
+    warning.textContent='Vista estudiante: calendario en modo lectura. No puedes crear eventos ni editar disponibilidad.'
+    document.querySelectorAll('.admin-only,.admin-teacher-only').forEach(el=>el.style.display='none')
+  }
+}
+
+const GROUPS_KEY='wisdom_groups_demo'
+const TEACHERS_KEY='wisdom_teachers_demo'
+const PRIVATE_KEY='wisdom_private_demo'
+const AVAILABILITY_KEY='wisdom_teacher_availability'
+const MANUAL_EVENTS_KEY='wisdom_calendar_manual_events'
+
+const days=[
+  {key:'mon',label:'Lunes'},
+  {key:'tue',label:'Martes'},
+  {key:'wed',label:'Miércoles'},
+  {key:'thu',label:'Jueves'},
+  {key:'fri',label:'Viernes'},
+  {key:'sat',label:'Sábado'}
+]
+const hours=['06:00','07:00','08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00']
+
+const fallbackTeachers=['Laura Méndez','Carlos Peña','Profesor por asignar']
+
+function safeJsonParse(value,fallback){
+  try{return value?JSON.parse(value):fallback}catch(error){return fallback}
+}
+function loadGroups(){
+  const groups=WisdomStorage.get(GROUPS_KEY,[])
+
+  if(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeGroup){
+    return Array.isArray(groups)
+      ? groups.map(group=>SchemaRegistry.normalizeGroup(group))
+      : []
+  }
+
+  return Array.isArray(groups)?groups:[]
+}
+function loadPrivatePackages(){
+  const packages=WisdomStorage.get(PRIVATE_KEY,[])
+
+  if(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizePrivatePackage){
+    return Array.isArray(packages)
+      ? packages.map(pkg=>SchemaRegistry.normalizePrivatePackage(pkg))
+      : []
+  }
+
+  return Array.isArray(packages)?packages:[]
+}
+function loadAvailability(){return WisdomStorage.get(AVAILABILITY_KEY,[])}
+function saveAvailability(items){WisdomStorage.set(AVAILABILITY_KEY,items)}
+function loadManualEvents(){return WisdomStorage.get(MANUAL_EVENTS_KEY,[])}
+function saveManualEvents(items){
+  const normalized=(Array.isArray(items)?items:[]).map(item=>normalizeCalendarEvent({
+    ...item,
+    source:item.source||'Manual'
+  }))
+
+  WisdomStorage.set(MANUAL_EVENTS_KEY,normalized)
+}
+function loadTeachersData(){
+  const teachers=WisdomStorage.get(TEACHERS_KEY,[])
+  return Array.isArray(teachers)?teachers.map(teacher=>{
+    const id=teacher.id || teacher.teacherId || teacher.code || teacher.teacherCode || ''
+    return {...teacher,id,teacherId:id,code:id,status:teacher.status||'Activo'}
+  }):[]
+}
+
+let availability=loadAvailability()
+let manualEvents=loadManualEvents()
+let teachersData=loadTeachersData()
+
+function isAdmin(){return currentUser.role==='admin'}
+function isTeacher(){return currentUser.role==='teacher'}
+function isStudent(){return currentUser.role==='student'}
+function currentTeacherId(){return currentUser.teacherId || currentUser.teacherCode || currentUser.id || ''}
+function normalizeTeacher(name){return (name||'Profesor por asignar').trim()||'Profesor por asignar'}
+function getTeacherNameById(teacherId){
+  const teacher=teachersData.find(t=>t.teacherId===teacherId || t.id===teacherId || t.code===teacherId)
+  return teacher?.name || ''
+}
+function getTeacherIdByName(name){
+  const teacher=teachersData.find(t=>t.name===name)
+  return teacher?.teacherId || ''
+}
+function getTeacherById(teacherId){
+  teachersData=loadTeachersData()
+  return teachersData.find(t=>t.teacherId===teacherId || t.id===teacherId || t.code===teacherId) || null
+}
+function isActiveTeacherId(teacherId){
+  const teacher=getTeacherById(teacherId)
+  return Boolean(teacher && teacher.status==='Activo')
+}
+function normalizeTeacherRef(item){
+  const teacherId=item.teacherId || item.teacherCode || getTeacherIdByName(item.teacher) || ''
+  const teacher=normalizeTeacher(item.teacher || getTeacherNameById(teacherId))
+  return {...item,teacherId,teacherCode:teacherId,teacher}
+}
+function eventBelongsToCurrentUser(event){
+  if(isAdmin()) return true
+  if(isTeacher()){
+    const id=currentTeacherId()
+    return (id && (event.teacherId===id || event.teacherCode===id)) || event.teacher===currentUser.name || event.teacherEmail===currentUser.email
+  }
+  if(isStudent()){
+    return currentUser.studentId && Array.isArray(event.studentIds) && event.studentIds.includes(currentUser.studentId)
+  }
+  return false
+}
+function getTeachers(){
+  teachersData=loadTeachersData()
+  const teacherMap=new Map()
+
+  teachersData.forEach(teacher=>{
+    if(teacher.status==='Activo' && teacher.teacherId){
+      teacherMap.set(teacher.teacherId,{value:teacher.teacherId,label:`${teacher.teacherId} · ${teacher.name}`})
+    }
+  })
+
+  loadGroups().forEach(group=>{
+    const ref=normalizeTeacherRef(group)
+    if(ref.teacherId) teacherMap.set(ref.teacherId,{value:ref.teacherId,label:`${ref.teacherId} · ${ref.teacher}`})
+    else if(ref.teacher) teacherMap.set(ref.teacher,{value:ref.teacher,label:ref.teacher})
+  })
+
+  loadPrivatePackages().forEach(pkg=>{
+    const ref=normalizeTeacherRef(pkg)
+    if(ref.teacherId) teacherMap.set(ref.teacherId,{value:ref.teacherId,label:`${ref.teacherId} · ${ref.teacher}`})
+    else if(ref.teacher) teacherMap.set(ref.teacher,{value:ref.teacher,label:ref.teacher})
+  })
+
+  availability.forEach(a=>{
+    const ref=normalizeTeacherRef(a)
+    if(ref.teacherId) teacherMap.set(ref.teacherId,{value:ref.teacherId,label:`${ref.teacherId} · ${ref.teacher}`})
+    else if(ref.teacher) teacherMap.set(ref.teacher,{value:ref.teacher,label:ref.teacher})
+  })
+
+  manualEvents.forEach(e=>{
+    const ref=normalizeTeacherRef(e)
+    if(ref.teacherId) teacherMap.set(ref.teacherId,{value:ref.teacherId,label:`${ref.teacherId} · ${ref.teacher}`})
+    else if(ref.teacher) teacherMap.set(ref.teacher,{value:ref.teacher,label:ref.teacher})
+  })
+
+  let items=[...teacherMap.values()].sort((a,b)=>a.label.localeCompare(b.label))
+
+  if(isTeacher()){
+    const id=currentTeacherId()
+    const name=currentUser.name || getTeacherNameById(id)
+    items=items.filter(item=>item.value===id || item.value===name || item.label.includes(name))
+    if(!items.length && id) items=[{value:id,label:`${id} · ${name || 'Profesor'}`}]
+  }
+
+  return items
+}
+function fillSelect(id,items,includeAll=false){
+  const select=document.getElementById(id)
+  if(!select)return
+  const current=select.value
+  select.innerHTML=includeAll?'<option value="all">Todos</option>':''
+  items.forEach(item=>{
+    const opt=document.createElement('option')
+    opt.value=item.value||item
+    opt.textContent=item.label||item
+    select.appendChild(opt)
+  })
+  if([...select.options].some(o=>o.value===current))select.value=current
+}
+function setupSelects(){
+  const teachers=getTeachers()
+  fillSelect('teacherFilter',teachers,true)
+  fillSelect('availabilityTeacher',teachers)
+  fillSelect('manualTeacher',teachers)
+  if(isTeacher()){
+    const id=currentTeacherId()
+    if(document.getElementById('teacherFilter')){
+      document.getElementById('teacherFilter').value=id
+      document.getElementById('teacherFilter').disabled=true
+    }
+    if(document.getElementById('availabilityTeacher')){
+      document.getElementById('availabilityTeacher').value=id
+      document.getElementById('availabilityTeacher').disabled=true
+    }
+  }
+  fillSelect('availabilityDay',days.map(d=>({value:d.key,label:d.label})))
+  fillSelect('manualDay',days.map(d=>({value:d.key,label:d.label})))
+}
+
+function parseScheduleDays(schedule=''){
+  const s=schedule.toLowerCase()
+  if(s.includes('lun a jue')||s.includes('lunes a jueves'))return ['mon','tue','wed','thu']
+  if(s.includes('lun a vie')||s.includes('lunes a viernes'))return ['mon','tue','wed','thu','fri']
+  const result=[]
+  if(s.includes('lun'))result.push('mon')
+  if(s.includes('mar'))result.push('tue')
+  if(s.includes('mié')||s.includes('mie'))result.push('wed')
+  if(s.includes('jue'))result.push('thu')
+  if(s.includes('vie'))result.push('fri')
+  if(s.includes('sáb')||s.includes('sab'))result.push('sat')
+  return result.length?result:['mon','tue','wed','thu']
+}
+function parseScheduleStart(schedule=''){
+  const match=schedule.match(/(\d{1,2})(?::(\d{2}))?\s*(am|pm|a\.m\.|p\.m\.)?/i)
+  if(!match)return '18:30'
+  let h=Number(match[1])
+  const m=match[2]||'00'
+  const ampm=(match[3]||'').toLowerCase()
+  if(ampm.includes('p') && h<12)h+=12
+  if(ampm.includes('a') && h===12)h=0
+  return `${String(h).padStart(2,'0')}:${m}`
+}
+function addMinutes(time,minutes){
+  const [h,m]=time.split(':').map(Number)
+  const total=h*60+m+minutes
+  return `${String(Math.floor(total/60)).padStart(2,'0')}:${String(total%60).padStart(2,'0')}`
+}
+function timeToMinutes(time){
+  const [h,m]=time.split(':').map(Number)
+  return h*60+m
+}
+function overlaps(aStart,aEnd,bStart,bEnd){
+  return timeToMinutes(aStart)<timeToMinutes(bEnd) && timeToMinutes(bStart)<timeToMinutes(aEnd)
+}
+
+function normalizeDayKey(day){
+  const value=String(day||'').trim().toLowerCase()
+  const map={
+    monday:'mon',lunes:'mon',lun:'mon',mon:'mon',
+    tuesday:'tue',martes:'tue',mar:'tue',tue:'tue',
+    wednesday:'wed',miercoles:'wed','miércoles':'wed',mie:'wed','mié':'wed',wed:'wed',
+    thursday:'thu',jueves:'thu',jue:'thu',thu:'thu',
+    friday:'fri',viernes:'fri',vie:'fri',fri:'fri',
+    saturday:'sat',sabado:'sat','sábado':'sat',sab:'sat','sáb':'sat',sat:'sat'
+  }
+  return map[value]||value
+}
+function normalizeScheduleDaysFromStructured(item){
+  const candidates=[item.scheduleDays,item.days,item.classDays]
+  for(const candidate of candidates){
+    if(Array.isArray(candidate) && candidate.length){
+      return candidate.map(normalizeDayKey).filter(day=>days.some(d=>d.key===day))
+    }
+  }
+  const single=item.day||item.scheduleDay||''
+  if(single)return [normalizeDayKey(single)].filter(day=>days.some(d=>d.key===day))
+  return []
+}
+function normalizeScheduleForCalendar(item,defaultMinutes=75){
+  const structuredDays=normalizeScheduleDaysFromStructured(item)
+  const daysList=structuredDays.length?structuredDays:parseScheduleDays(item.schedule||'')
+  const start=item.startTime||item.classStart||item.scheduleStart||item.start||parseScheduleStart(item.schedule||'')
+  const end=item.endTime||item.classEnd||item.scheduleEnd||item.end||addMinutes(start,defaultMinutes)
+  return {daysList,start,end}
+}
+function normalizeStudentIds(students=[]){
+  return (Array.isArray(students)?students:[])
+    .map(student=>student.studentId||student.studentCode||student.code||student.id)
+    .filter(Boolean)
+    .map(String)
+}
+function normalizeCalendarEvent(event={}){
+  const base={...event}
+
+  if(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeCalendarEvent){
+    return SchemaRegistry.normalizeCalendarEvent({
+      ...base,
+      teacherId:base.teacherId||base.teacherCode||'',
+      teacherCode:base.teacherCode||base.teacherId||'',
+      studentIds:Array.isArray(base.studentIds)?base.studentIds:[],
+      modality:base.modality||'Presencial',
+      location:base.location||'',
+      source:base.source||'Sistema',
+      type:base.type||'Evento',
+      start:base.start||'',
+      end:base.end||'',
+      day:base.day||''
+    })
+  }
+
+  return {
+    ...base,
+    id:base.id||('EVT-'+Date.now()+Math.random().toString(16).slice(2)),
+    teacherId:base.teacherId||base.teacherCode||'',
+    teacherCode:base.teacherCode||base.teacherId||'',
+    studentIds:Array.isArray(base.studentIds)?base.studentIds:[],
+    modality:base.modality||'Presencial',
+    location:base.location||'',
+    source:base.source||'Sistema',
+    type:base.type||'Evento',
+    start:base.start||'',
+    end:base.end||'',
+    day:base.day||''
+  }
+}
+
+function eventsFromGroups(){
+  const groups=loadGroups()
+  const events=[]
+  groups.forEach(group=>{
+    const schedule=normalizeScheduleForCalendar(group,75)
+    schedule.daysList.forEach(day=>{
+      const teacherRef=normalizeTeacherRef(group)
+      events.push(normalizeCalendarEvent({
+        id:`group-${group.id||group.code}-${day}`,
+        code:group.code||group.id||'GR',
+        source:'Sistema',
+        type:'Grupo',
+        title:`${group.code||group.id||'GR'} · ${group.name||'Grupo'}`,
+        teacher:teacherRef.teacher,
+        teacherId:teacherRef.teacherId,
+        teacherCode:teacherRef.teacherId,
+        teacherEmail:group.teacherEmail||'',
+        studentIds:normalizeStudentIds(group.students),
+        day,
+        start:schedule.start,
+        end:schedule.end,
+        modality:group.modality||'Presencial',
+        location:group.classroom||group.location||'Sede / salón por asignar',
+        students:group.students?.length||0
+      }))
+    })
+  })
+  return events
+}
+function eventsFromPrivatePackages(){
+  const packages=loadPrivatePackages()
+  const events=[]
+  packages.forEach(pkg=>{
+    const packageDays=normalizePrivateDays(pkg).map(normalizeDayKey).filter(day=>days.some(d=>d.key===day))
+    const start=pkg.startTime||pkg.classStart||pkg.start||''
+    const end=pkg.endTime||pkg.classEnd||pkg.end||''
+    if(packageDays.length && start && end){
+      packageDays.forEach(day=>{
+        const teacherRef=normalizeTeacherRef(pkg)
+        events.push(normalizeCalendarEvent({
+          id:`private-${pkg.id||pkg.code}-${day}`,
+          code:pkg.code||pkg.id||'PK',
+          source:'Sistema',
+          type:pkg.type||'Privada',
+          title:`${pkg.code||pkg.id||'PK'} · ${(pkg.students||[]).map(s=>s.name).join(' + ')||'Privada'}`,
+          teacher:teacherRef.teacher,
+          teacherId:teacherRef.teacherId,
+          teacherCode:teacherRef.teacherId,
+          teacherEmail:pkg.teacherEmail||'',
+          studentIds:normalizeStudentIds(pkg.students),
+          day,start,end,
+          modality:pkg.modality||'Presencial',
+          location:pkg.location||'Por definir',
+          students:pkg.students?.length||1
+        }))
+      })
+    }
+  })
+  return events
+}
+function eventsFromManual(){
+  return manualEvents.map(e=>normalizeCalendarEvent({
+    ...normalizeTeacherRef(e),
+    source:'Manual'
+  }))
+}
+function getAllEvents(){
+  return [...eventsFromGroups(),...eventsFromPrivatePackages(),...eventsFromManual()]
+}
+function filteredEvents(){
+  const teacher=document.getElementById('teacherFilter')?.value||'all'
+  const modality=document.getElementById('modalityFilter')?.value||'all'
+  return getAllEvents().map(normalizeTeacherRef).filter(e=>{
+    const teacherFilterOk=teacher==='all'||e.teacherId===teacher||e.teacherCode===teacher||e.teacher===teacher
+    const modalityOk=modality==='all'||e.modality===modality
+    return eventBelongsToCurrentUser(e) && teacherFilterOk && modalityOk
+  })
+}
+
+function isTeacherAvailable(event){
+  const blocks=availability.map(normalizeTeacherRef).filter(a=>(a.teacherId&&event.teacherId?a.teacherId===event.teacherId:a.teacher===event.teacher) && a.day===event.day)
+  if(!blocks.length)return false
+  return blocks.some(a=>{
+    const modalityOk=a.modality==='Ambas'||a.modality===event.modality
+    return modalityOk && timeToMinutes(a.start)<=timeToMinutes(event.start) && timeToMinutes(a.end)>=timeToMinutes(event.end)
+  })
+}
+function findConflicts(events){
+  const conflicts=[]
+  events.forEach(event=>{
+    if(!event.teacher||event.teacher==='Profesor por asignar'){
+      conflicts.push({level:'warning',message:`${event.title}: profesor sin asignar.`})
+    }
+    if(!isTeacherAvailable(event)){
+      conflicts.push({level:'danger',message:`${event.title}: ${event.teacher||'Profesor'} no tiene disponibilidad registrada para ${dayLabel(event.day)} ${event.start}-${event.end}.`})
+    }
+  })
+  for(let i=0;i<events.length;i++){
+    for(let j=i+1;j<events.length;j++){
+      const a=events[i],b=events[j]
+      const sameDay=a.day===b.day
+      const sameTime=overlaps(a.start,a.end,b.start,b.end)
+      if(!sameDay||!sameTime)continue
+
+      const sameTeacher=(a.teacherId&&b.teacherId&&a.teacherId===b.teacherId)||(!a.teacherId&&!b.teacherId&&a.teacher&&b.teacher&&a.teacher===b.teacher)
+      if(sameTeacher){
+        conflicts.push({level:'danger',message:`Cruce de profesor ${a.teacher}: "${a.title}" y "${b.title}" el ${dayLabel(a.day)}.`})
+      }
+
+      const aStudents=Array.isArray(a.studentIds)?a.studentIds.map(String):[]
+      const bStudents=Array.isArray(b.studentIds)?b.studentIds.map(String):[]
+      const sharedStudents=aStudents.filter(id=>bStudents.includes(id))
+      if(sharedStudents.length){
+        conflicts.push({level:'danger',message:`Cruce de estudiante (${sharedStudents.join(', ')}): "${a.title}" y "${b.title}" el ${dayLabel(a.day)} ${a.start}-${a.end}.`})
+      }
+    }
+  }
+  return conflicts
+}
+function dayLabel(key){return days.find(d=>d.key===key)?.label||key}
+function normalizePrivateDays(pkg){
+  if(Array.isArray(pkg.days) && pkg.days.length) return pkg.days
+  if(Array.isArray(pkg.scheduleDays) && pkg.scheduleDays.length) return pkg.scheduleDays
+  if(Array.isArray(pkg.classDays) && pkg.classDays.length) return pkg.classDays
+  if(pkg.day) return [pkg.day]
+  if(pkg.scheduleDay) return [pkg.scheduleDay]
+  return []
+}
+
+function renderCalendar(){
+  const calendar=document.getElementById('weeklyCalendar')
+  const events=filteredEvents()
+  const conflicts=findConflicts(isAdmin()?getAllEvents():filteredEvents())
+  const conflictTitles=new Set()
+  conflicts.forEach(c=>{
+    getAllEvents().forEach(e=>{
+      if(c.message.includes(e.title))conflictTitles.add(e.id)
+    })
+  })
+
+  calendar.innerHTML=''
+  const blank=document.createElement('div')
+  blank.className='cal-head'
+  blank.textContent='Hora'
+  calendar.appendChild(blank)
+
+  days.forEach(day=>{
+    const head=document.createElement('div')
+    head.className='cal-head'
+    head.textContent=day.label
+    calendar.appendChild(head)
+  })
+
+  hours.forEach(hour=>{
+    const timeCell=document.createElement('div')
+    timeCell.className='time-cell'
+    timeCell.textContent=hour
+    calendar.appendChild(timeCell)
+
+    days.forEach(day=>{
+      const cell=document.createElement('div')
+      cell.className='day-cell'
+      const slotEvents=events.filter(e=>e.day===day.key && e.start>=hour && e.start<addMinutes(hour,60))
+      slotEvents.forEach(e=>{
+        const div=document.createElement('div')
+        div.className='event '+(e.type==='Privada'||e.type==='Semiprivada'?'private':e.source==='Manual'?'manual':'')+(conflictTitles.has(e.id)?' conflict':'')
+        div.innerHTML=`<strong>${e.title}</strong><br>${e.start}-${e.end}<br>${e.teacher}<br>${e.modality}`
+        cell.appendChild(div)
+      })
+      calendar.appendChild(cell)
+    })
+  })
+  document.getElementById('eventCountPill').textContent=`${events.length} eventos`
+}
+function renderAvailability(){
+  const container=document.getElementById('availabilityList')
+  container.innerHTML=''
+  const visible=availability.map((item,index)=>({...normalizeTeacherRef(item),_index:index})).filter(item=>isAdmin()||eventBelongsToCurrentUser(item))
+  if(!visible.length){
+    container.innerHTML='<div class="sub">No hay disponibilidad registrada todavía.</div>'
+    return
+  }
+  visible.forEach((item)=>{
+    const div=document.createElement('div')
+    div.className='list-item'
+    div.innerHTML=`
+      <strong>${item.teacher}</strong> <span class="pill">${item.modality}</span>
+      <div class="sub">${dayLabel(item.day)} · ${item.start} - ${item.end}</div>
+      <div class="sub">${item.note||''}</div>
+      <div class="actions"><button class="btn btn-danger" onclick="deleteAvailability(${item._index})">Borrar</button></div>
+    `
+    container.appendChild(div)
+  })
+}
+function renderConflicts(){
+  const container=document.getElementById('conflictList')
+  const conflicts=findConflicts(isAdmin()?getAllEvents():filteredEvents())
+  container.innerHTML=''
+  if(!conflicts.length){
+    container.innerHTML='<div class="list-item"><span class="pill ok">Sin alertas</span><div class="sub">No se detectan cruces con la información actual.</div></div>'
+    return
+  }
+  conflicts.forEach(c=>{
+    const div=document.createElement('div')
+    div.className='list-item'
+    div.innerHTML=`<span class="pill ${c.level==='danger'?'danger':'warning'}">${c.level==='danger'?'Conflicto':'Advertencia'}</span><div class="sub">${c.message}</div>`
+    container.appendChild(div)
+  })
+}
+function renderEventList(){
+  const container=document.getElementById('eventList')
+  const events=filteredEvents()
+  container.innerHTML=''
+  if(!events.length){
+    container.innerHTML='<div class="sub">No hay eventos con los filtros actuales.</div>'
+    return
+  }
+  events.forEach(event=>{
+    const div=document.createElement('div')
+    div.className='list-item'
+    div.innerHTML=`
+      <strong>${event.title}</strong> <span class="pill">${event.type}</span> <span class="pill">${event.source}</span>
+      <div class="sub">${dayLabel(event.day)} · ${event.start}-${event.end} · ${event.teacher} · ${event.modality}</div>
+      <div class="sub">${event.location||''}</div>
+      ${event.source==='Manual'&&isAdmin()?`<div class="actions"><button class="btn btn-danger" onclick="deleteManualEvent('${event.id}')">Borrar</button></div>`:''}
+    `
+    container.appendChild(div)
+  })
+}
+
+function addAvailability(){
+  const teacherId=document.getElementById('availabilityTeacher').value
+  const teacher=getTeacherNameById(teacherId)||teacherId
+  const day=document.getElementById('availabilityDay').value
+  const start=document.getElementById('availabilityStart').value
+  const end=document.getElementById('availabilityEnd').value
+  const modality=document.getElementById('availabilityModality').value
+  const note=document.getElementById('availabilityNote').value.trim()
+  if(!teacherId||!teacher||!day||!start||!end){alert('Profesor, día, inicio y fin son obligatorios.');return}
+  if(!isActiveTeacherId(teacherId)){alert('Solo puedes registrar disponibilidad para profesores activos.');return}
+  if(timeToMinutes(start)>=timeToMinutes(end)){alert('La hora de inicio debe ser menor que la hora final.');return}
+  availability.push({
+    id:'AVL-'+Date.now(),
+    teacher,teacherId,teacherCode:teacherId,day,start,end,modality,note,
+    createdBy:currentUser.email||currentUser.name||currentUser.role||'',
+    createdByRole:currentUser.role||'',
+    createdAt:new Date().toISOString(),
+    updatedAt:new Date().toISOString()
+  })
+  saveAvailability(availability)
+  document.getElementById('availabilityNote').value=''
+  renderAll()
+}
+function deleteAvailability(index){
+  const item=availability[index]
+  if(!item)return
+  if(!isAdmin() && !eventBelongsToCurrentUser(normalizeTeacherRef(item))){
+    alert('No tienes permiso para borrar esta disponibilidad.')
+    return
+  }
+  const ok=confirm('¿Borrar esta disponibilidad?')
+  if(!ok)return
+  availability.splice(index,1)
+  saveAvailability(availability)
+  renderAll()
+}
+
+function openEventModal(){
+  setupSelects()
+  document.getElementById('eventModal').classList.add('active')
+}
+function closeEventModal(){document.getElementById('eventModal').classList.remove('active')}
+function addManualEvent(){
+  const type=document.getElementById('manualType').value
+  const title=document.getElementById('manualTitle').value.trim()
+  const teacherId=document.getElementById('manualTeacher').value
+  const teacher=getTeacherNameById(teacherId)||teacherId
+  const day=document.getElementById('manualDay').value
+  const start=document.getElementById('manualStart').value
+  const end=document.getElementById('manualEnd').value
+  const modality=document.getElementById('manualModality').value
+  const location=document.getElementById('manualLocation').value.trim()
+  if(!title||!teacherId||!teacher||!day||!start||!end){alert('Título, profesor, día, inicio y fin son obligatorios.');return}
+  if(!isActiveTeacherId(teacherId)){alert('Solo puedes crear eventos manuales para profesores activos.');return}
+  if(timeToMinutes(start)>=timeToMinutes(end)){alert('La hora de inicio debe ser menor que la hora final.');return}
+  const newEvent={
+    id:'MAN-'+Date.now(),type,title,teacher,teacherId,teacherCode:teacherId,day,start,end,modality,location,
+    createdBy:currentUser.email||currentUser.name||currentUser.role||'',
+    createdByRole:currentUser.role||'',
+    createdAt:new Date().toISOString(),
+    updatedAt:new Date().toISOString()
+  }
+  const existing=[...getAllEvents(),newEvent]
+  const teacherConflicts=findConflicts(existing).filter(c=>c.message.includes(teacher))
+  if(teacherConflicts.length){
+    const ok=confirm('Hay posibles conflictos con este evento. ¿Deseas guardarlo de todas formas?')
+    if(!ok)return
+  }
+  manualEvents.push(newEvent)
+  saveManualEvents(manualEvents)
+  closeEventModal()
+  ;['manualTitle','manualStart','manualEnd','manualLocation'].forEach(id=>document.getElementById(id).value='')
+  renderAll()
+}
+function deleteManualEvent(id){
+  const event=manualEvents.find(e=>e.id===id)
+  if(!event)return
+  if(!isAdmin()){
+    alert('Solo administración puede borrar eventos manuales.')
+    return
+  }
+  const ok=confirm('¿Borrar este evento manual?')
+  if(!ok)return
+  manualEvents=manualEvents.filter(e=>e.id!==id)
+  saveManualEvents(manualEvents)
+  renderAll()
+}
+function renderAll(){
+  setupSelects()
+  renderCalendar()
+  renderAvailability()
+  renderConflicts()
+  renderEventList()
+}
+applyRoleAccess()
+renderAll()
+</script>
+</body>
+</html>

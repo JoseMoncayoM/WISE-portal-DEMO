@@ -1,0 +1,1558 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Clases grupales | Wisdom</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#0d2b45;--accent:#1fb6b9;--light:#f5f9fc;--white:#fff;--text:#1f2d3d;--gray:#6b7c93;--border:#dcebf2;--hover:#E6FF00;--soft:#e7f8f8;--danger:#ffefef}
+body{font-family:Inter,Arial,sans-serif;background:var(--light);color:var(--text)}
+.wrap{max-width:1180px;margin:auto;padding:28px}.view{display:none}.view.active{display:block}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;gap:18px}h1{color:var(--primary);font-size:1.9rem;font-weight:900}.sub{color:var(--gray);font-size:.9rem;margin-top:4px}
+.btn{padding:10px 16px;border-radius:999px;border:none;font-weight:800;cursor:pointer;text-decoration:none;display:inline-block}.btn-primary{background:var(--accent);color:white}.btn-secondary{background:white;color:var(--primary);border:1px solid var(--border)}.btn:hover{background:var(--hover);color:black}.btn-danger{background:#ffefef;color:#b00020;border:1px solid #ffd1d1}.btn-danger:hover{background:#b00020;color:white}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.card{background:white;border:1px solid var(--border);border-radius:20px;padding:20px;box-shadow:0 8px 24px rgba(13,43,69,.05)}.card h3{color:var(--primary);margin-bottom:6px}.pill{background:var(--soft);color:var(--accent);padding:5px 10px;border-radius:999px;font-size:.75rem;font-weight:900;display:inline-block}.meta{color:var(--gray);font-size:.85rem;margin:10px 0 16px}.progress{height:9px;background:#eaf2f6;border-radius:999px;overflow:hidden;margin:8px 0}.progress span{display:block;height:100%;background:var(--accent)}
+.search{width:100%;padding:12px;border:1px solid var(--border);border-radius:12px;margin-bottom:18px}.toolbar{display:flex;gap:12px;align-items:center;margin-bottom:18px}.toolbar input{flex:1}
+.session-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:10px}.session{background:white;border:1px solid var(--border);border-radius:14px;padding:12px;text-align:center;font-weight:900;color:var(--primary);cursor:pointer}.session.done{background:var(--soft);color:var(--accent)}.session.blocked{background:#ffefef;color:#b00020;border-color:#ffd1d1;cursor:not-allowed}.session:hover{background:var(--hover);color:black}.session.blocked:hover{background:#ffefef;color:#b00020}
+table{width:100%;border-collapse:collapse}th{text-align:left;color:var(--gray);font-size:.75rem;text-transform:uppercase;padding:10px}td{padding:12px 10px;border-top:1px solid var(--border);font-weight:600}.attendance-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:white;cursor:pointer;font-weight:900}.attendance-btn.present{background:var(--accent);color:white;border-color:var(--accent)}.attendance-btn.absent{background:var(--danger);color:#b00020;border-color:#ffd1d1}
+.modal{position:fixed;inset:0;background:rgba(13,43,69,.35);display:none;align-items:center;justify-content:center;padding:20px;z-index:20}.modal.active{display:flex}.modal-box{width:100%;max-width:560px;background:white;border:1px solid var(--border);border-radius:22px;padding:24px;box-shadow:0 20px 50px rgba(13,43,69,.18)}.modal-box h2{color:var(--primary);margin-bottom:16px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:6px}.field label{font-size:.8rem;font-weight:900;color:var(--primary)}.field input,.field select{padding:11px;border-radius:12px;border:1px solid var(--border);font:inherit}.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.session-grid{grid-template-columns:repeat(4,1fr)}.form-grid{grid-template-columns:1fr}.topbar{flex-direction:column;align-items:flex-start}}
+
+.report-card{border:1px solid var(--border);border-radius:18px;padding:16px;margin-top:14px;background:#fbfeff}
+.report-card.locked{opacity:.65;background:#f7fafc}
+.report-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.report-badge{background:var(--soft);color:var(--accent);padding:5px 10px;border-radius:999px;font-size:.75rem;font-weight:900}
+.report-badge.locked{background:#f2f2f2;color:var(--gray)}
+.score-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:10px 0 16px}
+.score-grid .field select{background:white}
+.skill-result{font-weight:900;color:var(--primary);margin:8px 0}
+.final-score{font-size:1.25rem;font-weight:900;color:var(--accent);margin-top:10px}
+.report-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.admin-panel{border:1px dashed var(--accent);border-radius:18px;padding:16px;margin-bottom:20px;background:#fbfeff}
+.admin-panel h3{margin-bottom:8px}
+.admin-controls{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:end;margin-top:12px}
+.override-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+.override-card{border:1px solid var(--border);border-radius:16px;padding:12px;background:white}
+.override-card .sub{margin:6px 0 10px}
+@media(max-width:900px){.admin-controls,.override-grid{grid-template-columns:1fr}}
+.student-report-selector{max-width:420px}
+@media(max-width:900px){.score-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.score-grid{grid-template-columns:1fr}}
+
+.ops-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:12px}
+.ops-box{background:#fbfdff;border:1px solid var(--border);border-radius:14px;padding:12px}
+.ops-box small{display:block;color:var(--gray);font-weight:900;text-transform:uppercase;font-size:.7rem;margin-bottom:5px}
+.ops-box strong{display:block;color:var(--primary);font-size:1.1rem}
+.ops-box.warning{background:#fff8d6;border-color:#f4df8a}
+.ops-box.danger{background:#ffefef;border-color:#ffd1d1}
+.ops-box.ok{background:#eef7ee;border-color:#c7f0d6}
+.ops-note{margin-top:10px;color:var(--gray);font-size:.9rem;line-height:1.4;font-weight:700}
+@media(max-width:900px){.ops-summary{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.ops-summary{grid-template-columns:1fr}}
+
+.stale-warning{border:1px solid #ffd1d1;background:#ffefef;color:#b00020;border-radius:16px;padding:14px;margin-bottom:16px;font-weight:800;line-height:1.4}
+.stale-warning.ok{background:#eef7ee;border-color:#c7f0d6;color:#257a36}
+.stale-warning small{display:block;margin-top:4px;color:inherit;font-weight:700;opacity:.85}
+
+
+.student-picker{
+  grid-column:1/-1;
+  display:grid;
+  gap:8px;
+  max-height:220px;
+  overflow:auto;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:#fbfdff;
+  padding:10px;
+}
+.student-option{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:10px;
+  background:white;
+}
+.student-option label{
+  display:flex;
+  gap:8px;
+  align-items:flex-start;
+  font-weight:800;
+  color:var(--primary);
+}
+.student-option small{
+  display:block;
+  color:var(--gray);
+  font-weight:700;
+  margin-top:3px;
+}
+.student-option.blocked{
+  opacity:.62;
+  background:#f6f8fa;
+}
+.student-manager{
+  display:grid;
+  gap:12px;
+}
+.student-manager-row{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:10px;
+  align-items:end;
+}
+.student-list{
+  width:100%;
+  border-collapse:collapse;
+}
+.student-status-badge{
+  background:#eef2f6;
+  color:#526273;
+  padding:5px 9px;
+  border-radius:999px;
+  font-size:.72rem;
+  font-weight:900;
+}
+.student-status-badge.ok{background:#eef7ee;color:#257a36}
+.student-status-badge.warning{background:#fff8d6;color:#8a6d00}
+.student-status-badge.danger{background:#ffefef;color:#b00020}
+@media(max-width:700px){.student-manager-row{grid-template-columns:1fr}}
+
+.schedule-days{
+  grid-column:1/-1;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+}
+.schedule-day{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:10px;
+  background:#fbfdff;
+  font-weight:800;
+  color:var(--primary);
+}
+.schedule-help{
+  grid-column:1/-1;
+  color:var(--gray);
+  font-size:.86rem;
+  font-weight:700;
+  line-height:1.35;
+}
+@media(max-width:700px){.schedule-days{grid-template-columns:1fr 1fr}}
+
+@media print{
+  .btn,.modal,.modal-actions,.topbar button,[onclick],button,.report-actions,.no-print,[data-admin-only="true"]{
+    display:none!important;
+  }
+  body{
+    background:white!important;
+    color:#111!important;
+  }
+  .wrap{
+    max-width:100%!important;
+    padding:0!important;
+  }
+  .card,.report-card,.score-box,.locked-report{
+    box-shadow:none!important;
+    border:1px solid #ddd!important;
+    break-inside:avoid;
+  }
+  .view{
+    display:block!important;
+  }
+  .view:not(.active){
+    display:none!important;
+  }
+}
+.report-acceptance{
+  margin-top:14px;
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  background:#fbfdff;
+}
+.report-acceptance label{
+  display:flex;
+  gap:8px;
+  align-items:flex-start;
+  font-weight:800;
+  color:var(--primary);
+}
+.report-acceptance small{
+  display:block;
+  margin-top:6px;
+  color:var(--gray);
+  font-weight:700;
+}
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<section class="view active" id="groupsView">
+<div class="topbar">
+<div>
+<h1>Clases grupales</h1>
+<div class="sub">Cada grupo corresponde a un módulo trimestral de 48 clases.</div>
+</div>
+<div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+<button class="btn btn-secondary" onclick="window.location.href='dashboard.html'">Dashboard</button>
+<button class="btn btn-primary" id="createGroupBtn" onclick="openCreateGroupModal()">Crear grupo</button>
+</div>
+</div>
+<div id="roleNotice" class="sub" style="margin-bottom:14px;font-weight:800"></div>
+<div class="toolbar"><input class="search" id="groupSearch" onkeyup="searchGroups()" placeholder="Buscar grupo, nivel, profesor u horario..."/></div>
+<div class="grid" id="groupsGrid"></div>
+</section>
+<section class="view" id="groupDetailView">
+<div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:12px;">
+<button class="btn btn-secondary" onclick="window.location.href='dashboard.html'">Dashboard</button>
+<button class="btn btn-secondary" onclick="showGroups()">← Volver a grupos</button>
+</div>
+<div class="topbar" style="margin-top:22px">
+<div><h1 id="detailTitle">B1 Noche</h1><div class="sub" id="detailMeta">Profesor · Horario · Fechas</div></div>
+<span class="pill" id="detailProgress">0 / 48</span>
+</div>
+<div id="attendanceStaleWarning" class="stale-warning ok">Registro de asistencia al día.</div>
+
+<div class="card" style="margin-bottom:20px">
+<h3>Progreso del módulo</h3>
+<div class="progress"><span id="detailProgressBar" style="width:0%"></span></div>
+<div class="sub">Selecciona una clase para registrar asistencia. Profesores asignados pueden registrar asistencia de sus grupos.</div>
+</div>
+
+<div class="card" style="margin-bottom:20px">
+<h3>Control operativo de avance</h3><br>
+<div id="groupOperationalProgressInfo"></div>
+</div>
+<div class="card" id="groupStudentsManagerPanel" style="margin-bottom:20px">
+<h3>Estudiantes del grupo</h3><br>
+<div id="groupStudentsManager" class="student-manager"></div>
+</div>
+<div class="admin-panel" id="adminControlsPanel">
+<h3>Controles administrativos</h3>
+<div class="sub">Corrige la clase actual o modifica manualmente las ventanas de reporte. Solo visible para administración.</div>
+<div class="admin-controls">
+<div class="field">
+<label>Clase actual</label>
+<input id="adminCurrentClassInput" type="number" min="0" max="48">
+</div>
+<button class="btn btn-primary" onclick="adminUpdateCurrentClass()">Guardar corrección</button>
+</div>
+<div class="override-grid" id="adminReportOverrides"></div>
+</div>
+
+<div class="card" style="margin-bottom:20px">
+<h3>48 clases del módulo</h3><br/>
+<div class="session-grid" id="sessionGrid"></div>
+</div>
+<div class="card" id="attendancePanel" style="display:none">
+<div class="topbar">
+<div><h3 id="attendanceTitle">Asistencia clase 1</h3><div class="sub">Marca presente o ausente por estudiante.</div></div>
+<button class="btn btn-primary" onclick="saveAttendance()">Guardar asistencia</button>
+</div>
+<table>
+<thead><tr><th>Código</th><th>Estudiante</th><th>Presente</th><th>Ausente</th></tr></thead>
+<tbody id="attendanceTable"></tbody>
+</table>
+</div>
+<div class="card" id="progressReportPanel" style="margin-top:20px">
+<div class="topbar">
+<div>
+<h3>Reportes de progreso</h3>
+<div class="sub">Se habilitan en las clases 15, 31 y 47. Cada estudiante tiene reporte individual.</div>
+</div>
+</div>
+<div class="field student-report-selector">
+<label>Estudiante</label>
+<select id="reportStudentSelect" onchange="renderProgressReports()"></select>
+</div>
+<div id="groupReportsContainer"></div>
+</div>
+
+</section>
+</div>
+<div class="modal" id="createGroupModal">
+<div class="modal-box">
+<h2>Crear grupo trimestral</h2>
+<div class="form-grid">
+<div class="field"><label>Código del grupo</label><input id="groupCode" placeholder="GR-0001" readonly=""/></div>
+<div class="field"><label>Nombre del grupo</label><input id="groupName" placeholder="B1 Noche Abril"/></div>
+<div class="field"><label>Nivel</label><select id="groupLevel"><option>A1</option><option>A2</option><option>B1</option><option>B2</option></select></div>
+<div class="field"><label>Profesor</label><select id="groupTeacher"></select></div>
+<div class="field full"><label>Horario visible</label><input id="groupSchedule" placeholder="Ej: Lun a Jue · 6:30 PM"/></div>
+<div class="field full"><label>Días de clase</label><div class="schedule-days" id="groupScheduleDays">
+  <label class="schedule-day"><input type="checkbox" value="monday" checked> Lunes</label>
+  <label class="schedule-day"><input type="checkbox" value="tuesday" checked> Martes</label>
+  <label class="schedule-day"><input type="checkbox" value="wednesday" checked> Miércoles</label>
+  <label class="schedule-day"><input type="checkbox" value="thursday" checked> Jueves</label>
+  <label class="schedule-day"><input type="checkbox" value="friday"> Viernes</label>
+  <label class="schedule-day"><input type="checkbox" value="saturday"> Sábado</label>
+</div><div class="schedule-help">Estos campos preparan el grupo para aparecer correctamente en calendario. El texto visible se conserva para lectura humana.</div></div>
+<div class="field"><label>Hora inicio</label><input id="groupStartTime" type="time" value="18:30"/></div>
+<div class="field"><label>Hora final</label><input id="groupEndTime" type="time" value="19:45"/></div>
+<div class="field"><label>Modalidad</label><select id="groupModality"><option>Presencial</option><option>Virtual</option><option>Híbrida</option></select></div>
+<div class="field"><label>Salón / enlace</label><input id="groupClassroom" placeholder="Salón 1 / Meet / Zoom"/></div>
+<div class="field"><label>Fecha de inicio</label><input id="groupStart" type="date"/></div>
+<div class="field"><label>Fecha final automática</label><input id="groupEnd" type="date" readonly/></div>
+<div class="field full"><label>Estudiantes disponibles</label><div id="groupStudentsPicker" class="student-picker"><div class="sub">Selecciona un profesor y carga estudiantes disponibles.</div></div><div class="sub">Solo aparecen disponibles quienes no estén activos en otro grupo o paquete privado/semi activo.</div></div>
+</div>
+<div class="modal-actions">
+<button class="btn btn-secondary" onclick="closeCreateGroupModal()">Cancelar</button>
+<button class="btn btn-primary" onclick="createGroup()">Guardar grupo</button>
+</div>
+</div>
+</div>
+<script src="storage.js"></script>
+<script src="schemaRegistry.js"></script>
+<script>
+const GROUPS_KEY='wisdom_groups_demo'
+const TEACHERS_KEY='wisdom_teachers_demo'
+const STUDENTS_KEY='wisdom_students_demo'
+const PRIVATE_KEY='wisdom_private_demo'
+const CURRENT_USER_KEY='wisdom_current_user'
+const NOTIFICATIONS_KEY='wisdom_notifications_demo'
+const defaultGroups=[
+  {id:'G-001',name:'B1 Noche',level:'B1',teacher:'Laura Méndez',schedule:'Lun a Jue · 6:30 PM',start:'2026-04-01',end:'2026-06-30',currentClass:18,students:[{code:'WA-0001',name:'Juan Pérez'},{code:'WA-0004',name:'Camila Gómez'}],attendance:{}},
+  {id:'G-002',name:'A2 Mañana',level:'A2',teacher:'Carlos Peña',schedule:'Lun a Jue · 8:00 AM',start:'2026-04-01',end:'2026-06-30',currentClass:9,students:[{code:'WA-0005',name:'Andrés Díaz'},{code:'WA-0006',name:'Sofía López'}],attendance:{}}
+]
+const currentUser=WisdomStorage.get(CURRENT_USER_KEY,null)
+if(!currentUser || !currentUser.role){
+  window.location.href='login.html'
+}
+
+let teachers=loadTeachers()
+let groups=loadGroups()
+let currentGroupId=null
+let selectedSession=null
+
+function isAdmin(){return currentUser.role==='admin'}
+function isTeacher(){return currentUser.role==='teacher'}
+
+function safeParse(value,fallback=[]){
+  try{
+    const parsed=value?JSON.parse(value):fallback
+    return Array.isArray(parsed)?parsed:fallback
+  }catch(error){return fallback}
+}
+
+function loadTeachers(){
+  return WisdomStorage.get(TEACHERS_KEY,[]).map(teacher=>{
+    const id=teacher.id || teacher.teacherId || teacher.code || ''
+    return {
+      ...teacher,
+      id,
+      teacherId:id,
+      code:id,
+      status:teacher.status || 'Activo'
+    }
+  })
+}
+
+function getTeacherId(teacher){
+  return teacher?.id || teacher?.teacherId || teacher?.code || ''
+}
+
+function getTeacherNameById(teacherId){
+  const teacher=teachers.find(t=>getTeacherId(t)===teacherId)
+  return teacher?.name || ''
+}
+
+function normalizeText(value){
+  return String(value || '').trim().toLowerCase()
+}
+
+const GROUP_DAY_LABELS={monday:'Lun',tuesday:'Mar',wednesday:'Mié',thursday:'Jue',friday:'Vie',saturday:'Sáb',sunday:'Dom'}
+const GROUP_DAY_ORDER=['monday','tuesday','wednesday','thursday','friday','saturday','sunday']
+
+function inferScheduleDaysFromText(text){
+  const value=normalizeText(text)
+  if(value.includes('lun') && (value.includes('jue') || value.includes('jueves'))) return ['monday','tuesday','wednesday','thursday']
+  const days=[]
+  const checks=[['monday',['lun','lunes']],['tuesday',['mar','martes']],['wednesday',['mie','mié','miercoles','miércoles']],['thursday',['jue','jueves']],['friday',['vie','viernes']],['saturday',['sab','sáb','sabado','sábado']],['sunday',['dom','domingo']]]
+  checks.forEach(([day,patterns])=>{if(patterns.some(pattern=>value.includes(pattern)))days.push(day)})
+  return days.length?days:['monday','tuesday','wednesday','thursday']
+}
+
+function minutesToTime(total){
+  const hours=String(Math.floor(total/60)).padStart(2,'0')
+  const minutes=String(total%60).padStart(2,'0')
+  return `${hours}:${minutes}`
+}
+
+function inferStartTimeFromText(text){
+  const value=String(text||'')
+  const match=value.match(/(\d{1,2})(?::(\d{2}))?\s*(AM|PM)?/i)
+  if(!match) return ''
+  let hour=Number(match[1])
+  const minute=Number(match[2]||0)
+  const suffix=String(match[3]||'').toUpperCase()
+  if(suffix==='PM' && hour<12) hour+=12
+  if(suffix==='AM' && hour===12) hour=0
+  if(hour<0||hour>23||minute<0||minute>59) return ''
+  return `${String(hour).padStart(2,'0')}:${String(minute).padStart(2,'0')}`
+}
+
+function addMinutesToTime(time,minutes){
+  if(!time) return ''
+  const [h,m]=String(time).split(':').map(Number)
+  if(Number.isNaN(h)||Number.isNaN(m)) return ''
+  return minutesToTime((h*60+m+minutes)%(24*60))
+}
+
+function selectedScheduleDays(){
+  return Array.from(document.querySelectorAll('#groupScheduleDays input[type="checkbox"]:checked')).map(input=>input.value)
+}
+
+function setScheduleDays(days){
+  const set=new Set(days&&days.length?days:['monday','tuesday','wednesday','thursday'])
+  document.querySelectorAll('#groupScheduleDays input[type="checkbox"]').forEach(input=>{input.checked=set.has(input.value)})
+}
+
+function scheduleDaysLabel(days){
+  const ordered=GROUP_DAY_ORDER.filter(day=>(days||[]).includes(day))
+  if(ordered.join(',')==='monday,tuesday,wednesday,thursday') return 'Lun a Jue'
+  return ordered.map(day=>GROUP_DAY_LABELS[day]||day).join(', ')
+}
+
+function buildScheduleLabel(days,startTime,endTime,modality,classroom){
+  const parts=[]
+  if(days&&days.length) parts.push(scheduleDaysLabel(days))
+  if(startTime) parts.push(startTime+(endTime?`–${endTime}`:''))
+  if(modality) parts.push(modality)
+  if(classroom) parts.push(classroom)
+  return parts.join(' · ')
+}
+
+function getStructuredScheduleFromForm(){
+  const scheduleDays=selectedScheduleDays()
+  const startTime=document.getElementById('groupStartTime')?.value||''
+  const endTime=document.getElementById('groupEndTime')?.value||''
+  const modality=document.getElementById('groupModality')?.value||'Presencial'
+  const classroom=document.getElementById('groupClassroom')?.value.trim()||''
+  const typedSchedule=document.getElementById('groupSchedule')?.value.trim()||''
+  const generated=buildScheduleLabel(scheduleDays,startTime,endTime,modality,classroom)
+  return {scheduleDays,startTime,endTime,modality,classroom,schedule:typedSchedule||generated}
+}
+
+function displayGroupSchedule(group){
+  const normalized=normalizeGroup(group)
+  return normalized.schedule || buildScheduleLabel(normalized.scheduleDays,normalized.startTime,normalized.endTime,normalized.modality,normalized.classroom) || 'Sin horario'
+}
+
+function normalizeStudentRecord(student){
+  const code=student.code || student.studentId || student.id || student.studentCode || ''
+  return {
+    ...student,
+    code,
+    studentId:code,
+    name:student.name || student.studentName || 'Estudiante sin nombre',
+    email:student.email || '',
+    status:student.status || 'Activo'
+  }
+}
+function getAllStudents(){
+  return WisdomStorage.get(STUDENTS_KEY,[]).map(normalizeStudentRecord).filter(student=>student.code)
+}
+function normalizePrivatePackage(pkg){
+  const status=String(pkg.status || pkg.state || '').toLowerCase()
+  const total=Number(pkg.totalHours || pkg.hours || pkg.packageHours || 20) || 20
+  const used=Number(pkg.usedHours || pkg.consumedHours || pkg.completedHours || pkg.sessionsDone || pkg.sessions?.length || 0) || 0
+  const studentCode=pkg.studentCode || pkg.studentId || pkg.code || pkg.student?.code || ''
+  const students=Array.isArray(pkg.students) ? pkg.students.map(normalizeStudentRecord) : []
+  const isClosed=status.includes('cerr') || status.includes('final') || status.includes('complete') || status.includes('inactivo') || used>=total
+  return {...pkg,studentCode,students,totalHours:total,usedHours:used,isClosed}
+}
+function getPrivatePackages(){
+  return WisdomStorage.get(PRIVATE_KEY,[]).map(normalizePrivatePackage)
+}
+function studentInGroup(studentCode, excludeGroupId=''){
+  const code=String(studentCode||'')
+  return groups.map(normalizeGroup).find(group=>{
+    if(excludeGroupId && group.id===excludeGroupId) return false
+    const current=getGroupCurrentClass(group)
+    const active=current<48
+    return active && group.students.some(student=>String(student.code)===code)
+  }) || null
+}
+function studentInPrivatePackage(studentCode){
+  const code=String(studentCode||'')
+  return getPrivatePackages().find(pkg=>{
+    if(pkg.isClosed) return false
+    if(String(pkg.studentCode||'')===code) return true
+    return pkg.students.some(student=>String(student.code)===code)
+  }) || null
+}
+function studentAvailability(studentCode, excludeGroupId=''){
+  const group=studentInGroup(studentCode,excludeGroupId)
+  if(group) return {available:false,type:'group',label:`En otro grupal: ${group.code||group.id} · ${group.name||''}`}
+  const pkg=studentInPrivatePackage(studentCode)
+  if(pkg) return {available:false,type:'private',label:`En privada/semi activa: ${pkg.code||pkg.id||pkg.packageCode||'paquete activo'}`}
+  return {available:true,type:'available',label:'Disponible'}
+}
+function renderCreateStudentPicker(){
+  const picker=document.getElementById('groupStudentsPicker')
+  if(!picker)return
+  const students=getAllStudents().filter(student=>student.status!=='Inactivo')
+  if(!students.length){
+    picker.innerHTML='<div class="sub">No hay estudiantes creados todavía.</div>'
+    return
+  }
+  picker.innerHTML=students.map(student=>{
+    const availability=studentAvailability(student.code)
+    return `<div class="student-option ${availability.available?'':'blocked'}">
+      <label>
+        <input type="checkbox" class="create-student-checkbox" value="${student.code}" ${availability.available?'':'disabled'}>
+        <span>${student.code} · ${student.name}<small>${student.email||'Sin correo'}</small></span>
+      </label>
+      <span class="student-status-badge ${availability.available?'ok':'danger'}">${availability.label}</span>
+    </div>`
+  }).join('')
+}
+function selectedStudentsForNewGroup(){
+  const selected=Array.from(document.querySelectorAll('.create-student-checkbox:checked')).map(input=>input.value)
+  const students=getAllStudents()
+  return selected.map(code=>{
+    const student=students.find(item=>item.code===code)
+    return {code,name:student?.name||code,email:student?.email||''}
+  })
+}
+function availableStudentsForCurrentGroup(){
+  const group=groups.find(g=>g.id===currentGroupId)
+  const normalized=normalizeGroup(group||{})
+  const currentCodes=new Set(normalized.students.map(student=>student.code))
+  return getAllStudents().filter(student=>{
+    if(currentCodes.has(student.code)) return false
+    return studentAvailability(student.code,currentGroupId).available
+  })
+}
+function renderGroupStudentsManager(group){
+  const container=document.getElementById('groupStudentsManager')
+  if(!container)return
+  const normalized=normalizeGroup(group)
+  const canEdit=isAdmin()
+  const available=availableStudentsForCurrentGroup()
+  const rows=normalized.students.length ? normalized.students.map(student=>`
+    <tr>
+      <td>${student.code}</td>
+      <td>${student.name}</td>
+      <td><span class="student-status-badge ok">En este grupo</span></td>
+      <td>${canEdit?`<button class="btn btn-danger" onclick="removeStudentFromCurrentGroup('${student.code}')">Quitar</button>`:'-'}</td>
+    </tr>`).join('') : '<tr><td colspan="4">Este grupo todavía no tiene estudiantes.</td></tr>'
+  container.innerHTML=`
+    ${canEdit?`<div class="student-manager-row">
+      <div class="field"><label>Agregar estudiante disponible</label><select id="addStudentToGroupSelect">${available.length?available.map(student=>`<option value="${student.code}">${student.code} · ${student.name}</option>`).join(''):'<option value="">No hay estudiantes disponibles</option>'}</select></div>
+      <button class="btn btn-primary" onclick="addStudentToCurrentGroup()" ${available.length?'':'disabled'}>Agregar estudiante</button>
+    </div>`:'<div class="sub">Solo administración puede agregar o quitar estudiantes.</div>'}
+    <table class="student-list"><thead><tr><th>Código</th><th>Estudiante</th><th>Estado</th><th>Acción</th></tr></thead><tbody>${rows}</tbody></table>
+  `
+}
+function addStudentToCurrentGroup(){
+  if(!isAdmin())return
+  const code=document.getElementById('addStudentToGroupSelect')?.value
+  if(!code){alert('No hay estudiante seleccionado.');return}
+  const availability=studentAvailability(code,currentGroupId)
+  if(!availability.available){alert('Este estudiante no está disponible: '+availability.label);return}
+  const student=getAllStudents().find(item=>item.code===code)
+  if(!student){alert('No se encontró el estudiante.');return}
+  const index=groups.findIndex(g=>g.id===currentGroupId)
+  if(index<0)return
+  const group=normalizeGroup(groups[index])
+  if(group.students.some(item=>item.code===code)){alert('Este estudiante ya está en el grupo.');return}
+  group.students.push({code:student.code,name:student.name,email:student.email||'',addedAt:new Date().toISOString(),addedBy:currentUser.email||currentUser.name||'admin'})
+  group.updatedAt=new Date().toISOString()
+  groups[index]=group
+  saveGroups()
+  openGroup(currentGroupId)
+}
+function removeStudentFromCurrentGroup(code){
+  if(!isAdmin())return
+  const index=groups.findIndex(g=>g.id===currentGroupId)
+  if(index<0)return
+  const group=normalizeGroup(groups[index])
+  const student=group.students.find(item=>item.code===code)
+  if(!student)return
+  const ok=confirm(`¿Quitar a ${student.name||code} de este grupo? No se borrará del sistema ni se tocarán otros módulos.`)
+  if(!ok)return
+  group.students=group.students.filter(item=>item.code!==code)
+  group.updatedAt=new Date().toISOString()
+  groups[index]=group
+  saveGroups()
+  openGroup(currentGroupId)
+}
+
+function currentTeacherIdentity(){
+  const ids=[
+    currentUser.teacherId,
+    currentUser.teacherCode,
+    currentUser.id,
+    currentUser.code
+  ].filter(Boolean).map(String)
+
+  const email=normalizeText(currentUser.email)
+  const name=normalizeText(currentUser.name)
+
+  return {ids,email,name}
+}
+
+function teacherMatchesCurrentUser(group){
+  if(!isTeacher()) return true
+
+  const identity=currentTeacherIdentity()
+  const groupIds=[
+    group.teacherId,
+    group.teacherCode,
+    group.teacher_id,
+    group.teacherCodeId
+  ].filter(Boolean).map(String)
+
+  const idMatch=identity.ids.some(id=>groupIds.includes(id))
+  const emailMatch=identity.email && normalizeText(group.teacherEmail)===identity.email
+  const nameMatch=identity.name && normalizeText(group.teacher)===identity.name
+
+  return idMatch || emailMatch || nameMatch
+}
+
+function visibleGroups(){
+  return groups.filter(group=>teacherMatchesCurrentUser(group))
+}
+
+function applyRoleControls(){
+  const createBtn=document.getElementById('createGroupBtn')
+  if(createBtn && !isAdmin()) createBtn.style.display='none'
+  const adminPanel=document.getElementById('adminControlsPanel')
+  if(adminPanel && !isAdmin()) adminPanel.style.display='none'
+}
+
+function canManageGroupAttendance(group){
+  if(isAdmin()) return true
+  if(isTeacher()) return teacherMatchesCurrentUser(group)
+  return false
+}
+
+
+function parseDateOnly(value){if(!value)return null;const date=new Date(value+'T00:00:00');return Number.isNaN(date.getTime())?null:date}
+function formatDateOnly(date){return (!date||Number.isNaN(date.getTime()))?'':date.toISOString().slice(0,10)}
+function addDays(date,days){const copy=new Date(date);copy.setDate(copy.getDate()+days);return copy}
+function daysBetween(start,end){return Math.floor((end-start)/(1000*60*60*24))}
+function calculateGroupEndDate(startDate){const start=parseDateOnly(startDate);if(!start)return '';return formatDateOnly(addDays(start,(12*7)-1))}
+function getExpectedGroupClasses(group){
+  const normalized=normalizeGroup(group);const start=parseDateOnly(normalized.start);if(!start)return 0;
+  const today=new Date();today.setHours(0,0,0,0);if(today<start)return 0;
+  return Math.min(48,Math.ceil((daysBetween(start,today)+1)/7)*4)
+}
+function getGroupOperationalStatus(group){
+  const normalized=normalizeGroup(group);const expected=getExpectedGroupClasses(normalized);const actual=getGroupCurrentClass(normalized);const diff=actual-expected;
+  const startDate=normalized.start||'';const endDate=normalized.end||calculateGroupEndDate(startDate);
+  let status='Al día',level='ok',note='El grupo avanza de forma coherente con el calendario fijo de 4 clases por semana.';
+  if(!startDate){status='Sin fecha de inicio';level='warning';note='Agrega una fecha de inicio para medir avance esperado vs. avance real.'}
+  else if(expected===0){status='Programado';level='ok';note='El grupo todavía no debería tener clases registradas según la fecha de inicio.'}
+  else if(diff<=-4){status='Riesgo operativo';level='danger';note='El grupo está una semana o más por debajo del avance esperado. Conviene hablar con el profesor.'}
+  else if(diff<0){status='Atrasado';level='warning';note='El grupo está por debajo del avance esperado.'}
+  else if(diff>=4){status='Adelantado';level='ok';note='El grupo avanza por encima del calendario fijo esperado.'}
+  return {status,level,note,expected,actual,diff,startDate,endDate,weekly:4}
+}
+function renderGroupOperationalProgress(group){
+  const container=document.getElementById('groupOperationalProgressInfo');if(!container)return;
+  const status=getGroupOperationalStatus(group);
+  container.innerHTML=`
+    <div class="ops-summary">
+      <div class="ops-box ${status.level}"><small>Estado</small><strong>${status.status}</strong></div>
+      <div class="ops-box"><small>Inicio</small><strong>${status.startDate||'Sin fecha'}</strong></div>
+      <div class="ops-box"><small>Final estimado</small><strong>${status.endDate||'Sin fecha'}</strong></div>
+      <div class="ops-box"><small>Intensidad</small><strong>4/semana</strong></div>
+      <div class="ops-box"><small>Esperadas</small><strong>${status.expected}</strong></div>
+      <div class="ops-box"><small>Reales</small><strong>${status.actual}</strong></div>
+      <div class="ops-box ${status.diff<0?'warning':'ok'}"><small>Diferencia</small><strong>${status.diff>0?'+':''}${status.diff}</strong></div>
+      <div class="ops-box"><small>Total módulo</small><strong>48 clases</strong></div>
+    </div><div class="ops-note">${status.note}</div>`
+}
+function bindGroupDateCalculation(){
+  const startInput=document.getElementById('groupStart');const endInput=document.getElementById('groupEnd');
+  if(!startInput||!endInput)return;
+  startInput.addEventListener('change',()=>{endInput.value=calculateGroupEndDate(startInput.value)})
+}
+
+
+function staleSafeArray(key){
+  return WisdomStorage.get(key,[])
+}
+function staleSaveArray(key,data){WisdomStorage.set(key,data)}
+function staleDaysSince(value){
+  if(!value)return null
+  const date=new Date(value)
+  if(Number.isNaN(date.getTime()))return null
+  const today=new Date();today.setHours(0,0,0,0);date.setHours(0,0,0,0)
+  return Math.floor((today-date)/(1000*60*60*24))
+}
+function getLastAttendanceDate(group){
+  const records=Object.values((group||{}).attendance||{})
+    .map(record=>record?.savedAt||record?.updatedAt||record?.date||'')
+    .filter(Boolean)
+    .map(value=>new Date(value))
+    .filter(date=>!Number.isNaN(date.getTime()))
+  if(records.length)return records.sort((a,b)=>b-a)[0].toISOString()
+  return group?.updatedAt||''
+}
+function getAttendanceStaleStatus(group){
+  const normalized=normalizeGroup(group)
+  const current=getGroupCurrentClass(normalized)
+  const last=getLastAttendanceDate(normalized)
+  const days=staleDaysSince(last)
+  if(current<=0)return {isStale:false,level:'ok',title:'Asistencia pendiente de iniciar',detail:'Este grupo todavía no tiene asistencias registradas.'}
+  if(days===null)return {isStale:true,level:'danger',title:'Asistencia sin fecha de actualización',detail:'Hay clases registradas, pero no se encontró fecha de actualización.'}
+  if(days>2)return {isStale:true,level:days>=5?'danger':'warning',title:'Asistencia sin actualizar por más de 2 días',detail:`Este grupo lleva ${days} días sin registrar o actualizar asistencia.`}
+  return {isStale:false,level:'ok',title:'Registro de asistencia al día',detail:`Última actualización hace ${days} día(s).`}
+}
+function nextStaleNotificationCode(items){
+  const nums=items.map(n=>n.id||'').filter(id=>String(id).startsWith('NOT-')).map(id=>parseInt(String(id).replace('NOT-',''),10)).filter(n=>!Number.isNaN(n))
+  return `NOT-${String(nums.length?Math.max(...nums)+1:1).padStart(4,'0')}`
+}
+function upsertAttendanceNotification(group){
+  const normalized=normalizeGroup(group)
+  const stale=getAttendanceStaleStatus(normalized)
+  const notifications=staleSafeArray(NOTIFICATIONS_KEY)
+  const refId=`attendance-stale-${normalized.id||normalized.code}`
+  const index=notifications.findIndex(note=>note.refId===refId)
+  if(!stale.isStale){
+    if(index>=0){
+      notifications[index]={...notifications[index],status:'Resuelta',resolvedAt:new Date().toISOString(),updatedAt:new Date().toISOString()}
+      staleSaveArray(NOTIFICATIONS_KEY,notifications)
+    }
+    return
+  }
+  const notification={
+    id:index>=0?notifications[index].id:nextStaleNotificationCode(notifications),
+    refId,
+    type:'attendance_stale',
+    title:'Asistencia grupal sin actualizar',
+    message:`${normalized.code||normalized.id||'Grupo'} · ${normalized.name||'Grupo sin nombre'}: ${stale.detail}`,
+    status:'Nueva',
+    level:stale.level,
+    link:'grupales.html',
+    groupId:normalized.id||'',
+    groupCode:normalized.code||normalized.id||'',
+    groupName:normalized.name||'',
+    teacherId:normalized.teacherId||normalized.teacherCode||'',
+    teacherName:normalized.teacher||'',
+    createdAt:index>=0?(notifications[index].createdAt||new Date().toISOString()):new Date().toISOString(),
+    updatedAt:new Date().toISOString()
+  }
+  if(index>=0)notifications[index]={...notifications[index],...notification,status:'Nueva'}
+  else notifications.push(notification)
+  staleSaveArray(NOTIFICATIONS_KEY,notifications)
+}
+function refreshAttendanceNotifications(){groups.map(normalizeGroup).forEach(group=>upsertAttendanceNotification(group))}
+function renderAttendanceStaleWarning(group){
+  const warning=document.getElementById('attendanceStaleWarning')
+  if(!warning)return
+  const stale=getAttendanceStaleStatus(group)
+  warning.className='stale-warning '+(stale.isStale?'':'ok')
+  warning.innerHTML=`${stale.title}<small>${stale.detail}</small>`
+}
+
+
+function reportSafeArray(key){
+  return WisdomStorage.get(key,[])
+}
+function reportSaveArray(key,data){WisdomStorage.set(key,data)}
+function nextReportNotificationCode(items){
+  const nums=items.map(n=>n.id||'').filter(id=>String(id).startsWith('NOT-')).map(id=>parseInt(String(id).replace('NOT-',''),10)).filter(n=>!Number.isNaN(n))
+  return `NOT-${String(nums.length?Math.max(...nums)+1:1).padStart(4,'0')}`
+}
+function upsertProgressReportNotificationGroup(group,student,reportNumber){
+  const normalized=normalizeGroup(group)
+  const notifications=reportSafeArray(NOTIFICATIONS_KEY)
+  const refId=`group-progress-report-${normalized.id||normalized.code}-${student.code}-r${reportNumber}`
+  const index=notifications.findIndex(note=>note.refId===refId)
+  const notification={
+    id:index>=0?notifications[index].id:nextReportNotificationCode(notifications),
+    refId,
+    type:'progress_report_group',
+    title:'Nuevo reporte de progreso grupal',
+    message:`${normalized.code||normalized.id||'Grupo'} · ${normalized.name||'Grupo'} · ${student.name||student.code}: reporte ${reportNumber} disponible para revisión y aceptación.`,
+    status:'Nueva',
+    level:'warning',
+    link:'grupales.html',
+    groupId:normalized.id||'',
+    groupCode:normalized.code||normalized.id||'',
+    groupName:normalized.name||'',
+    studentId:student.code||'',
+    studentName:student.name||'',
+    teacherId:normalized.teacherId||normalized.teacherCode||'',
+    teacherName:normalized.teacher||'',
+    reportNumber,
+    createdAt:index>=0?(notifications[index].createdAt||new Date().toISOString()):new Date().toISOString(),
+    updatedAt:new Date().toISOString()
+  }
+  if(index>=0)notifications[index]={...notifications[index],...notification,status:'Nueva'}
+  else notifications.push(notification)
+  reportSaveArray(NOTIFICATIONS_KEY,notifications)
+}
+function acceptGroupProgressReport(reportNumber){
+  const groupIndex=groups.findIndex(g=>g.id===currentGroupId)
+  if(groupIndex<0)return
+  const studentCode=document.getElementById('reportStudentSelect')?.value
+  if(!studentCode)return
+  const group=normalizeGroup(groups[groupIndex])
+  const key=getReportKey(reportNumber)
+  group.reports=group.reports||{}
+  group.reports[studentCode]=group.reports[studentCode]||{}
+  group.reports[studentCode][key]=group.reports[studentCode][key]||defaultReport()
+  group.reports[studentCode][key].accepted=true
+  group.reports[studentCode][key].acceptedAt=new Date().toISOString()
+  group.reports[studentCode][key].acceptedBy=currentUser.name||currentUser.email||currentUser.role||'Usuario'
+  groups[groupIndex]=group
+  saveGroups()
+  renderProgressReports()
+  alert('Reporte aceptado y registrado.')
+}
+function printCurrentProgressReport(){
+  window.print()
+}
+
+function loadGroups(){
+  const loaded=WisdomStorage.get(GROUPS_KEY,defaultGroups);
+
+  return loaded.map((group,index)=>{
+    const baseGroup={
+      ...group,
+      code: group.code || (/^GR-\d+$/.test(group.id||'') ? group.id : `GR-${String(index+1).padStart(4,'0')}`),
+      id: group.id && /^GR-\d+$/.test(group.id) ? group.id : (group.code || `GR-${String(index+1).padStart(4,'0')}`)
+    };
+
+    if(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeGroup){
+      return SchemaRegistry.normalizeGroup(baseGroup)
+    }
+
+    return normalizeGroup(baseGroup)
+  });
+}
+function saveGroups(){
+  const normalized=(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeCollection)
+    ? SchemaRegistry.normalizeCollection(groups,'normalizeGroup')
+    : groups.map(normalizeGroup)
+
+  WisdomStorage.set(GROUPS_KEY,normalized)
+}
+
+function normalizeGroup(group={}){
+  if(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeGroup){
+    const normalized=SchemaRegistry.normalizeGroup(group)
+
+    normalized.attendance=normalized.attendance||{}
+    normalized.reports=normalized.reports||{}
+    normalized.reportOverrides=normalized.reportOverrides||{}
+    normalized.adminNotes=Array.isArray(normalized.adminNotes)?normalized.adminNotes:[]
+    normalized.students=Array.isArray(normalized.students)?normalized.students:[]
+    normalized.currentClass=Number(normalized.currentClass)||Object.keys(normalized.attendance||{}).length||0
+    normalized.start=normalized.start||''
+    normalized.end=normalized.end||calculateGroupEndDate(normalized.start)
+    normalized.scheduleDays=Array.isArray(normalized.scheduleDays)&&normalized.scheduleDays.length?normalized.scheduleDays:inferScheduleDaysFromText(normalized.schedule||'')
+    normalized.startTime=normalized.startTime||inferStartTimeFromText(normalized.schedule||'')||''
+    normalized.endTime=normalized.endTime||addMinutesToTime(normalized.startTime,75)||''
+    normalized.modality=normalized.modality||normalized.mode||'Presencial'
+    normalized.classroom=normalized.classroom||normalized.room||normalized.location||''
+    normalized.schedule=normalized.schedule||buildScheduleLabel(normalized.scheduleDays,normalized.startTime,normalized.endTime,normalized.modality,normalized.classroom)
+    normalized.teacherId=normalized.teacherId || normalized.teacherCode || ''
+    normalized.teacherCode=normalized.teacherCode || normalized.teacherId || ''
+
+    if(normalized.teacherId && !normalized.teacher){
+      normalized.teacher=getTeacherNameById(normalized.teacherId) || normalized.teacher || 'Profesor asignado'
+    }
+
+    return normalized
+  }
+
+  const normalized={...group};
+  normalized.attendance=normalized.attendance||{};
+  normalized.reports=normalized.reports||{};
+  normalized.reportOverrides=normalized.reportOverrides||{};
+  normalized.adminNotes=Array.isArray(normalized.adminNotes)?normalized.adminNotes:[];
+  normalized.students=Array.isArray(normalized.students)?normalized.students:[];
+  normalized.currentClass=Number(normalized.currentClass)||Object.keys(normalized.attendance||{}).length||0;
+  normalized.start=normalized.start||'';
+  normalized.end=normalized.end||calculateGroupEndDate(normalized.start);
+  normalized.scheduleDays=Array.isArray(normalized.scheduleDays)&&normalized.scheduleDays.length?normalized.scheduleDays:inferScheduleDaysFromText(normalized.schedule||'');
+  normalized.startTime=normalized.startTime||inferStartTimeFromText(normalized.schedule||'')||'';
+  normalized.endTime=normalized.endTime||addMinutesToTime(normalized.startTime,75)||'';
+  normalized.modality=normalized.modality||normalized.mode||'Presencial';
+  normalized.classroom=normalized.classroom||normalized.room||normalized.location||'';
+  normalized.schedule=normalized.schedule||buildScheduleLabel(normalized.scheduleDays,normalized.startTime,normalized.endTime,normalized.modality,normalized.classroom);
+  normalized.teacherId=normalized.teacherId || normalized.teacherCode || '';
+  normalized.teacherCode=normalized.teacherCode || normalized.teacherId || '';
+  if(normalized.teacherId && !normalized.teacher){
+    normalized.teacher=getTeacherNameById(normalized.teacherId) || normalized.teacher || 'Profesor asignado';
+  }
+  return normalized;
+}
+function getGroupCurrentClass(group){
+  const normalized=normalizeGroup(group);
+  return Math.max(Number(normalized.currentClass)||0,Object.keys(normalized.attendance||{}).length||0);
+}
+function scoreOptions(selectedValue){
+  const options=['','0','10','15','25'];
+  const labels={'':'Seleccionar','0':'0%','10':'10%','15':'15%','25':'25%'};
+  return options.map(value=>`<option value="${value}" ${String(selectedValue??'')===value?'selected':''}>${labels[value]}</option>`).join('');
+}
+function getReportKey(reportNumber){return `report${reportNumber}`;}
+function getReportWindow(reportNumber){
+  if(reportNumber===1)return {start:15,end:17};
+  if(reportNumber===2)return {start:31,end:33};
+  return {start:47,end:48};
+}
+function getReportUnlockClass(reportNumber){
+  return getReportWindow(reportNumber).start;
+}
+function isReportWindowOpen(reportNumber,currentClass){
+  const window=getReportWindow(reportNumber);
+  return currentClass>=window.start && currentClass<window.end;
+}
+function reportWindowLabel(reportNumber){
+  const window=getReportWindow(reportNumber);
+  return `clases ${window.start} a ${window.end-1}`;
+}
+function getReportOverride(group, reportNumber){
+  const normalized=normalizeGroup(group);
+  const key=getReportKey(reportNumber);
+  return normalized.reportOverrides?.[key] || {status:'auto',reason:'',updatedAt:''};
+}
+function isReportAvailable(group, reportNumber, currentClass){
+  const override=getReportOverride(group,reportNumber);
+  if(override.status==='open')return true;
+  if(override.status==='closed')return false;
+  return isReportWindowOpen(reportNumber,currentClass);
+}
+
+function reportIsAdminClosed(group, reportNumber){
+  const override=getReportOverride(group,reportNumber);
+  return override.status==='closed';
+}
+function reportIsCompleteForAllStudents(group, reportNumber){
+  const normalized=normalizeGroup(group);
+  const key=getReportKey(reportNumber);
+  if(!normalized.students.length) return true;
+  return normalized.students.every(student=>Boolean(normalized.reports?.[student.code]?.[key]));
+}
+function getBlockingReport(group){
+  const normalized=normalizeGroup(group);
+  const current=getGroupCurrentClass(normalized);
+  for(const reportNumber of [1,2,3]){
+    const window=getReportWindow(reportNumber);
+    if(current>=window.start && current<window.end){
+      if(reportIsAdminClosed(normalized,reportNumber)) continue;
+      if(!reportIsCompleteForAllStudents(normalized,reportNumber)){
+        return {reportNumber,window,current};
+      }
+    }
+  }
+  return null;
+}
+function canAdvanceToSession(group, sessionNumber){
+  const normalized=normalizeGroup(group);
+  const current=getGroupCurrentClass(normalized);
+  const target=Number(sessionNumber)||0;
+  if(target<=current) return true;
+  if(current>=48){
+    alert('Este grupo ya completó las 48 clases. No puedes avanzar más sesiones.');
+    return false;
+  }
+  const blocking=getBlockingReport(normalized);
+  if(blocking){
+    alert(`No puedes avanzar a la clase ${target}. Primero completa el reporte ${blocking.reportNumber} para todos los estudiantes o pide a administración cerrar la ventana manualmente.`);
+    return false;
+  }
+  return true;
+}
+function isSessionVisuallyBlocked(group, sessionNumber){
+  const normalized=normalizeGroup(group);
+  const current=getGroupCurrentClass(normalized);
+  return Number(sessionNumber)>current && Boolean(getBlockingReport(normalized));
+}
+function getReportStatusText(group, reportNumber, currentClass){
+  const override=getReportOverride(group,reportNumber);
+  const window=getReportWindow(reportNumber);
+  if(override.status==='open')return 'Abierto por administración';
+  if(override.status==='closed')return 'Cerrado por administración';
+  if(currentClass<window.start)return 'Bloqueado hasta clase '+window.start;
+  if(currentClass>=window.end)return 'Cerrado desde clase '+window.end;
+  return 'Disponible';
+}
+function renderAdminControls(group){
+  const input=document.getElementById('adminCurrentClassInput');
+  const grid=document.getElementById('adminReportOverrides');
+  if(!input||!grid)return;
+  const normalized=normalizeGroup(group);
+  const current=getGroupCurrentClass(normalized);
+  input.value=current;
+  grid.innerHTML='';
+  [1,2,3].forEach(reportNumber=>{
+    const override=getReportOverride(normalized,reportNumber);
+    const card=document.createElement('div');
+    card.className='override-card';
+    card.innerHTML=`
+      <strong>Reporte ${reportNumber}</strong>
+      <div class="sub">Ventana automática: ${reportWindowLabel(reportNumber)}</div>
+      <div class="sub">Estado actual: <strong>${getReportStatusText(normalized,reportNumber,current)}</strong></div>
+      ${override.reason?`<div class="sub">Razón: ${override.reason}</div>`:''}
+      ${override.updatedAt?`<div class="sub">Último cambio: ${override.updatedAt}</div>`:''}
+      <div class="report-actions">
+        <button class="btn btn-primary" onclick="adminSetReportOverride(${reportNumber},'open')">Abrir</button>
+        <button class="btn btn-danger" onclick="adminSetReportOverride(${reportNumber},'closed')">Cerrar</button>
+        <button class="btn btn-secondary" onclick="adminSetReportOverride(${reportNumber},'auto')">Automático</button>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+function addAdminNote(group,message){
+  group.adminNotes=Array.isArray(group.adminNotes)?group.adminNotes:[];
+  group.adminNotes.push({date:new Date().toLocaleString('es-CO'),message});
+}
+function adminUpdateCurrentClass(){
+  if(!isAdmin()) return;
+  const groupIndex=groups.findIndex(g=>g.id===currentGroupId);
+  if(groupIndex<0)return;
+  const group=normalizeGroup(groups[groupIndex]);
+  const value=Number(document.getElementById('adminCurrentClassInput')?.value);
+  if(Number.isNaN(value)||value<0||value>48){
+    alert('La clase actual debe estar entre 0 y 48.');
+    return;
+  }
+  const reason=prompt('Razón de la corrección administrativa:');
+  if(reason===null)return;
+  if(!reason.trim()){
+    alert('La razón es obligatoria.');
+    return;
+  }
+  const previous=getGroupCurrentClass(group);
+  const ok=confirm(`¿Cambiar clase actual de ${previous} a ${value}?`);
+  if(!ok)return;
+  group.currentClass=Math.min(48,Math.max(0,value));
+  addAdminNote(group,`Clase actual corregida de ${previous} a ${value}. Razón: ${reason.trim()}`);
+  groups[groupIndex]=group;
+  saveGroups();
+  openGroup(currentGroupId);
+}
+function adminSetReportOverride(reportNumber,status){
+  if(!isAdmin()) return;
+  const groupIndex=groups.findIndex(g=>g.id===currentGroupId);
+  if(groupIndex<0)return;
+  const group=normalizeGroup(groups[groupIndex]);
+  const labels={open:'abrir',closed:'cerrar',auto:'devolver a automático'};
+  const reason=prompt(`Razón para ${labels[status]} el reporte ${reportNumber}:`);
+  if(reason===null)return;
+  if(!reason.trim()){
+    alert('La razón es obligatoria.');
+    return;
+  }
+  const key=getReportKey(reportNumber);
+  group.reportOverrides=group.reportOverrides||{};
+  group.reportOverrides[key]={status,reason:reason.trim(),updatedAt:new Date().toLocaleString('es-CO')};
+  addAdminNote(group,`Reporte ${reportNumber}: estado ${status}. Razón: ${reason.trim()}`);
+  groups[groupIndex]=group;
+  saveGroups();
+  openGroup(currentGroupId);
+}
+function defaultReport(){
+  return {
+    speaking:{intelligibility:'',fluency:'',accuracy:'',vocabulary:''},
+    writing:{vocabulary:'',grammar:'',structure:'',tools:''},
+    listening:'',
+    reading:'',
+    notes:'',
+    savedAt:'',
+    accepted:false,
+    acceptedAt:'',
+    acceptedBy:''
+  };
+}
+function getStudentReport(group, studentCode, reportNumber){
+  const normalized=normalizeGroup(group);
+  const key=getReportKey(reportNumber);
+  return normalized.reports?.[studentCode]?.[key] || defaultReport();
+}
+function sumValues(values){
+  return values.reduce((sum,value)=>sum+(Number(value)||0),0);
+}
+function calculateReportScores(report){
+  /*
+    Cálculo correcto sobre 100%:
+
+    Speaking:
+      - 4 criterios de máximo 25 cada uno.
+      - La suma máxima es 100.
+      - Ese bloque representa el 25% del total final.
+
+    Writing:
+      - 4 criterios de máximo 25 cada uno.
+      - La suma máxima es 100.
+      - Ese bloque representa el 25% del total final.
+
+    Listening:
+      - Aporte directo máximo de 25.
+
+    Reading:
+      - Aporte directo máximo de 25.
+
+    Total máximo:
+      25 + 25 + 25 + 25 = 100%
+  */
+
+  const speakingRaw=sumValues([
+    report.speaking?.intelligibility,
+    report.speaking?.fluency,
+    report.speaking?.accuracy,
+    report.speaking?.vocabulary
+  ]);
+
+  const writingRaw=sumValues([
+    report.writing?.vocabulary,
+    report.writing?.grammar,
+    report.writing?.structure,
+    report.writing?.tools
+  ]);
+
+  const speaking=speakingRaw*0.25;
+  const writing=writingRaw*0.25;
+  const listening=Number(report.listening)||0;
+  const reading=Number(report.reading)||0;
+  const finalScore=speaking+writing+listening+reading;
+
+  return {
+    speakingRaw,
+    writingRaw,
+    speaking,
+    writing,
+    listening,
+    reading,
+    finalScore
+  };
+}
+function fillReportStudentSelect(group){
+  const select=document.getElementById('reportStudentSelect');
+  if(!select)return;
+  const currentValue=select.value;
+  select.innerHTML='';
+  if(!group.students.length){
+    select.innerHTML='<option value="">Sin estudiantes registrados</option>';
+    return;
+  }
+  group.students.forEach(student=>{
+    const option=document.createElement('option');
+    option.value=student.code;
+    option.textContent=`${student.code} · ${student.name}`;
+    select.appendChild(option);
+  });
+  if(currentValue && group.students.some(student=>student.code===currentValue)){
+    select.value=currentValue;
+  }
+}
+function renderProgressReports(){
+  const group=groups.find(g=>g.id===currentGroupId);
+  const container=document.getElementById('groupReportsContainer');
+  const studentCode=document.getElementById('reportStudentSelect')?.value;
+  if(!group||!container)return;
+  const normalized=normalizeGroup(group);
+  const current=getGroupCurrentClass(normalized);
+  const student=normalized.students.find(s=>s.code===studentCode);
+  container.innerHTML='';
+  if(!student){
+    container.innerHTML='<div class="sub" style="margin-top:12px">No hay estudiante seleccionado.</div>';
+    return;
+  }
+  [1,2,3].forEach(reportNumber=>{
+    const reportWindow=getReportWindow(reportNumber);
+    const unlocked=isReportAvailable(normalized,reportNumber,current);
+    const notOpenYet=current<reportWindow.start;
+    const report=getStudentReport(normalized, student.code, reportNumber);
+    const scores=calculateReportScores(report);
+    const card=document.createElement('div');
+    card.className='report-card '+(unlocked?'':'locked');
+    card.innerHTML=`
+      <div class="report-head">
+        <div>
+          <strong>Reporte ${reportNumber}</strong>
+          <div class="sub">Corte ${reportNumber}: disponible en ${reportWindowLabel(reportNumber)}</div>
+        </div>
+        <span class="report-badge ${unlocked?'':'locked'}">${getReportStatusText(normalized,reportNumber,current)}</span>
+      </div>
+
+      ${unlocked?`
+        <h4>Speaking</h4>
+        <div class="score-grid">
+          <div class="field"><label>Intelligibility</label><select id="r${reportNumber}_sp_int">${scoreOptions(report.speaking?.intelligibility)}</select></div>
+          <div class="field"><label>Fluency</label><select id="r${reportNumber}_sp_flu">${scoreOptions(report.speaking?.fluency)}</select></div>
+          <div class="field"><label>Accuracy</label><select id="r${reportNumber}_sp_acc">${scoreOptions(report.speaking?.accuracy)}</select></div>
+          <div class="field"><label>Vocabulary</label><select id="r${reportNumber}_sp_voc">${scoreOptions(report.speaking?.vocabulary)}</select></div>
+        </div>
+        <div class="skill-result">Speaking: ${scores.speaking.toFixed(1)} / 25 <span class="sub">(suma criterios: ${scores.speakingRaw}%)</span></div>
+
+        <h4>Writing</h4>
+        <div class="score-grid">
+          <div class="field"><label>Vocabulary</label><select id="r${reportNumber}_wr_voc">${scoreOptions(report.writing?.vocabulary)}</select></div>
+          <div class="field"><label>Grammar</label><select id="r${reportNumber}_wr_gra">${scoreOptions(report.writing?.grammar)}</select></div>
+          <div class="field"><label>Structure</label><select id="r${reportNumber}_wr_str">${scoreOptions(report.writing?.structure)}</select></div>
+          <div class="field"><label>Use of Tools</label><select id="r${reportNumber}_wr_too">${scoreOptions(report.writing?.tools)}</select></div>
+        </div>
+        <div class="skill-result">Writing: ${scores.writing.toFixed(1)} / 25 <span class="sub">(suma criterios: ${scores.writingRaw}%)</span></div>
+
+        <div class="score-grid">
+          <div class="field"><label>Listening /25</label><select id="r${reportNumber}_list">${scoreOptions(report.listening)}</select></div>
+          <div class="field"><label>Reading /25</label><select id="r${reportNumber}_read">${scoreOptions(report.reading)}</select></div>
+        </div>
+
+        <div class="field">
+          <label>Observaciones</label>
+          <input id="r${reportNumber}_notes" value="${(report.notes||'').replace(/"/g,'&quot;')}" placeholder="Comentario breve para el progreso del estudiante">
+        </div>
+
+        <div class="final-score">Promedio final: ${scores.finalScore.toFixed(1)}%</div>
+        <div class="sub">${report.savedAt?'Última actualización: '+report.savedAt:'Sin guardar todavía'}</div>
+        <div class="report-acceptance">
+          <label><input type="checkbox" ${report.accepted?'checked':''} onchange="acceptGroupProgressReport(${reportNumber})"> Acepto que he revisado este reporte de progreso.</label>
+          <small>${report.accepted ? 'Aceptado por '+(report.acceptedBy||'usuario')+' · '+(report.acceptedAt?new Date(report.acceptedAt).toLocaleString('es-CO'):'') : 'Pendiente de aceptación del estudiante.'}</small>
+        </div>
+
+        <div class="report-actions">
+          <button class="btn btn-primary" onclick="saveProgressReport(${reportNumber})">Guardar reporte</button>
+          <button class="btn btn-secondary" onclick="previewProgressReport(${reportNumber})">Ver resumen</button>
+          <button class="btn btn-secondary" onclick="printCurrentProgressReport()">Imprimir / PDF</button>
+        </div>
+      `:`
+        <div class="sub">${notOpenYet?'Este reporte se podrá diligenciar desde la clase '+reportWindow.start+'.':'Este reporte ya se cerró en la clase '+reportWindow.end+'.'} Clase actual: ${current}.</div>
+      `}
+    `;
+    container.appendChild(card);
+  });
+}
+function readProgressReportForm(reportNumber){
+  return {
+    speaking:{
+      intelligibility:document.getElementById(`r${reportNumber}_sp_int`)?.value||'',
+      fluency:document.getElementById(`r${reportNumber}_sp_flu`)?.value||'',
+      accuracy:document.getElementById(`r${reportNumber}_sp_acc`)?.value||'',
+      vocabulary:document.getElementById(`r${reportNumber}_sp_voc`)?.value||''
+    },
+    writing:{
+      vocabulary:document.getElementById(`r${reportNumber}_wr_voc`)?.value||'',
+      grammar:document.getElementById(`r${reportNumber}_wr_gra`)?.value||'',
+      structure:document.getElementById(`r${reportNumber}_wr_str`)?.value||'',
+      tools:document.getElementById(`r${reportNumber}_wr_too`)?.value||''
+    },
+    listening:document.getElementById(`r${reportNumber}_list`)?.value||'',
+    reading:document.getElementById(`r${reportNumber}_read`)?.value||'',
+    notes:document.getElementById(`r${reportNumber}_notes`)?.value.trim()||'',
+    savedAt:new Date().toLocaleString('es-CO')
+  };
+}
+function saveProgressReport(reportNumber){
+  const groupIndex=groups.findIndex(g=>g.id===currentGroupId);
+  if(groupIndex<0)return;
+  const group=normalizeGroup(groups[groupIndex]);
+  const current=getGroupCurrentClass(group);
+  const reportWindow=getReportWindow(reportNumber);
+  if(!isReportAvailable(group,reportNumber,current)){
+    const statusText=getReportStatusText(group,reportNumber,current);
+    alert(`El reporte ${reportNumber} no está disponible. Estado: ${statusText}.`);
+    return;
+  }
+  const studentCode=document.getElementById('reportStudentSelect')?.value;
+  if(!studentCode){alert('Selecciona un estudiante.');return;}
+  const report=readProgressReportForm(reportNumber);
+  const allRequired=[
+    report.speaking.intelligibility,report.speaking.fluency,report.speaking.accuracy,report.speaking.vocabulary,
+    report.writing.vocabulary,report.writing.grammar,report.writing.structure,report.writing.tools,
+    report.listening,report.reading
+  ];
+  if(allRequired.some(value=>value==='')){
+    alert('Completa todos los criterios antes de guardar.');
+    return;
+  }
+  const key=getReportKey(reportNumber);
+  group.reports=group.reports||{};
+  group.reports[studentCode]=group.reports[studentCode]||{};
+  group.reports[studentCode][key]=report;
+  groups[groupIndex]=group;
+  const student=group.students.find(s=>s.code===studentCode)||{code:studentCode,name:studentCode};
+  saveGroups();
+  upsertProgressReportNotificationGroup(group,student,reportNumber);
+  renderProgressReports();
+  alert('Reporte guardado correctamente.');
+}
+function previewProgressReport(reportNumber){
+  const group=groups.find(g=>g.id===currentGroupId);
+  const studentCode=document.getElementById('reportStudentSelect')?.value;
+  const student=group?.students.find(s=>s.code===studentCode);
+  if(!group||!student)return;
+  const report=readProgressReportForm(reportNumber);
+  const scores=calculateReportScores(report);
+  alert(
+    `Reporte ${reportNumber} · ${student.name}\n\n`+
+    `Speaking: ${scores.speaking.toFixed(1)} / 25 (criterios: ${scores.speakingRaw}%)\n`+
+    `Writing: ${scores.writing.toFixed(1)} / 25 (criterios: ${scores.writingRaw}%)\n`+
+    `Listening: ${scores.listening} / 25\n`+
+    `Reading: ${scores.reading} / 25\n\n`+
+    `Promedio final: ${scores.finalScore.toFixed(1)}%\n\n`+
+    `Observaciones: ${report.notes || 'Sin observaciones'}`
+  );
+}
+
+
+function renderRoleNotice(){
+  const notice=document.getElementById('roleNotice')
+  if(!notice)return
+  if(isTeacher()){
+    notice.innerText='Vista profesor: puedes registrar asistencia únicamente en tus grupos asignados.'
+  }else if(isAdmin()){
+    notice.innerText='Vista administrativa: puedes crear grupos, corregir clase actual, administrar reportes y registrar asistencia.'
+  }else{
+    notice.innerText='Vista estudiante: acceso de lectura.'
+  }
+}
+
+function renderGroups(){
+  const grid=document.getElementById('groupsGrid');
+  grid.innerHTML='';
+  const list=visibleGroups();
+  if(!list.length){
+    grid.innerHTML='<div class="card"><div class="sub">No hay grupos disponibles para este usuario.</div></div>';
+    return;
+  }
+  list.forEach(group=>{
+    group=normalizeGroup(group);
+    group.code = group.code || group.id || 'SIN-COD';
+    const current = Math.min(48, Number(group.currentClass) || Object.keys(group.attendance || {}).length || 0);
+    const pct=Math.min(100,(current/48)*100);
+    const isCompleted = current >= 48;
+    const teacherLabel=group.teacher || getTeacherNameById(group.teacherId) || 'Profesor por asignar';
+    const card=document.createElement('article');
+    card.className='card';
+    card.innerHTML=`
+      <span class="pill">${group.code}</span>
+      <span class="pill">${group.level}</span>
+      <h3>${group.name}</h3>
+      <div class="meta">${teacherLabel}<br>${displayGroupSchedule(group)}<br>${group.students.length} estudiantes<br>Inicio: ${group.start || 'Sin fecha'} · Final estimado: ${group.end || calculateGroupEndDate(group.start) || 'Sin fecha'}<br>Avance: ${getGroupOperationalStatus(group).status}<br>Asistencia: ${getAttendanceStaleStatus(group).title}</div>
+      <div><strong>${current} / 48 clases</strong></div>
+      <div class="progress"><span style="width:${pct}%"></span></div>
+      <button class="btn btn-secondary" onclick="openGroup('${group.id}')">Ver grupo</button>
+      ${isAdmin() ? (isCompleted ? `<button class="btn btn-danger" onclick="deleteGroup('${group.id}')">Borrar módulo</button>` : `<button class="btn btn-secondary" disabled title="Solo se puede borrar al completar 48 clases">Bloqueado</button>`) : ''}
+    `;
+    grid.appendChild(card)
+  });
+  saveGroups();
+}
+function searchGroups(){const input=document.getElementById('groupSearch').value.toLowerCase();document.querySelectorAll('#groupsGrid .card').forEach(card=>{card.style.display=card.innerText.toLowerCase().includes(input)?'':'none'})}
+function generateGroupCode(){
+  const numbers = groups
+    .map(group => group.code || group.id)
+    .filter(code => /^GR-\d+$/.test(code))
+    .map(code => parseInt(code.replace('GR-', ''), 10));
+
+  const nextNumber = numbers.length ? Math.max(...numbers) + 1 : 1;
+  return `GR-${String(nextNumber).padStart(4, '0')}`;
+}
+
+function teacherOptionsHTML(selectedId=''){
+  teachers=loadTeachers()
+  const activeTeachers=teachers.filter(teacher=>teacher.status==='Activo')
+  if(!activeTeachers.length){
+    return '<option value="">No hay profesores activos. Crea o activa un profesor en profesores.html antes de crear grupos.</option>'
+  }
+  return '<option value="">Seleccionar profesor</option>' + activeTeachers.map(teacher=>{
+    const id=getTeacherId(teacher)
+    const selected=id===selectedId?'selected':''
+    return `<option value="${id}" ${selected}>${id} · ${teacher.name}</option>`
+  }).join('')
+}
+
+function openCreateGroupModal(){
+  if(!isAdmin()) return;
+  teachers=loadTeachers();
+  const activeTeachers=teachers.filter(teacher=>teacher.status==='Activo');
+  if(!activeTeachers.length){
+    alert('No hay profesores activos. Primero crea o activa un profesor en profesores.html.');
+    return;
+  }
+  document.getElementById('groupCode').value = generateGroupCode();
+  document.getElementById('groupEnd').value = calculateGroupEndDate(document.getElementById('groupStart').value);
+  setScheduleDays(['monday','tuesday','wednesday','thursday']);
+  document.getElementById('groupStartTime').value='18:30';
+  document.getElementById('groupEndTime').value='19:45';
+  document.getElementById('groupModality').value='Presencial';
+  document.getElementById('groupClassroom').value='';
+  document.getElementById('groupTeacher').innerHTML = teacherOptionsHTML();
+  renderCreateStudentPicker();
+  document.getElementById('createGroupModal').classList.add('active')
+}
+function closeCreateGroupModal(){document.getElementById('createGroupModal').classList.remove('active')}
+function createGroup(){
+  const code=document.getElementById('groupCode').value.trim() || generateGroupCode();
+  const name=document.getElementById('groupName').value.trim();
+  const level=document.getElementById('groupLevel').value;
+  const teacherId=document.getElementById('groupTeacher').value;
+  const selectedTeacher=teachers.find(teacher=>getTeacherId(teacher)===teacherId);
+  const teacher=selectedTeacher?.name || '';
+  const structuredSchedule=getStructuredScheduleFromForm();
+  const schedule=structuredSchedule.schedule;
+  const start=document.getElementById('groupStart').value;
+  const end=calculateGroupEndDate(start);
+
+  if(!name||!teacherId||!teacher){alert('Nombre y profesor son obligatorios.');return}
+  if(!structuredSchedule.scheduleDays.length || !structuredSchedule.startTime || !structuredSchedule.endTime){alert('Selecciona días de clase, hora de inicio y hora final para conectar este grupo con calendario.');return}
+  if(!selectedTeacher || selectedTeacher.status !== 'Activo'){
+    alert('Selecciona un profesor activo válido antes de crear el grupo.');
+    return
+  }
+  if(!start){alert('La fecha de inicio es obligatoria para calcular el avance operativo.');return}
+
+  const exists = groups.some(group => group.code === code || group.id === code);
+  if(exists){alert('Ese código de grupo ya existe.');return}
+
+  const students=selectedStudentsForNewGroup();
+  const unavailable=students.find(student=>!studentAvailability(student.code).available);
+  if(unavailable){
+    alert(`El estudiante ${unavailable.name||unavailable.code} ya está vinculado a otro producto o servicio activo.`);
+    return;
+  }
+
+  groups.push({id:code,code,name,level,teacher,teacherId,teacherCode:teacherId,teacherEmail:selectedTeacher?.email||'',schedule,scheduleDays:structuredSchedule.scheduleDays,startTime:structuredSchedule.startTime,endTime:structuredSchedule.endTime,modality:structuredSchedule.modality,classroom:structuredSchedule.classroom,start,end,currentClass:0,students,attendance:{},reports:{},reportOverrides:{},adminNotes:[],createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()});
+  saveGroups();
+  renderGroups();
+  closeCreateGroupModal();
+  ['groupCode','groupName','groupSchedule','groupStart','groupEnd','groupClassroom'].forEach(id=>document.getElementById(id).value=''); document.getElementById('groupStartTime').value='18:30'; document.getElementById('groupEndTime').value='19:45'; document.getElementById('groupModality').value='Presencial'; setScheduleDays(['monday','tuesday','wednesday','thursday']); document.getElementById('groupTeacher').innerHTML=''; renderCreateStudentPicker()
+}
+function openGroup(id){
+  currentGroupId=id;
+  let group=groups.find(g=>g.id===id);
+  if(!group)return;
+  group=normalizeGroup(group);
+  if(!teacherMatchesCurrentUser(group)){
+    alert('No tienes permiso para abrir este grupo.');
+    showGroups();
+    return;
+  }
+  group.code = group.code || group.id || 'SIN-COD';
+  const current = Math.min(48, Number(group.currentClass) || Object.keys(group.attendance || {}).length || 0);
+  document.getElementById('groupsView').classList.remove('active');
+  document.getElementById('groupDetailView').classList.add('active');
+  document.getElementById('detailTitle').innerText=`${group.code} · ${group.name}`;
+  document.getElementById('detailMeta').innerText=`${group.teacher || getTeacherNameById(group.teacherId) || 'Profesor por asignar'} · ${displayGroupSchedule(group)} · ${group.start||'Sin inicio'} a ${group.end||calculateGroupEndDate(group.start)||'Sin final'}`;
+  document.getElementById('detailProgress').innerText=`${current} / 48`;
+  document.getElementById('detailProgressBar').style.width=Math.min(100,(current/48)*100)+'%';
+  renderSessions(group);
+  renderGroupOperationalProgress(group);
+  renderGroupStudentsManager(group);
+  renderAttendanceStaleWarning(group);
+  renderAdminControls(group);
+  applyRoleControls();
+  fillReportStudentSelect(group);
+  renderProgressReports();
+}
+function showGroups(){document.getElementById('groupDetailView').classList.remove('active');document.getElementById('groupsView').classList.add('active');document.getElementById('attendancePanel').style.display='none';renderGroups()}
+function renderSessions(group){
+  const grid=document.getElementById('sessionGrid');
+  grid.innerHTML='';
+  for(let i=1;i<=48;i++){
+    const btn=document.createElement('div');
+    const blocked=isSessionVisuallyBlocked(group,i);
+    btn.className='session'+(group.attendance[i]?' done':'')+(blocked?' blocked':'');
+    btn.innerText=i;
+    btn.title=blocked?'Bloqueada: completa el reporte pendiente antes de avanzar.':'Abrir asistencia';
+    btn.onclick=()=>openAttendance(i);
+    grid.appendChild(btn);
+  }
+}
+function openAttendance(sessionNumber){
+  const group=groups.find(g=>g.id===currentGroupId);
+  if(!group)return;
+  if(!canManageGroupAttendance(group)){
+    alert('No tienes permiso para registrar asistencia en este grupo.');
+    return;
+  }
+  if(!canAdvanceToSession(group,sessionNumber))return;
+  selectedSession=sessionNumber;
+  document.getElementById('attendancePanel').style.display='block';
+  document.getElementById('attendanceTitle').innerText=`Asistencia clase ${sessionNumber}`;
+  const tbody=document.getElementById('attendanceTable');
+  tbody.innerHTML='';
+  group.students.forEach(student=>{
+    const current=group.attendance[sessionNumber]?.[student.code]||'';
+    const row=document.createElement('tr');
+    row.innerHTML=`<td>${student.code}</td><td>${student.name}</td><td><button class="attendance-btn ${current==='present'?'present':''}" onclick="markAttendance('${student.code}','present',this)">✓</button></td><td><button class="attendance-btn ${current==='absent'?'absent':''}" onclick="markAttendance('${student.code}','absent',this)">×</button></td>`;
+    tbody.appendChild(row);
+  });
+}
+function markAttendance(code,status,btn){const row=btn.closest('tr');row.querySelectorAll('.attendance-btn').forEach(b=>b.classList.remove('present','absent'));btn.classList.add(status==='present'?'present':'absent');btn.dataset.status=status;row.dataset.code=code;row.dataset.status=status}
+function saveAttendance(){
+  const group=groups.find(g=>g.id===currentGroupId);
+  if(!group)return;
+  if(!canManageGroupAttendance(group)){
+    alert('No tienes permiso para guardar asistencia en este grupo.');
+    return;
+  }
+  if(!selectedSession){
+    alert('Selecciona una clase antes de guardar asistencia.');
+    return;
+  }
+  if(!canAdvanceToSession(group,selectedSession))return;
+
+  const rows=Array.from(document.querySelectorAll('#attendanceTable tr'));
+  const missingRows=rows.filter(row=>!row.dataset.code || !row.dataset.status);
+  if(missingRows.length){
+    alert('Debes marcar presente o ausente para todos los estudiantes antes de guardar la asistencia.');
+    return;
+  }
+
+  if(!group.attendance[selectedSession])group.attendance[selectedSession]={};
+  rows.forEach(row=>{
+    group.attendance[selectedSession][row.dataset.code]=row.dataset.status;
+  });
+
+  group.attendance[selectedSession].savedAt=new Date().toISOString();
+  const completedSessions=Object.keys(group.attendance).filter(key=>/^\d+$/.test(String(key))).length;
+  group.currentClass=Math.min(48,Math.max(Number(group.currentClass)||0,completedSessions,Number(selectedSession)||0));
+  group.updatedAt=new Date().toISOString();
+  saveGroups();
+  upsertAttendanceNotification(group);
+  openGroup(currentGroupId);
+}
+function deleteGroup(id){
+  if(!isAdmin()) return;
+  const group = groups.find(g => g.id === id);
+  if(!group) return;
+
+  const current = Number(group.currentClass) || Object.keys(group.attendance || {}).length || 0;
+  if(current < 48){
+    alert('Este grupo todavía no puede borrarse. Solo se puede borrar cuando complete sus 48 clases.');
+    return;
+  }
+
+  const confirmed = confirm(`¿Seguro que quieres borrar el módulo ${group.code || group.id} · ${group.name}? Esta acción no se puede deshacer.`);
+  if(!confirmed) return;
+
+  groups = groups.filter(g => g.id !== id);
+  saveGroups();
+
+  if(currentGroupId === id){
+    currentGroupId = null;
+    showGroups();
+  } else {
+    renderGroups();
+  }
+}
+
+applyRoleControls()
+renderRoleNotice()
+bindGroupDateCalculation()
+renderGroups()
+</script>
+</body>
+</html>

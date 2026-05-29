@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Login | Wisdom Academy</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --primary:#0d2b45;
+  --accent:#1fb6b9;
+  --light:#f5f9fc;
+  --white:#fff;
+  --text:#1f2d3d;
+  --gray:#6b7c93;
+  --border:#dcebf2;
+  --hover:#E6FF00;
+  --danger:#ffefef;
+  --soft:#e7f8f8;
+}
+body{
+  min-height:100vh;
+  font-family:Inter,Arial,sans-serif;
+  background:linear-gradient(135deg,#f5f9fc 0%,#e7f8f8 100%);
+  color:var(--text);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+}
+.login-card{
+  width:100%;
+  max-width:430px;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:28px;
+  padding:32px;
+  box-shadow:0 20px 60px rgba(13,43,69,.12);
+}
+.logo{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin-bottom:18px;
+}
+
+.logo img{
+  width:180px;
+  max-width:100%;
+  height:auto;
+  object-fit:contain;
+}
+h1{
+  color:var(--primary);
+  font-size:2rem;
+  margin-bottom:8px;
+}
+.sub{
+  color:var(--gray);
+  font-size:.95rem;
+  line-height:1.45;
+  margin-bottom:24px;
+}
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  margin-bottom:14px;
+}
+.field label{
+  color:var(--primary);
+  font-size:.82rem;
+  font-weight:900;
+}
+.field input{
+  width:100%;
+  padding:13px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  font:inherit;
+  background:#fbfdff;
+}
+.btn{
+  width:100%;
+  padding:13px 18px;
+  border-radius:999px;
+  border:none;
+  background:var(--accent);
+  color:white;
+  font-weight:900;
+  cursor:pointer;
+  margin-top:8px;
+}
+.btn:hover{
+  background:var(--hover);
+  color:black;
+}
+.alert{
+  display:none;
+  margin-top:14px;
+  padding:12px;
+  border-radius:14px;
+  background:var(--danger);
+  color:#b00020;
+  font-weight:800;
+  font-size:.9rem;
+  line-height:1.35;
+}
+.demo-box{
+  margin-top:20px;
+  padding:14px;
+  border-radius:16px;
+  border:1px dashed var(--border);
+  background:#fbfdff;
+  color:var(--gray);
+  font-size:.86rem;
+  line-height:1.45;
+}
+.demo-box strong{color:var(--primary)}
+.small-actions{
+  margin-top:14px;
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.link-btn{
+  border:none;
+  background:transparent;
+  color:var(--accent);
+  font-weight:900;
+  cursor:pointer;
+  padding:0;
+}
+.link-btn:hover{text-decoration:underline}
+
+.modal-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(13,43,69,.55);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:200;
+}
+
+.modal{
+  width:100%;
+  max-width:420px;
+  background:white;
+  border-radius:26px;
+  border:1px solid var(--border);
+  padding:28px;
+  box-shadow:0 20px 60px rgba(13,43,69,.16);
+}
+
+.modal h3{
+  color:var(--primary);
+  margin-bottom:10px;
+}
+
+.modal p{
+  color:var(--gray);
+  margin-bottom:18px;
+  line-height:1.5;
+}
+
+.modal-actions{
+  display:flex;
+  gap:10px;
+  margin-top:16px;
+}
+
+.modal .btn-secondary{
+  flex:1;
+  border:none;
+  border-radius:999px;
+  background:#eef4f8;
+  color:var(--primary);
+  font-weight:800;
+  padding:12px;
+  cursor:pointer;
+}
+
+.modal .btn-primary{
+  flex:1;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="login-card">
+  <div class="logo">
+  <img src="logo.jpg" alt="Wisdom Academy Logo">
+</div>
+  <h1>Ingresar</h1>
+  <div class="sub">Portal administrativo, docente y estudiantil de Wisdom Academy.</div>
+
+  <form id="loginForm">
+    <div class="field">
+      <label>Correo</label>
+      <input id="email" type="email" placeholder="correo@wisdom.com" autocomplete="username" required>
+    </div>
+
+    <div class="field">
+      <label>Contraseña</label>
+      <input id="password" type="password" placeholder="Contraseña" autocomplete="current-password" required>
+    </div>
+
+    <button class="btn" type="submit">Entrar</button>
+  </form>
+
+  <div class="alert" id="loginAlert"></div>
+
+  <div class="demo-box">
+    <strong>¿Olvidaste tu contraseña?</strong><br><br>
+    Solicita recuperación de contraseña directamente con administración o desde el portal cuando el sistema de recuperación esté habilitado.
+  </div>
+
+  <div class="small-actions">
+    <button class="link-btn" onclick="requestPasswordRecovery()">Recuperar contraseña</button>
+    <button class="link-btn" onclick="clearSession()">Cerrar sesión local</button>
+  </div>
+</div>
+
+
+<div class="modal-overlay" id="recoveryModal">
+  <div class="modal">
+    <h3>Solicitud de recuperación</h3>
+    <p>
+      Ingresa tu correo y el sistema generará una solicitud de recuperación de contraseña para administración.
+    </p>
+
+    <div class="field">
+      <label>Correo registrado</label>
+      <input id="recoveryEmail" type="email" placeholder="correo@wisdom.com">
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeRecoveryModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="submitRecoveryRequest()">Enviar solicitud</button>
+    </div>
+  </div>
+</div>
+
+
+<script src="storage.js"></script>
+<script src="schemaRegistry.js"></script>
+<script>
+const USERS_KEY='wisdom_users'
+const CURRENT_USER_KEY='wisdom_current_user'
+
+function safeParse(value,fallback=[]){
+  try{
+    const parsed=value?JSON.parse(value):fallback
+    return Array.isArray(parsed)?parsed:fallback
+  }catch(error){
+    return fallback
+  }
+}
+
+function getUsers(){
+  const users=WisdomStorage.get(USERS_KEY,[])
+
+  if(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeCollection){
+    return SchemaRegistry.normalizeCollection(Array.isArray(users)?users:[],'normalizeUser').map(normalizeUser)
+  }
+
+  return (Array.isArray(users)?users:[]).map(normalizeUser)
+}
+
+function setUsers(users){
+  const normalized=(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeCollection)
+    ? SchemaRegistry.normalizeCollection(Array.isArray(users)?users:[],'normalizeUser').map(normalizeUser)
+    : (Array.isArray(users)?users:[]).map(normalizeUser)
+
+  WisdomStorage.set(USERS_KEY,normalized)
+}
+
+function normalizeUser(user={}){
+  const base=(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeUser)
+    ? SchemaRegistry.normalizeUser(user)
+    : {...user}
+
+  const id=base.id || base.userId || base.code || ''
+
+  return {
+    ...base,
+    id,
+    userId:base.userId || id,
+    code:base.code || id,
+    name:base.name || '',
+    email:(base.email || '').trim().toLowerCase(),
+    password:String(base.password || ''),
+    role:base.role || 'student',
+    teacherId:base.teacherId || base.teacherCode || '',
+    teacherCode:base.teacherCode || base.teacherId || '',
+    studentId:base.studentId || base.studentCode || '',
+    studentCode:base.studentCode || base.studentId || '',
+    status:base.status || 'Activo',
+    loginAt:base.loginAt || '',
+    createdAt:base.createdAt || '',
+    updatedAt:base.updatedAt || ''
+  }
+}
+
+
+function requestPasswordRecovery(){
+  document.getElementById('recoveryModal').style.display='flex'
+}
+
+function closeRecoveryModal(){
+  document.getElementById('recoveryModal').style.display='none'
+}
+
+function submitRecoveryRequest(){
+  const email=document.getElementById('recoveryEmail').value.trim().toLowerCase()
+
+  if(!email){
+    showAlert('Debes ingresar un correo para solicitar recuperación.')
+    return
+  }
+
+  const requestsKey='wisdom_password_recovery_requests'
+  const current=WisdomStorage.get(requestsKey,[])
+
+  current.unshift({
+    id:'REC-'+Date.now(),
+    email,
+    status:'Pendiente',
+    createdAt:new Date().toISOString()
+  })
+
+  WisdomStorage.set(requestsKey,current)
+
+  closeRecoveryModal()
+  showAlert('Solicitud de recuperación enviada correctamente.')
+}
+
+function ensureDefaultAdmin(){
+  const users=getUsers().map(normalizeUser)
+
+  const hasAdmin=users.some(user=>user.email==='admin@wisdom.com')
+
+  if(!users.length || !hasAdmin){
+    const withoutOldAdmin=users.filter(user=>user.email!=='admin@wisdom.com')
+    const admin=(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeUser)
+      ? normalizeUser(SchemaRegistry.normalizeUser({
+          id:'USR-0001',
+          userId:'USR-0001',
+          code:'USR-0001',
+          name:'Administrador Wisdom',
+          email:'admin@wisdom.com',
+          password:'1234',
+          role:'admin',
+          teacherId:'',
+          teacherCode:'',
+          studentId:'',
+          studentCode:'',
+          status:'Activo',
+          createdAt:new Date().toISOString()
+        }))
+      : normalizeUser({
+          id:'USR-0001',
+          userId:'USR-0001',
+          code:'USR-0001',
+          name:'Administrador Wisdom',
+          email:'admin@wisdom.com',
+          password:'1234',
+          role:'admin',
+          teacherId:'',
+          teacherCode:'',
+          studentId:'',
+          studentCode:'',
+          status:'Activo',
+          createdAt:new Date().toISOString()
+        })
+
+    withoutOldAdmin.unshift(admin)
+    setUsers(withoutOldAdmin)
+  }else{
+    setUsers(users)
+  }
+}
+
+function showAlert(message){
+  const alertBox=document.getElementById('loginAlert')
+  alertBox.innerText=message
+  alertBox.style.display='block'
+}
+
+function hideAlert(){
+  const alertBox=document.getElementById('loginAlert')
+  alertBox.innerText=''
+  alertBox.style.display='none'
+}
+
+function login(email,password){
+  hideAlert()
+
+  const normalizedEmail=email.trim().toLowerCase()
+  const users=getUsers().map(normalizeUser)
+
+  const user=users.find(item =>
+    item.email===normalizedEmail &&
+    item.password===String(password)
+  )
+
+  if(!user){
+    showAlert('Correo o contraseña incorrectos.')
+    return
+  }
+
+  user.role=String(user.role||'student').trim().toLowerCase()
+
+  if(user.status !== 'Activo'){
+    showAlert('Este usuario está inactivo. Solicita reactivación a administración.')
+    return
+  }
+
+  if(user.role==='teacher' && !user.teacherId){
+    showAlert('Este usuario profesor no tiene teacherId vinculado. Corrígelo en usuarios.html.')
+    return
+  }
+
+  if(user.role==='student' && !user.studentId){
+    showAlert('Este usuario estudiante no tiene studentId vinculado. Corrígelo en usuarios.html.')
+    return
+  }
+
+  const loginAt=new Date().toISOString()
+
+  const session=normalizeUser({
+    id:user.id,
+    userId:user.userId || user.id,
+    code:user.code || user.id,
+    name:user.name,
+    email:user.email,
+    password:'',
+    role:user.role,
+    teacherId:user.teacherId || '',
+    teacherCode:user.teacherCode || user.teacherId || '',
+    studentId:user.studentId || '',
+    studentCode:user.studentCode || user.studentId || '',
+    status:user.status || 'Activo',
+    loginAt,
+    createdAt:user.createdAt || '',
+    updatedAt:new Date().toISOString()
+  })
+
+  delete session.password
+
+  WisdomStorage.set(CURRENT_USER_KEY,session)
+
+  const updatedUsers=users.map(item=>{
+    if(item.id===user.id){
+      return {...item,loginAt,updatedAt:new Date().toISOString()}
+    }
+    return item
+  })
+
+  setUsers(updatedUsers)
+
+  window.location.href='dashboard.html'
+}
+
+function seedAdminUser(){
+  const users=getUsers().map(normalizeUser)
+  const index=users.findIndex(user=>user.email==='admin@wisdom.com')
+
+  const admin=(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeUser)
+    ? normalizeUser(SchemaRegistry.normalizeUser({
+        id:'USR-0001',
+        userId:'USR-0001',
+        code:'USR-0001',
+        name:'Administrador Wisdom',
+        email:'admin@wisdom.com',
+        password:'1234',
+        role:'admin',
+        teacherId:'',
+        teacherCode:'',
+        studentId:'',
+        studentCode:'',
+        status:'Activo',
+        updatedAt:new Date().toISOString()
+      }))
+    : normalizeUser({
+        id:'USR-0001',
+        userId:'USR-0001',
+        code:'USR-0001',
+        name:'Administrador Wisdom',
+        email:'admin@wisdom.com',
+        password:'1234',
+        role:'admin',
+        teacherId:'',
+        teacherCode:'',
+        studentId:'',
+        studentCode:'',
+        status:'Activo',
+        updatedAt:new Date().toISOString()
+      })
+
+  if(index>=0){
+    users[index]={...users[index],...admin}
+  }else{
+    users.unshift({...admin,createdAt:new Date().toISOString()})
+  }
+
+  setUsers(users)
+  showAlert('Admin restaurado: admin@wisdom.com / 1234')
+}
+
+function clearSession(){
+  WisdomStorage.remove(CURRENT_USER_KEY)
+  showAlert('Sesión local cerrada.')
+}
+
+document.getElementById('loginForm').addEventListener('submit',event=>{
+  event.preventDefault()
+
+  const email=document.getElementById('email').value
+  const password=document.getElementById('password').value
+
+  login(email,password)
+})
+
+ensureDefaultAdmin()
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1962 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WISE Speaking Hub · A1-A2-B1-B2 Complete</title>
+
+<style>
+:root{
+  --blue:#1f5fb2;
+  --dark:#10243d;
+  --teal:#49b9c7;
+  --soft:#f3f7f8;
+}
+
+body{
+  margin:0;
+  font-family:Inter, Arial;
+  background:var(--soft);
+  color:var(--dark);
+}
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:20px;
+}
+
+.hero{
+  background:linear-gradient(135deg,#234874,#1f5fb2);
+  color:white;
+  padding:30px;
+  border-radius:20px;
+}
+
+.hero h1{
+  margin:0;
+  font-size:40px;
+}
+
+.card{
+  background:white;
+  border-radius:16px;
+  padding:20px;
+  margin-top:20px;
+  box-shadow:0 10px 20px rgba(0,0,0,0.08);
+}
+
+.selects{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+select, textarea{
+  width:100%;
+  padding:10px;
+  border-radius:10px;
+  border:1px solid #ccc;
+}
+
+textarea{
+  height:100px;
+}
+
+.controls{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+button{
+  padding:12px 18px;
+  border:none;
+  border-radius:999px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.primary{background:var(--blue);color:white}
+.secondary{background:#e7f1ff;color:var(--blue)}
+.danger{background:#e5484d;color:white}
+
+.status{
+  margin-top:10px;
+  font-weight:bold;
+}
+
+.audio{
+  margin-top:10px;
+}
+
+
+.grid-2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+
+.field{
+  margin-top:12px;
+}
+
+.field label{
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  color:#65758a;
+  margin-bottom:6px;
+}
+
+input, select, textarea{
+  box-sizing:border-box;
+}
+
+input{
+  width:100%;
+  padding:10px;
+  border-radius:10px;
+  border:1px solid #ccc;
+}
+
+.score-badge{
+  display:inline-block;
+  background:#d8f1f3;
+  color:#10243d;
+  padding:8px 12px;
+  border-radius:999px;
+  font-weight:800;
+}
+
+.notice{
+  background:#eef7ff;
+  border:1px solid #cfe0f1;
+  padding:12px;
+  border-radius:12px;
+  margin-top:12px;
+  color:#234874;
+  font-weight:700;
+}
+
+@media(max-width:800px){
+  .grid-2,.selects{grid-template-columns:1fr;}
+}
+
+    .portal-bar{width:min(100%,var(--max-width,1280px));margin:0 auto 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;background:#ffffff;border:1px solid var(--wise-line,#dcebf2);border-radius:18px;padding:12px 16px;box-shadow:0 8px 22px rgba(13,43,69,.06)}
+    .portal-bar strong{color:var(--wise-blue-dark,#0d2b45)}
+    .portal-bar small{display:block;color:var(--wise-muted,#6b7c93);font-weight:700;margin-top:2px}
+    .portal-actions{display:flex;gap:8px;flex-wrap:wrap}
+    .portal-btn{display:inline-flex;align-items:center;justify-content:center;min-height:38px;border-radius:999px;padding:0 14px;border:1px solid var(--wise-line,#dcebf2);background:#fff;color:var(--wise-blue-dark,#0d2b45);font-weight:900;text-decoration:none;cursor:pointer}
+    .portal-btn.primary{background:var(--wise-teal,#49b9c7);border-color:var(--wise-teal,#49b9c7);color:white}
+    .portal-btn:hover{background:#E6FF00;color:#111;border-color:#E6FF00}
+    .portal-locked{display:none;margin:0 auto 18px;width:min(100%,var(--max-width,1280px));background:#fff8d6;color:#8a6d00;border:1px solid #f4df8a;border-radius:16px;padding:12px 14px;font-weight:800}
+    .portal-save-note{margin-top:10px;padding:12px 14px;border-radius:16px;background:#eef7ff;color:#234874;border:1px solid #cfe0f1;font-weight:800;display:none}
+
+.mode-note{background:#eef7ff;border:1px solid #cfe0f1;color:#234874;border-radius:12px;padding:12px;margin-top:12px;font-weight:700}
+.student-hidden{display:none!important}
+
+
+.portal-clean-bar{
+  background:#ffffff;
+  border:1px solid var(--wise-line, #dcebf2);
+  border-radius:22px;
+  padding:14px 18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  box-shadow:var(--wise-shadow-soft, 0 10px 22px rgba(31,95,178,0.10));
+}
+.portal-clean-bar strong{
+  color:var(--wise-blue-dark, #0d2b45);
+  font-weight:900;
+}
+.portal-clean-bar small{
+  color:var(--wise-muted, #6b7c93);
+  font-weight:800;
+}
+.portal-mode-pill{
+  background:var(--wise-teal-soft, #e7f8f8);
+  color:var(--wise-blue-dark, #0d2b45);
+  padding:8px 12px;
+  border-radius:999px;
+  font-weight:900;
+  font-size:.78rem;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+}
+.portal-mode-pill.exam{
+  background:#ffefef;
+  color:#b00020;
+}
+.portal-home-btn{
+  min-height:40px;
+  border:none;
+  border-radius:999px;
+  padding:0 14px;
+  cursor:pointer;
+  font-weight:900;
+  background:#edf4f7;
+  color:var(--wise-blue-dark, #0d2b45);
+}
+.portal-home-btn:hover{
+  background:#E6FF00;
+  color:#000;
+}
+
+
+.exam-timer-panel{
+  margin-top:12px;
+  padding:12px 14px;
+  border-radius:14px;
+  background:#fff1f1;
+  color:#b42318;
+  border:1px solid #f2c4c4;
+  font-weight:900;
+  display:none;
+}
+.exam-timer-panel.active{display:block;}
+.exam-timer-panel.closed{background:#ffefef;color:#b00020;border-color:#ffd1d1;}
+
+.question-panel{
+  margin-top:14px;
+  background:#f8fbff;
+  border:1px solid #dcebf2;
+  border-radius:16px;
+  padding:16px;
+}
+.question-panel h4{
+  margin:0 0 8px;
+  color:#10243d;
+}
+.question-panel ol{
+  margin:0;
+  padding-left:22px;
+}
+.question-panel li{
+  margin:10px 0;
+  line-height:1.45;
+  font-weight:700;
+}
+.speaking-help{
+  margin-top:12px;
+  color:#65758a;
+  font-weight:700;
+  font-size:14px;
+}
+
+</style>
+</head>
+
+<body>
+
+  <div class="portal-bar">
+    <div>
+      <strong id="portalUserName">Wisdom Academy</strong>
+      <small id="portalUserMeta">Portal académico</small>
+    </div>
+    <div class="portal-actions">
+      <a class="portal-btn" href="dashboard.html">Dashboard</a>
+      <a class="portal-btn" href="dossier.html">Mi dossier</a>
+      <button class="portal-btn primary" type="button" onclick="portalLogout()">Cerrar sesión</button>
+    </div>
+  </div>
+  <div id="portalLocked" class="portal-locked"></div>
+
+<div class="container">
+    <section class="portal-clean-bar" id="portalCleanBar">
+      <div>
+        <strong>Speaking Practice & Exams</strong><br>
+        <small id="portalContext">Practice mode for training · Exam mode for formal evaluation</small>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <span class="portal-mode-pill" id="portalModePill">Practice</span>
+        <button class="portal-home-btn" type="button" onclick="window.location.href='dashboard.html'">Dashboard</button>
+        <button class="portal-home-btn" type="button" onclick="window.location.href='evaluaciones.html'">Evaluaciones</button>
+        <button class="portal-home-btn" type="button" onclick="window.location.href='resultados.html'">Resultados</button>
+      </div>
+    </section>
+
+
+<div class="hero">
+  <h1>Speaking Hub</h1>
+  <p>Complete speaking bank: A1, A2, B1 and B2 · 5 questions per unit.</p>
+</div>
+
+<div class="card">
+  <div class="grid-2">
+    <div class="field">
+      <label>Student name / email</label>
+      <input id="student" placeholder="student@email.com">
+    </div>
+    <div class="field">
+      <label>Teacher email / ID</label>
+      <input id="teacher" placeholder="teacher@wise.edu / TCH-0001">
+    </div>
+    <div class="field">
+      <label>Mode</label>
+      <select id="mode"><option value="practice">Practice</option><option value="exam">Exam</option></select>
+    </div>
+    <div class="field">
+      <label>Portal status</label>
+      <input id="portalStatus" readonly value="Practice: no formal notification">
+    </div>
+  </div>
+  <div class="mode-note" id="modeNote">Practice sirve para entrenar y descargar evidencia. Exam guarda un envío formal y notifica al profesor y administración.</div>
+</div>
+
+<div class="card">
+  <div class="selects">
+    <select id="level">
+      <option>A1</option>
+      <option>A2</option>
+      <option>B1</option>
+      <option>B2</option>
+    </select>
+
+    <select id="unit"></select>
+  </div>
+
+  <h3 id="topic"></h3>
+  <textarea id="prompt" readonly></textarea>
+
+  <div class="question-panel">
+    <h4>Questions to answer</h4>
+    <ol id="questionsList"></ol>
+    <div class="speaking-help">
+      Primero escoge nivel y unidad. Luego lee las preguntas, activa el micrófono, graba tu respuesta y guarda o descarga el envío. En Practice aparecen 5 preguntas; en Exam aparecen 3 preguntas aleatorias.
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="controls">
+    <button class="primary" id="enable">Enable mic</button>
+    <button class="secondary" id="record" disabled>Record</button>
+    <button class="danger" id="stop" disabled>Stop</button>
+  </div>
+
+  <div class="status" id="status">Mic off</div>
+  <div class="exam-timer-panel" id="speakingExamTimerPanel">Exam time left: <span id="speakingExamTimeRemaining">60:00</span></div>
+
+  <audio id="player" controls class="audio"></audio>
+
+  <div class="controls" style="margin-top:12px;">
+    <button class="secondary" id="downloadAudio" disabled>Download audio</button>
+    <button class="secondary" id="downloadSubmission" disabled>Download submission JSON</button>
+    <button class="primary" id="saveSubmission" disabled>Guardar envío en portal</button>
+    <button class="primary" id="mailtoTeacher" disabled>Prepare email to teacher</button>
+  </div>
+
+  <div class="notice">
+    Para revisión del profesor: descarga el audio y el JSON, o usa “Prepare email to teacher”. El navegador no puede adjuntar el audio automáticamente sin backend.
+  </div>
+</div>
+
+<div class="card">
+  <h3>Teacher Rubric</h3>
+  <p>Score total: <span class="score-badge" id="score">0 / 10</span></p>
+
+  <div class="grid-2">
+    <div class="field"><label>Task completion (0–2)</label><select id="rTask"><option>0</option><option>1</option><option>2</option></select></div>
+    <div class="field"><label>Intelligibility (0–2)</label><select id="rIntel"><option>0</option><option>1</option><option>2</option></select></div>
+    <div class="field"><label>Fluency (0–2)</label><select id="rFlu"><option>0</option><option>1</option><option>2</option></select></div>
+    <div class="field"><label>Accuracy (0–2)</label><select id="rAcc"><option>0</option><option>1</option><option>2</option></select></div>
+    <div class="field"><label>Vocabulary (0–2)</label><select id="rVoc"><option>0</option><option>1</option><option>2</option></select></div>
+  </div>
+
+  <div class="field">
+    <label>Teacher feedback</label>
+    <textarea id="feedback" placeholder="2 strengths + 2 improvements + 1 goal for next task"></textarea>
+  </div>
+
+  <div class="controls" style="margin-top:12px;">
+    <button class="secondary" id="calcScore">Calculate score</button>
+    <button class="primary" id="saveEvaluation">Guardar evaluación en portal</button>
+    <button class="primary" id="downloadEvaluation">Download evaluation JSON</button>
+  </div>
+</div>
+
+</div>
+
+<script>
+
+    function portalIsFullLevelSelection(value){
+      return String(value || '').toUpperCase() === 'ALL';
+    }
+
+    function portalFullLevelLabel(level){
+      return `Full ${level || 'Level'} evaluation`;
+    }
+
+    function portalPickItemsForFullLevel(items, level, maxItems){
+      const filtered = (items || []).filter(item =>
+        String(item.level_code || item.level || '').toUpperCase() === String(level || '').toUpperCase()
+      );
+
+      const shuffled = filtered
+        .map(item => ({item, sort: Math.random()}))
+        .sort((a,b)=>a.sort-b.sort)
+        .map(entry=>entry.item);
+
+      return maxItems ? shuffled.slice(0, maxItems) : shuffled;
+    }
+
+
+    const INTERVENTIONS_KEY = 'wisdom_interventions';
+
+    function portalGetInterventions(){
+      const data = WisdomStorage.get(INTERVENTIONS_KEY, []);
+      return Array.isArray(data) ? data : [];
+    }
+
+    function portalNextInterventionId(items){
+      const numbers = items
+        .map(item => item.id)
+        .filter(id => /^INT-\d+$/.test(id || ''))
+        .map(id => parseInt(String(id).replace('INT-',''), 10));
+      const next = numbers.length ? Math.max(...numbers) + 1 : 1;
+      return `INT-${String(next).padStart(4,'0')}`;
+    }
+
+
+    function portalGenerateReinforcementPlan(intervention){
+      const toolMap = {
+        Grammar: ['Grammar_portal.html'],
+        Listening: ['Listening_portal.html'],
+        Speaking: ['Speaking_portal.html', 'Grammar_portal.html']
+      };
+
+      const focus = intervention.type || 'Evaluación';
+      const severity = intervention.severity || 'risk';
+
+      const plan = {
+        focus,
+        status: 'pending',
+        actions: [],
+        recommendedTools: toolMap[focus] || ['Grammar_portal.html'],
+        createdAt: new Date().toISOString(),
+        progress: {
+          assignedPractice: false,
+          guidedReview: false,
+          repeatedEvaluation: false
+        }
+      };
+
+      if(severity === 'critical'){
+        plan.actions.push('Repetir la unidad completa antes de avanzar.');
+        plan.actions.push('Completar 3 sesiones de práctica guiada.');
+        plan.actions.push('Revisar errores con profesor o administrador.');
+        plan.actions.push('Repetir evaluación en modo Exam.');
+      }else{
+        plan.actions.push('Completar 2 sesiones de práctica dirigida.');
+        plan.actions.push('Reforzar los puntos débiles de la unidad.');
+        plan.actions.push('Repetir una evaluación corta o práctica controlada.');
+      }
+
+      if(focus === 'Speaking'){
+        plan.actions.push('Grabar una nueva respuesta oral con mejor estructura y fluidez.');
+      }
+
+      if(focus === 'Listening'){
+        plan.actions.push('Repetir el audio y tomar notas antes de responder.');
+      }
+
+      if(focus === 'Grammar'){
+        plan.actions.push('Revisar estructura gramatical de la unidad y corregir errores recurrentes.');
+      }
+
+      return plan;
+    }
+
+
+    function portalFindMatchingOpenInterventions(result){
+      const interventions = portalGetInterventions();
+      return interventions.filter(item =>
+        item.status !== 'closed' &&
+        item.studentId === (result.studentId || result.studentCode || '') &&
+        item.type === (result.type || '') &&
+        String(item.level) === String(result.level || '') &&
+        String(item.unit) === String(result.unit || '')
+      );
+    }
+
+    function portalUpdateInterventionProgressFromResult(result){
+      if(result.mode !== 'exam') return;
+
+      const score = Number(result.score);
+      if(Number.isNaN(score)) return;
+
+      const interventions = portalGetInterventions();
+      let changed = false;
+
+      interventions.forEach(item=>{
+        const matches =
+          item.status !== 'closed' &&
+          item.studentId === (result.studentId || result.studentCode || '') &&
+          item.type === (result.type || '') &&
+          String(item.level) === String(result.level || '') &&
+          String(item.unit) === String(result.unit || '');
+
+        if(!matches) return;
+
+        item.attempts = Array.isArray(item.attempts) ? item.attempts : [];
+        const alreadySaved = item.attempts.some(attempt => attempt.resultId && attempt.resultId === result.id);
+
+        if(!alreadySaved){
+          item.attempts.push({
+            resultId: result.id || '',
+            score,
+            submittedAt: result.submittedAt || result.date || new Date().toISOString()
+          });
+        }
+
+        item.plan = item.plan || portalGenerateReinforcementPlan(item);
+        item.plan.progress = item.plan.progress || {};
+        item.plan.progress.repeatedEvaluation = true;
+
+        const originalScore = Number(item.score);
+        item.lastScore = score;
+        item.improvement = Number.isNaN(originalScore) ? null : score - originalScore;
+        item.updatedAt = new Date().toISOString();
+
+        if(score >= 75){
+          item.status = 'closed';
+          item.closedAt = new Date().toISOString();
+          item.closeReason = 'auto_improved';
+          item.notes = item.notes
+            ? item.notes + ' | Cerrada automáticamente por mejora en re-evaluación.'
+            : 'Cerrada automáticamente por mejora en re-evaluación.';
+          item.plan.status = 'completed';
+        }else{
+          item.status = 'pending';
+          item.closeReason = '';
+          item.plan.status = 'in_progress';
+        }
+
+        changed = true;
+      });
+
+      if(changed){
+        portalSaveArray(INTERVENTIONS_KEY, interventions);
+      }
+    }
+
+    function portalCreateAcademicIntervention(result){
+      portalUpdateInterventionProgressFromResult(result);
+
+      const score = Number(result.score);
+      if(Number.isNaN(score) || score >= 75) return;
+
+      const interventions = portalGetInterventions();
+
+      const duplicate = interventions.some(item =>
+        item.status !== 'closed' &&
+        item.studentId === (result.studentId || result.studentCode || '') &&
+        item.type === (result.type || '') &&
+        String(item.level) === String(result.level || '') &&
+        String(item.unit) === String(result.unit || '')
+      );
+
+      if(duplicate) return;
+
+      const severity = score < 60 ? 'critical' : 'risk';
+
+      const intervention = {
+        id: portalNextInterventionId(interventions),
+        studentId: result.studentId || result.studentCode || '',
+        studentName: result.studentName || result.name || 'Estudiante',
+        studentEmail: result.studentEmail || result.email || '',
+        teacherId: result.teacherId || result.teacherCode || '',
+        type: result.type || 'Evaluación',
+        level: result.level || '',
+        unit: result.unit || '',
+        unitTitle: result.unitTitle || result.unit_title || '',
+        score,
+        severity,
+        reason: score < 60 ? 'critical_score' : 'risk_score',
+        recommendation: score < 60
+          ? 'Intervención obligatoria: repetir unidad, asignar práctica dirigida y revisar con profesor antes de avanzar.'
+          : 'Refuerzo recomendado: asignar práctica dirigida y repetir evaluación corta.',
+        status: 'pending',
+        sourceResultId: result.id || '',
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        notes: ''
+      };
+
+      intervention.plan = portalGenerateReinforcementPlan(intervention);
+      interventions.push(intervention);
+
+      portalSaveArray(INTERVENTIONS_KEY, interventions);
+    }
+
+
+    const PORTAL_CURRENT_USER_KEY = 'wisdom_current_user';
+    const PORTAL_STUDENTS_KEY = 'wisdom_students_demo';
+    const PORTAL_RESULTS_KEY = 'wisdom_assessment_results';
+    const PORTAL_EXAM_RESULTS_KEY = 'wisdom_exam_results';
+    const PORTAL_NOTIFICATIONS_KEY = 'wisdom_notifications_demo';
+    const PORTAL_EVALUATIONS_KEY = 'wisdom_evaluations';
+
+    let portalCurrentUser = WisdomStorage.get(PORTAL_CURRENT_USER_KEY, null);
+    if (!portalCurrentUser || !portalCurrentUser.role) {
+      window.location.href = 'login.html';
+    }
+
+    function portalSafeArray(key){
+      const data = WisdomStorage.get(key, []);
+      return Array.isArray(data) ? data : [];
+    }
+
+    function portalSaveArray(key, value){ WisdomStorage.set(key, Array.isArray(value) ? value : []); }
+
+    function portalLogout(){
+      WisdomStorage.remove(PORTAL_CURRENT_USER_KEY);
+      window.location.href = 'login.html';
+    }
+
+    function portalFindStudent(){
+      const students = portalSafeArray(PORTAL_STUDENTS_KEY);
+      return students.find(student =>
+        student.code === portalCurrentUser.studentId ||
+        student.studentId === portalCurrentUser.studentId ||
+        (student.email && portalCurrentUser.email && student.email.toLowerCase() === portalCurrentUser.email.toLowerCase())
+      ) || null;
+    }
+
+    function portalContext(){
+      const student = portalFindStudent();
+      const isStudent = portalCurrentUser.role === 'student';
+      return {
+        role: portalCurrentUser.role,
+        userId: portalCurrentUser.id || '',
+        studentId: isStudent ? (portalCurrentUser.studentId || student?.code || '') : '',
+        studentName: isStudent ? (student?.name || portalCurrentUser.name || '') : (portalCurrentUser.name || ''),
+        studentEmail: isStudent ? (student?.email || portalCurrentUser.email || '') : '',
+        teacherId: portalCurrentUser.teacherId || student?.teacherId || student?.teacherCode || '',
+        teacherEmail: student?.teacherEmail || portalCurrentUser.teacherEmail || '',
+        teacherName: student?.teacher || student?.teacherName || ''
+      };
+    }
+
+    function portalRenderHeader(){
+      const ctx = portalContext();
+      const nameEl = document.getElementById('portalUserName');
+      const metaEl = document.getElementById('portalUserMeta');
+      if(nameEl) nameEl.textContent = ctx.studentName || portalCurrentUser.name || 'Usuario Wisdom';
+      if(metaEl) metaEl.textContent = `${ctx.role || 'usuario'}${ctx.studentId ? ' · ' + ctx.studentId : ''}${ctx.teacherId ? ' · Teacher: ' + ctx.teacherId : ''}`;
+    }
+
+    function portalNextId(prefix, list){
+      const numbers = list.map(item => String(item.id || '').replace(prefix + '-', '')).map(Number).filter(n => !Number.isNaN(n));
+      const next = numbers.length ? Math.max(...numbers) + 1 : 1;
+      return `${prefix}-${String(next).padStart(4, '0')}`;
+    }
+
+    function portalUpdateStudentAssessment(result){
+      if(!result.studentId) return;
+      const students = portalSafeArray(PORTAL_STUDENTS_KEY);
+      const index = students.findIndex(student => student.code === result.studentId || student.studentId === result.studentId);
+      if(index < 0) return;
+      const student = students[index];
+      student.assessments = Array.isArray(student.assessments) ? student.assessments : [];
+      student.assessments.push({
+        id: result.id,
+        type: result.type,
+        mode: result.mode,
+        level: result.level,
+        unit: result.unit,
+        score: result.score,
+        status: result.status,
+        submittedAt: result.submittedAt
+      });
+      student.lastAssessment = {
+        id: result.id,
+        type: result.type,
+        mode: result.mode,
+        level: result.level,
+        unit: result.unit,
+        score: result.score,
+        status: result.status,
+        submittedAt: result.submittedAt
+      };
+      students[index] = student;
+      portalSaveArray(PORTAL_STUDENTS_KEY, students);
+    }
+
+    function portalCreateNotification(result){
+      if(result.mode !== 'exam') return;
+      const notifications = portalSafeArray(PORTAL_NOTIFICATIONS_KEY);
+      const refId = result.evaluationId ? `speaking-result-${result.evaluationId}` : `speaking-result-${result.id}`;
+      const existingIndex = notifications.findIndex(note => note.refId === refId || note.resultId === result.id);
+      const payload = {
+        id: existingIndex >= 0 ? notifications[existingIndex].id : portalNextId('NTF', notifications),
+        refId,
+        type: 'assessment',
+        status: 'Nueva',
+        audience: ['admin', 'teacher'],
+        teacherId: result.teacherId || '',
+        studentId: result.studentId || '',
+        title: result.status === 'Pendiente de revisión' ? 'Speaking enviado para revisión' : 'Speaking evaluado',
+        message: `${result.studentName || 'Estudiante'} presentó ${result.type} · ${result.level} Unidad ${result.unit}. Resultado: ${result.score === null || result.score === undefined ? result.status : result.score + '%'}.`,
+        createdAt: existingIndex >= 0 ? (notifications[existingIndex].createdAt || result.submittedAt) : result.submittedAt,
+        updatedAt: new Date().toISOString(),
+        resultId: result.id,
+        evaluationId: result.evaluationId || '',
+        link: 'dashboard.html'
+      };
+      if(existingIndex >= 0) notifications[existingIndex] = {...notifications[existingIndex], ...payload};
+      else notifications.unshift(payload);
+      portalSaveArray(PORTAL_NOTIFICATIONS_KEY, notifications);
+    }
+
+    function portalFindExistingFormalResult(evaluationId){
+      if(!evaluationId) return null;
+      const examResults = portalSafeArray(PORTAL_EXAM_RESULTS_KEY);
+      return examResults.find(item => item.evaluationId === evaluationId) || null;
+    }
+
+    function portalUpsertResultInList(key, result){
+      const list = portalSafeArray(key);
+      const index = list.findIndex(item =>
+        (result.evaluationId && item.evaluationId === result.evaluationId) ||
+        (result.id && item.id === result.id)
+      );
+      if(index >= 0) list[index] = {...list[index], ...result, updatedAt: new Date().toISOString()};
+      else list.push(result);
+      portalSaveArray(key, list);
+      return index >= 0 ? list[index] : result;
+    }
+
+    function portalSaveAssessmentResult(payload){
+      const ctx = portalContext();
+      const mode = payload.mode || 'practice';
+      const evaluationId = payload.evaluationId || portalForcedEvaluation.id || '';
+
+      if(mode === 'exam' && portalHasForcedEvaluation() && !evaluationId){
+        alert('No se puede guardar un examen formal sin evaluationId. Abre el examen desde Evaluaciones.');
+        return null;
+      }
+
+      const existingFormal = mode === 'exam' ? portalFindExistingFormalResult(evaluationId) : null;
+      const now = new Date().toISOString();
+      const result = {
+        ...(existingFormal || {}),
+        id: existingFormal?.id || portalNextId('RES', portalSafeArray(PORTAL_RESULTS_KEY)),
+        evaluationId,
+        studentId: payload.studentId || ctx.studentId || payload.studentCode || existingFormal?.studentId || '',
+        studentName: payload.studentName || ctx.studentName || existingFormal?.studentName || 'Estudiante',
+        studentEmail: payload.studentEmail || ctx.studentEmail || existingFormal?.studentEmail || '',
+        teacherId: payload.teacherId || ctx.teacherId || existingFormal?.teacherId || '',
+        teacherEmail: payload.teacherEmail || ctx.teacherEmail || existingFormal?.teacherEmail || '',
+        type: payload.type,
+        mode,
+        level: payload.level,
+        unit: payload.unit,
+        unitTitle: payload.unitTitle || existingFormal?.unitTitle || '',
+        score: payload.score,
+        correct: payload.correct ?? existingFormal?.correct ?? null,
+        total: payload.total ?? existingFormal?.total ?? null,
+        status: payload.status || (mode === 'exam' ? 'Presentado' : 'Práctica'),
+        details: payload.details || existingFormal?.details || {},
+        submittedAt: existingFormal?.submittedAt || now,
+        updatedAt: now
+      };
+
+      portalUpsertResultInList(PORTAL_RESULTS_KEY, result);
+
+      if(result.mode === 'exam'){
+        portalUpsertResultInList(PORTAL_EXAM_RESULTS_KEY, result);
+        portalUpdateStudentAssessment(result);
+        portalCreateNotification(result);
+        portalMarkEvaluationCompleted(result);
+        portalCreateAcademicIntervention(result);
+      }
+      return result;
+    }
+
+    function portalApplyAssessmentIdentity(studentInput, teacherInput){
+      const ctx = portalContext();
+      if(studentInput){
+        studentInput.value = ctx.studentName || portalCurrentUser.name || '';
+        if(portalCurrentUser.role === 'student') studentInput.readOnly = true;
+      }
+      if(teacherInput){
+        teacherInput.value = ctx.teacherEmail || ctx.teacherId || '';
+        if(portalCurrentUser.role === 'student') teacherInput.readOnly = true;
+      }
+    }
+
+    function portalShowSavedNotice(text){
+      let note = document.getElementById('portalSaveNote');
+      if(!note){
+        note = document.createElement('div');
+        note.id = 'portalSaveNote';
+        note.className = 'portal-save-note';
+        const panel = document.getElementById('resultsPanel') || document.querySelector('.card:last-of-type') || document.body;
+        panel.appendChild(note);
+      }
+      note.textContent = text;
+
+      note.style.display = 'block';
+    }
+
+    const portalEvaluationParams = new URLSearchParams(window.location.search);
+    const portalForcedEvaluation = {
+      id: portalEvaluationParams.get('evaluationId') || '',
+      mode: portalEvaluationParams.get('mode') || '',
+      type: portalEvaluationParams.get('type') || '',
+      level: portalEvaluationParams.get('level') || '',
+      unit: portalEvaluationParams.get('unit') || ''
+    };
+
+    function portalHasForcedEvaluation(){
+      return !!portalForcedEvaluation.id;
+    }
+
+    function portalMarkEvaluationCompleted(result){
+      if(!portalHasForcedEvaluation()) return;
+      const evaluations = portalSafeArray(PORTAL_EVALUATIONS_KEY);
+      const index = evaluations.findIndex(item => item.id === portalForcedEvaluation.id);
+      if(index < 0) return;
+      if(evaluations[index].resultId && evaluations[index].resultId !== result.id){
+        console.warn('Esta evaluación ya tenía un resultado vinculado. No se reemplazó el resultId.');
+        return;
+      }
+      evaluations[index].status = 'submitted';
+      evaluations[index].submittedAt = result.submittedAt || new Date().toISOString();
+      evaluations[index].resultId = result.id || '';
+      evaluations[index].score = result.score ?? null;
+      evaluations[index].updatedAt = new Date().toISOString();
+      portalSaveArray(PORTAL_EVALUATIONS_KEY, evaluations);
+    }
+
+    function portalShowForcedEvaluationNotice(){
+      if(!portalHasForcedEvaluation()) return;
+      portalShowSavedNotice(`Evaluación asignada activa: ${portalForcedEvaluation.type || 'Exam'} · ${portalForcedEvaluation.level || ''} Unidad ${portalForcedEvaluation.unit || ''}. El modo Exam quedó bloqueado.`);
+    }
+
+    portalRenderHeader();
+
+
+
+const LEVEL_UNITS = {
+  "A1": [
+    {
+      "number": 1,
+      "title": "Meeting people",
+      "questions": [
+        "What is your full name, and where are you from?",
+        "How do you usually introduce yourself to a new person?",
+        "Describe your personality using three simple adjectives.",
+        "Who is someone important in your life, and why?",
+        "What would you like a new classmate to know about you?"
+      ]
+    },
+    {
+      "number": 2,
+      "title": "Parts of speech",
+      "questions": [
+        "Choose five objects around you and describe them using adjectives.",
+        "Talk about three actions you do every day and when you do them.",
+        "Describe a person using nouns, verbs, and adjectives.",
+        "Make simple sentences about your classroom, your city, or your house.",
+        "Explain why words like names, actions, and descriptions help us communicate clearly."
+      ]
+    },
+    {
+      "number": 3,
+      "title": "Sentence structure",
+      "questions": [
+        "Describe your daily routine using complete sentences.",
+        "Talk about your favorite place and say what you do there.",
+        "Describe a friend using subject, verb, and extra information.",
+        "Explain three things you do not like and why.",
+        "Tell me five clear sentences about your life right now."
+      ]
+    },
+    {
+      "number": 4,
+      "title": "Numbers",
+      "questions": [
+        "Tell me your phone number, your age, and two important dates.",
+        "Describe prices, quantities, or numbers you use in your daily life.",
+        "Talk about your schedule using times and numbers.",
+        "Compare two numbers that are important to you, for example age, price, distance, or time.",
+        "Explain how numbers help you at work, school, or home."
+      ]
+    },
+    {
+      "number": 5,
+      "title": "Family",
+      "questions": [
+        "Who is in your family? Describe at least three people.",
+        "Describe one person in your family and what they usually do.",
+        "What activities do you usually do with your family?",
+        "Who are you closest to in your family, and why?",
+        "Tell me about a special memory with your family."
+      ]
+    },
+    {
+      "number": 6,
+      "title": "Likes and dislikes",
+      "questions": [
+        "What activities do you like doing in your free time?",
+        "What food, music, or movies do you dislike? Explain why.",
+        "Talk about something you love and something you hate.",
+        "Describe a perfect weekend using your likes and dislikes.",
+        "Ask and answer three questions about likes and dislikes."
+      ]
+    },
+    {
+      "number": 7,
+      "title": "My Schedule",
+      "questions": [
+        "Describe your routine from morning to night.",
+        "What do you usually do before and after class or work?",
+        "Talk about a busy day in your week.",
+        "What time do you wake up, eat, study, work, and relax?",
+        "What would you like to change in your schedule?"
+      ]
+    },
+    {
+      "number": 8,
+      "title": "Location, location, location",
+      "questions": [
+        "Describe where your house, school, or workplace is located.",
+        "Explain how to get from your house to a place you visit often.",
+        "Describe your room using prepositions of place.",
+        "Where do you usually study, work, or relax? Why?",
+        "Compare two places in your city using location expressions."
+      ]
+    },
+    {
+      "number": 9,
+      "title": "Simple past – VENI VIDI VICI",
+      "questions": [
+        "Tell me about something you did yesterday.",
+        "Describe a place you visited recently.",
+        "Talk about a good experience you had last week.",
+        "What did you eat, watch, or buy recently? Give details.",
+        "Tell me about a moment when you arrived, saw something interesting, and reacted."
+      ]
+    },
+    {
+      "number": 10,
+      "title": "Simple past – When I Was a Child",
+      "questions": [
+        "What games did you play when you were a child?",
+        "Describe your school life when you were younger.",
+        "Talk about a person you admired when you were a child.",
+        "What did you use to like but do not like now?",
+        "Tell me a short story about your childhood."
+      ]
+    },
+    {
+      "number": 11,
+      "title": "Simple past – Words can describe",
+      "questions": [
+        "Describe an interesting day you had in the past.",
+        "Talk about a movie, book, or event you enjoyed.",
+        "Describe how you felt during an important moment.",
+        "Tell me about a mistake you made and what happened next.",
+        "Use descriptive words to tell a short story from your past."
+      ]
+    },
+    {
+      "number": 12,
+      "title": "Conjunctions – Ugly yet beautiful",
+      "questions": [
+        "Describe something that is difficult but useful.",
+        "Talk about a person who is different from you but important to you.",
+        "Explain two opposite ideas using but, and, because, or so.",
+        "Describe a place that is beautiful but has a problem.",
+        "Tell me about a challenge you had and how you solved it."
+      ]
+    },
+    {
+      "number": 13,
+      "title": "Me, myself and I",
+      "questions": [
+        "Describe yourself physically and emotionally.",
+        "What are three things you do by yourself?",
+        "Talk about something you are proud of about yourself.",
+        "What do you need to improve about yourself?",
+        "Describe your identity: your habits, interests, and goals."
+      ]
+    },
+    {
+      "number": 14,
+      "title": "It is just perfect",
+      "questions": [
+        "Describe a perfect day for you.",
+        "Talk about a perfect meal, place, or activity.",
+        "What makes a class, job, or trip perfect?",
+        "Describe something you bought or experienced that was almost perfect.",
+        "Explain your idea of a perfect future."
+      ]
+    },
+    {
+      "number": 15,
+      "title": "Gerunds and infinitives",
+      "questions": [
+        "What do you enjoy doing after class or work?",
+        "What do you want to learn this year?",
+        "Talk about something you started doing recently.",
+        "What is difficult for you to do in English?",
+        "Describe activities you like doing and things you need to do."
+      ]
+    },
+    {
+      "number": 16,
+      "title": "Looking for you",
+      "questions": [
+        "Describe the kind of person you like working or studying with.",
+        "What are you looking for in a good friend?",
+        "Describe a person you would like to meet.",
+        "Talk about something you are looking for in your life right now.",
+        "Explain what qualities are important in a teacher, partner, or teammate."
+      ]
+    },
+    {
+      "number": 17,
+      "title": "Tomorrow",
+      "questions": [
+        "What are you going to do tomorrow?",
+        "Talk about your plans for next weekend.",
+        "Describe one goal you will achieve this year.",
+        "What do you think your city will be like in the future?",
+        "Explain your future plans for study, work, or travel."
+      ]
+    }
+  ],
+  "A2": [
+    {
+      "number": 18,
+      "title": "Parts of the body",
+      "questions": [
+        "Describe a time when you felt sick or had pain.",
+        "What body parts are most important for your favorite sport or activity?",
+        "Explain what people should do to stay healthy.",
+        "Talk about an injury you had or someone you know had.",
+        "Describe a visit to the doctor and explain the symptoms clearly."
+      ]
+    },
+    {
+      "number": 19,
+      "title": "Modal verbs",
+      "questions": [
+        "What should people do to learn English faster?",
+        "What can you do well, and what can't you do yet?",
+        "Talk about rules people must follow at school, work, or home.",
+        "What advice would you give to a new student at Wisdom Academy?",
+        "Explain what people should not do when they are learning a language."
+      ]
+    },
+    {
+      "number": 20,
+      "title": "Comparatives and superlatives",
+      "questions": [
+        "Compare two cities you know.",
+        "Compare studying online and studying in person.",
+        "What is the best restaurant, place, or activity in your city? Why?",
+        "Compare your life now with your life five years ago.",
+        "Describe the most interesting person you know and explain why."
+      ]
+    },
+    {
+      "number": 21,
+      "title": "Verb tense and form",
+      "questions": [
+        "Talk about something you do every day and something you did yesterday.",
+        "Describe what you are doing these days to improve your life.",
+        "Tell me about a habit you had in the past and a habit you have now.",
+        "Explain one thing you are going to do soon.",
+        "Tell a short story using present, past, and future ideas."
+      ]
+    },
+    {
+      "number": 22,
+      "title": "Past continuous",
+      "questions": [
+        "What were you doing yesterday at 8 p.m.?",
+        "Describe what was happening during an important event in your life.",
+        "Tell me about a time when you were doing something and something unexpected happened.",
+        "What were people around you doing the last time you were in a public place?",
+        "Describe a scene from a movie or memory using past continuous."
+      ]
+    },
+    {
+      "number": 23,
+      "title": "When the earth rumbled",
+      "questions": [
+        "Describe what people were doing when an emergency happened.",
+        "What should people do during an earthquake or natural disaster?",
+        "Tell me about a scary or surprising moment you experienced.",
+        "Explain how your city prepares for emergencies.",
+        "Describe a disaster scene using past simple and past continuous."
+      ]
+    },
+    {
+      "number": 24,
+      "title": "Future",
+      "questions": [
+        "What are your plans for the next month?",
+        "What will education look like in the future?",
+        "Talk about something you are going to change in your life.",
+        "Make predictions about technology, work, or travel.",
+        "Describe your future English goals and how you will achieve them."
+      ]
+    },
+    {
+      "number": 25,
+      "title": "Reported speech",
+      "questions": [
+        "Tell me something a teacher, friend, or family member told you recently.",
+        "Report advice someone gave you and explain if you followed it.",
+        "Describe a conversation you had yesterday using reported speech.",
+        "Tell me about news you heard and where you heard it.",
+        "Explain what someone said about learning English or studying."
+      ]
+    },
+    {
+      "number": 26,
+      "title": "Conditional sentences",
+      "questions": [
+        "What will you do if you have more free time this week?",
+        "What happens if students do not practice English outside class?",
+        "If you could change one thing in your city, what would you change?",
+        "What would you do if you lost your phone in another country?",
+        "Explain what you will do if you pass your next English exam."
+      ]
+    },
+    {
+      "number": 27,
+      "title": "Modals",
+      "questions": [
+        "What might happen if people stop studying grammar?",
+        "What must students do before an important exam?",
+        "What could people do to improve their speaking fluency?",
+        "Talk about something you may do next year.",
+        "Give rules and recommendations for a successful language class."
+      ]
+    },
+    {
+      "number": 28,
+      "title": "Present perfect",
+      "questions": [
+        "What places have you visited in your life?",
+        "What skills have you learned recently?",
+        "Talk about something you have never done but want to try.",
+        "Describe the best experience you have had this year.",
+        "Explain how your English has improved since you started studying."
+      ]
+    }
+  ],
+  "B1": [
+    {
+      "number": 29,
+      "title": "Instructions and orders",
+      "questions": [
+        "Explain how to prepare for an English speaking exam.",
+        "Give clear instructions for a new student joining Wisdom Academy.",
+        "Describe how to complete a task at work or school.",
+        "Explain the rules people should follow during a class discussion.",
+        "Give step-by-step instructions for solving a common communication problem."
+      ]
+    },
+    {
+      "number": 30,
+      "title": "Relative clauses",
+      "questions": [
+        "Describe a person who has influenced your life.",
+        "Talk about a place where you feel productive or relaxed.",
+        "Describe an object that you use every day and explain why it is useful.",
+        "Tell me about a moment when you learned an important lesson.",
+        "Describe a course, job, or activity that changed your perspective."
+      ]
+    },
+    {
+      "number": 31,
+      "title": "By then",
+      "questions": [
+        "Talk about something you had already learned before starting this course.",
+        "Describe a situation where you arrived late and something had already happened.",
+        "Explain what you hope you will have achieved by the end of this year.",
+        "Tell a story about preparation: what had you done before the event?",
+        "Describe how your life will have changed by the time you finish your studies."
+      ]
+    },
+    {
+      "number": 32,
+      "title": "If I were a dog",
+      "questions": [
+        "If you were an animal, what would your life be like?",
+        "If you had a completely different job, what would you choose?",
+        "If you could live in another country, where would you live and why?",
+        "If you were responsible for improving your city, what would you do first?",
+        "If you could change one habit, what would it be and how would your life improve?"
+      ]
+    },
+    {
+      "number": 33,
+      "title": "Advanced conditionals",
+      "questions": [
+        "What would have happened if you had made a different decision last year?",
+        "If people had better communication skills, how would workplaces change?",
+        "Talk about a mistake you made and what you would do differently now.",
+        "If you had studied English earlier, how might your life be different?",
+        "Describe a hypothetical problem and explain how you would solve it."
+      ]
+    },
+    {
+      "number": 34,
+      "title": "Phrasal verbs",
+      "questions": [
+        "Talk about a goal you do not want to give up on.",
+        "Describe a problem you had to deal with recently.",
+        "Explain how you get along with people in your class, family, or workplace.",
+        "Talk about something you need to cut down on in your daily life.",
+        "Describe a time when plans fell through and what you did next."
+      ]
+    },
+    {
+      "number": 35,
+      "title": "Advanced reported speech",
+      "questions": [
+        "Report an important conversation you had and explain its impact.",
+        "Tell me what someone warned you not to do and whether you listened.",
+        "Describe advice you were given about work, study, or relationships.",
+        "Explain how people reported a recent event in the news.",
+        "Tell me about a misunderstanding caused by what someone said."
+      ]
+    },
+    {
+      "number": 36,
+      "title": "Advanced phrasal verbs",
+      "questions": [
+        "Describe a challenge you had to work through.",
+        "Talk about a responsibility you had to take on.",
+        "Explain a situation where you had to figure something out alone.",
+        "Describe a habit you want to get rid of and why.",
+        "Talk about a project that turned out better or worse than expected."
+      ]
+    },
+    {
+      "number": 37,
+      "title": "Evaluations",
+      "questions": [
+        "Describe how students should be evaluated in a language course.",
+        "What makes an exam fair or unfair?",
+        "Talk about a time when feedback helped you improve.",
+        "Should speaking exams focus more on accuracy or fluency? Explain.",
+        "Design a better evaluation system for English students and justify it."
+      ]
+    },
+    {
+      "number": 38,
+      "title": "Modals",
+      "questions": [
+        "What should schools do to improve language learning?",
+        "What might happen if students depend only on translation apps?",
+        "What could you have done differently in your last learning challenge?",
+        "What must people do to communicate professionally in English?",
+        "Explain what learners ought to prioritize when preparing for real conversations."
+      ]
+    }
+  ],
+  "B2": [
+    {
+      "number": 39,
+      "title": "Advanced conditionals",
+      "questions": [
+        "If education systems had adapted faster to technology, how would learning be different today?",
+        "What would happen if companies stopped requiring English for professional growth?",
+        "If you had to redesign language education, what would you change and why?",
+        "Discuss a decision that could have changed your personal or professional path.",
+        "If society valued communication more than credentials, what consequences would we see?"
+      ]
+    },
+    {
+      "number": 40,
+      "title": "Present perfect continuous",
+      "questions": [
+        "What have you been working on recently to improve yourself?",
+        "How has technology been changing the way people communicate?",
+        "What problems have students been facing in modern education?",
+        "Describe a skill you have been developing and the challenges involved.",
+        "How long have you been learning English, and what has been changing in your process?"
+      ]
+    },
+    {
+      "number": 41,
+      "title": "Past perfect",
+      "questions": [
+        "Describe a situation where you realized you had made the right or wrong decision.",
+        "Talk about something you had expected before an event, and what actually happened.",
+        "Explain how preparation had affected the result of an important experience.",
+        "Tell a story where one action had already happened before another.",
+        "Analyze a personal or historical event and explain what had led to it."
+      ]
+    },
+    {
+      "number": 42,
+      "title": "Past perfect continuous",
+      "questions": [
+        "Describe a time when you had been preparing for something for a long time.",
+        "Talk about a problem that had been developing before people noticed it.",
+        "Explain how long you had been studying or working before achieving an important result.",
+        "Describe a situation where someone was tired because they had been doing something intensely.",
+        "Analyze a social, academic, or professional issue that had been growing over time."
+      ]
+    },
+    {
+      "number": 43,
+      "title": "Advanced reported speech",
+      "questions": [
+        "Summarize a debate or discussion you heard and explain the main positions.",
+        "Report what experts, teachers, or leaders have said about education or technology.",
+        "Describe a conflict that started because someone misreported information.",
+        "Explain how reported information can change people's opinions.",
+        "Discuss why accuracy is important when reporting what someone else said."
+      ]
+    },
+    {
+      "number": 44,
+      "title": "Permissions, obligations and prohibitions",
+      "questions": [
+        "Discuss what students should and should not be allowed to do during online exams.",
+        "What obligations do companies have toward their employees?",
+        "Analyze rules that are necessary in schools but may feel restrictive.",
+        "Should governments prohibit certain uses of artificial intelligence? Why or why not?",
+        "Explain the balance between personal freedom and social responsibility."
+      ]
+    },
+    {
+      "number": 45,
+      "title": "Advanced relative clauses",
+      "questions": [
+        "Describe a person whose work has had a significant impact on society.",
+        "Talk about a place in which you could imagine building your future.",
+        "Describe an idea that many people misunderstand but that you consider important.",
+        "Explain a problem whose causes are complex and difficult to solve.",
+        "Discuss a tool or technology, the use of which has changed communication."
+      ]
+    },
+    {
+      "number": 46,
+      "title": "Indirect speech acts",
+      "questions": [
+        "Explain how people can be polite without saying exactly what they mean.",
+        "Describe a situation where indirect communication caused confusion.",
+        "How do people make requests differently in professional and informal contexts?",
+        "Analyze why tone, context, and implication matter in English communication.",
+        "Give examples of indirect requests and explain what the speaker really means."
+      ]
+    },
+    {
+      "number": 47,
+      "title": "Gerunds and infinitives",
+      "questions": [
+        "Discuss the benefits of learning to communicate instead of memorizing isolated rules.",
+        "What activities are worth doing to improve fluency?",
+        "What do professionals need to learn to compete internationally?",
+        "Explain what you regret not doing earlier in your learning process.",
+        "Discuss the difference between trying to speak perfectly and learning to communicate effectively."
+      ]
+    },
+    {
+      "number": 48,
+      "title": "Passive voice",
+      "questions": [
+        "How are people influenced by advertising and social media?",
+        "Describe how a product, service, or piece of content is created.",
+        "What problems are often ignored by schools, companies, or governments?",
+        "Discuss how information can be manipulated in public conversations.",
+        "What should be changed in the way English is taught today?"
+      ]
+    },
+    {
+      "number": 49,
+      "title": "Custom unit 49 – edit name",
+      "questions": [
+        "Present a complex topic you have studied and explain why it matters.",
+        "Defend an opinion about education, work, technology, or communication.",
+        "Compare two possible solutions to a real problem and choose the stronger one.",
+        "Analyze a personal goal and explain the obstacles that must be overcome.",
+        "Give a structured mini-presentation with an introduction, two arguments, and a conclusion."
+      ]
+    }
+  ]
+};
+
+
+function getExpectedSpeakingGuidance(level){
+  const map = {
+    A1: 'Answer in clear simple sentences. Aim for at least 30 seconds.',
+    A2: 'Answer with details, examples, and connectors. Aim for at least 45 seconds.',
+    B1: 'Give a clear opinion, reasons, and examples. Aim for at least 60 seconds.',
+    B2: 'Develop your answer with arguments, contrast, examples, and a conclusion. Aim for at least 90 seconds.'
+  };
+  return map[level] || 'Speak clearly and extend your ideas.';
+}
+
+function shuffleArray(items){
+  return [...items].map(item => ({ item, sort: Math.random() })).sort((a,b)=>a.sort-b.sort).map(entry=>entry.item);
+}
+
+function selectQuestions(task){
+  if(!task || !Array.isArray(task.questions)) return [];
+  const questions = task.questions;
+  if(modeEl && modeEl.value === 'exam') return shuffleArray(questions).slice(0, 3);
+  return questions;
+}
+
+const TASKS = Object.entries(LEVEL_UNITS).flatMap(([level, units]) =>
+  units.map(unit => ({
+    level,
+    unit: unit.number,
+    title: unit.title,
+    topic: unit.title,
+    questions: unit.questions,
+    prompt: unit.questions.map((q, index) => `${index + 1}. ${q}`).join('\n')
+  }))
+);
+
+let activeQuestions = [];
+
+function renderQuestionsList(){
+  if(!questionsListEl) return;
+  questionsListEl.innerHTML = '';
+  activeQuestions.forEach(question => {
+    const li = document.createElement('li');
+    li.textContent = question;
+    questionsListEl.appendChild(li);
+  });
+}
+
+function formatQuestionsForPrompt(task){
+  activeQuestions = selectQuestions(task);
+  renderQuestionsList();
+  const intro = getExpectedSpeakingGuidance(task?.level);
+  const questionText = activeQuestions.map((q, index) => `${index + 1}. ${q}`).join('\n\n');
+  return `${intro}\n\nQuestions:\n${questionText}`;
+}
+
+const levelEl = document.getElementById('level');
+const unitEl = document.getElementById('unit');
+const topicEl = document.getElementById('topic');
+const promptEl = document.getElementById('prompt');
+const questionsListEl = document.getElementById('questionsList');
+const speakingExamTimerPanel = document.getElementById('speakingExamTimerPanel');
+const speakingExamTimeRemaining = document.getElementById('speakingExamTimeRemaining');
+const modeEl = document.getElementById('mode');
+const portalStatusEl = document.getElementById('portalStatus');
+const studentInput = document.getElementById('student');
+const teacherInput = document.getElementById('teacher');
+const enableMicBtn = document.getElementById('enable');
+const recordBtn = document.getElementById('record');
+const stopBtn = document.getElementById('stop');
+const statusEl = document.getElementById('status');
+const playerEl = document.getElementById('player');
+const downloadAudioBtn = document.getElementById('downloadAudio');
+const downloadSubmissionBtn = document.getElementById('downloadSubmission');
+const mailtoTeacherBtn = document.getElementById('mailtoTeacher');
+const saveSubmissionBtn = document.getElementById('saveSubmission');
+const calcScoreBtn = document.getElementById('calcScore');
+const saveEvaluationBtn = document.getElementById('saveEvaluation');
+const downloadEvaluationBtn = document.getElementById('downloadEvaluation');
+
+function speakingFormalAlreadySubmitted(){
+  if(modeEl.value !== 'exam' || !portalHasForcedEvaluation()) return false;
+  return Boolean(portalFindExistingFormalResult(portalForcedEvaluation.id));
+}
+
+function assertCanSaveFormalSpeaking(){
+  if(modeEl.value !== 'exam') return true;
+  if(portalHasForcedEvaluation() && speakingFormalAlreadySubmitted()){
+    alert('Esta evaluación formal de Speaking ya tiene un envío guardado. No se creará un segundo resultado.');
+    return false;
+  }
+  return true;
+}
+
+const scoreEl = document.getElementById('score');
+const feedbackEl = document.getElementById('feedback');
+portalApplyAssessmentIdentity(studentInput, teacherInput);
+
+function updateSpeakingMode(){
+  const isExam = modeEl.value === 'exam';
+  portalStatusEl.value = isExam ? 'Exam: formal submission enabled · 60-minute limit' : 'Practice: no formal notification';
+  if(isExam) startSpeakingExamTimer();
+  else resetSpeakingExamTimer();
+  if(typeof load === 'function') load();
+}
+modeEl.onchange = updateSpeakingMode;
+
+
+let speakingExamTimerId = null;
+let speakingExamSeconds = 60 * 60;
+let speakingExamClosed = false;
+let speakingExamTimeoutSaved = false;
+let speakingAutoSaveAfterStop = false;
+
+function formatSpeakingExamTime(seconds){
+  const safe = Math.max(0, Number(seconds)||0);
+  const m = Math.floor(safe / 60);
+  const s = safe % 60;
+  return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+
+function startSpeakingExamTimer(){
+  if(speakingExamClosed) return;
+  if(speakingExamTimerId) return;
+  speakingExamSeconds = 60 * 60;
+  if(speakingExamTimerPanel){
+    speakingExamTimerPanel.classList.add('active');
+    speakingExamTimerPanel.classList.remove('closed');
+  }
+  if(speakingExamTimeRemaining) speakingExamTimeRemaining.textContent = formatSpeakingExamTime(speakingExamSeconds);
+  speakingExamTimerId = setInterval(()=>{
+    speakingExamSeconds -= 1;
+    if(speakingExamTimeRemaining) speakingExamTimeRemaining.textContent = formatSpeakingExamTime(speakingExamSeconds);
+    if(speakingExamSeconds <= 0){
+      expireSpeakingExam();
+    }
+  },1000);
+}
+
+function stopSpeakingExamTimer(){
+  if(speakingExamTimerId){
+    clearInterval(speakingExamTimerId);
+    speakingExamTimerId = null;
+  }
+}
+
+function resetSpeakingExamTimer(){
+  stopSpeakingExamTimer();
+  speakingExamClosed = false;
+  speakingExamTimeoutSaved = false;
+  speakingAutoSaveAfterStop = false;
+  speakingExamSeconds = 60 * 60;
+  if(speakingExamTimeRemaining) speakingExamTimeRemaining.textContent = '60:00';
+  if(speakingExamTimerPanel){
+    speakingExamTimerPanel.classList.remove('active','closed');
+  }
+}
+
+function disableSpeakingExamInputs(){
+  [enableMicBtn, recordBtn, stopBtn, levelEl, unitEl, modeEl].forEach(el=>{ if(el) el.disabled = true; });
+}
+
+function saveSpeakingTimeoutResult(){
+  if(speakingExamTimeoutSaved || modeEl.value !== 'exam') return;
+  speakingExamTimeoutSaved = true;
+  const task = currentTask();
+  const result = portalSaveAssessmentResult({
+    type: 'Speaking',
+    evaluationId: portalForcedEvaluation.id,
+    mode: 'exam',
+    level: task?.level || levelEl.value,
+    unit: task?.unit || unitEl.value,
+    unitTitle: task?.title || '',
+    score: null,
+    status: recordedBlob ? 'Tiempo agotado · audio capturado pendiente de revisión' : 'Tiempo agotado · sin audio enviado',
+    studentName: studentInput.value,
+    teacherEmail: teacherInput.value,
+    details: {
+      task,
+      timedOut: true,
+      hasAudioInBrowser: !!recordedBlob,
+      note: 'El examen se cerró automáticamente al llegar a 60 minutos.'
+    }
+  });
+  portalShowSavedNotice(`Examen cerrado por tiempo · ${result.id}`);
+}
+
+function expireSpeakingExam(){
+  stopSpeakingExamTimer();
+  speakingExamClosed = true;
+  if(speakingExamTimerPanel){
+    speakingExamTimerPanel.classList.add('closed');
+    speakingExamTimerPanel.innerHTML = 'Time is over. Exam closed automatically.';
+  }
+  statusEl.textContent = 'Time is over. Exam closed.';
+  disableSpeakingExamInputs();
+  if(recorder && recorder.state === 'recording'){
+    speakingAutoSaveAfterStop = true;
+    recorder.stop();
+  }else{
+    saveSpeakingTimeoutResult();
+  }
+}
+
+function portalApplyForcedEvaluationToSpeaking(){
+  if(!portalHasForcedEvaluation()) return;
+  if(portalForcedEvaluation.level) levelEl.value = portalForcedEvaluation.level;
+  populateUnits();
+  if(portalForcedEvaluation.unit) unitEl.value = String(portalForcedEvaluation.unit);
+  load();
+  modeEl.value = 'exam';
+  levelEl.disabled = true;
+  unitEl.disabled = true;
+  modeEl.disabled = true;
+  updateSpeakingMode();
+  portalShowForcedEvaluationNotice();
+}
+
+if(portalCurrentUser.role === 'student'){
+  const rubricCard = document.querySelector('.card:last-of-type');
+  if(rubricCard) rubricCard.classList.add('student-hidden');
+}
+
+function populateUnits(){
+  unitEl.innerHTML='';
+  TASKS.filter(t=>t.level===levelEl.value).forEach(t=>{
+    const o=document.createElement('option');
+    o.value=t.unit;
+    o.textContent=`Unit ${t.unit} · ${t.title}`;
+    unitEl.appendChild(o);
+  });
+  load();
+}
+
+function load(){
+  let t = TASKS.find(x=>x.level===levelEl.value && x.unit==unitEl.value);
+  if(!t){
+    t = TASKS.find(x=>x.level===levelEl.value) || TASKS[0];
+    if(!t) return;
+    if(typeof portalShowSavedNotice === 'function') portalShowSavedNotice('No se encontró la unidad exacta de Speaking. Se cargó una tarea disponible del nivel seleccionado.');
+  }
+  topicEl.textContent=`${t.level} · Unit ${t.unit} · ${t.topic}`;
+  promptEl.value = formatQuestionsForPrompt(t);
+}
+
+levelEl.onchange=populateUnits;
+unitEl.onchange=load;
+if(portalHasForcedEvaluation()) portalApplyForcedEvaluationToSpeaking(); else populateUnits();
+updateSpeakingMode();
+
+let stream = null;
+let recorder = null;
+let chunks = [];
+let recordedBlob = null;
+let recordedUrl = null;
+
+function setRecordingUi(state){
+  const hasMic = !!stream;
+  const hasAudio = !!recordedBlob;
+
+  if(speakingExamClosed){
+    enableMicBtn.disabled = true;
+    recordBtn.disabled = true;
+    stopBtn.disabled = true;
+    downloadAudioBtn.disabled = !hasAudio;
+    downloadSubmissionBtn.disabled = !hasAudio;
+    saveSubmissionBtn.disabled = true;
+    mailtoTeacherBtn.disabled = !hasAudio;
+    return;
+  }
+
+  if(state === 'recording'){
+    enableMicBtn.disabled = true;
+    recordBtn.disabled = true;
+    stopBtn.disabled = false;
+    statusEl.textContent = 'Recording...';
+    return;
+  }
+
+  enableMicBtn.disabled = false;
+  recordBtn.disabled = !hasMic;
+  stopBtn.disabled = true;
+  downloadAudioBtn.disabled = !hasAudio;
+  downloadSubmissionBtn.disabled = !hasAudio;
+  saveSubmissionBtn.disabled = !hasAudio;
+  mailtoTeacherBtn.disabled = !hasAudio;
+}
+
+async function handleEnableMic(){
+  if(speakingExamClosed){ alert('El tiempo del examen terminó. No puedes activar el micrófono.'); return; }
+  try{
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+      alert('Este navegador no permite grabación de audio desde esta página. Prueba en Chrome o Safari actualizado y abre el archivo desde un origen permitido.');
+      statusEl.textContent = 'Mic not supported';
+      return;
+    }
+
+    stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    statusEl.textContent = 'Mic enabled';
+    setRecordingUi('ready');
+  }catch(error){
+    console.error(error);
+    statusEl.textContent = 'Mic blocked';
+    alert('No se pudo activar el micrófono. Revisa permisos del navegador y del sistema: Settings / Privacy & Security / Microphone.');
+  }
+}
+
+function getSupportedAudioMimeType(){
+  if(typeof MediaRecorder === 'undefined') return '';
+  const types = ['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/aac'];
+  return types.find(type => MediaRecorder.isTypeSupported(type)) || '';
+}
+
+function handleRecord(){
+  if(speakingExamClosed){ alert('El tiempo del examen terminó. No puedes grabar.'); return; }
+  if(!stream){
+    alert('Primero activa el micrófono con Enable mic.');
+    return;
+  }
+
+  if(typeof MediaRecorder === 'undefined'){
+    alert('Este navegador no soporta MediaRecorder. Prueba con Chrome o Safari actualizado.');
+    return;
+  }
+
+  chunks = [];
+  recordedBlob = null;
+  if(recordedUrl) URL.revokeObjectURL(recordedUrl);
+  recordedUrl = null;
+  playerEl.removeAttribute('src');
+  playerEl.load();
+
+  const mimeType = getSupportedAudioMimeType();
+  try{
+    recorder = mimeType ? new MediaRecorder(stream, { mimeType }) : new MediaRecorder(stream);
+  }catch(error){
+    console.error(error);
+    alert('No se pudo iniciar la grabación con este navegador.');
+    return;
+  }
+
+  recorder.ondataavailable = event => {
+    if(event.data && event.data.size > 0) chunks.push(event.data);
+  };
+
+  recorder.onerror = event => {
+    console.error(event);
+    statusEl.textContent = 'Recording error';
+    setRecordingUi('ready');
+  };
+
+  recorder.onstop = () => {
+    const type = recorder.mimeType || mimeType || 'audio/webm';
+    recordedBlob = new Blob(chunks, { type });
+    recordedUrl = URL.createObjectURL(recordedBlob);
+    playerEl.src = recordedUrl;
+    statusEl.textContent = speakingExamClosed ? 'Time is over. Recording saved and exam closed.' : 'Recording saved in browser';
+    setRecordingUi('ready');
+    if(speakingAutoSaveAfterStop){
+      speakingAutoSaveAfterStop = false;
+      saveSpeakingTimeoutResult();
+    }
+  };
+
+  recorder.start();
+  setRecordingUi('recording');
+}
+
+function handleStop(){
+  if(recorder && recorder.state === 'recording'){
+    recorder.stop();
+  }
+}
+
+function currentTask(){
+  return TASKS.find(x=>x.level===levelEl.value && x.unit==unitEl.value);
+}
+
+function safeName(text){
+  return (text || 'student').replace(/[^a-z0-9_-]+/gi,'_');
+}
+
+function submissionData(){
+  const task = currentTask();
+  return {
+    student: studentInput.value || null,
+    teacher: teacherInput.value || null,
+    mode: modeEl.value,
+    task,
+    submitted_at: new Date().toISOString(),
+    audio_file_suggested_name: `${safeName(studentInput.value)}__${task.level}_U${task.unit}_speaking.webm`,
+    has_audio_in_browser: !!recordedBlob,
+    questions_used: activeQuestions
+  };
+}
+
+function downloadJson(data, filename){
+  const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href=url;
+  a.download=filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+function calculateScore(){
+  const total = ['rTask','rIntel','rFlu','rAcc','rVoc']
+    .map(id=>Number(document.getElementById(id).value))
+    .reduce((a,b)=>a+b,0);
+  scoreEl.textContent = `${total} / 10`;
+  return total;
+}
+
+function evaluationData(){
+  return {
+    ...submissionData(),
+    rubric: {
+      task_completion: Number(document.getElementById('rTask').value),
+      intelligibility: Number(document.getElementById('rIntel').value),
+      fluency: Number(document.getElementById('rFlu').value),
+      accuracy: Number(document.getElementById('rAcc').value),
+      vocabulary: Number(document.getElementById('rVoc').value),
+      total: calculateScore()
+    },
+    feedback: feedbackEl.value || ''
+  };
+}
+
+function saveSpeakingSubmission(){
+  if(speakingExamClosed && modeEl.value === 'exam'){ alert('El tiempo del examen terminó. El envío ya fue cerrado.'); return; }
+  if(!assertCanSaveFormalSpeaking()) return;
+  const task = currentTask();
+  if(!recordedBlob){ alert('Primero graba el audio.'); return; }
+  const result = portalSaveAssessmentResult({
+    type: 'Speaking',
+    evaluationId: portalForcedEvaluation.id,
+    mode: modeEl.value,
+    level: task.level,
+    unit: task.unit,
+    unitTitle: task.title,
+    score: modeEl.value === 'exam' ? null : 0,
+    status: modeEl.value === 'exam' ? 'Pendiente de revisión' : 'Práctica grabada',
+    studentName: studentInput.value,
+    teacherEmail: teacherInput.value,
+    details: {
+      task,
+      hasAudioInBrowser: !!recordedBlob,
+      audioFileSuggestedName: `${safeName(studentInput.value)}__${task.level}_U${task.unit}_speaking.webm`,
+      note: 'El audio no se guarda en localStorage. Debe descargarse o enviarse al profesor hasta tener backend.'
+    }
+  });
+  if(modeEl.value === 'exam'){ stopSpeakingExamTimer(); speakingExamClosed = true; disableSpeakingExamInputs(); }
+  portalShowSavedNotice(`${modeEl.value === 'exam' ? 'Envío formal guardado y notificado' : 'Práctica registrada'} · ${result.id}`);
+}
+
+function saveSpeakingEvaluation(){
+  if(portalCurrentUser.role === 'student'){ alert('La rúbrica solo puede ser guardada por profesor o administración.'); return; }
+  if(speakingExamClosed && modeEl.value === 'exam' && speakingExamTimeoutSaved){ alert('El tiempo del examen terminó. No puedes modificar la evaluación desde este intento.'); return; }
+  const task = currentTask();
+  const total = calculateScore();
+  const percentage = Math.round((total / 10) * 100);
+  const result = portalSaveAssessmentResult({
+    type: 'Speaking',
+    evaluationId: portalForcedEvaluation.id,
+    mode: modeEl.value,
+    level: task.level,
+    unit: task.unit,
+    unitTitle: task.title,
+    score: percentage,
+    correct: total,
+    total: 10,
+    status: modeEl.value === 'exam' ? 'Evaluado' : 'Práctica evaluada',
+    studentName: studentInput.value,
+    teacherEmail: teacherInput.value,
+    details: evaluationData()
+  });
+  if(modeEl.value === 'exam'){ stopSpeakingExamTimer(); speakingExamClosed = true; disableSpeakingExamInputs(); }
+  portalShowSavedNotice(`${modeEl.value === 'exam' ? 'Evaluación formal guardada y notificada' : 'Evaluación de práctica registrada'} · ${result.id}`);
+}
+
+enableMicBtn.addEventListener('click', handleEnableMic);
+recordBtn.addEventListener('click', handleRecord);
+stopBtn.addEventListener('click', handleStop);
+calcScoreBtn.addEventListener('click', calculateScore);
+saveSubmissionBtn.addEventListener('click', saveSpeakingSubmission);
+saveEvaluationBtn.addEventListener('click', saveSpeakingEvaluation);
+
+downloadAudioBtn.addEventListener('click', () => {
+  if(!recordedBlob) return;
+  const task = currentTask();
+  const extension = recordedBlob.type.includes('mp4') || recordedBlob.type.includes('aac') ? 'm4a' : 'webm';
+  const a = document.createElement('a');
+  a.href = recordedUrl;
+  a.download = `${safeName(studentInput.value)}__${task.level}_U${task.unit}_speaking.${extension}`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+});
+
+downloadSubmissionBtn.addEventListener('click', () => {
+  const task = currentTask();
+  downloadJson(submissionData(), `${safeName(studentInput.value)}__${task.level}_U${task.unit}_submission.json`);
+});
+
+downloadEvaluationBtn.addEventListener('click', () => {
+  const task = currentTask();
+  downloadJson(evaluationData(), `${safeName(studentInput.value)}__${task.level}_U${task.unit}_evaluation.json`);
+});
+
+mailtoTeacherBtn.addEventListener('click', () => {
+  const task = currentTask();
+  const to = teacherInput.value || '';
+  const subject = encodeURIComponent(`WISE Speaking submission - ${studentInput.value || 'student'} - ${task.level} U${task.unit}`);
+  const body = encodeURIComponent(
+    `Hello,\n\nI am sending my WISE Speaking submission for review.\n\nStudent: ${studentInput.value || ''}\nTask: ${task.level} Unit ${task.unit} - ${task.title}\n\nPlease attach the downloaded audio file and submission JSON before sending.\n\nThank you.`
+  );
+  window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+});
+
+if(portalHasForcedEvaluation() && portalFindExistingFormalResult(portalForcedEvaluation.id)){
+  speakingExamClosed = true;
+  disableSpeakingExamInputs();
+  portalShowSavedNotice('Esta evaluación formal de Speaking ya tiene un envío registrado.');
+}
+
+setRecordingUi('initial');
+
+</script>
+
+
+<script>
+(function(){
+  function setPortalCleanContext(){
+    const pill = document.getElementById('portalModePill');
+    const ctx = document.getElementById('portalContext');
+    if(!pill || !ctx) return;
+
+    const params = new URLSearchParams(window.location.search);
+    const evaluationId = params.get('evaluationId');
+    const forcedMode = params.get('mode');
+    const level = params.get('level') || document.getElementById('levelSelect')?.value || document.getElementById('level')?.value || '';
+    const unit = params.get('unit') || document.getElementById('unitSelect')?.value || document.getElementById('unit')?.value || '';
+    const modeEl = document.getElementById('modeSelect');
+    const mode = (evaluationId || forcedMode === 'exam' || modeEl?.value === 'exam') ? 'Exam' : 'Practice';
+
+    pill.textContent = mode;
+    pill.classList.toggle('exam', mode === 'Exam');
+
+    if(evaluationId){
+      ctx.textContent = `Assigned evaluation · ${level || '--'} · Unit ${unit || '--'}`;
+    }else{
+      ctx.textContent = `${mode} mode · ${level || 'Select level'} · Unit ${unit || 'Select unit'}`;
+    }
+  }
+
+  window.addEventListener('load', setPortalCleanContext);
+  document.addEventListener('change', function(event){
+    if(['levelSelect','unitSelect','modeSelect','level','unit'].includes(event.target.id)){
+      setPortalCleanContext();
+    }
+  });
+  setTimeout(setPortalCleanContext, 250);
+})();
+</script>
+
+</body>
+</html>

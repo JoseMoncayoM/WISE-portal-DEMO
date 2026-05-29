@@ -1,0 +1,168 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Reportes | Wisdom Academy</title><style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#0d2b45;--accent:#1fb6b9;--light:#f5f9fc;--white:#fff;--text:#1f2d3d;--gray:#6b7c93;--border:#dcebf2;--hover:#E6FF00;--soft-accent:#e7f8f8;--danger-bg:#ffefef;--danger:#b00020;--warning-bg:#fff8d6;--warning:#8a6d00;--success-bg:#eef7ee;--success:#257a36}
+body{font-family:Inter,Arial,sans-serif;background:var(--light);color:var(--text)}
+.app{min-height:100vh;display:grid;grid-template-columns:260px 1fr}
+.sidebar{background:var(--white);border-right:1px solid var(--border);padding:28px 22px;position:sticky;top:0;height:100vh}
+.logo{font-weight:900;color:var(--primary);letter-spacing:.08em;margin-bottom:24px}
+.menu-group{margin-bottom:20px}.menu-title{font-size:.75rem;color:var(--gray);font-weight:800;letter-spacing:.12em;margin-bottom:8px;cursor:pointer;display:flex;justify-content:space-between}.menu-items{display:none}.menu-group.active .menu-items{display:block}
+.side-link{display:flex;align-items:center;gap:10px;color:var(--text);text-decoration:none;padding:10px 12px;border-radius:12px;font-weight:700;font-size:.9rem;margin-bottom:6px}.side-link:hover,.side-link.active{background:var(--soft-accent)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}.role-hidden{display:none!important}
+.user-box{margin-top:24px;padding:14px;border-radius:16px;background:var(--soft-accent);border:1px solid var(--border)}.user-box strong{display:block;color:var(--primary);font-size:.9rem;margin-bottom:4px}.user-box small{display:block;color:var(--gray);font-weight:700;line-height:1.35}.logout-btn{width:100%;margin-top:12px;padding:10px 12px;border-radius:999px;border:1px solid var(--border);background:white;color:var(--primary);font-weight:900;cursor:pointer}.logout-btn:hover{background:var(--hover);color:black}
+.main{padding:30px}.topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:24px}h1{color:var(--primary);font-size:2rem}.sub{color:var(--gray);font-size:.92rem;margin-top:6px;line-height:1.4}
+.btn{padding:10px 16px;border-radius:999px;font-weight:900;border:none;cursor:pointer;text-decoration:none;display:inline-block;font-size:.9rem}.btn-primary{background:var(--accent);color:white}.btn-secondary{background:white;color:var(--primary);border:1px solid var(--border)}.btn-danger{background:var(--danger-bg);color:var(--danger);border:1px solid #ffd1d1}.btn:hover{background:var(--hover);color:black}
+.actions{display:flex;gap:10px;flex-wrap:wrap}.role-pill{display:inline-block;margin-left:10px;background:var(--soft-accent);color:var(--accent);font-size:.75rem;font-weight:900;padding:5px 10px;border-radius:999px;vertical-align:middle}
+.panel{background:white;border:1px solid var(--border);border-radius:20px;padding:20px;margin-bottom:20px}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:22px}.metric{background:white;border:1px solid var(--border);border-radius:20px;padding:18px;min-height:92px}.metric span{display:block;color:var(--gray);font-weight:900;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}.metric strong{display:block;color:var(--primary);font-size:2rem;line-height:1}.metric small{display:block;color:var(--gray);margin-top:8px;font-weight:700}
+.filters{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;align-items:end}.field{display:flex;flex-direction:column;gap:6px}.field label{font-size:.78rem;font-weight:900;color:var(--primary)}.field input,.field select,.field textarea{min-height:42px;border-radius:12px;border:1px solid var(--border);padding:0 12px;font:inherit;background:#fbfdff}.field textarea{padding:12px;min-height:84px;resize:vertical}
+.table-wrap{width:100%;overflow:auto}table{width:100%;border-collapse:collapse;min-width:980px}th{text-align:left;color:var(--gray);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;padding:12px 10px;border-bottom:1px solid var(--border)}td{padding:13px 10px;border-bottom:1px solid var(--border);font-weight:650;vertical-align:top}
+.pill{display:inline-block;padding:5px 10px;border-radius:999px;font-size:.72rem;font-weight:900;background:var(--soft-accent);color:var(--accent);white-space:nowrap}.pill.success{background:var(--success-bg);color:var(--success)}.pill.warning{background:var(--warning-bg);color:var(--warning)}.pill.danger{background:var(--danger-bg);color:var(--danger)}.pill.gray{background:#eef2f5;color:var(--gray)}
+.empty{color:var(--gray);padding:24px;text-align:center;border:1px dashed var(--border);border-radius:16px;background:#fbfdff;font-weight:800}.notice{background:#eef7ff;border:1px solid #cfe0f1;color:var(--primary);padding:14px 16px;border-radius:16px;margin-bottom:20px;font-weight:800;line-height:1.4}
+.modal{position:fixed;inset:0;background:rgba(13,43,69,.35);display:none;align-items:center;justify-content:center;padding:20px;z-index:20}.modal.active{display:flex}.modal-box{width:100%;max-width:650px;background:white;border:1px solid var(--border);border-radius:22px;padding:24px;box-shadow:0 20px 50px rgba(13,43,69,.18)}.modal-box h2{color:var(--primary);margin-bottom:16px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.full{grid-column:1/-1}.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+.report-card{border:1px solid var(--border);border-radius:16px;padding:14px;background:#fbfdff;margin-top:12px}.report-card strong{display:block;color:var(--primary);margin-bottom:5px}.report-card small{display:block;color:var(--gray);line-height:1.35}
+@media(max-width:1050px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.metrics{grid-template-columns:repeat(2,1fr)}.filters{grid-template-columns:repeat(2,1fr)}}@media(max-width:650px){.main{padding:18px}.metrics,.filters,.form-grid{grid-template-columns:1fr}table{min-width:850px}}
+</style></head><body><div class="app">
+<aside class="sidebar">
+  <div class="logo">WISDOM</div>
+  <div class="menu-group active"><div class="menu-title">Panel ▾</div><div class="menu-items"><a class="side-link" href="dashboard.html"><span class="dot"></span> Dashboard</a></div></div>
+  <div class="menu-group"><div class="menu-title">Personas ▾</div><div class="menu-items"><a class="side-link" data-roles="admin" href="estudiantes.html"><span class="dot"></span> Estudiantes</a><a class="side-link" data-roles="admin" href="profesores.html"><span class="dot"></span> Profesores</a><a class="side-link" data-roles="admin" href="usuarios.html"><span class="dot"></span> Usuarios</a></div></div>
+  <div class="menu-group"><div class="menu-title">Servicios ▾</div><div class="menu-items"><a class="side-link" data-roles="admin,teacher" href="grupales.html"><span class="dot"></span> Grupales</a><a class="side-link" data-roles="admin,teacher" href="privadas.html"><span class="dot"></span> Privadas / Semi</a></div></div>
+  <div class="menu-group active"><div class="menu-title">Gestión ▾</div><div class="menu-items"><a class="side-link" data-roles="admin,teacher,student" href="calendario.html"><span class="dot"></span> Calendario</a><a class="side-link" data-roles="admin" href="finanzas.html"><span class="dot"></span> Finanzas</a><a class="side-link " data-roles="admin,teacher,student" href="solicitudes.html"><span class="dot"></span> Solicitudes</a><a class="side-link active" data-roles="admin,teacher,student" href="reportes.html"><span class="dot"></span> Reportes</a></div></div>
+  <div class="menu-group"><div class="menu-title">Práctica y exámenes ▾</div><div class="menu-items"><a class="side-link" data-roles="admin,teacher,student" href="Grammar_portal.html"><span class="dot"></span> Grammar</a><a class="side-link" data-roles="admin,teacher,student" href="Listening_portal.html"><span class="dot"></span> Listening</a><a class="side-link" data-roles="admin,teacher,student" href="Speaking_portal.html"><span class="dot"></span> Speaking</a><a class="side-link" data-roles="admin,teacher" href="evaluaciones.html"><span class="dot"></span> Evaluaciones</a><a class="side-link" data-roles="admin,teacher,student" href="resultados.html"><span class="dot"></span> Resultados</a></div></div>
+  <div class="user-box"><strong id="sidebarUserName">Usuario</strong><small id="sidebarUserRole">Rol</small><small id="sidebarUserEmail">correo</small><button class="logout-btn" onclick="logout()">Cerrar sesión</button></div>
+</aside>
+<main class="main"><div class="topbar"><div><h1>Reportes <span id="rolePill" class="role-pill">Rol</span></h1><div class="sub">Resumen académico desde evaluaciones, resultados e intervenciones.</div></div><div class="actions"><button class="btn btn-secondary" onclick="window.location.href='dashboard.html'">Dashboard</button><button class="btn btn-primary" onclick="window.print()">Imprimir / PDF</button></div></div><div class="notice">Reporte académico general según permisos del usuario.</div><section class="metrics"><div class="metric"><span>Estudiantes</span><strong id="studentsCount">0</strong><small>Visibles</small></div><div class="metric"><span>Promedio exámenes</span><strong id="avgScore">--</strong><small>Grammar/Listening/Speaking</small></div><div class="metric"><span>En riesgo</span><strong id="riskCount">0</strong><small>60–74%</small></div><div class="metric"><span>Intervenciones</span><strong id="interventionCount">0</strong><small>Abiertas</small></div></section><section class="panel"><h2 style="color:var(--primary);margin-bottom:14px">Filtros</h2><div class="filters"><div class="field"><label>Buscar</label><input id="searchInput" placeholder="Estudiante, tipo, unidad..." oninput="renderReports()"></div><div class="field"><label>Tipo</label><select id="typeFilter" onchange="renderReports()"><option value="">Todos</option><option>Grammar</option><option>Listening</option><option>Speaking</option></select></div><div class="field"><label>Estado</label><select id="statusFilter" onchange="renderReports()"><option value="">Todos</option><option value="critical">Intervención</option><option value="risk">En riesgo</option><option value="ok">Aprobado</option></select></div><div class="field"><label>Acción</label><button class="btn btn-secondary" onclick="resetFilters()">Limpiar</button></div></div></section><section class="panel"><h2 style="color:var(--primary)">Estudiantes que requieren atención</h2><div id="attentionList"></div></section><section class="panel"><h2 style="color:var(--primary)">Historial de resultados</h2><div id="emptyState" class="empty" style="display:none">No hay resultados para mostrar.</div><div class="table-wrap" id="tableWrap"><table><thead><tr><th>Fecha</th><th>Estudiante</th><th>Tipo</th><th>Nivel / Unidad</th><th>Puntaje</th><th>Estado</th><th>Acción</th></tr></thead><tbody id="resultsTable"></tbody></table></div></section></main></div><script src="storage.js"></script><script src="schemaRegistry.js"></script><script>
+const CURRENT_USER_KEY='wisdom_current_user', STUDENTS_KEY='wisdom_students_demo', REQUESTS_KEY='wisdom_requests_demo', EXAM_RESULTS_KEY='wisdom_exam_results', ASSESSMENT_RESULTS_KEY='wisdom_assessment_results', INTERVENTIONS_KEY='wisdom_interventions';
+const currentUser=WisdomStorage.get(CURRENT_USER_KEY,null); if(!currentUser||!currentUser.role){window.location.href='login.html'}
+function safeParse(key){const data=WisdomStorage.get(key,[]);return Array.isArray(data)?data:[]}
+function saveArray(key,data){WisdomStorage.set(key,Array.isArray(data)?data:[])}
+function logout(){WisdomStorage.remove(CURRENT_USER_KEY);window.location.href='login.html'}
+function roleLabel(r){return ({admin:'Administrativo',teacher:'Profesor',student:'Estudiante'}[r]||r||'Usuario')}
+function renderSession(){document.getElementById('sidebarUserName').innerText=currentUser.name||'Usuario Wisdom';document.getElementById('sidebarUserRole').innerText=roleLabel(currentUser.role);document.getElementById('sidebarUserEmail').innerText=currentUser.email||'';document.getElementById('rolePill').innerText=roleLabel(currentUser.role)}
+function canRoleAccess(roles){if(!roles)return true;return roles.split(',').map(r=>r.trim()).includes(currentUser.role)}
+function applyRoleVisibility(){document.querySelectorAll('[data-roles]').forEach(el=>{if(!canRoleAccess(el.getAttribute('data-roles')))el.classList.add('role-hidden')})}
+function teacherId(){return currentUser.teacherId||currentUser.teacherCode||currentUser.id||''}
+function getStudents(){
+  const students = safeParse(STUDENTS_KEY);
+  if(typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeStudent){
+    return students.map(student=>SchemaRegistry.normalizeStudent(student));
+  }
+  return students;
+}
+function studentVisible(s){if(currentUser.role==='admin')return true;if(currentUser.role==='student')return s.code===currentUser.studentId||s.studentId===currentUser.studentId||(s.email&&currentUser.email&&s.email.toLowerCase()===currentUser.email.toLowerCase());if(currentUser.role==='teacher')return (teacherId()&&(s.teacherId===teacherId()||s.teacherCode===teacherId()))||s.teacher===currentUser.name;return false}
+function requestVisible(r){if(currentUser.role==='admin')return true;if(currentUser.role==='student')return r.studentCode===currentUser.studentId||r.studentId===currentUser.studentId||r.studentName===currentUser.name||r.createdByEmail===currentUser.email;if(currentUser.role==='teacher')return r.teacherId===teacherId()||r.teacher===currentUser.name;return false}
+function normalizeResult(raw={}){
+  const base = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeResult)
+    ? SchemaRegistry.normalizeResult(raw)
+    : {...raw};
+
+  const sr = base.score ?? base.finalScore ?? base.percentage ?? null;
+  const score = sr===null||sr===undefined||sr==='' ? null : Number(String(sr).replace('%','').trim());
+  const submittedAt = base.submittedAt || base.date || base.createdAt || base.updatedAt || '';
+  const id = base.id || base.resultId || '';
+  const evaluationId = base.evaluationId || base.evalId || base.assessmentId || base.assignmentId || '';
+  const studentId = base.studentId || base.studentCode || base.code || '';
+  const teacherId = base.teacherId || base.teacherCode || '';
+
+  return {
+    ...base,
+    id,
+    resultId:base.resultId || id,
+    evaluationId,
+    assessmentId:base.assessmentId || evaluationId,
+    assignmentId:base.assignmentId || evaluationId,
+    studentId,
+    studentCode:base.studentCode || studentId,
+    studentName:base.studentName || base.name || base.student || 'Estudiante',
+    studentEmail:base.studentEmail || base.email || '',
+    teacherId,
+    teacherCode:base.teacherCode || teacherId,
+    type:base.type || base.skill || 'Evaluación',
+    mode:String(base.mode || 'practice').toLowerCase(),
+    level:base.level || base.level_code || '',
+    unit:base.unit || base.unit_number || '',
+    unitTitle:base.unitTitle || base.unit_title || base.title || '',
+    score:Number.isNaN(score)?null:score,
+    percentage:base.percentage ?? base.score ?? base.finalScore ?? null,
+    finalScore:base.finalScore ?? base.score ?? base.percentage ?? null,
+    status:base.status || '',
+    date:submittedAt,
+    submittedAt,
+    createdAt:base.createdAt || submittedAt,
+    updatedAt:base.updatedAt || submittedAt,
+    details:base.details || {}
+  };
+}
+function getResults(){
+  const rawMerged = [...safeParse(EXAM_RESULTS_KEY), ...safeParse(ASSESSMENT_RESULTS_KEY)];
+
+  const merged = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeCollection)
+    ? SchemaRegistry.normalizeCollection(rawMerged,'normalizeResult').map(normalizeResult)
+    : rawMerged.map(normalizeResult);
+
+  const seen = new Set();
+  return merged.filter(r=>{
+    const k = r.evaluationId
+      ? `eval-${r.evaluationId}`
+      : (r.id ? `id-${r.id}` : `${r.studentId}-${r.type}-${r.level}-${r.unit}-${r.submittedAt||r.date}-${r.score}`);
+    if(seen.has(k)) return false;
+    seen.add(k);
+    return true;
+  });
+}
+function resultVisible(r){if(currentUser.role==='admin')return true;if(currentUser.role==='student')return r.studentId===currentUser.studentId||r.studentName===currentUser.name||r.studentEmail===currentUser.email;if(currentUser.role==='teacher')return r.teacherId===teacherId()||getStudents().filter(studentVisible).some(s=>s.code===r.studentId||s.name===r.studentName);return false}
+function normalizeIntervention(i={}){
+  const base = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeIntervention)
+    ? SchemaRegistry.normalizeIntervention(i)
+    : {...i};
+
+  const studentId = base.studentId || base.studentCode || '';
+  const teacherId = base.teacherId || base.teacherCode || '';
+  const rawScore = base.score===null||base.score===undefined||base.score==='' ? null : Number(base.score);
+
+  return {
+    ...base,
+    id:base.id || base.interventionId || '',
+    interventionId:base.interventionId || base.id || '',
+    evaluationId:base.evaluationId || '',
+    studentId,
+    studentCode:base.studentCode || studentId,
+    studentName:base.studentName || base.name || 'Estudiante',
+    studentEmail:base.studentEmail || base.email || '',
+    teacherId,
+    teacherCode:base.teacherCode || teacherId,
+    type:base.type || 'Evaluación',
+    level:base.level || '',
+    unit:base.unit || '',
+    score:Number.isNaN(rawScore)?null:rawScore,
+    percentage:base.percentage ?? base.score ?? null,
+    severity:base.severity || 'risk',
+    recommendation:base.recommendation || 'Asignar refuerzo académico.',
+    status:base.status || 'pending',
+    createdAt:base.createdAt || '',
+    updatedAt:base.updatedAt || base.createdAt || ''
+  };
+}
+function getInterventions(){
+  const rawInterventions = safeParse(INTERVENTIONS_KEY);
+
+  if(typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeCollection){
+    return SchemaRegistry
+      .normalizeCollection(rawInterventions,'normalizeIntervention')
+      .map(normalizeIntervention);
+  }
+
+  return rawInterventions.map(normalizeIntervention);
+}
+function interventionVisible(i){if(currentUser.role==='admin')return true;if(currentUser.role==='student')return i.studentId===currentUser.studentId||i.studentName===currentUser.name||i.studentEmail===currentUser.email;if(currentUser.role==='teacher')return i.teacherId===teacherId()||getStudents().filter(studentVisible).some(s=>s.code===i.studentId||s.name===i.studentName);return false}
+function formatDate(v){const d=new Date(v);return Number.isNaN(d.getTime())?(v||'-'):d.toLocaleString('es-CO',{year:'numeric',month:'short',day:'2-digit',hour:'2-digit',minute:'2-digit'})}
+document.querySelectorAll('.menu-title').forEach(t=>t.addEventListener('click',()=>t.parentElement.classList.toggle('active')));renderSession();applyRoleVisibility();
+
+function scoreState(score){if(score===null||score===undefined)return {key:'pending',label:'Sin nota',cls:'gray'};if(score<60)return {key:'critical',label:'Intervención',cls:'danger'};if(score<75)return {key:'risk',label:'En riesgo',cls:'warning'};return {key:'ok',label:'Aprobado',cls:'success'}}
+function visibleResults(){return getResults().filter(resultVisible).filter(r=>r.mode==='exam').sort((a,b)=>new Date(b.date||0)-new Date(a.date||0))}
+function resetFilters(){document.getElementById('searchInput').value='';document.getElementById('typeFilter').value='';document.getElementById('statusFilter').value='';renderReports()}
+function renderMetrics(results){const students=getStudents().filter(studentVisible);const scored=results.filter(r=>r.score!==null&&r.score!==undefined);const avg=scored.length?Math.round(scored.reduce((s,r)=>s+r.score,0)/scored.length):null;const risk=results.filter(r=>r.score>=60&&r.score<75).length;const interventions=getInterventions().filter(interventionVisible).filter(i=>i.status!=='closed');document.getElementById('studentsCount').innerText=students.length;document.getElementById('avgScore').innerText=avg===null?'--':avg+'%';document.getElementById('riskCount').innerText=risk;document.getElementById('interventionCount').innerText=interventions.length}
+function renderAttention(results){const container=document.getElementById('attentionList');const interventions=getInterventions().filter(interventionVisible).filter(i=>i.status!=='closed');const low=results.filter(r=>r.score!==null&&r.score<75);const items=[...interventions.map(i=>({name:i.studentName,title:i.severity==='critical'?'Intervención crítica':'Intervención pendiente',detail:`${i.type} · ${i.level} Unidad ${i.unit} · ${i.score}% · ${i.recommendation}`,level:i.severity==='critical'?'danger':'warning',link:`dossier.html?code=${encodeURIComponent(i.studentId)}`})),...low.slice(0,8).map(r=>({name:r.studentName,title:r.score<60?'Resultado crítico':'Resultado en riesgo',detail:`${r.type} · ${r.level} Unidad ${r.unit} · ${r.score}%`,level:r.score<60?'danger':'warning',link:`dossier.html?code=${encodeURIComponent(r.studentId)}`}))];container.innerHTML='';if(!items.length){container.innerHTML='<div class="empty">No hay estudiantes en atención prioritaria.</div>';return}items.slice(0,12).forEach(item=>{const div=document.createElement('div');div.className='report-card';div.innerHTML=`<span class="pill ${item.level}">${item.title}</span><strong>${item.name}</strong><small>${item.detail}</small><div class="actions"><button class="btn btn-primary" onclick="window.location.href='${item.link}'">Abrir dossier</button></div>`;container.appendChild(div)})}
+function renderReports(){const search=document.getElementById('searchInput').value.trim().toLowerCase();const type=document.getElementById('typeFilter').value;const status=document.getElementById('statusFilter').value;const all=visibleResults();const results=all.filter(r=>{const state=scoreState(r.score);const hay=[r.studentName,r.studentId,r.type,r.level,r.unit,r.score,state.label].join(' ').toLowerCase();if(search&&!hay.includes(search))return false;if(type&&r.type!==type)return false;if(status&&state.key!==status)return false;return true});renderMetrics(all);renderAttention(all);const table=document.getElementById('resultsTable'),empty=document.getElementById('emptyState'),wrap=document.getElementById('tableWrap');table.innerHTML='';if(!results.length){empty.style.display='block';wrap.style.display='none';return}empty.style.display='none';wrap.style.display='block';results.forEach(r=>{const state=scoreState(r.score);const row=document.createElement('tr');row.innerHTML=`<td>${formatDate(r.date)}</td><td><strong>${r.studentName}</strong><br><small>${r.studentId||''}</small></td><td>${r.type}</td><td>${r.level||'--'} · Unit ${r.unit||'--'}</td><td><strong>${r.score===null?'--':r.score+'%'}</strong></td><td><span class="pill ${state.cls}">${state.label}</span></td><td><button class="btn btn-secondary" onclick="window.location.href='dossier.html?code=${encodeURIComponent(r.studentId)}'">Dossier</button></td>`;table.appendChild(row)})}
+renderReports();
+</script></body></html>

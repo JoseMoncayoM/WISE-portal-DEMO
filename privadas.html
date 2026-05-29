@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Privadas / Semiprivadas | Wisdom</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#0d2b45;--accent:#1fb6b9;--light:#f5f9fc;--white:#fff;--text:#1f2d3d;--gray:#6b7c93;--border:#dcebf2;--hover:#E6FF00;--soft:#e7f8f8;--warning:#fff8d6}
+body{font-family:Inter,Arial,sans-serif;background:var(--light);color:var(--text)}
+.wrap{max-width:1180px;margin:auto;padding:28px}.view{display:none}.view.active{display:block}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;gap:18px}
+h1{color:var(--primary);font-size:1.9rem;font-weight:900}.sub{color:var(--gray);font-size:.9rem;margin-top:4px}
+.btn{padding:10px 16px;border-radius:999px;border:none;font-weight:800;cursor:pointer}.btn-primary{background:var(--accent);color:white}.btn-secondary{background:white;border:1px solid var(--border);color:var(--primary)}.btn-danger{background:#ffefef;color:#b00020;border:1px solid #ffd1d1}.btn:hover{background:var(--hover);color:black}.btn-danger:hover{background:#b00020;color:white}
+.card{background:white;border:1px solid var(--border);border-radius:20px;padding:20px;margin-bottom:20px;box-shadow:0 8px 24px rgba(13,43,69,.05)}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}.progress{height:8px;background:#eaf2f6;border-radius:999px;overflow:hidden;margin:8px 0}.progress span{display:block;height:100%;background:var(--accent)}
+table{width:100%;border-collapse:collapse}td,th{padding:10px;border-top:1px solid var(--border);text-align:left}.pill{background:var(--soft);padding:5px 10px;border-radius:999px;font-weight:900;color:var(--accent);font-size:.75rem}.pill.warning{background:var(--warning);color:#8a6d00}.pill.done{background:#eef7ee;color:#257a36}
+.modal{position:fixed;inset:0;background:rgba(13,43,69,.35);display:none;align-items:center;justify-content:center;padding:20px;z-index:20}.modal.active{display:flex}.modal-box{width:100%;max-width:620px;background:white;border:1px solid var(--border);border-radius:22px;padding:24px;box-shadow:0 20px 50px rgba(13,43,69,.18)}.modal-box h2{color:var(--primary);margin-bottom:16px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:6px}.field label{font-size:.8rem;font-weight:900;color:var(--primary)}.field input,.field select{padding:11px;border-radius:12px;border:1px solid var(--border);font:inherit}.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+.empty{color:var(--gray);padding:24px;text-align:center}
+@media(max-width:900px){.grid,.form-grid{grid-template-columns:1fr}.topbar{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<section id="privateView" class="view active">
+  <div class="topbar">
+    <div>
+      <h1>Privadas / Semiprivadas</h1>
+      <div class="sub">Paquetes ligados a estudiantes reales y con límite de horas contratadas.</div>
+    </div>
+
+    <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+      <button class="btn btn-secondary" onclick="window.location.href='dashboard.html'">Dashboard</button>
+      <button class="btn btn-primary" onclick="openCreatePackage()">Crear paquete</button>
+    </div>
+  </div>
+  <div id="privateList" class="grid"></div>
+</section>
+
+<section id="privateDetail" class="view">
+  <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:12px;">
+    <button class="btn btn-secondary" onclick="window.location.href='dashboard.html'">Dashboard</button>
+    <button class="btn btn-secondary" onclick="backPrivate()">← Volver</button>
+  </div>
+  <div class="topbar" style="margin-top:22px">
+    <div><h1 id="privateName"></h1><div class="sub" id="privateMeta"></div></div>
+    <span class="pill" id="privateStatus"></span>
+  </div>
+
+  <div class="card">
+    <h3>Estudiantes vinculados al paquete</h3><br>
+    <table>
+      <thead><tr><th>Código</th><th>Nombre</th><th>Tipo de control</th></tr></thead>
+      <tbody id="linkedStudentsTable"></tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Progreso del paquete</h3><br>
+    <div id="hoursInfo"></div>
+    <div class="progress"><span id="hoursBar"></span></div>
+    <div class="sub" id="remainingInfo"></div>
+  </div>
+
+  <div class="card">
+    <h3>Registrar sesión</h3><br>
+    <div class="form-grid">
+      <div class="field"><label>Fecha</label><input id="sessionDate" type="date"></div>
+      <div class="field"><label>Duración</label><select id="sessionHours"><option value="1">1 hora</option><option value="1.5">1.5 horas</option><option value="2">2 horas</option></select></div>
+      <div class="field"><label>Profesor</label><input id="sessionTeacher" placeholder="Profesor que dictó la clase"></div>
+      <div class="field"><label>Estudiante trabajado</label><select id="sessionStudent"></select></div>
+      <div class="field"><label>Nota pedagógica / administrativa</label><input id="sessionNote" placeholder="Ej: speaking, fluidez, tarea, observación..."></div>
+    </div>
+    <br><button class="btn btn-primary" onclick="addSession()">Agregar sesión</button>
+  </div>
+
+  <div class="card">
+    <h3>Historial de sesiones</h3><br>
+    <table>
+      <thead><tr><th>Fecha</th><th>Estudiante</th><th>Horas</th><th>Profesor</th><th>Nota</th><th>Acciones</th></tr></thead>
+      <tbody id="sessionTable"></tbody>
+    </table>
+  </div>
+</section>
+
+</div>
+
+<div class="modal" id="createPackageModal">
+  <div class="modal-box">
+    <h2>Crear paquete privado / semiprivado</h2>
+    <div class="form-grid">
+      <div class="field"><label>Código del paquete</label><input id="packageCode" placeholder="PK-0001" readonly></div>
+      <div class="field"><label>Estudiante principal</label><select id="packageStudent"></select></div>
+      <div class="field"><label>Tipo</label><select id="packageType"><option>Privada</option><option>Semiprivada</option></select></div>
+      <div class="field"><label>Horas contratadas</label><select id="packageTotal"><option value="10">10 horas</option><option value="20" selected>20 horas</option><option value="30">30 horas</option></select></div>
+      <div class="field"><label>Profesor</label><input id="packageTeacher" placeholder="Profesor asignado"></div>
+      <div class="field"><label>Estudiante adicional solo semi</label><select id="packageStudent2"></select></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeCreatePackage()">Cancelar</button>
+      <button class="btn btn-primary" onclick="createPackage()">Guardar paquete</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const PRIVATE_KEY='wisdom_private_demo'
+const STUDENTS_KEY='wisdom_students_demo'
+let currentPackageId=null
+
+const fallbackStudents=[
+  {code:'WA-0001',name:'Juan Pérez',email:'juan@email.com'},
+  {code:'WA-0002',name:'Mariana Ruiz',email:'mariana@email.com'},
+  {code:'WA-0003',name:'Ana Torres',email:'ana@email.com'}
+]
+
+function safeJsonParse(value, fallback){
+  try{return value ? JSON.parse(value) : fallback}catch(error){return fallback}
+}
+
+function loadStudents(){
+  const students=safeJsonParse(localStorage.getItem(STUDENTS_KEY), fallbackStudents)
+  return Array.isArray(students) ? students : fallbackStudents
+}
+function saveStudents(students){localStorage.setItem(STUDENTS_KEY,JSON.stringify(students))}
+function savePackages(){localStorage.setItem(PRIVATE_KEY,JSON.stringify(packages))}
+
+function normalizePackage(rawPackage){
+  const normalized={...rawPackage}
+
+  normalized.id=normalized.id||('PK-'+Date.now()+Math.random().toString(16).slice(2))
+  normalized.code=normalized.code||(/^PK-\d+$/.test(normalized.id||'') ? normalized.id : normalized.id)
+  normalized.type=normalized.type||'Privada'
+  normalized.total=Number(normalized.total)||20
+  normalized.teacher=normalized.teacher||'Por asignar'
+  normalized.sessions=Array.isArray(normalized.sessions)?normalized.sessions:[]
+
+  if(!Array.isArray(normalized.students)){
+    const code=normalized.studentCode||normalized.code||'SIN-CODIGO'
+    const name=normalized.name||normalized.studentName||'Estudiante sin nombre'
+    const email=normalized.email||''
+    normalized.students=[{code,name,email}]
+  }
+
+  normalized.students=normalized.students
+    .filter(Boolean)
+    .map(student=>({
+      code:student.code||'SIN-CODIGO',
+      name:student.name||student.studentName||'Estudiante sin nombre',
+      email:student.email||''
+    }))
+
+  if(normalized.students.length===0){
+    normalized.students=[{code:'SIN-CODIGO',name:'Estudiante sin nombre',email:''}]
+  }
+
+  normalized.sessions=normalized.sessions.map(session=>({
+    date:session.date||'Sin fecha',
+    hours:Number(session.hours)||0,
+    teacher:session.teacher||normalized.teacher,
+    note:session.note||'',
+    studentCode:session.studentCode||'ALL',
+    studentName:session.studentName||'Todos'
+  }))
+
+  return normalized
+}
+
+function loadPackages(){
+  const saved=safeJsonParse(localStorage.getItem(PRIVATE_KEY), [])
+  if(!Array.isArray(saved)) return []
+  const normalized=saved.map(normalizePackage)
+  localStorage.setItem(PRIVATE_KEY,JSON.stringify(normalized))
+  return normalized
+}
+
+let packages=loadPackages()
+
+function usedHours(p){return normalizePackage(p).sessions.reduce((sum,item)=>sum+Number(item.hours),0)}
+function remainingHours(p){const normalized=normalizePackage(p);return Math.max(0,Number(normalized.total)-usedHours(normalized))}
+function packageStatus(p){const remaining=remainingHours(p);if(remaining===0)return 'Completado';if(remaining<=3)return 'Por agotarse';return 'Activo'}
+function packageStudentNames(p){return normalizePackage(p).students.map(s=>s.name).join(' + ')}
+
+function renderPrivate(){
+  const container=document.getElementById('privateList')
+  container.innerHTML=''
+  if(packages.length===0){container.innerHTML='<div class="card empty">No hay paquetes creados todavía.</div>';return}
+
+  packages=packages.map(normalizePackage)
+  savePackages()
+
+  packages.forEach(p=>{
+    const normalized=normalizePackage(p)
+    const used=usedHours(normalized)
+    const remaining=remainingHours(normalized)
+    const percent=Math.min(100,(used/Number(normalized.total))*100)
+    const status=packageStatus(normalized)
+    const card=document.createElement('div')
+    card.className='card'
+    card.innerHTML=`
+      <span class="pill">${normalized.code || normalized.id}</span>
+      <span class="pill ${status==='Por agotarse'?'warning':status==='Completado'?'done':''}">${status}</span>
+      <h3>${packageStudentNames(normalized)}</h3>
+      <div class="sub">${normalized.type} · ${normalized.teacher}</div><br>
+      <div><strong>${used} / ${normalized.total} horas usadas</strong></div>
+      <div class="progress"><span style="width:${percent}%"></span></div>
+      <div class="sub">Restantes: ${remaining} horas</div><br>
+      <button class="btn btn-secondary" onclick="openPackage('${normalized.id}')">Ver paquete</button>
+      ${used >= normalized.total ? `<button class="btn btn-danger" onclick="deletePackage('${normalized.id}')">Borrar paquete</button>` : `<button class="btn btn-secondary" disabled title="Solo se puede borrar al completar las horas contratadas">Bloqueado</button>`}
+    `
+    container.appendChild(card)
+  })
+}
+
+function fillStudentSelects(){
+  const students=loadStudents()
+  ;['packageStudent','packageStudent2'].forEach(id=>{
+    const select=document.getElementById(id)
+    select.innerHTML='<option value="">Seleccionar estudiante</option>'
+    students.forEach(s=>{
+      const opt=document.createElement('option')
+      opt.value=s.code
+      opt.textContent=`${s.code} · ${s.name}`
+      select.appendChild(opt)
+    })
+  })
+}
+function generatePackageCode(){
+  const numbers = packages
+    .map(pkg => pkg.code || pkg.id)
+    .filter(code => /^PK-\d+$/.test(code))
+    .map(code => parseInt(code.replace('PK-', ''), 10));
+
+  const nextNumber = numbers.length ? Math.max(...numbers) + 1 : 1;
+  return `PK-${String(nextNumber).padStart(4, '0')}`;
+}
+
+function openCreatePackage(){
+  fillStudentSelects();
+  document.getElementById('packageCode').value = generatePackageCode();
+  document.getElementById('createPackageModal').classList.add('active')
+}
+function closeCreatePackage(){document.getElementById('createPackageModal').classList.remove('active')}
+function createPackage(){
+  const students=loadStudents()
+  const packageCode=document.getElementById('packageCode').value.trim() || generatePackageCode()
+  const code1=document.getElementById('packageStudent').value
+  const code2=document.getElementById('packageStudent2').value
+  const type=document.getElementById('packageType').value
+  const total=Number(document.getElementById('packageTotal').value)
+  const teacher=document.getElementById('packageTeacher').value.trim()
+  if(!code1||!teacher){alert('Estudiante principal y profesor son obligatorios.');return}
+  if(type==='Semiprivada'&&!code2){alert('La semiprivada necesita estudiante adicional.');return}
+  if(code1===code2){alert('No puedes asignar dos veces el mismo estudiante.');return}
+
+  const student1=students.find(s=>s.code===code1)
+  const selected=[student1]
+  if(type==='Semiprivada') selected.push(students.find(s=>s.code===code2))
+  if(selected.some(student=>!student)){alert('Uno de los estudiantes seleccionados no existe.');return}
+
+  const exists = packages.some(pkg => pkg.id === packageCode || pkg.code === packageCode)
+  if(exists){alert('Ese código de paquete ya existe.');return}
+
+  const newPackage={
+    id:packageCode,
+    code:packageCode,
+    type,total,teacher,
+    students:selected.map(s=>({code:s.code,name:s.name,email:s.email||''})),
+    sessions:[]
+  }
+  packages.push(newPackage)
+  savePackages()
+  syncPackageToDossier(newPackage)
+  renderPrivate()
+  closeCreatePackage()
+  document.getElementById('packageTeacher').value=''
+  document.getElementById('packageCode').value=''
+}
+
+function openPackage(id){
+  currentPackageId=id
+  const p=normalizePackage(packages.find(x=>x.id===id))
+  if(!p)return
+  document.getElementById('privateView').classList.remove('active')
+  document.getElementById('privateDetail').classList.add('active')
+  const used=usedHours(p)
+  const remaining=remainingHours(p)
+  const percent=Math.min(100,(used/Number(p.total))*100)
+  const status=packageStatus(p)
+  document.getElementById('privateName').innerText=`${p.code || p.id} · ${packageStudentNames(p)}`
+  document.getElementById('privateMeta').innerText=`${p.type} · ${p.teacher} · ${p.total} horas contratadas`
+  const statusEl=document.getElementById('privateStatus')
+  statusEl.innerText=status
+  statusEl.className='pill '+(status==='Por agotarse'?'warning':status==='Completado'?'done':'')
+  document.getElementById('hoursInfo').innerText=`${used} / ${p.total} horas usadas`
+  document.getElementById('hoursBar').style.width=percent+'%'
+  document.getElementById('remainingInfo').innerText=`Horas restantes: ${remaining}`
+  document.getElementById('sessionTeacher').value=p.teacher
+  renderLinkedStudents(p)
+  fillSessionStudentSelect(p)
+  renderSessions(p)
+}
+function renderLinkedStudents(p){
+  const table=document.getElementById('linkedStudentsTable')
+  table.innerHTML=''
+  p.students.forEach(student=>{
+    const row=document.createElement('tr')
+    row.innerHTML=`<td>${student.code}</td><td>${student.name}</td><td>${p.type==='Semiprivada'?'Seguimiento compartido':'Seguimiento individual'}</td>`
+    table.appendChild(row)
+  })
+}
+function fillSessionStudentSelect(p){
+  const select=document.getElementById('sessionStudent')
+  select.innerHTML=''
+  if(p.type==='Semiprivada'){
+    const all=document.createElement('option')
+    all.value='ALL'
+    all.textContent='Todos los estudiantes del paquete'
+    select.appendChild(all)
+  }
+  p.students.forEach(student=>{
+    const option=document.createElement('option')
+    option.value=student.code
+    option.textContent=`${student.code} · ${student.name}`
+    select.appendChild(option)
+  })
+}
+function renderSessions(p){
+  const table=document.getElementById('sessionTable')
+  table.innerHTML=''
+
+  p.sessions.forEach((s, index)=>{
+    const row=document.createElement('tr')
+    row.innerHTML=`
+      <td>${s.date}</td>
+      <td>${s.studentName||'Todos'}</td>
+      <td>${s.hours}h</td>
+      <td>${s.teacher}</td>
+      <td>${s.note||''}</td>
+      <td>
+        <button class="btn btn-secondary" onclick="editSession(${index})">Editar</button>
+        <button class="btn btn-danger" onclick="deleteSession(${index})">Borrar</button>
+      </td>
+    `
+    table.appendChild(row)
+  })
+}
+function addSession(){
+  const p=packages.find(x=>x.id===currentPackageId)
+  if(!p)return
+  const normalized=normalizePackage(p)
+  const date=document.getElementById('sessionDate').value
+  const hours=Number(document.getElementById('sessionHours').value)
+  const teacher=document.getElementById('sessionTeacher').value.trim()
+  const note=document.getElementById('sessionNote').value.trim()
+  const studentCode=document.getElementById('sessionStudent').value
+  const studentName=studentCode==='ALL' ? 'Todos' : (normalized.students.find(s=>s.code===studentCode)?.name||'Sin estudiante')
+  if(!date||!hours||!teacher||!studentCode){alert('Fecha, horas, profesor y estudiante son obligatorios.');return}
+  if(hours>remainingHours(normalized)){alert(`No puedes registrar ${hours}h. Solo quedan ${remainingHours(normalized)}h disponibles.`);return}
+
+  normalized.sessions.push({date,hours,teacher,note,studentCode,studentName})
+  packages=packages.map(item=>item.id===normalized.id?normalized:item)
+  savePackages()
+  syncPackageToDossier(normalized)
+  openPackage(currentPackageId)
+  document.getElementById('sessionDate').value=''
+  document.getElementById('sessionNote').value=''
+}
+function syncPackageToDossier(p){
+  const normalized=normalizePackage(p)
+  let students=loadStudents()
+  const used=usedHours(normalized)
+  normalized.students.forEach(pkgStudent=>{
+    const idx=students.findIndex(s=>s.code===pkgStudent.code)
+    const payload={
+      service:normalized.type,
+      teacher:normalized.teacher,
+      group:`Paquete ${normalized.total} horas`,
+      trackingLabel:'Horas usadas',
+      trackingValue:`${used} / ${normalized.total}`,
+      privatePackageId:normalized.id,
+      status:packageStatus(normalized)
+    }
+    if(idx>=0) students[idx]={...students[idx],...payload}
+    else students.push({code:pkgStudent.code,name:pkgStudent.name,email:pkgStudent.email||'',level:'Por definir',...payload})
+  })
+  saveStudents(students)
+}
+function backPrivate(){document.getElementById('privateDetail').classList.remove('active');document.getElementById('privateView').classList.add('active');renderPrivate()}
+
+
+function deletePackage(id){
+  const pkg = normalizePackage(packages.find(item => item.id === id));
+  if(!pkg) return;
+
+  const used = usedHours(pkg);
+  if(used < pkg.total){
+    alert('Este paquete todavía no puede borrarse. Solo se puede borrar cuando complete las horas contratadas.');
+    return;
+  }
+
+  const confirmed = confirm(`¿Seguro que quieres borrar el paquete ${pkg.code || pkg.id} de ${packageStudentNames(pkg)}? Esta acción no se puede deshacer.`);
+  if(!confirmed) return;
+
+  packages = packages.filter(item => item.id !== id);
+  savePackages();
+
+  if(currentPackageId === id){
+    currentPackageId = null;
+    backPrivate();
+  } else {
+    renderPrivate();
+  }
+}
+
+
+function editSession(index){
+  const pkgIndex = packages.findIndex(x=>x.id===currentPackageId)
+  if(pkgIndex < 0) return
+
+  const pkg = normalizePackage(packages[pkgIndex])
+  const session = pkg.sessions[index]
+  if(!session) return
+
+  const newDate = prompt('Fecha (YYYY-MM-DD):', session.date)
+  if(newDate === null) return
+
+  const newHoursRaw = prompt('Horas:', session.hours)
+  if(newHoursRaw === null) return
+  const newHours = Number(newHoursRaw)
+
+  if(!newDate || !newHours || newHours <= 0){
+    alert('Fecha y horas válidas son obligatorias.')
+    return
+  }
+
+  const newTeacher = prompt('Profesor:', session.teacher)
+  if(newTeacher === null) return
+
+  const newNote = prompt('Nota:', session.note || '')
+  if(newNote === null) return
+
+  const usedWithoutCurrent = pkg.sessions.reduce((sum, item, i)=>{
+    return i === index ? sum : sum + (Number(item.hours)||0)
+  },0)
+
+  if(usedWithoutCurrent + newHours > Number(pkg.total)){
+    alert(`No puedes registrar ${newHours}h. El paquete solo permite ${pkg.total}h en total.`)
+    return
+  }
+
+  pkg.sessions[index] = {
+    ...session,
+    date: newDate,
+    hours: newHours,
+    teacher: newTeacher,
+    note: newNote
+  }
+
+  packages[pkgIndex] = pkg
+  savePackages()
+  syncPackageToDossier(pkg)
+  openPackage(currentPackageId)
+}
+
+function deleteSession(index){
+  const pkgIndex = packages.findIndex(x=>x.id===currentPackageId)
+  if(pkgIndex < 0) return
+
+  const pkg = normalizePackage(packages[pkgIndex])
+  const session = pkg.sessions[index]
+  if(!session) return
+
+  const ok = confirm(`¿Borrar sesión ${session.date} (${session.hours}h)?`)
+  if(!ok) return
+
+  pkg.sessions.splice(index,1)
+  packages[pkgIndex] = pkg
+  savePackages()
+  syncPackageToDossier(pkg)
+  openPackage(currentPackageId)
+}
+
+function runTests(){
+  const legacyPackage={id:'OLD-1',name:'María Legacy',total:20,teacher:'Prof. Test'}
+  const normalized=normalizePackage(legacyPackage)
+  console.assert(Array.isArray(normalized.students),'TEST: legacy package gets students array')
+  console.assert(Array.isArray(normalized.sessions),'TEST: legacy package gets sessions array')
+  console.assert(packageStudentNames(normalized)==='María Legacy','TEST: legacy package keeps student name')
+  console.assert(usedHours({sessions:[{hours:1},{hours:'1.5'}],total:20,students:[{name:'A'}]})===2.5,'TEST: used hours sums numeric strings')
+  console.assert(remainingHours({sessions:[{hours:2}],total:20,students:[{name:'A'}]})===18,'TEST: remaining hours works')
+  const semiPackage=normalizePackage({type:'Semiprivada',total:20,teacher:'T',students:[{code:'WA-1',name:'A'},{code:'WA-2',name:'B'}],sessions:[{date:'2026-01-01',hours:1,studentCode:'ALL',studentName:'Todos'}]})
+  console.assert(semiPackage.students.length===2,'TEST: semiprivate package keeps two students')
+  console.assert(semiPackage.sessions[0].studentName==='Todos','TEST: session keeps student control name')
+  console.assert(/^PK-\d{4}$/.test('PK-0001'),'TEST: package code format')
+  console.assert(typeof editSession === 'function','TEST: editSession exists')
+  console.assert(typeof deleteSession === 'function','TEST: deleteSession exists')
+}
+
+runTests()
+renderPrivate()
+</script>
+</body>
+</html>

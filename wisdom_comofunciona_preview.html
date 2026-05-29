@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cómo funciona | Wisdom Academy</title>
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    :root{
+      --primary:#0d2b45;
+      --accent:#1fb6b9;
+      --accent-dark:#15989b;
+      --light:#f5f9fc;
+      --text:#1f2d3d;
+      --gray:#6b7c93;
+      --border:#dcebf2;
+      --hover:#E6FF00;
+      --soft-blue:#dff7fb;
+    }
+
+    body{
+      font-family:Arial, Helvetica, sans-serif;
+      background:var(--light);
+      color:var(--text);
+      line-height:1.6;
+    }
+
+    .container{
+      width:90%;
+      max-width:1100px;
+      margin:auto;
+    }
+
+    /* =========================
+       NAVBAR
+    ========================== */
+
+    .navbar{
+      background:white;
+      border-bottom:1px solid var(--border);
+      position:sticky;
+      top:0;
+      z-index:100;
+    }
+
+    .nav-content{
+      height:86px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:24px;
+    }
+
+    .logo{
+      display:flex;
+      align-items:center;
+      text-decoration:none;
+    }
+
+    .logo img{
+      height:62px;
+      width:auto;
+      display:block;
+      cursor:pointer;
+    }
+
+    .nav-menu{
+      display:flex;
+      align-items:center;
+      gap:22px;
+    }
+
+    .nav-menu a,
+    .dropbtn{
+      text-decoration:none;
+      color:var(--text);
+      font-weight:600;
+      font-size:0.95rem;
+      background:none;
+      border:none;
+      cursor:pointer;
+      font-family:Arial, Helvetica, sans-serif;
+    }
+
+    .nav-menu a:hover,
+    .dropbtn:hover{
+      color:var(--accent-dark);
+    }
+
+    .dropdown{
+      position:relative;
+      padding:18px 0;
+    }
+
+    .dropdown-content{
+      display:none;
+      position:absolute;
+      top:58px;
+      left:0;
+      width:260px;
+      background:white;
+      border:1px solid var(--border);
+      border-radius:16px;
+      box-shadow:0 12px 30px rgba(13,43,69,0.08);
+      padding:10px;
+      z-index:50;
+    }
+
+    .dropdown-content a{
+      display:block;
+      padding:12px 14px;
+      border-radius:10px;
+      color:var(--primary);
+    }
+
+    .dropdown-content a:hover{
+      background:#ecf8f9;
+      color:var(--accent-dark);
+    }
+
+    .dropdown:hover .dropdown-content{
+      display:block;
+    }
+
+    .btn{
+      display:inline-block;
+      padding:12px 22px;
+      border-radius:999px;
+      font-weight:700;
+      text-decoration:none;
+      transition:all 0.2s ease;
+      border:none;
+      cursor:pointer;
+      font-family:Arial, Helvetica, sans-serif;
+    }
+
+    .btn-primary{
+      background:var(--accent);
+      color:white;
+    }
+
+    .btn-primary:hover{
+      background:var(--hover);
+      color:black;
+      transform:translateY(-2px);
+    }
+
+    /* =========================
+       HERO
+    ========================== */
+
+    .hero{
+      padding:90px 0 40px;
+    }
+
+    h1{
+      font-size:clamp(2.2rem,4vw,3.4rem);
+      font-weight:900;
+      color:var(--primary);
+      margin-bottom:12px;
+      line-height:1.1;
+    }
+
+    .hero p{
+      color:var(--gray);
+      max-width:560px;
+      font-size:1.05rem;
+    }
+
+    .section{
+      padding:60px 0;
+    }
+
+    .section-header{
+      margin-bottom:40px;
+      max-width:650px;
+    }
+
+    .section-header h2{
+      font-size:clamp(2rem,4vw,3rem);
+      color:var(--primary);
+      margin-bottom:10px;
+      line-height:1.1;
+    }
+
+    .section-header p{
+      color:var(--gray);
+      font-size:1.05rem;
+    }
+
+    /* =========================
+       FLOW
+    ========================== */
+
+    .flow{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:18px;
+    }
+
+    .flow-card{
+      position:relative;
+      background:linear-gradient(
+        145deg,
+        #0d2b45 0%,
+        #123955 100%
+      );
+      border:none;
+      border-radius:24px;
+      padding:24px 20px;
+      overflow:hidden;
+      transition:all .3s ease;
+      box-shadow:0 14px 28px rgba(13,43,69,0.15);
+      min-height:215px;
+    }
+
+    .flow-card::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:5px;
+      background:linear-gradient(
+        90deg,
+        #1fb6b9,
+        #E6FF00
+      );
+    }
+
+    .flow-card:hover{
+      transform:translateY(-8px);
+      box-shadow:0 22px 36px rgba(13,43,69,0.22);
+    }
+
+    .flow-card span{
+      width:46px;
+      height:46px;
+      border-radius:16px;
+      background:rgba(255,255,255,0.12);
+      color:#E6FF00;
+      font-size:.95rem;
+      font-weight:900;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin-bottom:18px;
+      border:1px solid rgba(255,255,255,0.15);
+      position:relative;
+      z-index:1;
+    }
+
+    .flow-card h3{
+      font-size:1rem;
+      margin-bottom:12px;
+      color:white;
+      font-weight:900;
+      line-height:1.25;
+      position:relative;
+      z-index:1;
+    }
+
+    .flow-card p{
+      font-size:.88rem;
+      color:#d5e2ea;
+      line-height:1.6;
+      position:relative;
+      z-index:1;
+    }
+
+    /* =========================
+       CTA
+    ========================== */
+
+    .cta{
+      margin-top:50px;
+      background:var(--soft-blue);
+      padding:42px;
+      border-radius:30px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:24px;
+      border:1px solid #c8eef5;
+    }
+
+    .cta h2{
+      margin-bottom:8px;
+      font-size:clamp(1.8rem,4vw,2.6rem);
+      line-height:1.1;
+      color:var(--primary);
+    }
+
+    .cta p{
+      color:var(--gray);
+    }
+
+    @media(max-width:900px){
+
+      .nav-content{
+        height:auto;
+        padding:18px 0;
+        flex-direction:column;
+      }
+
+      .nav-menu{
+        flex-wrap:wrap;
+        justify-content:center;
+      }
+
+      .flow{
+        grid-template-columns:1fr;
+      }
+
+      .cta{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+
+      .logo img{
+        height:54px;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+<header class="navbar">
+
+  <div class="container nav-content">
+
+    <a href="wisdom_hompage.html" class="logo">
+      <img src="logo.jpg" alt="Wisdom Academy Logo">
+    </a>
+
+    <nav class="nav-menu">
+
+      <a href="wisdom_hompage.html">Inicio</a>
+
+      <div class="dropdown">
+
+        <button class="dropbtn">
+          Servicios ▾
+        </button>
+
+        <div class="dropdown-content">
+
+          <a href="wisdom_formacion_page.html">
+            Formación
+          </a>
+
+          <a href="wisdom_interpretacion_page.html">
+            Interpretación
+          </a>
+
+          <a href="wisdom_comofunciona_preview.html">
+            Cómo funciona
+          </a>
+
+          <a href="wisdom_material_gratuito_page.html">
+            Material gratuito
+          </a>
+
+        </div>
+
+      </div>
+
+      <div class="dropdown">
+
+        <button class="dropbtn">
+          Contacto ▾
+        </button>
+
+        <div class="dropdown-content">
+
+          <a href="wisdom_contacto_page.html">
+            Formato de contacto
+          </a>
+
+          <a href="wisdom_contacto_ventas_page.html">
+            Contacto de ventas
+          </a>
+
+        </div>
+
+      </div>
+
+    </nav>
+
+    <a href="dashboard.html" class="btn btn-primary">
+      Inicio de sesión
+    </a>
+
+  </div>
+
+</header>
+
+<main class="container">
+
+  <section class="hero">
+
+    <h1>
+      CÓMO FUNCIONA
+    </h1>
+
+    <p>
+      Un sistema claro para desarrollar comunicación real en otro idioma.
+    </p>
+
+  </section>
+
+  <section class="section">
+
+    <div class="section-header">
+
+      <h2>
+        Proceso WISDOM
+      </h2>
+
+      <p>
+        Un flujo estructurado, práctico y conectado.
+      </p>
+
+    </div>
+
+    <div class="flow">
+
+      <div class="flow-card">
+
+        <span>01</span>
+
+        <h3>
+          OBJETIVO
+        </h3>
+
+        <p>
+          Definimos para qué necesitas comunicarte.
+        </p>
+
+      </div>
+
+      <div class="flow-card">
+
+        <span>02</span>
+
+        <h3>
+          INTERPRETACIÓN
+        </h3>
+
+        <p>
+          Entiendes cómo funciona el idioma en contexto.
+        </p>
+
+      </div>
+
+      <div class="flow-card">
+
+        <span>03</span>
+
+        <h3>
+          ENTRENAMIENTO
+        </h3>
+
+        <p>
+          Práctica guiada desde el inicio.
+        </p>
+
+      </div>
+
+      <div class="flow-card">
+
+        <span>04</span>
+
+        <h3>
+          APLICACIÓN
+        </h3>
+
+        <p>
+          Uso en situaciones reales.
+        </p>
+
+      </div>
+
+      <div class="flow-card">
+
+        <span>05</span>
+
+        <h3>
+          AJUSTE
+        </h3>
+
+        <p>
+          Medición y mejora continua.
+        </p>
+
+      </div>
+
+    </div>
+
+    <div class="cta">
+
+      <div>
+
+        <h2>
+          CUÉNTANOS TU OBJETIVO
+        </h2>
+
+        <p>
+          Te mostramos cómo aplicar el sistema a tu caso.
+        </p>
+
+      </div>
+
+      <a href="wisdom_contacto_ventas_page.html" class="btn btn-primary">
+        Habla con un asesor
+      </a>
+
+    </div>
+
+  </section>
+
+</main>
+
+</body>
+</html>

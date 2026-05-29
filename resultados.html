@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Resultados | Wisdom Academy</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --primary:#0d2b45;
+  --accent:#1fb6b9;
+  --light:#f5f9fc;
+  --white:#ffffff;
+  --text:#1f2d3d;
+  --gray:#6b7c93;
+  --border:#dcebf2;
+  --hover:#E6FF00;
+  --soft-accent:#e7f8f8;
+  --danger-bg:#ffefef;
+  --danger:#b00020;
+  --warning-bg:#fff8d6;
+  --warning:#8a6d00;
+  --success-bg:#eef7ee;
+  --success:#257a36;
+}
+
+body{
+  font-family:Inter, Arial, sans-serif;
+  background:var(--light);
+  color:var(--text);
+}
+
+.app{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:260px 1fr;
+}
+
+.sidebar{
+  background:var(--white);
+  border-right:1px solid var(--border);
+  padding:28px 22px;
+  position:sticky;
+  top:0;
+  height:100vh;
+}
+
+.logo{
+  font-weight:900;
+  color:var(--primary);
+  letter-spacing:.08em;
+  margin-bottom:24px;
+}
+
+.menu-group{margin-bottom:20px}
+.menu-title{
+  font-size:.75rem;
+  color:var(--gray);
+  font-weight:800;
+  letter-spacing:.12em;
+  margin-bottom:8px;
+  cursor:pointer;
+  display:flex;
+  justify-content:space-between;
+}
+.menu-items{display:none}
+.menu-group.active .menu-items{display:block}
+
+.side-link{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:var(--text);
+  text-decoration:none;
+  padding:10px 12px;
+  border-radius:12px;
+  font-weight:700;
+  font-size:.9rem;
+  margin-bottom:6px;
+}
+
+.side-link:hover,.side-link.active{background:var(--soft-accent)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.role-hidden{display:none!important}
+
+.user-box{
+  margin-top:24px;
+  padding:14px;
+  border-radius:16px;
+  background:var(--soft-accent);
+  border:1px solid var(--border);
+}
+
+.user-box strong{display:block;color:var(--primary);font-size:.9rem;margin-bottom:4px}
+.user-box small{display:block;color:var(--gray);font-weight:700;line-height:1.35}
+
+.logout-btn{
+  width:100%;
+  margin-top:12px;
+  padding:10px 12px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:white;
+  color:var(--primary);
+  font-weight:900;
+  cursor:pointer;
+}
+
+.logout-btn:hover{background:var(--hover);color:black}
+
+.main{padding:30px}
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:16px;
+  flex-wrap:wrap;
+  margin-bottom:24px;
+}
+
+h1{color:var(--primary);font-size:2rem}
+.sub{color:var(--gray);font-size:.92rem;margin-top:6px;line-height:1.4}
+
+.btn{
+  padding:10px 16px;
+  border-radius:999px;
+  font-weight:900;
+  border:none;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-block;
+  font-size:.9rem;
+}
+
+.btn-primary{background:var(--accent);color:white}
+.btn-secondary{background:white;color:var(--primary);border:1px solid var(--border)}
+.btn-danger{background:var(--danger-bg);color:var(--danger);border:1px solid #ffd1d1}
+.btn:hover{background:var(--hover);color:black}
+
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+
+.role-pill{
+  display:inline-block;
+  margin-left:10px;
+  background:var(--soft-accent);
+  color:var(--accent);
+  font-size:.75rem;
+  font-weight:900;
+  padding:5px 10px;
+  border-radius:999px;
+  vertical-align:middle;
+}
+
+.metrics{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+  margin-bottom:22px;
+}
+
+.metric{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:18px;
+  min-height:92px;
+}
+
+.metric span{
+  display:block;
+  color:var(--gray);
+  font-weight:900;
+  font-size:.72rem;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  margin-bottom:10px;
+}
+
+.metric strong{
+  display:block;
+  color:var(--primary);
+  font-size:2rem;
+  line-height:1;
+}
+
+.metric small{display:block;color:var(--gray);margin-top:8px;font-weight:700}
+
+.panel{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:20px;
+  margin-bottom:20px;
+}
+
+.filters{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:12px;
+  align-items:end;
+}
+
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:.78rem;font-weight:900;color:var(--primary)}
+.field input,.field select{
+  min-height:42px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  padding:0 12px;
+  font:inherit;
+  background:#fbfdff;
+}
+
+.table-wrap{
+  width:100%;
+  overflow:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:980px;
+}
+
+th{
+  text-align:left;
+  color:var(--gray);
+  font-size:.72rem;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  padding:12px 10px;
+  border-bottom:1px solid var(--border);
+}
+
+td{
+  padding:13px 10px;
+  border-bottom:1px solid var(--border);
+  font-weight:650;
+  vertical-align:top;
+}
+
+.pill{
+  display:inline-block;
+  padding:5px 10px;
+  border-radius:999px;
+  font-size:.72rem;
+  font-weight:900;
+  background:var(--soft-accent);
+  color:var(--accent);
+  white-space:nowrap;
+}
+
+.pill.success{background:var(--success-bg);color:var(--success)}
+.pill.warning{background:var(--warning-bg);color:var(--warning)}
+.pill.danger{background:var(--danger-bg);color:var(--danger)}
+.pill.gray{background:#eef2f5;color:var(--gray)}
+
+.empty{
+  color:var(--gray);
+  padding:24px;
+  text-align:center;
+  border:1px dashed var(--border);
+  border-radius:16px;
+  background:#fbfdff;
+  font-weight:800;
+}
+
+.notice{
+  background:#eef7ff;
+  border:1px solid #cfe0f1;
+  color:var(--primary);
+  padding:14px 16px;
+  border-radius:16px;
+  margin-bottom:20px;
+  font-weight:800;
+  line-height:1.4;
+}
+
+.student-name{color:var(--primary);font-weight:900}
+.detail-small{color:var(--gray);font-size:.8rem;margin-top:4px;line-height:1.35}
+
+.score{
+  font-size:1.15rem;
+  color:var(--primary);
+  font-weight:900;
+}
+
+.score.danger{color:var(--danger)}
+.score.warning{color:var(--warning)}
+.score.success{color:var(--success)}
+
+@media(max-width:1050px){
+  .app{grid-template-columns:1fr}
+  .sidebar{position:relative;height:auto}
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .filters{grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:650px){
+  .main{padding:18px}
+  .metrics,.filters{grid-template-columns:1fr}
+}
+
+/* ===========================
+   WISDOM PREMIUM UI LAYER
+   Visual upgrade only. Logic untouched.
+=========================== */
+:root{
+  --premium-bg:#eef5f7;
+  --premium-surface:#ffffff;
+  --premium-ink:#0b2438;
+  --premium-muted:#68798d;
+  --premium-line:#d8e6ed;
+  --premium-blue:#123e68;
+  --premium-teal:#16aeb7;
+  --premium-teal-soft:#e6f7f8;
+  --premium-lime:#e6ff00;
+  --premium-danger:#b00020;
+  --premium-danger-bg:#fff0f2;
+  --premium-warning:#8a6100;
+  --premium-warning-bg:#fff8dd;
+  --premium-ok:#146c2e;
+  --premium-ok-bg:#edf9f0;
+  --premium-shadow:0 18px 44px rgba(13,43,69,.10);
+  --premium-shadow-soft:0 10px 24px rgba(13,43,69,.07);
+}
+body{
+  background:
+    radial-gradient(circle at top left, rgba(31,182,185,.14), transparent 36%),
+    linear-gradient(180deg,#f7fbfc 0%, var(--premium-bg) 100%)!important;
+  color:var(--premium-ink)!important;
+}
+.sidebar{
+  background:rgba(255,255,255,.88)!important;
+  backdrop-filter:blur(16px);
+  box-shadow:12px 0 32px rgba(13,43,69,.045);
+}
+.logo{
+  font-size:1.25rem!important;
+  letter-spacing:.18em!important;
+  padding:10px 0 18px;
+  border-bottom:1px solid var(--premium-line);
+}
+.menu-title{
+  color:#8796a8!important;
+  font-size:.7rem!important;
+}
+.side-link{
+  border:1px solid transparent;
+  transition:.18s ease;
+}
+.side-link:hover,.side-link.active{
+  background:linear-gradient(135deg,var(--premium-teal-soft),#f7ffff)!important;
+  border-color:#caeff2;
+  transform:translateX(2px);
+}
+.dot{
+  box-shadow:0 0 0 4px rgba(31,182,185,.12);
+}
+.user-box{
+  background:linear-gradient(135deg,#f7ffff,var(--premium-teal-soft))!important;
+  box-shadow:var(--premium-shadow-soft);
+}
+.main{
+  animation:premiumFade .35s ease both;
+}
+@keyframes premiumFade{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.topbar{
+  background:linear-gradient(135deg,var(--premium-blue),#1f5f93);
+  color:white;
+  border-radius:28px;
+  padding:24px 26px;
+  box-shadow:var(--premium-shadow);
+  margin-bottom:22px!important;
+}
+.topbar h1,.topbar h2{
+  color:white!important;
+  letter-spacing:-.04em;
+}
+.topbar h1{
+  font-size:clamp(2rem,4vw,3rem)!important;
+}
+.topbar .sub{
+  color:rgba(255,255,255,.78)!important;
+  font-weight:800;
+}
+.role-pill{
+  background:rgba(255,255,255,.18)!important;
+  color:white!important;
+  border:1px solid rgba(255,255,255,.22);
+}
+.btn{
+  transition:.18s ease!important;
+  box-shadow:none;
+}
+.btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 10px 22px rgba(13,43,69,.12);
+}
+.btn-primary,.btn:not(.btn-secondary):not(.btn-danger):not(.btn-warning){
+  background:var(--premium-teal)!important;
+  color:white!important;
+}
+.btn-secondary{
+  background:white!important;
+  color:var(--premium-blue)!important;
+  border:1px solid var(--premium-line)!important;
+}
+.btn-danger{
+  background:var(--premium-danger-bg)!important;
+  color:var(--premium-danger)!important;
+  border:1px solid #ffd0d8!important;
+}
+.metrics{
+  gap:16px!important;
+}
+.metric{
+  position:relative;
+  overflow:hidden;
+  background:rgba(255,255,255,.94)!important;
+  border:1px solid rgba(216,230,237,.95)!important;
+  border-radius:24px!important;
+  box-shadow:var(--premium-shadow-soft);
+}
+.metric::after{
+  content:"";
+  position:absolute;
+  inset:auto 14px 12px auto;
+  width:38px;
+  height:38px;
+  border-radius:999px;
+  background:rgba(31,182,185,.11);
+}
+.metric span{
+  color:var(--premium-muted)!important;
+  letter-spacing:.09em!important;
+}
+.metric strong{
+  color:var(--premium-blue)!important;
+  font-size:clamp(1.8rem,3vw,2.55rem)!important;
+}
+.metric small{
+  color:var(--premium-muted)!important;
+}
+.panel{
+  background:rgba(255,255,255,.96)!important;
+  border:1px solid rgba(216,230,237,.95)!important;
+  border-radius:26px!important;
+  box-shadow:var(--premium-shadow-soft);
+}
+.panel h2{
+  color:var(--premium-blue)!important;
+  letter-spacing:-.025em;
+}
+.notice{
+  border-radius:18px!important;
+  background:linear-gradient(135deg,#eef7ff,#f8ffff)!important;
+  border-color:#cfe0f1!important;
+  box-shadow:0 8px 18px rgba(13,43,69,.035);
+}
+.field input,.field select,.field textarea{
+  border-radius:15px!important;
+  border:1px solid var(--premium-line)!important;
+  background:#fbfdff!important;
+}
+.field input:focus,.field select:focus,.field textarea:focus{
+  outline:none;
+  border-color:var(--premium-teal)!important;
+  box-shadow:0 0 0 4px rgba(22,174,183,.11);
+}
+.table-wrap{
+  border:1px solid var(--premium-line);
+  border-radius:22px;
+  overflow:auto;
+  background:white;
+}
+table{
+  border-collapse:separate!important;
+  border-spacing:0;
+  margin-top:0!important;
+}
+th{
+  background:#f8fbfc;
+  color:var(--premium-muted)!important;
+  font-size:.72rem;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+td,th{
+  border-bottom:1px solid var(--premium-line)!important;
+}
+tbody tr{
+  transition:.16s ease;
+}
+tbody tr:hover{
+  background:#f8fdfe;
+}
+.pill{
+  border-radius:999px!important;
+  font-weight:900!important;
+  letter-spacing:.02em;
+}
+.pill.danger,.score.danger{
+  background:var(--premium-danger-bg)!important;
+  color:var(--premium-danger)!important;
+}
+.pill.warning,.score.warning{
+  background:var(--premium-warning-bg)!important;
+  color:var(--premium-warning)!important;
+}
+.pill.success,.score.success{
+  background:var(--premium-ok-bg)!important;
+  color:var(--premium-ok)!important;
+}
+.score{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:58px;
+  padding:7px 10px;
+  border-radius:999px;
+}
+.empty{
+  border-radius:20px!important;
+  background:#f8fbfc!important;
+}
+.student-name{
+  color:var(--premium-blue)!important;
+}
+.detail-small{
+  color:var(--premium-muted)!important;
+}
+
+
+/* Resultados premium specifics */
+.main::before{
+  content:"Analítica académica";
+  display:block;
+  color:var(--premium-muted);
+  text-transform:uppercase;
+  font-weight:900;
+  letter-spacing:.16em;
+  margin-bottom:10px;
+  font-size:.72rem;
+}
+#averageScore{
+  letter-spacing:-.05em;
+}
+td:last-child{
+  color:var(--premium-muted);
+  font-weight:800;
+}
+
+
+.panel .topbar{
+  background:transparent!important;
+  box-shadow:none!important;
+  padding:0!important;
+  border-radius:0!important;
+}
+.panel .topbar h2{
+  color:var(--premium-blue)!important;
+}
+.panel .topbar .sub{
+  color:var(--premium-muted)!important;
+}
+
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<aside class="sidebar">
+  <div class="logo">WISDOM</div>
+
+  <div class="menu-group active">
+    <div class="menu-title">Panel ▾</div>
+    <div class="menu-items">
+      <a class="side-link" href="dashboard.html"><span class="dot"></span> Dashboard</a>
+    </div>
+  </div>
+
+  <div class="menu-group">
+    <div class="menu-title">Personas ▾</div>
+    <div class="menu-items">
+      <a class="side-link" data-roles="admin" href="estudiantes.html"><span class="dot"></span> Estudiantes</a>
+      <a class="side-link" data-roles="admin" href="profesores.html"><span class="dot"></span> Profesores</a>
+      <a class="side-link" data-roles="admin" href="usuarios.html"><span class="dot"></span> Usuarios</a>
+    </div>
+  </div>
+
+  <div class="menu-group">
+    <div class="menu-title">Servicios ▾</div>
+    <div class="menu-items">
+      <a class="side-link" data-roles="admin,teacher" href="grupales.html"><span class="dot"></span> Grupales</a>
+      <a class="side-link" data-roles="admin,teacher" href="privadas.html"><span class="dot"></span> Privadas / Semi</a>
+    </div>
+  </div>
+
+  <div class="menu-group">
+    <div class="menu-title">Gestión ▾</div>
+    <div class="menu-items">
+      <a class="side-link" data-roles="admin,teacher,student" href="calendario.html"><span class="dot"></span> Calendario</a>
+      <a class="side-link" data-roles="admin" href="finanzas.html"><span class="dot"></span> Finanzas</a>
+      <a class="side-link" data-roles="admin" href="solicitudes.html"><span class="dot"></span> Solicitudes</a>
+      <a class="side-link" data-roles="admin,teacher,student" href="reportes.html"><span class="dot"></span> Reportes</a>
+    </div>
+  </div>
+
+
+  <div class="menu-group">
+    <div class="menu-title">Práctica y exámenes ▾</div>
+    <div class="menu-items">
+      <a class="side-link" data-roles="admin,teacher,student" href="Grammar_portal.html"><span class="dot"></span> Grammar</a>
+      <a class="side-link" data-roles="admin,teacher,student" href="Listening_portal.html"><span class="dot"></span> Listening</a>
+      <a class="side-link" data-roles="admin,teacher,student" href="Speaking_portal.html"><span class="dot"></span> Speaking</a>
+      <a class="side-link" data-roles="admin,teacher" href="evaluaciones.html"><span class="dot"></span> Evaluaciones</a>
+      <a class="side-link active" data-roles="admin,teacher,student" href="resultados.html"><span class="dot"></span> Resultados</a>
+    </div>
+  </div>
+
+  <div class="user-box">
+    <strong id="sidebarUserName">Usuario</strong>
+    <small id="sidebarUserRole">Rol</small>
+    <small id="sidebarUserEmail">correo</small>
+    <button class="logout-btn" onclick="logout()">Cerrar sesión</button>
+  </div>
+
+</aside>
+
+<main class="main">
+
+  <div class="topbar">
+    <div>
+      <h1>Resultados <span id="rolePill" class="role-pill">Rol</span></h1>
+      <div class="sub" id="pageSubtitle">Historial de prácticas y exámenes del portal Wisdom Academy.</div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-secondary" onclick="window.location.href='dashboard.html'">Dashboard</button>
+      <button class="btn btn-primary" onclick="window.location.href='Grammar_portal.html'">Grammar</button>
+      <button class="btn btn-primary" onclick="window.location.href='Listening_portal.html'">Listening</button>
+      <button class="btn btn-primary" onclick="window.location.href='Speaking_portal.html'">Speaking</button>
+    </div>
+  </div>
+
+  <div class="notice" id="roleNotice"></div>
+
+  <section class="metrics">
+    <div class="metric">
+      <span>Total resultados</span>
+      <strong id="totalResults">0</strong>
+      <small>Según permisos del usuario</small>
+    </div>
+    <div class="metric">
+      <span>Exámenes</span>
+      <strong id="examCount">0</strong>
+      <small>Modo formal</small>
+    </div>
+    <div class="metric">
+      <span>Prácticas</span>
+      <strong id="practiceCount">0</strong>
+      <small>Entrenamiento</small>
+    </div>
+    <div class="metric">
+      <span>Promedio</span>
+      <strong id="averageScore">--</strong>
+      <small>Sobre resultados con nota</small>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2 style="color:var(--primary);margin-bottom:14px;">Filtros</h2>
+    <div class="filters">
+      <div class="field">
+        <label>Buscar</label>
+        <input id="searchInput" placeholder="Estudiante, profesor, unidad..." oninput="renderResults()">
+      </div>
+      <div class="field">
+        <label>Tipo</label>
+        <select id="typeFilter" onchange="renderResults()">
+          <option value="">Todos</option>
+          <option value="Grammar">Grammar</option>
+          <option value="Listening">Listening</option>
+          <option value="Speaking">Speaking</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Modo</label>
+        <select id="modeFilter" onchange="renderResults()">
+          <option value="">Todos</option>
+          <option value="exam">Exam</option>
+          <option value="practice">Practice</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Nivel</label>
+        <select id="levelFilter" onchange="renderResults()">
+          <option value="">Todos</option>
+          <option value="A1">A1</option>
+          <option value="A2">A2</option>
+          <option value="B1">B1</option>
+          <option value="B2">B2</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Estado</label>
+        <select id="statusFilter" onchange="renderResults()">
+          <option value="">Todos</option>
+          <option value="aprobado">Aprobado</option>
+          <option value="riesgo">En riesgo</option>
+          <option value="intervencion">Requiere intervención</option>
+          <option value="sin_nota">Sin nota</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Acción</label>
+        <button class="btn btn-secondary" onclick="resetFilters()">Limpiar filtros</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="topbar" style="margin-bottom:10px">
+      <div>
+        <h2 style="color:var(--primary);">Historial</h2>
+        <div class="sub">Los resultados se leen desde <strong>wisdom_exam_results</strong>.</div>
+      </div>
+      <div class="actions" data-roles="admin">
+        <button class="btn btn-danger" onclick="clearAllResults()">Borrar resultados</button>
+      </div>
+    </div>
+
+    <div id="emptyState" class="empty" style="display:none;">No hay resultados para mostrar todavía.</div>
+
+    <div class="table-wrap" id="tableWrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Estudiante</th>
+            <th>Profesor</th>
+            <th>Tipo</th>
+            <th>Modo</th>
+            <th>Nivel / Unidad</th>
+            <th>Puntaje</th>
+            <th>Estado</th>
+            <th>Acción sugerida</th>
+          </tr>
+        </thead>
+        <tbody id="resultsTable"></tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+</div>
+
+<script src="storage.js"></script>
+<script src="schemaRegistry.js"></script>
+<script>
+const CURRENT_USER_KEY = 'wisdom_current_user';
+const RESULTS_KEY = 'wisdom_exam_results';
+const STUDENTS_KEY = 'wisdom_students_demo';
+const TEACHERS_KEY = 'wisdom_teachers_demo';
+
+if(typeof WisdomStorage === 'undefined'){
+  window.WisdomStorage = {
+    get(key, fallback=null){
+      try{
+        const value = localStorage.getItem(key);
+        return value ? JSON.parse(value) : fallback;
+      }catch(error){
+        return fallback;
+      }
+    },
+    set(key, value){ localStorage.setItem(key, JSON.stringify(value)); },
+    remove(key){ localStorage.removeItem(key); }
+  };
+}
+
+const currentUser = WisdomStorage.get(CURRENT_USER_KEY, null);
+
+if(!currentUser || !currentUser.role){
+  window.location.href = 'login.html';
+}
+
+function logout(){
+  WisdomStorage.remove(CURRENT_USER_KEY);
+  window.location.href = 'login.html';
+}
+
+function safeArray(value, fallback=[]){
+  return Array.isArray(value) ? value : fallback;
+}
+
+function loadData(key){
+  return safeArray(WisdomStorage.get(key, []), []);
+}
+
+function saveData(key, value){
+  WisdomStorage.set(key, safeArray(value, []));
+}
+
+let students = loadData(STUDENTS_KEY);
+let teachers = loadData(TEACHERS_KEY);
+
+function getRoleLabel(role){
+  const labels = {admin:'Administrativo', teacher:'Profesor', student:'Estudiante'};
+  return labels[role] || role || 'Usuario';
+}
+
+function canRoleAccess(allowedRoles){
+  if(!allowedRoles) return true;
+  return allowedRoles.split(',').map(role=>role.trim()).includes(currentUser.role);
+}
+
+function applyRoleVisibility(){
+  document.querySelectorAll('[data-roles]').forEach(element=>{
+    const allowed = element.getAttribute('data-roles');
+    if(!canRoleAccess(allowed)) element.classList.add('role-hidden');
+  });
+
+  document.querySelectorAll('.menu-group').forEach(group=>{
+    const visibleLinks = group.querySelectorAll('.side-link:not(.role-hidden)');
+    if(!visibleLinks.length) group.classList.add('role-hidden');
+  });
+}
+
+function renderSessionInfo(){
+  document.getElementById('sidebarUserName').innerText = currentUser.name || 'Usuario Wisdom';
+  document.getElementById('sidebarUserRole').innerText = getRoleLabel(currentUser.role);
+  document.getElementById('sidebarUserEmail').innerText = currentUser.email || '';
+  document.getElementById('rolePill').innerText = getRoleLabel(currentUser.role);
+
+  const notice = document.getElementById('roleNotice');
+
+  if(currentUser.role === 'admin'){
+    notice.innerText = 'Vista administrativa: puedes ver todos los resultados, filtrar por tipo de evaluación y detectar estudiantes en riesgo.';
+  }else if(currentUser.role === 'teacher'){
+    notice.innerText = 'Vista de profesor: solo ves resultados asociados a tu teacherId o a estudiantes vinculados contigo.';
+  }else{
+    notice.innerText = 'Vista de estudiante: solo ves tu propio historial de práctica y exámenes.';
+  }
+}
+
+function normalizeTeacher(teacher){
+  const id = teacher.id || teacher.teacherId || teacher.code || teacher.teacherCode || '';
+  return {...teacher, id, teacherId:id, code:id};
+}
+
+function getTeacherIdFromUser(){
+  return currentUser.teacherId || currentUser.id || currentUser.teacherCode || '';
+}
+
+function getEffectiveTeacher(){
+  const teacherId = getTeacherIdFromUser();
+  const normalizedTeachers = teachers.map(normalizeTeacher);
+
+  return normalizedTeachers.find(teacher =>
+    (teacherId && teacher.teacherId === teacherId) ||
+    (teacher.email && currentUser.email && teacher.email.toLowerCase() === currentUser.email.toLowerCase()) ||
+    (teacher.name && currentUser.name && teacher.name === currentUser.name)
+  ) || null;
+}
+
+function getEffectiveTeacherId(){
+  const teacher = getEffectiveTeacher();
+  return getTeacherIdFromUser() || teacher?.teacherId || '';
+}
+
+function getStudentFromCurrentUser(){
+  return students.find(student =>
+    student.code === currentUser.studentId ||
+    student.studentId === currentUser.studentId ||
+    student.id === currentUser.studentId ||
+    (student.email && currentUser.email && student.email.toLowerCase() === currentUser.email.toLowerCase())
+  ) || null;
+}
+
+function studentBelongsToTeacher(student){
+  if(currentUser.role !== 'teacher') return true;
+
+  const teacherId = getEffectiveTeacherId();
+  const teacherName = currentUser.name || '';
+
+  return (
+    (teacherId && (student.teacherId === teacherId || student.teacherCode === teacherId)) ||
+    (teacherName && student.teacher === teacherName)
+  );
+}
+
+function resultBelongsToCurrentUser(result){
+  if(currentUser.role === 'admin') return true;
+
+  if(currentUser.role === 'student'){
+    const student = getStudentFromCurrentUser();
+    const studentId = currentUser.studentId || student?.code || currentUser.id || '';
+    return (
+      (studentId && (result.studentId === studentId || result.studentCode === studentId)) ||
+      (result.studentEmail && currentUser.email && result.studentEmail.toLowerCase() === currentUser.email.toLowerCase()) ||
+      (result.studentName && currentUser.name && result.studentName === currentUser.name)
+    );
+  }
+
+  if(currentUser.role === 'teacher'){
+    const teacherId = getEffectiveTeacherId();
+
+    if(teacherId && (result.teacherId === teacherId || result.teacherCode === teacherId)) return true;
+    if(result.teacherEmail && currentUser.email && result.teacherEmail.toLowerCase() === currentUser.email.toLowerCase()) return true;
+
+    const linkedStudent = students.find(student =>
+      student.code === result.studentId ||
+      student.code === result.studentCode ||
+      student.studentId === result.studentId ||
+      student.name === result.studentName
+    );
+
+    return linkedStudent ? studentBelongsToTeacher(linkedStudent) : false;
+  }
+
+  return false;
+}
+
+function normalizeResult(raw={}){
+  let result;
+
+  if(typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeResult){
+    result = SchemaRegistry.normalizeResult(raw || {});
+  }else{
+    result = {...(raw || {})};
+  }
+
+  result.id = result.id || result.resultId || ('RES-' + Date.now() + '-' + Math.random().toString(16).slice(2));
+  result.resultId = result.resultId || result.id;
+  result.evaluationId = result.evaluationId || result.assessmentId || result.assignmentId || '';
+  result.assessmentId = result.assessmentId || result.evaluationId || '';
+  result.assignmentId = result.assignmentId || result.evaluationId || '';
+  result.studentId = result.studentId || result.studentCode || '';
+  result.studentCode = result.studentCode || result.studentId || '';
+  result.studentName = result.studentName || result.name || result.student || 'Estudiante sin nombre';
+  result.studentEmail = result.studentEmail || result.email || '';
+  result.teacherId = result.teacherId || result.teacherCode || '';
+  result.teacherCode = result.teacherCode || result.teacherId || '';
+  result.teacherEmail = result.teacherEmail || '';
+  result.teacherName = result.teacherName || result.teacher || '';
+  result.type = result.type || result.skill || 'Evaluación';
+  result.mode = String(result.mode || 'exam').toLowerCase();
+  result.level = result.level || result.level_code || '';
+  result.unit = result.unit === 'ALL' ? 'ALL' : (result.unit || result.unit_number || '');
+  result.unitTitle = result.unitTitle || result.unit_title || result.title || '';
+  result.score = result.score ?? result.finalScore ?? result.percentage ?? null;
+  result.percentage = result.percentage ?? result.score ?? result.finalScore ?? null;
+  result.finalScore = result.finalScore ?? result.score ?? result.percentage ?? null;
+  result.submittedAt = result.submittedAt || result.date || result.createdAt || '';
+  result.createdAt = result.createdAt || result.submittedAt || new Date().toISOString();
+  result.updatedAt = result.updatedAt || result.submittedAt || result.createdAt;
+  result.date = result.date || result.submittedAt || result.createdAt || new Date().toISOString();
+  result.status = result.status || (result.mode === 'exam' ? 'Presentado' : 'Práctica');
+  result.details = result.details || {};
+
+  return result;
+}
+
+function resultUniqueKey(result){
+  if(result.evaluationId) return 'evaluation:' + result.evaluationId;
+  if(result.id) return 'id:' + result.id;
+  return [result.studentId,result.studentEmail,result.type,result.mode,result.level,result.unit,result.date,result.score].join('|');
+}
+
+function dedupeResults(results){
+  const map = new Map();
+  results.forEach(result=>{
+    const key = resultUniqueKey(result);
+    const existing = map.get(key);
+    if(!existing || new Date(result.date || 0) > new Date(existing.date || 0)){
+      map.set(key, result);
+    }
+  });
+  return [...map.values()];
+}
+
+function getVisibleResults(){
+  const rawResults = loadData(RESULTS_KEY);
+
+  const normalizedResults = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeCollection)
+    ? SchemaRegistry.normalizeCollection(rawResults, 'normalizeResult').map(normalizeResult)
+    : rawResults.map(normalizeResult);
+
+  return dedupeResults(normalizedResults)
+    .filter(resultBelongsToCurrentUser)
+    .sort((a,b)=> new Date(b.date) - new Date(a.date));
+}
+
+function findTeacherName(result){
+  const normalizedTeachers = teachers.map(normalizeTeacher);
+  const teacher = normalizedTeachers.find(t =>
+    (result.teacherId && t.teacherId === result.teacherId) ||
+    (result.teacherEmail && t.email && t.email.toLowerCase() === result.teacherEmail.toLowerCase())
+  );
+
+  return teacher?.name || result.teacherName || result.teacher || result.teacherId || 'Sin profesor';
+}
+
+function scoreNumber(result){
+  if(result.score === null || result.score === undefined || result.score === '') return null;
+  const parsed = Number(String(result.score).replace('%','').trim());
+  return Number.isNaN(parsed) ? null : parsed;
+}
+
+function getStatus(result){
+  const score = scoreNumber(result);
+  if(score === null) return {key:'sin_nota', label:'Sin nota', className:'gray', action:'Revisar manualmente'};
+  if(score < 60) return {key:'intervencion', label:'Requiere intervención', className:'danger', action:'Agendar refuerzo / revisión'};
+  if(score < 75) return {key:'riesgo', label:'En riesgo', className:'warning', action:'Repetir unidad o asignar práctica'};
+  return {key:'aprobado', label:'Aprobado', className:'success', action:'Continuar seguimiento'};
+}
+
+function formatDate(value){
+  const date = new Date(value);
+  if(Number.isNaN(date.getTime())) return value || 'Sin fecha';
+  return date.toLocaleString('es-CO', {
+    year:'numeric',
+    month:'short',
+    day:'2-digit',
+    hour:'2-digit',
+    minute:'2-digit'
+  });
+}
+
+function filteredResults(){
+  const search = document.getElementById('searchInput').value.trim().toLowerCase();
+  const type = document.getElementById('typeFilter').value;
+  const mode = document.getElementById('modeFilter').value;
+  const level = document.getElementById('levelFilter').value;
+  const status = document.getElementById('statusFilter').value;
+
+  return getVisibleResults().filter(result=>{
+    const resultStatus = getStatus(result);
+    const haystack = [
+      result.studentName,
+      result.studentId,
+      result.type,
+      result.mode,
+      result.level,
+      result.unit,
+      result.unitTitle,
+      findTeacherName(result),
+      resultStatus.label
+    ].join(' ').toLowerCase();
+
+    if(search && !haystack.includes(search)) return false;
+    if(type && result.type !== type) return false;
+    if(mode && result.mode !== mode) return false;
+    if(level && result.level !== level) return false;
+    if(status && resultStatus.key !== status) return false;
+
+    return true;
+  });
+}
+
+function renderMetrics(results){
+  const total = results.length;
+  const exams = results.filter(r=>r.mode === 'exam').length;
+  const practices = results.filter(r=>r.mode === 'practice').length;
+  const scores = results.map(scoreNumber).filter(score=>score !== null);
+
+  const avg = scores.length
+    ? Math.round(scores.reduce((sum, score)=>sum+score, 0) / scores.length)
+    : null;
+
+  document.getElementById('totalResults').innerText = total;
+  document.getElementById('examCount').innerText = exams;
+  document.getElementById('practiceCount').innerText = practices;
+  document.getElementById('averageScore').innerText = avg === null ? '--' : avg + '%';
+}
+
+function renderResults(){
+  const results = filteredResults();
+  const table = document.getElementById('resultsTable');
+  const empty = document.getElementById('emptyState');
+  const wrap = document.getElementById('tableWrap');
+
+  table.innerHTML = '';
+  renderMetrics(results);
+
+  if(!results.length){
+    empty.style.display = 'block';
+    wrap.style.display = 'none';
+    return;
+  }
+
+  empty.style.display = 'none';
+  wrap.style.display = 'block';
+
+  results.forEach(result=>{
+    const status = getStatus(result);
+    const score = scoreNumber(result);
+    const scoreClass = status.key === 'intervencion' ? 'danger' : status.key === 'riesgo' ? 'warning' : status.key === 'aprobado' ? 'success' : '';
+
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${formatDate(result.date)}</td>
+      <td>
+        <div class="student-name">${result.studentName}</div>
+        <div class="detail-small">${result.studentId || 'Sin código'}</div>
+      </td>
+      <td>${findTeacherName(result)}</td>
+      <td><span class="pill">${result.type}</span></td>
+      <td><span class="pill ${result.mode === 'exam' ? 'danger' : 'gray'}">${result.mode === 'exam' ? 'Exam' : 'Practice'}</span></td>
+      <td>
+        <strong>${result.level || '--'} · Unit ${result.unit || '--'}</strong>
+        <div class="detail-small">${result.unitTitle || ''}</div>
+      </td>
+      <td><span class="score ${scoreClass}">${score === null ? '--' : score + '%'}</span></td>
+      <td><span class="pill ${status.className}">${status.label}</span></td>
+      <td>${status.action}</td>
+    `;
+    table.appendChild(row);
+  });
+}
+
+function resetFilters(){
+  document.getElementById('searchInput').value = '';
+  document.getElementById('typeFilter').value = '';
+  document.getElementById('modeFilter').value = '';
+  document.getElementById('levelFilter').value = '';
+  document.getElementById('statusFilter').value = '';
+  renderResults();
+}
+
+function clearAllResults(){
+  if(currentUser.role !== 'admin') return;
+  const firstConfirm = confirm('¿Seguro que quieres borrar TODOS los resultados guardados en este navegador? Esta acción no se puede deshacer.');
+  if(!firstConfirm) return;
+  const typed = prompt('Para confirmar, escribe BORRAR RESULTADOS');
+  if(typed !== 'BORRAR RESULTADOS'){
+    alert('Acción cancelada. No se borró ningún resultado.');
+    return;
+  }
+  saveData(RESULTS_KEY, []);
+  renderResults();
+}
+
+document.querySelectorAll('.menu-title').forEach(title=>{
+  title.addEventListener('click', ()=>{
+    title.parentElement.classList.toggle('active');
+  });
+});
+
+renderSessionInfo();
+applyRoleVisibility();
+renderResults();
+</script>
+
+</body>
+</html>

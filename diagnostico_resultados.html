@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resultados Diagnóstico | Wisdom Academy</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#0d2b45;--accent:#1fb6b9;--light:#f5f9fc;--white:#fff;--text:#1f2d3d;--gray:#6b7c93;--border:#dcebf2;--hover:#E6FF00;--soft:#e7f8f8;
+  --danger-bg:#ffefef;--danger:#b00020;--warning-bg:#fff8d6;--warning:#8a6d00;--success-bg:#eef7ee;--success:#257a36;
+  --premium-bg:#eef5f7;--premium-blue:#123e68;--premium-teal:#16aeb7;--premium-line:#d8e6ed;--premium-shadow:0 18px 44px rgba(13,43,69,.10);--premium-shadow-soft:0 10px 24px rgba(13,43,69,.07)
+}
+body{font-family:Inter,Arial,sans-serif;background:radial-gradient(circle at top left,rgba(31,182,185,.14),transparent 36%),linear-gradient(180deg,#f7fbfc 0%,var(--premium-bg) 100%);color:var(--text)}
+.app{min-height:100vh;display:grid;grid-template-columns:260px 1fr}
+.sidebar{background:rgba(255,255,255,.88);border-right:1px solid var(--border);padding:28px 22px;position:sticky;top:0;height:100vh;backdrop-filter:blur(16px);box-shadow:12px 0 32px rgba(13,43,69,.045)}
+.logo{font-weight:900;color:var(--primary);letter-spacing:.18em;margin-bottom:24px;font-size:1.25rem;padding:10px 0 18px;border-bottom:1px solid var(--premium-line)}
+.menu-group{margin-bottom:20px}.menu-title{font-size:.7rem;color:#8796a8;font-weight:800;letter-spacing:.12em;margin-bottom:8px;cursor:pointer;display:flex;justify-content:space-between}.menu-items{display:none}.menu-group.active .menu-items{display:block}
+.side-link{display:flex;align-items:center;gap:10px;color:var(--text);text-decoration:none;padding:10px 12px;border-radius:12px;font-weight:700;font-size:.9rem;margin-bottom:6px;border:1px solid transparent;transition:.18s ease}
+.side-link:hover,.side-link.active{background:linear-gradient(135deg,var(--soft),#f7ffff);border-color:#caeff2;transform:translateX(2px)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(31,182,185,.12)}.role-hidden{display:none!important}
+.user-box{margin-top:24px;padding:14px;border-radius:16px;background:linear-gradient(135deg,#f7ffff,var(--soft));border:1px solid var(--border);box-shadow:var(--premium-shadow-soft)}
+.user-box strong{display:block;color:var(--primary);font-size:.9rem;margin-bottom:4px}.user-box small{display:block;color:var(--gray);font-weight:700;line-height:1.35}
+.logout-btn{width:100%;margin-top:12px;padding:10px 12px;border-radius:999px;border:1px solid var(--border);background:white;color:var(--primary);font-weight:900;cursor:pointer}.logout-btn:hover{background:var(--hover);color:black}
+.main{padding:30px;animation:fade .35s ease both}@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.main::before{content:"Resultados de diagnóstico";display:block;color:var(--gray);text-transform:uppercase;font-weight:900;letter-spacing:.16em;margin-bottom:10px;font-size:.72rem}
+.topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:22px;background:linear-gradient(135deg,var(--premium-blue),#1f5f93);color:white;border-radius:28px;padding:24px 26px;box-shadow:var(--premium-shadow)}
+h1{color:white;font-size:clamp(2rem,4vw,3rem);letter-spacing:-.04em}.sub{color:rgba(255,255,255,.78);font-size:.92rem;margin-top:6px;line-height:1.4;font-weight:800}
+.role-pill{display:inline-block;margin-left:10px;background:rgba(255,255,255,.18);color:white;font-size:.75rem;font-weight:900;padding:5px 10px;border-radius:999px;vertical-align:middle;border:1px solid rgba(255,255,255,.22)}
+.btn{padding:10px 16px;border-radius:999px;font-weight:900;border:none;cursor:pointer;text-decoration:none;display:inline-block;font-size:.9rem;transition:.18s ease}
+.btn-primary{background:var(--premium-teal);color:white}.btn-secondary{background:white;color:var(--premium-blue);border:1px solid var(--premium-line)}.btn-danger{background:var(--danger-bg);color:var(--danger);border:1px solid #ffd1d1}.btn:hover{background:var(--hover);color:black;transform:translateY(-1px);box-shadow:0 10px 22px rgba(13,43,69,.12)}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.notice{background:#eef7ff;border:1px solid #cfe0f1;color:var(--primary);padding:14px 16px;border-radius:18px;margin-bottom:20px;font-weight:800;line-height:1.4;box-shadow:0 8px 18px rgba(13,43,69,.035)}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:22px}.metric{position:relative;overflow:hidden;background:rgba(255,255,255,.94);border:1px solid rgba(216,230,237,.95);border-radius:24px;padding:18px;min-height:92px;box-shadow:var(--premium-shadow-soft)}
+.metric span{display:block;color:var(--gray);font-weight:900;font-size:.72rem;text-transform:uppercase;letter-spacing:.09em;margin-bottom:10px}.metric strong{display:block;color:var(--premium-blue);font-size:2.4rem;line-height:1}.metric small{display:block;color:var(--gray);margin-top:8px;font-weight:700}
+.panel{background:rgba(255,255,255,.96);border:1px solid rgba(216,230,237,.95);border-radius:26px;padding:20px;margin-bottom:20px;box-shadow:var(--premium-shadow-soft)}
+.panel h2{color:var(--premium-blue);letter-spacing:-.025em;margin-bottom:14px}
+.filters{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;align-items:end}.field{display:flex;flex-direction:column;gap:6px}.field label{font-size:.78rem;font-weight:900;color:var(--primary)}.field input,.field select{min-height:42px;border-radius:15px;border:1px solid var(--premium-line);padding:0 12px;font:inherit;background:#fbfdff}.field input:focus,.field select:focus{outline:none;border-color:var(--premium-teal);box-shadow:0 0 0 4px rgba(22,174,183,.11)}
+.table-wrap{overflow:auto}table{width:100%;border-collapse:separate;border-spacing:0;min-width:980px}th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--premium-line);vertical-align:top}th{color:var(--gray);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em}td{font-weight:650}
+.pill{display:inline-block;padding:5px 10px;border-radius:999px;font-size:.72rem;font-weight:900;background:var(--soft);color:var(--accent);white-space:nowrap}.pill.success{background:var(--success-bg);color:var(--success)}.pill.warning{background:var(--warning-bg);color:var(--warning)}.pill.danger{background:var(--danger-bg);color:var(--danger)}.pill.gray{background:#eef2f5;color:var(--gray)}
+.empty{color:var(--gray);padding:24px;text-align:center;border:1px dashed var(--border);border-radius:20px;background:#fbfdff;font-weight:800}
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.detail-box{background:#fbfdff;border:1px solid var(--premium-line);border-radius:18px;padding:16px}.detail-box h3{color:var(--premium-blue);margin-bottom:10px}.list{margin-left:18px;display:grid;gap:6px;line-height:1.4}.score-big{font-size:2.4rem;color:var(--premium-blue);font-weight:900;line-height:1}
+@media(max-width:1050px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.metrics{grid-template-columns:repeat(2,1fr)}.filters,.detail-grid{grid-template-columns:1fr}}
+@media(max-width:650px){.main{padding:18px}.metrics,.filters{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="logo">WISDOM</div>
+  <div class="menu-group active"><div class="menu-title">Panel ▾</div><div class="menu-items"><a class="side-link" href="dashboard.html"><span class="dot"></span> Dashboard</a></div></div>
+  <div class="menu-group"><div class="menu-title">Personas ▾</div><div class="menu-items"><a class="side-link" data-roles="admin" href="estudiantes.html"><span class="dot"></span> Estudiantes</a><a class="side-link" data-roles="admin" href="profesores.html"><span class="dot"></span> Profesores</a><a class="side-link" data-roles="admin" href="usuarios.html"><span class="dot"></span> Usuarios</a></div></div>
+  <div class="menu-group"><div class="menu-title">Servicios ▾</div><div class="menu-items"><a class="side-link" data-roles="admin,teacher" href="grupales.html"><span class="dot"></span> Grupales</a><a class="side-link" data-roles="admin,teacher" href="privadas.html"><span class="dot"></span> Privadas / Semi</a></div></div>
+  <div class="menu-group active"><div class="menu-title">Gestión ▾</div><div class="menu-items"><a class="side-link" href="calendario.html"><span class="dot"></span> Calendario</a><a class="side-link" data-roles="admin" href="finanzas.html"><span class="dot"></span> Finanzas</a><a class="side-link" href="solicitudes.html"><span class="dot"></span> Solicitudes</a><a class="side-link" href="reportes.html"><span class="dot"></span> Reportes</a><a class="side-link" data-roles="admin,teacher" href="mensajes.html"><span class="dot"></span> Mensajes</a></div></div>
+  <div class="menu-group active"><div class="menu-title">Práctica y exámenes ▾</div><div class="menu-items"><a class="side-link" href="Grammar_portal.html"><span class="dot"></span> Grammar</a><a class="side-link" href="Listening_portal.html"><span class="dot"></span> Listening</a><a class="side-link" href="Speaking_portal.html"><span class="dot"></span> Speaking</a><a class="side-link" data-roles="admin,teacher" href="placement_portal_integrado.html"><span class="dot"></span> Diagnóstico / Placement</a><a class="side-link active" data-roles="admin,teacher" href="diagnostico_resultados.html"><span class="dot"></span> Resultados diagnóstico</a><a class="side-link" data-roles="admin,teacher" href="evaluaciones.html"><span class="dot"></span> Evaluaciones</a><a class="side-link" href="resultados.html"><span class="dot"></span> Resultados</a></div></div>
+  <div class="user-box"><strong id="sidebarUserName">Usuario</strong><small id="sidebarUserRole">Rol</small><small id="sidebarUserEmail">correo</small><button class="logout-btn" onclick="logout()">Cerrar sesión</button></div>
+</aside>
+
+<main class="main">
+  <div class="topbar">
+    <div>
+      <h1>Resultados diagnóstico <span id="rolePill" class="role-pill">Rol</span></h1>
+      <div class="sub">Historial de WISE Placement Test: nivel estimado, confianza, puntaje y recomendaciones.</div>
+    </div>
+    <div class="actions">
+      <button class="btn btn-secondary" onclick="window.location.href='dashboard.html'">Dashboard</button>
+      <button class="btn btn-primary" onclick="window.location.href='placement_portal_integrado.html'">Nuevo diagnóstico</button>
+    </div>
+  </div>
+
+  <div class="notice">
+    Esta página lee <strong>wisdom_placement_results</strong>. Cada placement finalizado debe guardarse ahí para aparecer en este historial.
+  </div>
+
+  <section class="metrics">
+    <div class="metric"><span>Total diagnósticos</span><strong id="totalCount">0</strong><small>Según permisos</small></div>
+    <div class="metric"><span>Promedio general</span><strong id="avgScore">--</strong><small>Puntaje</small></div>
+    <div class="metric"><span>Nivel más común</span><strong id="commonLevel">--</strong><small>Estimado</small></div>
+    <div class="metric"><span>Baja confianza</span><strong id="lowConfidence">0</strong><small>Revisar manualmente</small></div>
+  </section>
+
+  <section class="panel">
+    <h2>Filtros</h2>
+    <div class="filters">
+      <div class="field"><label>Buscar</label><input id="searchInput" placeholder="Estudiante, asesor, ID..." oninput="renderResults()"></div>
+      <div class="field"><label>Nivel</label><select id="levelFilter" onchange="renderResults()"><option value="">Todos</option><option>A1</option><option>A2</option><option>B1</option><option>B2</option></select></div>
+      <div class="field"><label>Confianza</label><select id="confidenceFilter" onchange="renderResults()"><option value="">Todas</option><option value="Alta">Alta</option><option value="Media">Media</option><option value="Baja">Baja</option></select></div>
+      <div class="field"><label>Fecha desde</label><input id="dateFrom" type="date" onchange="renderResults()"></div>
+      <div class="field"><label>Acción</label><button class="btn btn-secondary" onclick="resetFilters()">Limpiar</button></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Historial</h2>
+    <div id="emptyState" class="empty" style="display:none">No hay resultados de diagnóstico para mostrar.</div>
+    <div id="tableWrap" class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Estudiante</th>
+            <th>Asesor</th>
+            <th>Nivel</th>
+            <th>Puntaje</th>
+            <th>Confianza</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="resultsTable"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Detalle</h2>
+    <div id="resultDetail" class="empty">Selecciona un resultado para ver el reporte resumido.</div>
+  </section>
+</main>
+</div>
+
+<script>
+const WisdomStorage = window.WisdomStorage || {
+  get(key, fallback = null){
+    try{
+      const raw = localStorage.getItem(key);
+      if(raw === null || raw === undefined) return fallback;
+      return JSON.parse(raw);
+    }catch(error){
+      return fallback;
+    }
+  },
+  set(key, value){
+    localStorage.setItem(key, JSON.stringify(value));
+  },
+  remove(key){
+    localStorage.removeItem(key);
+  },
+  exists(key){
+    return localStorage.getItem(key) !== null;
+  },
+  clear(){
+    localStorage.clear();
+  }
+};
+
+const CURRENT_USER_KEY='wisdom_current_user';
+const STUDENTS_KEY='wisdom_students_demo';
+const PLACEMENT_RESULTS_KEY='wisdom_placement_results';
+
+const currentUser=WisdomStorage.get(CURRENT_USER_KEY,null);
+if(!currentUser||!currentUser.role){window.location.href='login.html'}
+
+let selectedResultId='';
+
+function safeParse(key){
+  const data = WisdomStorage.get(key, []);
+  return Array.isArray(data) ? data : [];
+}
+function saveArray(key,data){
+  WisdomStorage.set(key, Array.isArray(data) ? data : []);
+}
+
+function logout(){
+  WisdomStorage.remove(CURRENT_USER_KEY);
+  window.location.href='login.html';
+}
+
+function roleLabel(role){
+  return ({admin:'Administrativo',teacher:'Profesor',student:'Estudiante'}[role]||role||'Usuario');
+}
+
+function canRoleAccess(roles){
+  if(!roles)return true;
+  return roles.split(',').map(r=>r.trim()).includes(currentUser.role);
+}
+
+function applyRoleVisibility(){
+  document.querySelectorAll('[data-roles]').forEach(el=>{
+    if(!canRoleAccess(el.getAttribute('data-roles')))el.classList.add('role-hidden');
+  });
+  document.querySelectorAll('.menu-group').forEach(group=>{
+    const visible=group.querySelectorAll('.side-link:not(.role-hidden)');
+    if(!visible.length)group.classList.add('role-hidden');
+  });
+}
+
+function renderSession(){
+  document.getElementById('sidebarUserName').innerText=currentUser.name||'Usuario Wisdom';
+  document.getElementById('sidebarUserRole').innerText=roleLabel(currentUser.role);
+  document.getElementById('sidebarUserEmail').innerText=currentUser.email||'';
+  document.getElementById('rolePill').innerText=roleLabel(currentUser.role);
+}
+
+function normalizePlacement(raw){
+  const now = new Date().toISOString();
+  const id = raw.id || raw.placementId || raw.resultId || raw.diagnosticId || `PLC-${Date.now()}`;
+  const studentId = raw.studentId || raw.studentCode || raw.code || '';
+  const submittedAt = raw.submittedAt || raw.date || raw.createdAt || now;
+  const rawScore = raw.overallScore ?? raw.score ?? raw.percentage ?? raw.finalScore ?? null;
+  const parsedScore = rawScore === null || rawScore === undefined || rawScore === ''
+    ? null
+    : Number(String(rawScore).replace('%','').trim());
+  return {
+    ...raw,
+    id,
+    placementId: raw.placementId || id,
+    resultId: raw.resultId || id,
+    studentId,
+    studentCode: raw.studentCode || studentId,
+    studentName: raw.studentName || raw.name || raw.student || 'Estudiante',
+    studentEmail: raw.studentEmail || raw.email || '',
+    advisorName: raw.advisorName || raw.teacherName || raw.advisor || '',
+    teacherId: raw.teacherId || raw.teacherCode || '',
+    teacherCode: raw.teacherCode || raw.teacherId || '',
+    date: submittedAt,
+    submittedAt,
+    createdAt: raw.createdAt || submittedAt,
+    updatedAt: raw.updatedAt || submittedAt,
+    overallScore: Number.isNaN(parsedScore) ? null : parsedScore,
+    estimatedLevel: raw.estimatedLevel || raw.level || raw.level_code || '--',
+    confidence: raw.confidence || raw.confianza || '--',
+    totalQuestions: raw.totalQuestions || raw.totalPreguntas || raw.questionsTotal || '--',
+    breakdown: normalizeBreakdown(raw.breakdown || raw.levelBreakdown || raw.levels || {}),
+    weakAreas: normalizeList(raw.weakAreas || raw.weakAreasList),
+    errorPatterns: normalizeList(raw.errorPatterns || raw.errorPatternsList),
+    recommendation: raw.recommendation || raw.recommendationText || 'Sin recomendación registrada.',
+    internalNote: raw.internalNote || raw.note || '',
+    status: raw.status || 'completed'
+  };
+}
+
+function normalizeList(value){
+  if(Array.isArray(value)) return value.filter(Boolean);
+  if(typeof value === 'string') return value.split(/[;\n]/).map(v=>v.trim()).filter(Boolean);
+  return [];
+}
+
+function normalizeBreakdown(value){
+  if(!value || typeof value !== 'object') return {};
+  if(Array.isArray(value)){
+    return value.reduce((acc,item)=>{
+      const level = item.level || item.level_code || item.name || '';
+      if(level) acc[level] = item;
+      return acc;
+    },{});
+  }
+  return value;
+}
+
+function scoreNumber(result){
+  if(result.overallScore===null||result.overallScore===undefined||result.overallScore==='')return null;
+  const parsed=Number(String(result.overallScore).replace('%','').trim());
+  return Number.isNaN(parsed)?null:parsed;
+}
+
+function scoreClass(score){
+  if(score===null)return 'gray';
+  if(score<50)return 'danger';
+  if(score<75)return 'warning';
+  return 'success';
+}
+
+function confidenceClass(confidence){
+  const value=String(confidence||'').toLowerCase();
+  if(value.includes('baja')||value.includes('low'))return 'danger';
+  if(value.includes('media')||value.includes('medium'))return 'warning';
+  if(value.includes('alta')||value.includes('high'))return 'success';
+  return 'gray';
+}
+
+function formatDate(value){
+  const date=new Date(value);
+  if(Number.isNaN(date.getTime()))return value||'-';
+  return date.toLocaleString('es-CO',{year:'numeric',month:'short',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+}
+
+function getStudents(){return safeParse(STUDENTS_KEY)}
+function teacherId(){return currentUser.teacherId||currentUser.teacherCode||currentUser.id||''}
+
+function resultVisible(result){
+  if(currentUser.role==='admin')return true;
+  if(currentUser.role==='teacher'){
+    if(result.teacherId && result.teacherId===teacherId())return true;
+    return getStudents().some(s=>(s.code===result.studentId||s.name===result.studentName)&&(s.teacherId===teacherId()||s.teacherCode===teacherId()||s.teacher===currentUser.name));
+  }
+  if(currentUser.role==='student'){
+    return result.studentId===currentUser.studentId||result.studentEmail===currentUser.email||result.studentName===currentUser.name;
+  }
+  return false;
+}
+
+function getResults(){
+  const seen = new Set();
+  return safeParse(PLACEMENT_RESULTS_KEY)
+    .map(normalizePlacement)
+    .filter(resultVisible)
+    .filter(result=>{
+      const key = result.id || result.placementId || `${result.studentId}-${result.studentName}-${result.estimatedLevel}-${result.overallScore}-${String(result.submittedAt||result.date).slice(0,19)}`;
+      if(seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .sort((a,b)=>new Date(b.submittedAt||b.date||0)-new Date(a.submittedAt||a.date||0));
+}
+
+function common(values){
+  const map={};
+  values.filter(Boolean).forEach(v=>{map[v]=(map[v]||0)+1});
+  const entries=Object.entries(map).sort((a,b)=>b[1]-a[1]);
+  return entries[0]?.[0]||'--';
+}
+
+function renderMetrics(results){
+  const scores=results.map(scoreNumber).filter(v=>v!==null);
+  const avg=scores.length?Math.round(scores.reduce((s,v)=>s+v,0)/scores.length):null;
+  document.getElementById('totalCount').innerText=results.length;
+  document.getElementById('avgScore').innerText=avg===null?'--':avg+'%';
+  document.getElementById('commonLevel').innerText=common(results.map(r=>r.estimatedLevel));
+  document.getElementById('lowConfidence').innerText=results.filter(r=>confidenceClass(r.confidence)==='danger').length;
+}
+
+function renderResults(){
+  const search=document.getElementById('searchInput').value.trim().toLowerCase();
+  const level=document.getElementById('levelFilter').value;
+  const confidence=document.getElementById('confidenceFilter').value;
+  const dateFrom=document.getElementById('dateFrom').value;
+
+  const all=getResults();
+  const filtered=all.filter(result=>{
+    const hay=[result.id,result.studentName,result.studentId,result.advisorName,result.estimatedLevel,result.confidence,result.recommendation].join(' ').toLowerCase();
+    if(search&&!hay.includes(search))return false;
+    if(level&&result.estimatedLevel!==level)return false;
+    if(confidence&&String(result.confidence).toLowerCase()!==confidence.toLowerCase())return false;
+    if(dateFrom&&String(result.date||'').slice(0,10)<dateFrom)return false;
+    return true;
+  });
+
+  renderMetrics(all);
+
+  const table=document.getElementById('resultsTable');
+  const empty=document.getElementById('emptyState');
+  const wrap=document.getElementById('tableWrap');
+  table.innerHTML='';
+
+  if(!filtered.length){
+    empty.style.display='block';
+    wrap.style.display='none';
+    renderDetail(null);
+    return;
+  }
+
+  empty.style.display='none';
+  wrap.style.display='block';
+
+  filtered.forEach(result=>{
+    const score=scoreNumber(result);
+    const row=document.createElement('tr');
+    row.innerHTML=`
+      <td>${formatDate(result.date)}</td>
+      <td><strong>${result.studentName}</strong><br><small>${result.studentId||''}</small></td>
+      <td>${result.advisorName||'-'}</td>
+      <td><span class="pill gray">${result.estimatedLevel||'--'}</span></td>
+      <td><span class="pill ${scoreClass(score)}">${score===null?'--':score+'%'}</span></td>
+      <td><span class="pill ${confidenceClass(result.confidence)}">${result.confidence||'--'}</span></td>
+      <td>
+        <button class="btn btn-secondary" onclick="selectResult('${result.id}')">Ver</button>
+        ${result.studentId?`<button class="btn btn-secondary" onclick="window.location.href='dossier.html?code=${encodeURIComponent(result.studentId)}'">Dossier</button>`:''}
+      </td>
+    `;
+    table.appendChild(row);
+  });
+
+  const selected=filtered.find(r=>r.id===selectedResultId)||filtered[0];
+  selectedResultId=selected.id;
+  renderDetail(selected);
+}
+
+function selectResult(id){
+  selectedResultId=id;
+  const result=getResults().find(r=>r.id===id);
+  renderDetail(result||null);
+}
+
+function renderBreakdown(breakdown){
+  const normalized = normalizeBreakdown(breakdown);
+  if(!normalized || typeof normalized !== 'object') return '<div class="empty">Sin desglose por nivel.</div>';
+  const entries = Object.entries(normalized).map(([level,data])=>({level,...(typeof data==='object'?data:{value:data})}));
+  if(!entries.length)return '<div class="empty">Sin desglose por nivel.</div>';
+  return `<table style="min-width:0"><thead><tr><th>Nivel</th><th>Correctas</th><th>Total</th><th>%</th></tr></thead><tbody>${entries.map(item=>{
+    const level=item.level||item.level_code||'--';
+    const correct=item.correct??item.correctas??item.value??'--';
+    const total=item.total??item.questions??'--';
+    const percent=item.percentage??item.percent??(typeof correct==='number'&&typeof total==='number'&&total?Math.round((correct/total)*100):'--');
+    return `<tr><td>${level}</td><td>${correct}</td><td>${total}</td><td>${percent}${String(percent).includes('%')?'':'%'}</td></tr>`;
+  }).join('')}</tbody></table>`;
+}
+
+function listItems(items, emptyText){
+  if(!items||!items.length)return `<div class="empty">${emptyText}</div>`;
+  return `<ul class="list">${items.map(item=>`<li>${typeof item==='string'?item:(item.label||item.name||JSON.stringify(item))}</li>`).join('')}</ul>`;
+}
+
+function renderDetail(result){
+  const detail=document.getElementById('resultDetail');
+  if(!result){
+    detail.className='empty';
+    detail.innerHTML='Selecciona un resultado para ver el reporte resumido.';
+    return;
+  }
+  const score=scoreNumber(result);
+  detail.className='';
+  detail.innerHTML=`
+    <div class="detail-grid">
+      <div class="detail-box">
+        <h3>${result.studentName}</h3>
+        <div class="score-big">${score===null?'--':score+'%'}</div>
+        <p><strong>Nivel estimado:</strong> ${result.estimatedLevel||'--'}</p>
+        <p><strong>Confianza:</strong> ${result.confidence||'--'}</p>
+        <p><strong>Preguntas:</strong> ${result.totalQuestions||'--'}</p>
+        <p><strong>Fecha:</strong> ${formatDate(result.date)}</p>
+        <div class="actions" style="margin-top:12px">
+          ${result.studentId?`<button class="btn btn-primary" onclick="window.location.href='dossier.html?code=${encodeURIComponent(result.studentId)}'">Abrir dossier</button>`:''}
+          <button class="btn btn-secondary" onclick="window.location.href='placement_portal_integrado.html'">Nuevo diagnóstico</button>
+        </div>
+      </div>
+      <div class="detail-box">
+        <h3>Recomendación</h3>
+        <p>${result.recommendation||'Sin recomendación registrada.'}</p>
+        ${result.internalNote?`<p style="margin-top:10px"><strong>Nota interna:</strong> ${result.internalNote}</p>`:''}
+      </div>
+      <div class="detail-box">
+        <h3>Desglose por nivel</h3>
+        ${renderBreakdown(result.breakdown)}
+      </div>
+      <div class="detail-box">
+        <h3>Áreas débiles</h3>
+        ${listItems(result.weakAreas,'Sin áreas débiles registradas.')}
+        <h3 style="margin-top:16px">Patrones de error</h3>
+        ${listItems(result.errorPatterns,'Sin patrones de error registrados.')}
+      </div>
+    </div>
+  `;
+}
+
+function resetFilters(){
+  document.getElementById('searchInput').value='';
+  document.getElementById('levelFilter').value='';
+  document.getElementById('confidenceFilter').value='';
+  document.getElementById('dateFrom').value='';
+  renderResults();
+}
+
+document.querySelectorAll('.menu-title').forEach(t=>t.addEventListener('click',()=>t.parentElement.classList.toggle('active')));
+renderSession();
+applyRoleVisibility();
+renderResults();
+</script>
+</body>
+</html>

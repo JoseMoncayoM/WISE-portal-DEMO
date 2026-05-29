@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Usuarios | Wisdom Academy</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --primary:#0d2b45;
+  --accent:#1fb6b9;
+  --light:#f5f9fc;
+  --white:#fff;
+  --text:#1f2d3d;
+  --gray:#6b7c93;
+  --border:#dcebf2;
+  --hover:#E6FF00;
+  --soft:#e7f8f8;
+  --warning:#fff8d6;
+  --danger:#ffefef;
+  --ok:#eef7ee;
+}
+body{font-family:Inter,Arial,sans-serif;background:var(--light);color:var(--text)}
+.wrap{max-width:1200px;margin:auto;padding:28px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;gap:18px;flex-wrap:wrap}
+h1{color:var(--primary);font-size:1.9rem;font-weight:900}
+h2,h3{color:var(--primary)}
+.sub{color:var(--gray);font-size:.9rem;margin-top:4px;line-height:1.4}
+.btn{padding:10px 16px;border-radius:999px;border:none;font-weight:800;cursor:pointer;text-decoration:none;display:inline-block}
+.btn-primary{background:var(--accent);color:white}
+.btn-secondary{background:white;color:var(--primary);border:1px solid var(--border)}
+.btn-danger{background:#ffefef;color:#b00020;border:1px solid #ffd1d1}
+.btn:hover{background:var(--hover);color:black}
+.btn-danger:hover{background:#b00020;color:white}
+.card{background:white;border:1px solid var(--border);border-radius:20px;padding:20px;box-shadow:0 8px 24px rgba(13,43,69,.05);margin-bottom:20px}
+.toolbar{display:flex;gap:12px;align-items:end;flex-wrap:wrap;margin-bottom:16px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:.8rem;font-weight:900;color:var(--primary)}
+.field input,.field select{padding:11px;border-radius:12px;border:1px solid var(--border);font:inherit;background:white}
+.search{min-width:260px}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;color:var(--gray);font-size:.75rem;text-transform:uppercase;padding:10px}
+td{padding:12px 10px;border-top:1px solid var(--border);font-weight:600;vertical-align:top}
+.table-wrap{overflow:auto}
+.pill{background:var(--soft);color:var(--accent);padding:5px 10px;border-radius:999px;font-size:.75rem;font-weight:900;display:inline-block}
+.pill.ok{background:var(--ok);color:#257a36}
+.pill.warning{background:var(--warning);color:#8a6d00}
+.pill.danger{background:var(--danger);color:#b00020}
+.pill.gray{background:#eef2f6;color:#526273}
+.modal{position:fixed;inset:0;background:rgba(13,43,69,.35);display:none;align-items:center;justify-content:center;padding:20px;z-index:20}
+.modal.active{display:flex}
+.modal-box{width:100%;max-width:760px;background:white;border:1px solid var(--border);border-radius:22px;padding:24px;box-shadow:0 20px 50px rgba(13,43,69,.18)}
+.modal-box h2{color:var(--primary);margin-bottom:16px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.full{grid-column:1/-1}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap}
+.empty{color:var(--gray);padding:18px;text-align:center;border:1px dashed var(--border);border-radius:14px;background:#fbfdff}
+.userbox{display:flex;align-items:center;gap:10px;background:white;border:1px solid var(--border);border-radius:999px;padding:8px 12px}
+.userbox small{color:var(--gray)}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.note{background:#fbfdff;border:1px dashed var(--border);border-radius:14px;padding:12px;color:var(--gray);font-size:.9rem;line-height:1.4}
+.link-preview{background:#f7fbfc;border:1px solid var(--border);border-radius:14px;padding:12px;color:var(--primary);font-size:.9rem;line-height:1.45;display:none}
+.link-preview strong{display:block;margin-bottom:4px}
+.readonly-soft{background:#f3f7f8!important;color:#526273!important}
+@media(max-width:900px){.form-grid{grid-template-columns:1fr}.topbar{flex-direction:column;align-items:flex-start}.toolbar{align-items:stretch}.search{min-width:100%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div>
+      <h1>Usuarios</h1>
+      <div class="sub">Crea accesos para administración, profesores y estudiantes. Los profesores se conectan por teacherId y los estudiantes por studentId.</div>
+    </div>
+
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+      <div class="userbox" id="userBox"></div>
+      <button class="btn btn-secondary" onclick="window.location.href='dashboard.html'">Dashboard</button>
+      <button class="btn btn-primary" onclick="openUserModal()">Crear usuario</button>
+      <button class="btn btn-secondary" onclick="logout()">Cerrar sesión</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="toolbar">
+      <div class="field search">
+        <label>Buscar usuario</label>
+        <input id="searchInput" placeholder="Nombre, correo, rol, código..." oninput="renderUsers()">
+      </div>
+      <div class="field">
+        <label>Rol</label>
+        <select id="roleFilter" onchange="renderUsers()">
+          <option value="all">Todos</option>
+          <option value="admin">Admin</option>
+          <option value="teacher">Profesor</option>
+          <option value="student">Estudiante</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Estado</label>
+        <select id="statusFilter" onchange="renderUsers()">
+          <option value="all">Todos</option>
+          <option value="Activo">Activo</option>
+          <option value="Inactivo">Inactivo</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Usuario</th>
+            <th>Rol</th>
+            <th>Vinculación</th>
+            <th>Estado</th>
+            <th>Último login</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="usersTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Reglas del módulo</h3><br>
+    <div class="note">
+      <strong>Importante:</strong> este prototipo todavía guarda contraseñas en localStorage. Eso sirve para validar flujo, pero no para producción. Cuando pasemos a backend real, las contraseñas deben ir cifradas/hasheadas en un sistema de autenticación real.
+    </div>
+  </div>
+
+</div>
+
+<div class="modal" id="userModal">
+  <div class="modal-box">
+    <h2 id="modalTitle">Crear usuario</h2>
+
+    <div class="form-grid">
+      <div class="field full">
+        <label>Tipo de creación</label>
+        <select id="creationMode" onchange="handleCreationModeChange()">
+          <option value="manual">Manual</option>
+          <option value="teacher">Desde profesor existente</option>
+          <option value="student">Desde estudiante existente</option>
+        </select>
+      </div>
+
+      <div class="field full">
+        <div id="linkPreview" class="link-preview"></div>
+      </div>
+
+      <div class="field">
+        <label>Código</label>
+        <input id="userId" readonly placeholder="USR-0001">
+      </div>
+
+      <div class="field">
+        <label>Estado</label>
+        <select id="userStatus">
+          <option>Activo</option>
+          <option>Inactivo</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Rol</label>
+        <select id="userRole" onchange="handleRoleChange()">
+          <option value="admin">Admin</option>
+          <option value="teacher">Profesor</option>
+          <option value="student">Estudiante</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Nombre visible</label>
+        <input id="userName" placeholder="Nombre completo">
+      </div>
+
+      <div class="field">
+        <label>Correo / usuario</label>
+        <input id="userEmail" type="email" placeholder="correo@wisdom.com">
+      </div>
+
+      <div class="field">
+        <label>Contraseña</label>
+        <input id="userPassword" type="text" placeholder="Contraseña inicial">
+      </div>
+
+      <div class="field full" id="teacherLinkField" style="display:none">
+        <label>Profesor vinculado</label>
+        <select id="linkedTeacher" onchange="fillFromLinkedTeacher()"></select>
+      </div>
+
+      <div class="field full" id="studentLinkField" style="display:none">
+        <label>Estudiante vinculado</label>
+        <select id="linkedStudent" onchange="fillFromLinkedStudent()"></select>
+      </div>
+
+      <div class="field full">
+        <label>Notas internas</label>
+        <input id="userNotes" placeholder="Ej: contraseña temporal entregada el lunes">
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeUserModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveUser()">Guardar usuario</button>
+    </div>
+  </div>
+</div>
+
+<script src="storage.js"></script>
+<script src="schemaRegistry.js"></script>
+<script>
+const CURRENT_USER_KEY='wisdom_current_user'
+const USERS_KEY='wisdom_users'
+const TEACHERS_KEY='wisdom_teachers_demo'
+const STUDENTS_KEY='wisdom_students_demo'
+
+const currentUser=WisdomStorage.get(CURRENT_USER_KEY,null)
+const urlParams=new URLSearchParams(window.location.search)
+const preselectedTeacherId=urlParams.get('teacher') || urlParams.get('teacherId') || ''
+const preselectedStudentId=urlParams.get('student') || urlParams.get('studentId') || urlParams.get('code') || ''
+if(!currentUser || currentUser.role!=='admin'){
+  window.location.href='login.html'
+}
+
+function safeParse(value,fallback=[]){
+  try{
+    const parsed=value?JSON.parse(value):fallback
+    return Array.isArray(parsed)?parsed:fallback
+  }catch(error){return fallback}
+}
+
+function load(key){return WisdomStorage.get(key,[])}
+function save(key,value){WisdomStorage.set(key,value)}
+
+function logout(){
+  WisdomStorage.remove(CURRENT_USER_KEY)
+  window.location.href='login.html'
+}
+
+function renderUserBox(){
+  document.getElementById('userBox').innerHTML=`<strong>${currentUser.name||'Admin'}</strong><small>${currentUser.email||''}</small>`
+}
+
+function normalizeUser(user={}){
+  if(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeUser){
+    return SchemaRegistry.normalizeUser(user)
+  }
+
+  const id=user.id || user.userId || user.code || ''
+  return {
+    ...user,
+    id,
+    userId:id,
+    code:user.code || id,
+    name:user.name || '',
+    email:(user.email || '').trim().toLowerCase(),
+    password:user.password || '',
+    role:user.role || 'student',
+    teacherId:user.teacherId || user.teacherCode || '',
+    teacherCode:user.teacherCode || user.teacherId || '',
+    studentId:user.studentId || user.studentCode || '',
+    studentCode:user.studentCode || user.studentId || '',
+    status:user.status || 'Activo',
+    notes:user.notes || '',
+    createdAt:user.createdAt || '',
+    updatedAt:user.updatedAt || '',
+    loginAt:user.loginAt || ''
+  }
+}
+
+function normalizeTeacher(teacher){
+  const id=teacher.id || teacher.teacherId || teacher.code || teacher.teacherCode || ''
+  return {
+    ...teacher,
+    id,
+    teacherId:id,
+    code:id,
+    status:teacher.status || 'Activo'
+  }
+}
+
+function normalizeStudent(student){
+  const id=student.code || student.studentId || student.id || ''
+  return {
+    ...student,
+    id,
+    studentId:id,
+    code:id,
+    name:student.name || student.studentName || '',
+    email:student.email || ''
+  }
+}
+
+function getUsers(){return load(USERS_KEY).map(normalizeUser)}
+function setUsers(users){
+  const normalized=(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeCollection)
+    ? SchemaRegistry.normalizeCollection(users,'normalizeUser')
+    : users.map(normalizeUser)
+
+  save(USERS_KEY,normalized)
+}
+function getTeachers(){return load(TEACHERS_KEY).map(normalizeTeacher)}
+function getStudents(){return load(STUDENTS_KEY).map(normalizeStudent)}
+
+function generateUserCode(){
+  const users=getUsers()
+  const numbers=users
+    .map(user=>user.id)
+    .filter(id=>/^USR-\d+$/.test(id))
+    .map(id=>parseInt(id.replace('USR-',''),10))
+  const next=numbers.length?Math.max(...numbers)+1:1
+  return `USR-${String(next).padStart(4,'0')}`
+}
+
+function roleLabel(role){
+  const labels={admin:'Admin',teacher:'Profesor',student:'Estudiante'}
+  return labels[role] || role
+}
+
+function roleClass(role){
+  if(role==='admin') return 'danger'
+  if(role==='teacher') return 'warning'
+  return 'ok'
+}
+
+function statusClass(status){
+  return status==='Activo'?'ok':'danger'
+}
+
+function getLinkedLabel(user){
+  if(user.role==='teacher'){
+    const teacher=getTeachers().find(item=>item.teacherId===user.teacherId)
+    return user.teacherId ? `${user.teacherId} · ${teacher?.name || 'Profesor no encontrado'}` : 'Sin profesor vinculado'
+  }
+
+  if(user.role==='student'){
+    const student=getStudents().find(item=>item.studentId===user.studentId || item.code===user.studentId)
+    return user.studentId ? `${user.studentId} · ${student?.name || 'Estudiante no encontrado'}` : 'Sin estudiante vinculado'
+  }
+
+  return 'Acceso administrativo'
+}
+
+function renderUsers(){
+  const tbody=document.getElementById('usersTable')
+  const q=(document.getElementById('searchInput').value||'').toLowerCase()
+  const role=document.getElementById('roleFilter').value
+  const status=document.getElementById('statusFilter').value
+
+  const users=getUsers().filter(user=>{
+    const text=`${user.id} ${user.name} ${user.email} ${user.role} ${user.teacherId} ${user.studentId} ${user.status}`.toLowerCase()
+    return (!q || text.includes(q)) &&
+      (role==='all' || user.role===role) &&
+      (status==='all' || user.status===status)
+  })
+
+  tbody.innerHTML=''
+
+  if(!users.length){
+    tbody.innerHTML='<tr><td colspan="7">No hay usuarios para mostrar.</td></tr>'
+    return
+  }
+
+  users.forEach(user=>{
+    const isSelf=user.email===currentUser.email
+    const row=document.createElement('tr')
+    row.innerHTML=`
+      <td>${user.id}</td>
+      <td><strong>${user.name||'-'}</strong><br><small>${user.email||'-'}</small></td>
+      <td><span class="pill ${roleClass(user.role)}">${roleLabel(user.role)}</span></td>
+      <td>${getLinkedLabel(user)}</td>
+      <td><span class="pill ${statusClass(user.status)}">${user.status}</span></td>
+      <td>${user.loginAt ? new Date(user.loginAt).toLocaleString('es-CO') : '-'}</td>
+      <td>
+        <div class="actions">
+          <button class="btn btn-secondary" onclick="openUserModal('${user.id}')">Editar</button>
+          <button class="btn btn-secondary" onclick="toggleUserStatus('${user.id}')" ${isSelf?'disabled title="No puedes desactivar tu propio usuario"':''}>${user.status==='Activo'?'Inactivar':'Activar'}</button>
+          <button class="btn btn-danger" onclick="deleteUser('${user.id}')" ${isSelf?'disabled title="No puedes borrar tu propio usuario"':''}>Borrar</button>
+        </div>
+      </td>
+    `
+    tbody.appendChild(row)
+  })
+}
+
+function teacherOptionsHTML(selectedId=''){
+  const teachers=getTeachers()
+  if(!teachers.length) return '<option value="">No hay profesores creados</option>'
+  return '<option value="">Seleccionar profesor</option>'+teachers.map(teacher=>{
+    const selected=teacher.teacherId===selectedId?'selected':''
+    const status=teacher.status==='Activo'?'':' · Inactivo'
+    return `<option value="${teacher.teacherId}" ${selected}>${teacher.teacherId} · ${teacher.name}${status}</option>`
+  }).join('')
+}
+
+function studentOptionsHTML(selectedId=''){
+  const students=getStudents()
+  if(!students.length) return '<option value="">No hay estudiantes creados</option>'
+  return '<option value="">Seleccionar estudiante</option>'+students.map(student=>{
+    const selected=student.studentId===selectedId || student.code===selectedId?'selected':''
+    return `<option value="${student.studentId || student.code}" ${selected}>${student.code} · ${student.name}</option>`
+  }).join('')
+}
+
+function clearForm(){
+  document.getElementById('creationMode').value='manual'
+  document.getElementById('userId').value=''
+  document.getElementById('userStatus').value='Activo'
+  document.getElementById('userRole').value='teacher'
+  document.getElementById('userName').value=''
+  document.getElementById('userEmail').value=''
+  document.getElementById('userPassword').value=''
+  document.getElementById('linkedTeacher').innerHTML=''
+  document.getElementById('linkedStudent').innerHTML=''
+  document.getElementById('userNotes').value=''
+  setLinkedInputsReadonly(false)
+  updateLinkPreview('')
+}
+
+
+function suggestPasswordFromPerson(type,id){
+  const clean=String(id||'TEMP').replace(/[^A-Za-z0-9]/g,'').slice(-4) || '0000'
+  return type==='teacher' ? `Teach${clean}` : `Student${clean}`
+}
+
+function findExistingUserByTeacher(teacherId,ignoreId=''){
+  return getUsers().find(user=>user.id!==ignoreId && user.role==='teacher' && user.teacherId===teacherId) || null
+}
+
+function findExistingUserByStudent(studentId,ignoreId=''){
+  return getUsers().find(user=>user.id!==ignoreId && user.role==='student' && user.studentId===studentId) || null
+}
+
+function setLinkedInputsReadonly(locked){
+  ;['userName','userEmail'].forEach(id=>{
+    const input=document.getElementById(id)
+    input.readOnly=!!locked
+    input.classList.toggle('readonly-soft',!!locked)
+  })
+}
+
+function updateLinkPreview(html){
+  const box=document.getElementById('linkPreview')
+  box.innerHTML=html||''
+  box.style.display=html?'block':'none'
+}
+
+function handleCreationModeChange(){
+  const mode=document.getElementById('creationMode').value
+  if(mode==='teacher'){
+    document.getElementById('userRole').value='teacher'
+    setLinkedInputsReadonly(true)
+  }else if(mode==='student'){
+    document.getElementById('userRole').value='student'
+    setLinkedInputsReadonly(true)
+  }else{
+    setLinkedInputsReadonly(false)
+  }
+  handleRoleChange()
+  if(mode==='teacher') fillFromLinkedTeacher(true)
+  if(mode==='student') fillFromLinkedStudent(true)
+  if(mode==='manual') updateLinkPreview('')
+}
+
+function applyPreselectedPerson(){
+  if(preselectedTeacherId){
+    document.getElementById('creationMode').value='teacher'
+    document.getElementById('userRole').value='teacher'
+    handleCreationModeChange()
+    document.getElementById('linkedTeacher').value=preselectedTeacherId
+    fillFromLinkedTeacher(true)
+    return true
+  }
+  if(preselectedStudentId){
+    document.getElementById('creationMode').value='student'
+    document.getElementById('userRole').value='student'
+    handleCreationModeChange()
+    document.getElementById('linkedStudent').value=preselectedStudentId
+    fillFromLinkedStudent(true)
+    return true
+  }
+  return false
+}
+
+function openUserModal(id=''){
+  clearForm()
+  const users=getUsers()
+  const title=document.getElementById('modalTitle')
+
+  if(id){
+    const user=users.find(item=>item.id===id)
+    if(!user) return
+
+    title.textContent='Editar usuario'
+    document.getElementById('userId').value=user.id
+    document.getElementById('creationMode').value=user.role==='teacher'?'teacher':user.role==='student'?'student':'manual'
+    document.getElementById('userStatus').value=user.status
+    document.getElementById('userRole').value=user.role
+    document.getElementById('userName').value=user.name
+    document.getElementById('userEmail').value=user.email
+    document.getElementById('userPassword').value=user.password
+    document.getElementById('userNotes').value=user.notes || ''
+
+    handleRoleChange()
+    document.getElementById('linkedTeacher').value=user.teacherId || ''
+    document.getElementById('linkedStudent').value=user.studentId || ''
+  }else{
+    title.textContent='Crear usuario'
+    document.getElementById('userId').value=generateUserCode()
+    handleRoleChange()
+    if(!applyPreselectedPerson()) handleCreationModeChange()
+  }
+
+  document.getElementById('userModal').classList.add('active')
+}
+
+function closeUserModal(){
+  document.getElementById('userModal').classList.remove('active')
+}
+
+function handleRoleChange(){
+  const role=document.getElementById('userRole').value
+  const mode=document.getElementById('creationMode').value
+  const teacherField=document.getElementById('teacherLinkField')
+  const studentField=document.getElementById('studentLinkField')
+
+  if(mode==='teacher' && role!=='teacher') document.getElementById('creationMode').value='manual'
+  if(mode==='student' && role!=='student') document.getElementById('creationMode').value='manual'
+
+  teacherField.style.display=role==='teacher'?'flex':'none'
+  studentField.style.display=role==='student'?'flex':'none'
+
+  if(role==='teacher'){
+    document.getElementById('linkedTeacher').innerHTML=teacherOptionsHTML(document.getElementById('linkedTeacher').value)
+  }
+
+  if(role==='student'){
+    document.getElementById('linkedStudent').innerHTML=studentOptionsHTML(document.getElementById('linkedStudent').value)
+  }
+
+  setLinkedInputsReadonly(document.getElementById('creationMode').value!=='manual')
+}
+
+function fillFromLinkedTeacher(force=false){
+  const teacherId=document.getElementById('linkedTeacher').value
+  const teacher=getTeachers().find(item=>item.teacherId===teacherId)
+  if(!teacher){updateLinkPreview('');return}
+
+  const existing=findExistingUserByTeacher(teacherId,document.getElementById('userId').value)
+  if(force || document.getElementById('creationMode').value==='teacher'){
+    document.getElementById('userName').value=teacher.name || ''
+    document.getElementById('userEmail').value=(teacher.email || '').trim().toLowerCase()
+    if(!document.getElementById('userPassword').value) document.getElementById('userPassword').value=suggestPasswordFromPerson('teacher',teacherId)
+    document.getElementById('userNotes').value=document.getElementById('userNotes').value || 'Usuario creado desde registro de profesor.'
+  }else{
+    if(!document.getElementById('userName').value) document.getElementById('userName').value=teacher.name || ''
+    if(!document.getElementById('userEmail').value) document.getElementById('userEmail').value=(teacher.email || '').trim().toLowerCase()
+  }
+
+  updateLinkPreview(`<strong>Profesor seleccionado</strong>${teacher.teacherId} · ${teacher.name||'Sin nombre'} · ${teacher.email||'Sin correo'}${teacher.status!=='Activo'?'<br><span class="pill danger">Profesor inactivo</span>':''}${existing?'<br><span class="pill warning">Ya tiene usuario: '+existing.email+'</span>':'<br><span class="pill ok">Sin usuario vinculado</span>'}`)
+}
+
+function fillFromLinkedStudent(force=false){
+  const studentId=document.getElementById('linkedStudent').value
+  const student=getStudents().find(item=>item.studentId===studentId || item.code===studentId)
+  if(!student){updateLinkPreview('');return}
+
+  const existing=findExistingUserByStudent(studentId,document.getElementById('userId').value)
+  if(force || document.getElementById('creationMode').value==='student'){
+    document.getElementById('userName').value=student.name || ''
+    document.getElementById('userEmail').value=(student.email || '').trim().toLowerCase()
+    if(!document.getElementById('userPassword').value) document.getElementById('userPassword').value=suggestPasswordFromPerson('student',studentId)
+    document.getElementById('userNotes').value=document.getElementById('userNotes').value || 'Usuario creado desde registro de estudiante.'
+  }else{
+    if(!document.getElementById('userName').value) document.getElementById('userName').value=student.name || ''
+    if(!document.getElementById('userEmail').value) document.getElementById('userEmail').value=(student.email || '').trim().toLowerCase()
+  }
+
+  updateLinkPreview(`<strong>Estudiante seleccionado</strong>${student.code||student.studentId} · ${student.name||'Sin nombre'} · ${student.email||'Sin correo'}${existing?'<br><span class="pill warning">Ya tiene usuario: '+existing.email+'</span>':'<br><span class="pill ok">Sin usuario vinculado</span>'}`)
+}
+
+function saveUser(){
+  const id=document.getElementById('userId').value.trim()
+  const role=document.getElementById('userRole').value
+  const name=document.getElementById('userName').value.trim()
+  const email=document.getElementById('userEmail').value.trim().toLowerCase()
+  const password=document.getElementById('userPassword').value.trim()
+  const status=document.getElementById('userStatus').value
+  const teacherId=role==='teacher'?document.getElementById('linkedTeacher').value:''
+  const studentId=role==='student'?document.getElementById('linkedStudent').value:''
+  const notes=document.getElementById('userNotes').value.trim()
+
+  if(!id || !role || !name || !email || !password){
+    alert('Código, rol, nombre, correo y contraseña son obligatorios.')
+    return
+  }
+
+  const emailOk=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+  if(!emailOk){
+    alert('Escribe un correo válido.')
+    return
+  }
+
+  if(role==='teacher' && !teacherId){
+    alert('Selecciona el profesor vinculado.')
+    return
+  }
+
+  if(role==='student' && !studentId){
+    alert('Selecciona el estudiante vinculado.')
+    return
+  }
+
+  if(role==='teacher' && teacherId && !getTeachers().some(teacher=>teacher.teacherId===teacherId)){
+    alert('El profesor vinculado ya no existe.')
+    return
+  }
+
+  if(role==='student' && studentId && !getStudents().some(student=>student.studentId===studentId || student.code===studentId)){
+    alert('El estudiante vinculado ya no existe.')
+    return
+  }
+
+  const users=getUsers()
+  const duplicateEmail=users.some(user=>user.id!==id && user.email.toLowerCase()===email)
+  if(duplicateEmail){
+    alert('Ya existe un usuario con ese correo.')
+    return
+  }
+
+  const duplicateTeacher=role==='teacher' && users.some(user=>user.id!==id && user.role==='teacher' && user.teacherId===teacherId)
+  if(duplicateTeacher){
+    alert('Ese profesor ya tiene un usuario vinculado.')
+    return
+  }
+
+  const duplicateStudent=role==='student' && users.some(user=>user.id!==id && user.role==='student' && user.studentId===studentId)
+  if(duplicateStudent){
+    alert('Ese estudiante ya tiene un usuario vinculado.')
+    return
+  }
+
+  const index=users.findIndex(user=>user.id===id)
+  const payload=(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeUser)
+    ? SchemaRegistry.normalizeUser({
+        id,
+        userId:id,
+        code:id,
+        name,
+        email,
+        password,
+        role,
+        teacherId,
+        teacherCode:teacherId,
+        studentId,
+        studentCode:studentId,
+        status,
+        notes,
+        updatedAt:new Date().toISOString()
+      })
+    : normalizeUser({
+        id,
+        userId:id,
+        code:id,
+        name,
+        email,
+        password,
+        role,
+        teacherId,
+        teacherCode:teacherId,
+        studentId,
+        studentCode:studentId,
+        status,
+        notes,
+        updatedAt:new Date().toISOString()
+      })
+
+  if(index>=0){
+    users[index]={...users[index],...payload}
+  }else{
+    users.push({...payload,createdAt:new Date().toISOString()})
+  }
+
+  setUsers(users)
+  closeUserModal()
+  renderUsers()
+}
+
+function toggleUserStatus(id){
+  const users=getUsers()
+  const index=users.findIndex(user=>user.id===id)
+  if(index<0) return
+
+  if(users[index].email===currentUser.email){
+    alert('No puedes desactivar tu propio usuario.')
+    return
+  }
+
+  users[index].status=users[index].status==='Activo'?'Inactivo':'Activo'
+  users[index].updatedAt=new Date().toISOString()
+  setUsers(users)
+  renderUsers()
+}
+
+function deleteUser(id){
+  const users=getUsers()
+  const user=users.find(item=>item.id===id)
+  if(!user) return
+
+  if(user.email===currentUser.email){
+    alert('No puedes borrar tu propio usuario.')
+    return
+  }
+
+  const ok=confirm(`¿Seguro que quieres borrar el usuario de ${user.name}?`)
+  if(!ok) return
+
+  setUsers(users.filter(item=>item.id!==id))
+  renderUsers()
+}
+
+function seedDemoUsersIfEmpty(){
+  const users=getUsers()
+  if(users.length) return
+
+  setUsers([
+    {
+      id:'USR-0001',
+      userId:'USR-0001',
+      name:'Administrador Wisdom',
+      email:'admin@wisdom.com',
+      password:'1234',
+      role:'admin',
+      teacherId:'',
+      studentId:'',
+      status:'Activo',
+      createdAt:new Date().toISOString()
+    }
+  ])
+}
+
+seedDemoUsersIfEmpty()
+renderUserBox()
+renderUsers()
+if(preselectedTeacherId || preselectedStudentId){
+  openUserModal()
+}
+</script>
+</body>
+</html>

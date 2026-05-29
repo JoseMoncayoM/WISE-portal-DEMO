@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interpretación | Wisdom Academy</title>
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    :root{
+      --primary:#0d2b45;
+      --accent:#1fb6b9;
+      --light:#f5f9fc;
+      --text:#1f2d3d;
+      --gray:#6b7c93;
+      --border:#dcebf2;
+      --hover:#E6FF00;
+      --soft-blue:#dff7fb;
+    }
+
+    body{
+      font-family:Arial, Helvetica, sans-serif;
+      background:var(--light);
+      color:var(--text);
+      line-height:1.6;
+    }
+
+    .container{
+      width:90%;
+      max-width:1180px;
+      margin:auto;
+    }
+
+    /* =========================
+       NAVBAR
+    ========================== */
+
+    .navbar{
+      background:rgba(245,249,252,0.95);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid var(--border);
+      position:sticky;
+      top:0;
+      z-index:20;
+    }
+
+    .nav-content{
+      height:86px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:24px;
+    }
+
+    .logo{
+      display:flex;
+      align-items:center;
+      text-decoration:none;
+    }
+
+    .logo img{
+      height:62px;
+      width:auto;
+      display:block;
+      cursor:pointer;
+    }
+
+    .nav-menu{
+      display:flex;
+      align-items:center;
+      gap:22px;
+    }
+
+    .nav-menu a,
+    .dropbtn{
+      color:var(--text);
+      text-decoration:none;
+      font-size:0.95rem;
+      font-weight:600;
+      background:none;
+      border:none;
+      cursor:pointer;
+      font-family:Arial, Helvetica, sans-serif;
+    }
+
+    .dropdown{
+      position:relative;
+      padding:18px 0;
+    }
+
+    .dropdown-content{
+      display:none;
+      position:absolute;
+      top:58px;
+      left:0;
+      width:260px;
+      background:white;
+      border:1px solid var(--border);
+      border-radius:16px;
+      box-shadow:0 12px 30px rgba(13,43,69,0.08);
+      padding:10px;
+      z-index:50;
+    }
+
+    .dropdown-content a{
+      display:block;
+      padding:12px 14px;
+      border-radius:10px;
+      color:var(--primary);
+    }
+
+    .dropdown-content a:hover{
+      background:#ecf8f9;
+      color:var(--accent);
+    }
+
+    .dropdown:hover .dropdown-content{
+      display:block;
+    }
+
+    .btn-login,
+    .btn-primary{
+      background:var(--accent);
+      color:white;
+      border:none;
+      border-radius:999px;
+      padding:12px 22px;
+      font-weight:700;
+      text-decoration:none;
+      display:inline-block;
+      transition:all 0.2s ease;
+      cursor:pointer;
+    }
+
+    .btn-login:hover,
+    .btn-primary:hover{
+      background:var(--hover);
+      color:black;
+      transform:translateY(-2px);
+    }
+
+    /* =========================
+       HERO
+    ========================== */
+
+    .hero{
+      padding:90px 0 70px;
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.05fr 0.95fr;
+      align-items:center;
+      gap:54px;
+    }
+
+    h1{
+      font-size:clamp(2rem,4vw,3.2rem);
+      line-height:1.1;
+      color:var(--primary);
+      margin-bottom:24px;
+      font-weight:900;
+    }
+
+    .hero-text p{
+      max-width:590px;
+      color:var(--gray);
+      font-size:1.1rem;
+      margin-bottom:28px;
+    }
+
+    .hero-card{
+      position:relative;
+      min-height:460px;
+      border-radius:32px;
+      overflow:hidden;
+      border:1px solid var(--border);
+      box-shadow:0 10px 24px rgba(13,43,69,0.05);
+    }
+
+    .hero-card img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    /* =========================
+       SECTIONS
+    ========================== */
+
+    .section{
+      padding:70px 0;
+    }
+
+    .section-header{
+      max-width:720px;
+      margin-bottom:34px;
+    }
+
+    .section-header h2{
+      font-size:clamp(2rem,4vw,3rem);
+      color:var(--primary);
+      line-height:1.1;
+      margin-bottom:12px;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:22px;
+    }
+
+    /* =========================
+       PREMIUM CARDS
+    ========================== */
+
+    .card{
+      position:relative;
+      background:linear-gradient(
+        145deg,
+        #0d2b45 0%,
+        #123955 100%
+      );
+      border:none;
+      border-radius:26px;
+      padding:32px 26px;
+      overflow:hidden;
+      transition:all .3s ease;
+      box-shadow:0 18px 34px rgba(13,43,69,0.18);
+      min-height:240px;
+    }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      top:0;
+      left:0;
+      width:100%;
+      height:6px;
+      background:linear-gradient(
+        90deg,
+        #1fb6b9,
+        #E6FF00
+      );
+    }
+
+    .card::after{
+      content:"";
+      position:absolute;
+      right:-42px;
+      bottom:-42px;
+      width:120px;
+      height:120px;
+      border-radius:50%;
+      background:rgba(31,182,185,0.12);
+    }
+
+    .card:hover{
+      transform:translateY(-8px);
+      box-shadow:0 26px 42px rgba(13,43,69,0.24);
+    }
+
+    .card-icon{
+      width:50px;
+      height:50px;
+      border-radius:18px;
+      background:rgba(255,255,255,0.12);
+      color:#E6FF00;
+      display:grid;
+      place-items:center;
+      font-weight:900;
+      margin-bottom:20px;
+      border:1px solid rgba(255,255,255,0.15);
+      position:relative;
+      z-index:1;
+    }
+
+    .card h3{
+      color:white;
+      margin-bottom:14px;
+      font-size:1.12rem;
+      line-height:1.3;
+      font-weight:900;
+      position:relative;
+      z-index:1;
+    }
+
+    .card p{
+      color:#d5e2ea;
+      line-height:1.7;
+      position:relative;
+      z-index:1;
+    }
+
+    /* =========================
+       QUOTE
+    ========================== */
+
+    .quote-card{
+      background:var(--soft-blue);
+      border-radius:30px;
+      padding:42px;
+      border:1px solid #c8eef5;
+      box-shadow:0 8px 18px rgba(13,43,69,0.04);
+    }
+
+    .quote-card blockquote{
+      color:var(--primary);
+      font-size:1.5rem;
+      font-weight:800;
+      margin-bottom:18px;
+      line-height:1.4;
+    }
+
+    .quote-card p{
+      color:var(--gray);
+    }
+
+    /* =========================
+       CTA
+    ========================== */
+
+    .cta-band{
+      background:var(--soft-blue);
+      border-radius:34px;
+      padding:48px;
+      display:flex;
+      justify-content:space-between;
+      gap:24px;
+      align-items:center;
+      margin-top:36px;
+      border:1px solid #c8eef5;
+      box-shadow:0 8px 18px rgba(13,43,69,0.04);
+    }
+
+    .cta-band h2{
+      font-size:clamp(1.8rem,4vw,3rem);
+      line-height:1.1;
+      margin-bottom:12px;
+      color:var(--primary);
+    }
+
+    .cta-band p{
+      color:var(--gray);
+      max-width:620px;
+    }
+
+    footer{
+      padding:40px 0;
+      color:var(--gray);
+      border-top:1px solid var(--border);
+      margin-top:60px;
+    }
+
+    @media(max-width:900px){
+
+      .nav-menu{
+        display:none;
+      }
+
+      .hero-grid,
+      .cards{
+        grid-template-columns:1fr;
+      }
+
+      .cta-band{
+        display:block;
+      }
+
+      .cta-band .btn-primary{
+        margin-top:22px;
+      }
+
+      .logo img{
+        height:52px;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+<header class="navbar">
+
+  <div class="container nav-content">
+
+    <a href="wisdom_homepage.html" class="logo">
+      <img src="logo.jpg" alt="Wisdom Academy Logo">
+    </a>
+
+    <nav class="nav-menu">
+
+      <a href="wisdom_homepage.html">Inicio</a>
+
+      <div class="dropdown">
+
+        <button class="dropbtn">
+          Servicios ▾
+        </button>
+
+        <div class="dropdown-content">
+
+          <a href="wisdom_formacion_page.html">
+            Formación
+          </a>
+
+          <a href="wisdom_interpretacion_page.html">
+            Interpretación
+          </a>
+
+          <a href="wisdom_comofunciona_preview.html">
+            Cómo funciona
+          </a>
+
+          <a href="wisdom_material_gratuito_page.html">
+            Material gratuito
+          </a>
+
+        </div>
+
+      </div>
+
+      <div class="dropdown">
+
+        <button class="dropbtn">
+          Contacto ▾
+        </button>
+
+        <div class="dropdown-content">
+
+          <a href="wisdom_contacto_page.html">
+            Formato de contacto
+          </a>
+
+          <a href="wisdom_contacto_ventas_page.html">
+            Contacto de ventas
+          </a>
+
+        </div>
+
+      </div>
+
+    </nav>
+
+    <a class="btn-login" href="dashboard.html">
+      Inicio de sesión
+    </a>
+
+  </div>
+
+</header>
+
+<main>
+
+  <section class="hero">
+
+    <div class="container hero-grid">
+
+      <div class="hero-text">
+
+        <h1>
+          Interpretación profesional para contextos donde el mensaje importa.
+        </h1>
+
+        <p>
+          Acompañamos reuniones, eventos y procesos multilingües con intérpretes preparados y comunicación precisa.
+        </p>
+
+        <a 
+          href="https://wa.me/573246818465?text=Hola,%20quiero%20conocer%20sobre%20el%20servicio%20de%20interpretación"
+          class="btn-primary"
+          target="_blank"
+        >
+          HABLA CON UN ASESOR DE INTERPRETACIÓN
+        </a>
+
+      </div>
+
+      <div class="hero-card">
+
+        <img src="interprete.jpg" alt="Servicio de interpretación">
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="section">
+
+    <div class="container">
+
+      <div class="section-header">
+
+        <h2>
+          Cuando comunicar bien no es opcional
+        </h2>
+
+      </div>
+
+      <div class="quote-card">
+
+        <blockquote>
+          “La interpretación no se trata solo de traducir palabras. Se trata de proteger el mensaje.”
+        </blockquote>
+
+        <p>
+          Wisdom Academy · Communication
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="section">
+
+    <div class="container">
+
+      <div class="section-header">
+
+        <h2>
+          Interpretación como solución, no como improvisación
+        </h2>
+
+      </div>
+
+      <div class="cards">
+
+        <article class="card">
+
+          <div class="card-icon">1</div>
+
+          <h3>
+            Preparación previa
+          </h3>
+
+          <p>
+            Entendemos el contexto, los objetivos y el tipo de comunicación.
+          </p>
+
+        </article>
+
+        <article class="card">
+
+          <div class="card-icon">2</div>
+
+          <h3>
+            Intérpretes profesionales
+          </h3>
+
+          <p>
+            Experiencia en entornos corporativos y académicos.
+          </p>
+
+        </article>
+
+        <article class="card">
+
+          <div class="card-icon">3</div>
+
+          <h3>
+            Acompañamiento claro
+          </h3>
+
+          <p>
+            Te orientamos antes, durante y después del servicio.
+          </p>
+
+        </article>
+
+      </div>
+
+      <div class="cta-band">
+
+        <div>
+
+          <h2>
+            HABLA CON UN ASESOR DE INTERPRETACIÓN
+          </h2>
+
+          <p>
+            Cuéntanos el contexto y revisamos qué tipo de acompañamiento necesitas.
+          </p>
+
+        </div>
+
+        <a 
+          class="btn-primary"
+          href="https://wa.me/573246818465?text=Hola,%20quiero%20conocer%20sobre%20el%20servicio%20de%20interpretación"
+          target="_blank"
+        >
+          HABLA CON UN ASESOR DE INTERPRETACIÓN
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+
+  <div class="container">
+    Wisdom Academy · Communication
+  </div>
+
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,2028 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dossier | Wisdom</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --primary:#0d2b45;
+  --accent:#1fb6b9;
+  --light:#f5f9fc;
+  --text:#1f2d3d;
+  --gray:#6b7c93;
+  --border:#dcebf2;
+  --soft:#e7f8f8;
+  --hover:#E6FF00;
+  --warning:#fff8d6;
+  --danger:#ffefef;
+  --ok:#eef7ee;
+}
+body{font-family:Inter,Arial;background:var(--light);color:var(--text)}
+
+.container{max-width:1000px;margin:auto;padding:30px}
+.session-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;background:white;border:1px solid var(--border);border-radius:18px;padding:12px 16px;margin-bottom:18px}
+.session-user{font-size:.85rem;color:var(--gray)}
+.session-user strong{color:var(--primary)}
+.btn-secondary{background:white;color:var(--primary);border:1px solid var(--border);cursor:pointer}
+.btn-danger{background:#ffefef;color:#b00020;border:1px solid #ffd1d1;cursor:pointer}
+.pill{background:var(--soft);color:var(--accent);padding:5px 10px;border-radius:999px;font-size:.75rem;font-weight:900;display:inline-block}
+.pill.ok{background:var(--ok);color:#257a36}
+.pill.warning{background:var(--warning);color:#8a6d00}
+.pill.danger{background:var(--danger);color:#b00020}
+.pill.gray{background:#eef2f6;color:#526273}
+
+h1{color:var(--primary);font-weight:900}
+.sub{color:var(--gray);margin-top:6px}
+
+.card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:20px;
+  margin-top:20px;
+}
+
+.progress{
+  height:8px;
+  background:#eaf2f6;
+  border-radius:999px;
+  margin-top:10px;
+  overflow:hidden;
+}
+.progress span{
+  display:block;
+  height:100%;
+  background:var(--accent);
+}
+
+.request-card{border:1px solid var(--border);border-radius:16px;padding:14px;background:#fbfdff;margin-top:12px}
+.request-card strong{color:var(--primary);display:block;margin:7px 0 4px}
+.request-card small{color:var(--gray);display:block;line-height:1.35}
+.request-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.empty{color:var(--gray);padding:16px;border:1px dashed var(--border);border-radius:14px;background:#fbfdff;margin-top:12px}
+.modal{position:fixed;inset:0;background:rgba(13,43,69,.35);display:none;align-items:center;justify-content:center;padding:20px;z-index:20}
+.modal.active{display:flex}
+.modal-box{width:100%;max-width:640px;background:white;border:1px solid var(--border);border-radius:22px;padding:24px;box-shadow:0 20px 50px rgba(13,43,69,.18)}
+.modal-box h2{color:var(--primary);margin-bottom:16px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:.8rem;font-weight:900;color:var(--primary)}
+.field input,.field select,.field textarea{padding:11px;border-radius:12px;border:1px solid var(--border);font:inherit;background:white}
+.field textarea{min-height:84px;resize:vertical}
+.full{grid-column:1/-1}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+@media(max-width:700px){.form-grid{grid-template-columns:1fr}}
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+}
+td,th{
+  padding:10px;
+  border-top:1px solid var(--border);
+  text-align:left;
+}
+
+.btn{
+  display:inline-block;
+  margin-top:20px;
+  padding:10px 16px;
+  border-radius:999px;
+  background:var(--accent);
+  color:white;
+  text-decoration:none;
+  font-weight:900;
+}
+.btn:hover{
+  background:var(--hover);
+  color:black;
+}
+
+.eval-metrics{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-top:14px;
+}
+.eval-metric{
+  background:#fbfdff;
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:14px;
+}
+.eval-metric small{
+  display:block;
+  color:var(--gray);
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  margin-bottom:7px;
+  font-size:.72rem;
+}
+.eval-metric strong{
+  display:block;
+  color:var(--primary);
+  font-size:1.6rem;
+  line-height:1;
+}
+.eval-alert{
+  margin-top:12px;
+  border-radius:14px;
+  padding:12px 14px;
+  font-weight:800;
+  line-height:1.35;
+}
+.eval-alert.ok{background:var(--ok);color:#257a36;border:1px solid #c7f0d6}
+.eval-alert.warning{background:var(--warning);color:#8a6d00;border:1px solid #f4df8a}
+.eval-alert.danger{background:var(--danger);color:#b00020;border:1px solid #ffd1d1}
+.eval-table-wrap{overflow:auto;margin-top:12px}
+.eval-table{min-width:760px}
+.score-strong{font-weight:900;color:var(--primary)}
+.score-strong.ok{color:#257a36}
+.score-strong.warning{color:#8a6d00}
+.score-strong.danger{color:#b00020}
+@media(max-width:800px){.eval-metrics{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.eval-metrics{grid-template-columns:1fr}}
+
+
+.pdf-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:18px;
+}
+.pdf-note{
+  color:var(--gray);
+  font-size:.82rem;
+  margin-top:8px;
+  font-weight:700;
+}
+@media print{
+  .session-bar,
+  #backButton,
+  .pdf-actions,
+  #newRequestBtn,
+  .request-actions,
+  .intervention-actions,
+  .modal{
+    display:none!important;
+  }
+  body{
+    background:white!important;
+  }
+  .container{
+    max-width:none!important;
+    padding:0!important;
+  }
+  .card{
+    break-inside:avoid;
+    box-shadow:none!important;
+  }
+}
+
+
+.intervention-card{
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:14px;
+  background:#fbfdff;
+  margin-top:12px;
+}
+.intervention-card.critical{
+  background:var(--danger);
+  border-color:#ffd1d1;
+  color:#b00020;
+}
+.intervention-card.risk{
+  background:var(--warning);
+  border-color:#f4df8a;
+  color:#8a6d00;
+}
+.intervention-card.closed{
+  background:var(--ok);
+  border-color:#c7f0d6;
+  color:#257a36;
+}
+.intervention-card strong{
+  display:block;
+  color:var(--primary);
+  margin:7px 0 5px;
+}
+.intervention-card small{
+  display:block;
+  line-height:1.35;
+  color:inherit;
+}
+.intervention-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+
+
+.plan-box{
+  margin-top:12px;
+  padding:12px 14px;
+  border-radius:14px;
+  background:#ffffff;
+  border:1px dashed var(--border);
+}
+.plan-box strong{
+  color:var(--primary);
+  margin-bottom:6px;
+}
+.plan-box ul{
+  margin:8px 0 0 18px;
+  display:grid;
+  gap:5px;
+}
+.plan-box li{
+  line-height:1.35;
+}
+.plan-tools{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+.plan-checks{
+  display:grid;
+  gap:6px;
+  margin-top:10px;
+}
+.plan-checks label{
+  font-size:.85rem;
+  font-weight:800;
+}
+
+
+/* ===========================
+   WISDOM PREMIUM UI LAYER
+   Visual upgrade only. Logic untouched.
+=========================== */
+:root{
+  --premium-bg:#eef5f7;
+  --premium-surface:#ffffff;
+  --premium-ink:#0b2438;
+  --premium-muted:#68798d;
+  --premium-line:#d8e6ed;
+  --premium-blue:#123e68;
+  --premium-teal:#16aeb7;
+  --premium-teal-soft:#e6f7f8;
+  --premium-lime:#e6ff00;
+  --premium-danger:#b00020;
+  --premium-danger-bg:#fff0f2;
+  --premium-warning:#8a6100;
+  --premium-warning-bg:#fff8dd;
+  --premium-ok:#146c2e;
+  --premium-ok-bg:#edf9f0;
+  --premium-shadow:0 18px 44px rgba(13,43,69,.10);
+  --premium-shadow-soft:0 10px 24px rgba(13,43,69,.07);
+}
+body{
+  background:
+    radial-gradient(circle at top left, rgba(31,182,185,.14), transparent 36%),
+    linear-gradient(180deg,#f7fbfc 0%, var(--premium-bg) 100%)!important;
+  color:var(--premium-ink)!important;
+}
+.sidebar{
+  background:rgba(255,255,255,.88)!important;
+  backdrop-filter:blur(16px);
+  box-shadow:12px 0 32px rgba(13,43,69,.045);
+}
+.logo{
+  font-size:1.25rem!important;
+  letter-spacing:.18em!important;
+  padding:10px 0 18px;
+  border-bottom:1px solid var(--premium-line);
+}
+.menu-title{
+  color:#8796a8!important;
+  font-size:.7rem!important;
+}
+.side-link{
+  border:1px solid transparent;
+  transition:.18s ease;
+}
+.side-link:hover,.side-link.active{
+  background:linear-gradient(135deg,var(--premium-teal-soft),#f7ffff)!important;
+  border-color:#caeff2;
+  transform:translateX(2px);
+}
+.dot{
+  box-shadow:0 0 0 4px rgba(31,182,185,.12);
+}
+.user-box{
+  background:linear-gradient(135deg,#f7ffff,var(--premium-teal-soft))!important;
+  box-shadow:var(--premium-shadow-soft);
+}
+.main,.container{
+  animation:premiumFade .35s ease both;
+}
+@keyframes premiumFade{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.topbar{
+  background:linear-gradient(135deg,var(--premium-blue),#1f5f93);
+  color:white;
+  border-radius:28px;
+  padding:24px 26px;
+  box-shadow:var(--premium-shadow);
+  margin-bottom:22px!important;
+}
+.topbar h1{
+  color:white!important;
+  letter-spacing:-.04em;
+  font-size:clamp(2rem,4vw,3rem)!important;
+}
+.role-pill{
+  background:rgba(255,255,255,.18)!important;
+  color:white!important;
+  border:1px solid rgba(255,255,255,.22);
+}
+.btn{
+  transition:.18s ease!important;
+  box-shadow:none;
+}
+.btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 10px 22px rgba(13,43,69,.12);
+}
+.btn-primary,.btn:not(.btn-secondary):not(.btn-danger):not(.btn-warning){
+  background:var(--premium-teal)!important;
+  color:white!important;
+}
+.btn-secondary{
+  background:white!important;
+  color:var(--premium-blue)!important;
+  border:1px solid var(--premium-line)!important;
+}
+.btn-danger{
+  background:var(--premium-danger-bg)!important;
+  color:var(--premium-danger)!important;
+  border:1px solid #ffd0d8!important;
+}
+.metrics,.summary-grid,.academic-kpi-grid,.eval-metrics{
+  gap:16px!important;
+}
+.metric,.summary-card,.academic-kpi,.eval-metric{
+  position:relative;
+  overflow:hidden;
+  background:rgba(255,255,255,.94)!important;
+  border:1px solid rgba(216,230,237,.95)!important;
+  border-radius:24px!important;
+  box-shadow:var(--premium-shadow-soft);
+}
+.metric::after,.summary-card::after,.academic-kpi::after,.eval-metric::after{
+  content:"";
+  position:absolute;
+  inset:auto 14px 12px auto;
+  width:38px;
+  height:38px;
+  border-radius:999px;
+  background:rgba(31,182,185,.11);
+}
+.metric span,.summary-card small,.academic-kpi small,.eval-metric small{
+  color:var(--premium-muted)!important;
+  letter-spacing:.09em!important;
+}
+.metric strong,.summary-card strong,.academic-kpi strong,.eval-metric strong{
+  color:var(--premium-blue)!important;
+  font-size:clamp(1.8rem,3vw,2.55rem)!important;
+}
+.panel,.card{
+  background:rgba(255,255,255,.96)!important;
+  border:1px solid rgba(216,230,237,.95)!important;
+  border-radius:26px!important;
+  box-shadow:var(--premium-shadow-soft);
+}
+.panel h2,.card h3{
+  color:var(--premium-blue)!important;
+  letter-spacing:-.025em;
+  margin-bottom:12px;
+}
+.class-card,.alert-card,.request-card,.intervention-card,.result-item,.lock-card{
+  border-radius:20px!important;
+  border:1px solid var(--premium-line)!important;
+  box-shadow:0 8px 18px rgba(13,43,69,.045);
+}
+.alert-card,.academic-item{
+  transition:.18s ease;
+}
+.alert-card:hover,.academic-item:hover{
+  transform:translateY(-1px);
+  box-shadow:var(--premium-shadow-soft);
+}
+.status,.pill{
+  border-radius:999px!important;
+  font-weight:900!important;
+  letter-spacing:.02em;
+}
+.status.danger,.pill.danger,.academic-item.danger,.summary-card.danger,.academic-kpi.danger,.intervention-card.critical{
+  background:var(--premium-danger-bg)!important;
+  border-color:#ffd0d8!important;
+  color:var(--premium-danger)!important;
+}
+.status.warning,.pill.warning,.academic-item.warning,.summary-card.warning,.academic-kpi.warning,.intervention-card.risk{
+  background:var(--premium-warning-bg)!important;
+  border-color:#f6df94!important;
+  color:var(--premium-warning)!important;
+}
+.pill.ok,.summary-card.good,.academic-kpi.good,.intervention-card.closed{
+  background:var(--premium-ok-bg)!important;
+  border-color:#c9ebd3!important;
+  color:var(--premium-ok)!important;
+}
+.critical-bar{
+  border-radius:20px!important;
+  box-shadow:var(--premium-shadow-soft);
+}
+.executive-line,.notice,.session-warning,.eval-alert{
+  border-radius:18px!important;
+  box-shadow:0 8px 18px rgba(13,43,69,.035);
+}
+table{
+  border-collapse:separate!important;
+  border-spacing:0;
+}
+td,th{
+  border-top:0!important;
+  border-bottom:1px solid var(--premium-line)!important;
+}
+th{
+  color:var(--premium-muted)!important;
+  font-size:.72rem;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+.progress{
+  height:11px!important;
+  background:#eaf3f6!important;
+}
+.progress span{
+  background:linear-gradient(90deg,var(--premium-teal),#72d8df)!important;
+}
+.empty{
+  border-radius:20px!important;
+  background:#f8fbfc!important;
+}
+
+
+/* Dossier premium composition */
+.container{
+  max-width:1120px!important;
+}
+.session-bar{
+  border-radius:22px!important;
+  box-shadow:var(--premium-shadow-soft);
+}
+#studentName{
+  position:relative;
+  color:var(--premium-blue)!important;
+  font-size:clamp(2.3rem,5vw,4rem)!important;
+  letter-spacing:-.06em;
+  line-height:.95;
+  margin-top:28px!important;
+}
+#studentName::before{
+  content:"Dossier académico";
+  display:block;
+  color:var(--premium-muted);
+  text-transform:uppercase;
+  font-weight:900;
+  letter-spacing:.16em;
+  margin-bottom:12px;
+  font-size:.72rem;
+}
+#studentMeta{
+  font-size:1rem;
+  background:var(--premium-teal-soft);
+  color:var(--premium-blue);
+  display:inline-block;
+  padding:8px 12px;
+  border-radius:999px;
+  font-weight:800;
+  margin-top:12px!important;
+}
+.pdf-actions{
+  background:white;
+  padding:14px;
+  border:1px solid var(--premium-line);
+  border-radius:22px;
+  box-shadow:var(--premium-shadow-soft);
+  width:fit-content;
+}
+.card:nth-of-type(1){
+  background:linear-gradient(135deg,#ffffff,#effcfd)!important;
+  border-color:#c8eff2!important;
+}
+.eval-table-wrap{
+  border:1px solid var(--premium-line);
+  border-radius:20px;
+  overflow:auto;
+}
+.eval-table{
+  margin-top:0!important;
+}
+.intervention-card{
+  padding:18px!important;
+}
+.plan-box{
+  background:linear-gradient(135deg,#ffffff,#f7fbfc)!important;
+  border:1px solid var(--premium-line)!important;
+  border-radius:18px!important;
+  box-shadow:0 8px 18px rgba(13,43,69,.04);
+}
+.plan-box strong::before{
+  content:"↳ ";
+  color:var(--premium-teal);
+}
+.plan-checks label{
+  background:#f7fbfc;
+  border:1px solid var(--premium-line);
+  border-radius:12px;
+  padding:8px 10px;
+}
+
+
+.reinforcement-roadmap{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:12px;
+}
+.roadmap-step{
+  border:1px solid var(--premium-line, #d8e6ed);
+  border-radius:14px;
+  padding:10px;
+  background:#f8fbfc;
+  font-weight:900;
+  font-size:.82rem;
+}
+.roadmap-step.done{
+  background:var(--premium-ok-bg, #edf9f0);
+  color:var(--premium-ok, #146c2e);
+  border-color:#c9ebd3;
+}
+.roadmap-step.pending{
+  background:#fff;
+  color:var(--premium-muted, #68798d);
+}
+.plan-toggle-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+.loop-metrics{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:12px;
+}
+.loop-metric{
+  background:#fff;
+  border:1px solid var(--premium-line, #d8e6ed);
+  border-radius:14px;
+  padding:10px;
+}
+.loop-metric small{
+  color:var(--premium-muted, #68798d)!important;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+}
+.loop-metric strong{
+  color:var(--premium-blue, #123e68)!important;
+  font-size:1.15rem;
+}
+@media(max-width:760px){
+  .reinforcement-roadmap,.loop-metrics{grid-template-columns:1fr}
+}
+
+
+.message-card{
+  border:1px solid var(--premium-line,var(--border));
+  border-radius:16px;
+  padding:14px;
+  background:#fbfdff;
+  margin-top:12px;
+}
+.message-card.new{
+  background:var(--premium-danger-bg,#fff0f2);
+  border-color:#ffd0d8;
+}
+.message-card.follow_up{
+  background:var(--premium-warning-bg,#fff8dd);
+  border-color:#f6df94;
+}
+.message-card.converted_request,
+.message-card.answered{
+  background:var(--premium-ok-bg,#edf9f0);
+  border-color:#c9ebd3;
+}
+.message-card strong{
+  display:block;
+  color:var(--premium-blue,var(--primary));
+  margin:7px 0 5px;
+}
+.message-card small{
+  display:block;
+  color:var(--gray);
+  line-height:1.35;
+}
+.message-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+.message-summary{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  margin-top:12px;
+}
+.message-summary-item{
+  background:#fbfdff;
+  border:1px solid var(--premium-line,var(--border));
+  border-radius:14px;
+  padding:12px;
+}
+.message-summary-item small{
+  display:block;
+  color:var(--gray);
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  font-size:.7rem;
+  margin-bottom:5px;
+}
+.message-summary-item strong{
+  color:var(--premium-blue,var(--primary));
+  font-size:1.35rem;
+}
+@media(max-width:760px){
+  .message-summary{grid-template-columns:1fr 1fr}
+}
+@media(max-width:520px){
+  .message-summary{grid-template-columns:1fr}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="session-bar">
+    <div class="session-user" id="sessionUser">Usuario activo</div>
+    <button class="btn btn-danger" onclick="logout()">Cerrar sesión</button>
+  </div>
+
+  <a class="btn" id="backButton" href="estudiantes.html">← Volver a estudiantes</a>
+
+  <h1 id="studentName" style="margin-top:24px;">Estudiante</h1>
+  <div class="sub" id="studentMeta">Código · Servicio · Nivel</div>
+
+  <div class="pdf-actions">
+    <button class="btn" onclick="downloadDossierPDF()">Descargar reporte PDF</button>
+    <button class="btn btn-secondary" onclick="window.print()">Imprimir / guardar como PDF</button>
+  </div>
+  <div class="pdf-note">Vista institucional del progreso, evaluaciones, intervenciones y solicitudes del estudiante.</div>
+
+
+  <div class="card">
+    <h3>Progreso</h3>
+    <div id="trackingText"></div>
+    <div class="progress">
+      <span id="progressBar"></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Información académica</h3>
+    <table>
+      <tr><th>Profesor</th><td id="teacher"></td></tr>
+      <tr><th>Grupo / paquete</th><td id="group"></td></tr>
+      <tr><th>Servicio</th><td id="service"></td></tr>
+      <tr><th>Teléfono / WhatsApp</th><td id="studentPhone"></td></tr>
+      <tr><th>Estado</th><td id="status"></td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Historial de progreso</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Tipo</th>
+          <th>Detalle</th>
+        </tr>
+      </thead>
+      <tbody id="historyTable"></tbody>
+    </table>
+  </div>
+
+
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap">
+      <div>
+        <h3>Historial de evaluaciones</h3>
+        <div class="sub">Resultados de Grammar, Listening y Speaking en modo práctica y examen.</div>
+      </div>
+      <a class="btn" href="resultados.html" style="margin-top:0">Ver resultados</a>
+    </div>
+
+    <div id="evaluationSummary"></div>
+
+    <div class="eval-table-wrap">
+      <table class="eval-table">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Tipo</th>
+            <th>Modo</th>
+            <th>Nivel / Unidad</th>
+            <th>Puntaje</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody id="evaluationHistoryTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+
+
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap">
+      <div>
+        <h3>Recomendaciones académicas</h3>
+        <div class="sub">Intervenciones creadas automáticamente por bajo rendimiento en exámenes.</div>
+      </div>
+    </div>
+    <div id="interventionsList"></div>
+  </div>
+
+
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap">
+      <div>
+        <h3>Solicitudes</h3>
+        <div class="sub">Reprogramación, cambio de horario y certificado de estudio.</div>
+      </div>
+      <button class="btn" id="newRequestBtn" onclick="openRequestModal()">Nueva solicitud</button>
+    </div>
+    <div id="requestsList"></div>
+  </div>
+
+
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap">
+      <div>
+        <h3>Mensajes WhatsApp</h3>
+        <div class="sub">Historial de mensajes entrantes y solicitudes generadas desde WhatsApp.</div>
+      </div>
+      <button class="btn btn-secondary" id="openInboxBtn" onclick="openStudentInbox()">Abrir inbox</button>
+    </div>
+    <div id="messagesSummary"></div>
+    <div id="messagesList"></div>
+  </div>
+
+</div>
+
+
+<div class="modal" id="requestModal">
+  <div class="modal-box">
+    <h2>Nueva solicitud</h2>
+    <div class="form-grid">
+      <div class="field full"><label>Estudiante</label><input id="requestStudentLabel" readonly></div>
+      <div class="field full"><label>Tipo de solicitud</label><select id="requestType" onchange="handleRequestTypeChange()"><option value="Reprogramación">Reprogramación de clase</option><option value="Cambio de horario">Cambio de horario</option><option value="Certificado de estudio">Certificado de estudio</option></select></div>
+      <div class="field" id="requestDateField"><label>Fecha solicitada</label><input id="requestDate" type="date"></div>
+      <div class="field" id="requestTimeField"><label>Hora solicitada</label><input id="requestTime" type="time"></div>
+      <div class="field full"><label>Motivo / detalle</label><textarea id="requestReason" placeholder="Describe la solicitud con suficiente contexto."></textarea></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeRequestModal()">Cancelar</button>
+      <button class="btn" onclick="createRequest()">Enviar solicitud</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="reviewRequestModal">
+  <div class="modal-box">
+    <h2>Revisar solicitud</h2>
+    <input type="hidden" id="reviewRequestId">
+    <div class="form-grid">
+      <div class="field full"><label>Solicitud</label><input id="reviewRequestSummary" readonly></div>
+      <div class="field admin-review-only"><label>Estado</label><select id="reviewStatus"><option>Nueva</option><option>En revisión</option><option>Aprobada</option><option>Rechazada</option></select></div>
+      <div class="field full admin-review-only"><label>Nota administrativa</label><textarea id="reviewAdminNote" placeholder="Respuesta oficial para el estudiante."></textarea></div>
+      <div class="field full teacher-review-only"><label>Observación del profesor</label><textarea id="reviewTeacherNote" placeholder="Observación académica o logística."></textarea></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeReviewRequestModal()">Cancelar</button>
+      <button class="btn" onclick="saveRequestReview()">Guardar revisión</button>
+    </div>
+  </div>
+</div>
+
+
+<script src="storage.js"></script>
+<script src="schemaRegistry.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+const USERS_KEY = 'wisdom_users'
+const CURRENT_USER_KEY = 'wisdom_current_user'
+const STUDENTS_KEY = 'wisdom_students_demo'
+const REQUESTS_KEY = 'wisdom_requests_demo'
+const TEACHERS_KEY = 'wisdom_teachers_demo'
+const GROUPS_KEY = 'wisdom_groups_demo'
+const PRIVATE_KEY = 'wisdom_private_demo'
+const EXAM_RESULTS_KEY = 'wisdom_exam_results'
+const ASSESSMENT_RESULTS_KEY = 'wisdom_assessment_results'
+const EVALUATIONS_KEY = 'wisdom_evaluations'
+const INTERVENTIONS_KEY = 'wisdom_interventions'
+const MESSAGES_KEY = 'wisdom_messages'
+
+function safeParse(value,fallback=[]){
+  try{
+    const parsed = value ? JSON.parse(value) : fallback
+    return Array.isArray(parsed) ? parsed : fallback
+  }catch(error){
+    return fallback
+  }
+}
+
+function loadArray(key){
+  if(typeof WisdomStorage !== 'undefined' && WisdomStorage && typeof WisdomStorage.get === 'function'){
+    const value = WisdomStorage.get(key, [])
+    return Array.isArray(value) ? value : []
+  }
+  return safeParse(localStorage.getItem(key), [])
+}
+
+function saveArray(key, value){
+  const safeValue = Array.isArray(value) ? value : []
+  if(typeof WisdomStorage !== 'undefined' && WisdomStorage && typeof WisdomStorage.set === 'function'){
+    WisdomStorage.set(key, safeValue)
+    return
+  }
+  localStorage.setItem(key, JSON.stringify(safeValue))
+}
+
+function loadObject(key, fallback=null){
+  if(typeof WisdomStorage !== 'undefined' && WisdomStorage && typeof WisdomStorage.get === 'function'){
+    const value = WisdomStorage.get(key, fallback)
+    return value && typeof value === 'object' && !Array.isArray(value) ? value : fallback
+  }
+  try{
+    const value = JSON.parse(localStorage.getItem(key) || 'null')
+    return value && typeof value === 'object' && !Array.isArray(value) ? value : fallback
+  }catch(error){
+    return fallback
+  }
+}
+
+function removeItem(key){
+  if(typeof WisdomStorage !== 'undefined' && WisdomStorage && typeof WisdomStorage.remove === 'function'){
+    WisdomStorage.remove(key)
+    return
+  }
+  localStorage.removeItem(key)
+}
+
+function normalizeEmail(value){
+  return String(value || '').trim().toLowerCase()
+}
+
+const users = loadArray(USERS_KEY)
+const currentUser = loadObject(CURRENT_USER_KEY, null)
+
+if (!users.length || !currentUser || !currentUser.role) {
+  window.location.href = 'login.html'
+}
+
+let currentStudent = null
+
+function logout(){
+  removeItem(CURRENT_USER_KEY)
+  window.location.href = 'login.html'
+}
+
+function roleLabel(role){
+  if(role === 'admin') return 'Administrativo'
+  if(role === 'teacher') return 'Profesor'
+  if(role === 'student') return 'Estudiante'
+  return role || 'Usuario'
+}
+
+function renderSession(){
+  const box = document.getElementById('sessionUser')
+  if(!box || !currentUser) return
+  box.innerHTML = `<strong>${currentUser.name || 'Usuario'}</strong><br>${currentUser.email || ''} · ${roleLabel(currentUser.role)}`
+
+  const backButton = document.getElementById('backButton')
+  if(currentUser.role === 'student'){
+    backButton.style.display = 'none'
+  }
+}
+
+function getStudentFromURL(){
+  const params = new URLSearchParams(window.location.search)
+  return params.get('code') || currentUser.studentId || ''
+}
+
+function loadStudents(){
+  const students = loadArray(STUDENTS_KEY)
+
+  if(typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeStudent){
+    return students.map(student => SchemaRegistry.normalizeStudent(student))
+  }
+
+  return students
+}
+
+function loadTeachers(){
+  const teachers = loadArray(TEACHERS_KEY)
+
+  if(typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeTeacher){
+    return teachers.map(teacher => SchemaRegistry.normalizeTeacher(teacher))
+  }
+
+  return teachers.map(teacher=>{
+    const id = teacher.id || teacher.teacherId || teacher.code || teacher.teacherCode || ''
+    return {...teacher,id,teacherId:id,teacherCode:teacher.teacherCode||id,code:id,status:teacher.status||'Activo'}
+  })
+}
+
+function loadGroups(){
+  const groups = loadArray(GROUPS_KEY)
+
+  if(typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeGroup){
+    return groups.map(group => normalizeTeacherRef(SchemaRegistry.normalizeGroup(group)))
+  }
+
+  return groups.map(normalizeTeacherRef)
+}
+
+function loadPackages(){
+  const packages = loadArray(PRIVATE_KEY)
+
+  if(typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizePrivatePackage){
+    return packages.map(pkg=>{
+      const normalized = normalizeTeacherRef(SchemaRegistry.normalizePrivatePackage(pkg))
+      return {...normalized,students:Array.isArray(normalized.students)?normalized.students:[]}
+    })
+  }
+
+  return packages.map(pkg=>{
+    const normalized = normalizeTeacherRef(pkg)
+    return {...normalized,students:Array.isArray(normalized.students)?normalized.students:[]}
+  })
+}
+
+function loadRequests(){
+  const requests = loadArray(REQUESTS_KEY)
+
+  if(typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeRequest){
+    return requests.map(request => SchemaRegistry.normalizeRequest(request))
+  }
+
+  return requests
+}
+
+function loadMessages(){
+  const messages = loadArray(MESSAGES_KEY)
+
+  return messages.map(message=>{
+    const normalized = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeMessage)
+      ? SchemaRegistry.normalizeMessage(message)
+      : {...message}
+
+    return {
+      ...normalized,
+      id:normalized.id||normalized.messageId||'',
+      messageId:normalized.messageId||normalized.id||'',
+      studentId:normalized.studentId||normalized.studentCode||'',
+      studentCode:normalized.studentCode||normalized.studentId||'',
+      studentName:normalized.studentName||normalized.name||'Estudiante',
+      studentEmail:normalized.studentEmail||normalized.email||'',
+      teacherId:normalized.teacherId||normalized.teacherCode||'',
+      teacherCode:normalized.teacherCode||normalized.teacherId||'',
+      phone:normalized.phone||normalized.whatsapp||'',
+      type:normalized.type||'general',
+      text:normalized.text||normalized.message||'',
+      status:normalized.status||'new',
+      linkedRequestId:normalized.linkedRequestId||'',
+      channel:normalized.channel||'whatsapp',
+      createdAt:normalized.createdAt||'',
+      updatedAt:normalized.updatedAt||''
+    }
+  })
+}
+
+function saveMessages(items){
+  const normalized = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeMessage)
+    ? (Array.isArray(items)?items:[]).map(item=>SchemaRegistry.normalizeMessage(item))
+    : items
+
+  saveArray(MESSAGES_KEY, normalized)
+}
+
+function messageBelongsToStudent(message, student){
+  const studentCode = student.code || student.studentId || student.id || ''
+  const messageStudentId = message.studentId || message.studentCode || ''
+  const codeMatch = Boolean(studentCode && messageStudentId && messageStudentId === studentCode)
+  const emailMatch = Boolean(message.studentEmail && student.email && normalizeEmail(message.studentEmail) === normalizeEmail(student.email))
+  const phoneMatch = Boolean(message.phone && (student.phone || student.whatsapp) && String(message.phone).trim() === String(student.phone || student.whatsapp).trim())
+
+  if(codeMatch || emailMatch || phoneMatch) return true
+
+  // Fallback conservador: solo usar nombre si no hay identificadores mejores.
+  return Boolean(!messageStudentId && !message.studentEmail && message.studentName && student.name && message.studentName === student.name)
+}
+
+function getStudentMessages(student){
+  return loadMessages()
+    .filter(message => messageBelongsToStudent(message, student))
+    .sort((a,b)=>new Date(b.createdAt||0)-new Date(a.createdAt||0))
+}
+
+function messageStatusLabel(status){
+  return {
+    new:'Nuevo',
+    read:'Leído',
+    follow_up:'Seguimiento',
+    answered:'Respondido',
+    converted_request:'Solicitud creada'
+  }[status] || 'Nuevo'
+}
+
+function messageStatusClass(status){
+  if(status === 'new') return 'danger'
+  if(status === 'follow_up') return 'warning'
+  if(status === 'answered' || status === 'converted_request') return 'ok'
+  return 'gray'
+}
+
+function messageTypeLabel(type){
+  return {
+    academic:'Académico',
+    schedule:'Horario',
+    payment:'Pago',
+    certificate:'Certificado',
+    request:'Solicitud',
+    general:'General'
+  }[type] || 'General'
+}
+
+function openStudentInbox(){
+  if(!currentStudent) return
+  window.location.href = `mensajes.html?student=${encodeURIComponent(currentStudent.code || currentStudent.studentId || '')}`
+}
+
+function updateMessageStatusFromDossier(id,status){
+  if(currentUser.role !== 'admin' && currentUser.role !== 'teacher'){
+    alert('No tienes permiso para gestionar mensajes.')
+    return
+  }
+
+  const messages = loadMessages()
+  const index = messages.findIndex(message => message.id === id)
+  if(index < 0) return
+
+  const history = Array.isArray(messages[index].history) ? messages[index].history : []
+  history.push({
+    status,
+    note:`Estado actualizado desde dossier: ${messageStatusLabel(status)}.`,
+    at:new Date().toISOString(),
+    by:currentUser.name || currentUser.email || 'Usuario'
+  })
+
+  messages[index].status = status
+  messages[index].history = history
+  messages[index].updatedAt = new Date().toISOString()
+
+  saveMessages(messages)
+  renderMessagesForStudent()
+}
+
+function nextRequestIdFromMessages(requests){
+  const numbers = requests.map(request => request.id).filter(id => /^REQ-\d+$/.test(id || '')).map(id => parseInt(id.replace('REQ-',''),10))
+  const next = numbers.length ? Math.max(...numbers)+1 : 1
+  return `REQ-${String(next).padStart(4,'0')}`
+}
+
+function createRequestFromDossierMessage(id){
+  if(currentUser.role !== 'admin' && currentUser.role !== 'teacher'){
+    alert('No tienes permiso para convertir mensajes en solicitudes.')
+    return
+  }
+
+  const messages = loadMessages()
+  const messageIndex = messages.findIndex(message => message.id === id)
+  if(messageIndex < 0 || !currentStudent) return
+
+  const message = messages[messageIndex]
+  const requests = loadRequests()
+
+  const request = {
+    id: nextRequestIdFromMessages(requests),
+    source: 'whatsapp',
+    sourceMessageId: message.id,
+    studentCode: currentStudent.code || message.studentId,
+    studentId: currentStudent.code || message.studentId,
+    studentName: currentStudent.name || message.studentName,
+    studentEmail: currentStudent.email || message.studentEmail || '',
+    studentPhone: currentStudent.phone || currentStudent.whatsapp || message.phone || '',
+    teacher: currentStudent.teacher || '',
+    teacherId: currentStudent.teacherId || currentStudent.teacherCode || getTeacherIdByName(currentStudent.teacher) || message.teacherId || '',
+    service: currentStudent.service || '',
+    type: 'Solicitud por WhatsApp',
+    reason: message.text || '',
+    requestedDate: '',
+    requestedTime: '',
+    status: 'Nueva',
+    adminNote: '',
+    teacherNote: '',
+    createdByRole: 'student_whatsapp',
+    createdByEmail: currentStudent.email || message.studentEmail || '',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  }
+
+  requests.push(request)
+  saveRequests(requests)
+
+  const history = Array.isArray(message.history) ? message.history : []
+  history.push({
+    status:'converted_request',
+    note:`Convertido en solicitud ${request.id} desde dossier.`,
+    at:new Date().toISOString(),
+    by:currentUser.name || currentUser.email || 'Usuario'
+  })
+
+  messages[messageIndex].status = 'converted_request'
+  messages[messageIndex].type = 'request'
+  messages[messageIndex].linkedRequestId = request.id
+  messages[messageIndex].history = history
+  messages[messageIndex].updatedAt = new Date().toISOString()
+
+  saveMessages(messages)
+  renderMessagesForStudent()
+  renderRequests()
+  renderEvaluationHistory(student)
+  renderInterventions()
+  renderMessagesForStudent()
+}
+
+function renderMessagesForStudent(){
+  const summary = document.getElementById('messagesSummary')
+  const container = document.getElementById('messagesList')
+  const inboxBtn = document.getElementById('openInboxBtn')
+  if(!summary || !container || !currentStudent) return
+
+  if(inboxBtn){
+    inboxBtn.style.display = currentUser.role === 'admin' || currentUser.role === 'teacher' ? 'inline-block' : 'none'
+  }
+
+  const messages = getStudentMessages(currentStudent)
+  const newMessages = messages.filter(message=>message.status === 'new')
+  const followMessages = messages.filter(message=>message.status === 'follow_up')
+  const convertedMessages = messages.filter(message=>message.status === 'converted_request')
+  const activeMessages = messages.filter(message=>['new','follow_up'].includes(message.status))
+
+  summary.innerHTML = `
+    <div class="message-summary">
+      <div class="message-summary-item"><small>Total</small><strong>${messages.length}</strong></div>
+      <div class="message-summary-item"><small>Nuevos</small><strong>${newMessages.length}</strong></div>
+      <div class="message-summary-item"><small>Seguimiento</small><strong>${followMessages.length}</strong></div>
+      <div class="message-summary-item"><small>Solicitudes</small><strong>${convertedMessages.length}</strong></div>
+    </div>
+  `
+
+  container.innerHTML = ''
+
+  if(!messages.length){
+    container.innerHTML = '<div class="empty">No hay mensajes registrados para este estudiante.</div>'
+    return
+  }
+
+  if(activeMessages.length){
+    const alert = document.createElement('div')
+    alert.className = newMessages.length ? 'eval-alert danger' : 'eval-alert warning'
+    alert.innerText = `${activeMessages.length} mensaje(s) requieren gestión.`
+    container.appendChild(alert)
+  }
+
+  messages.slice(0,12).forEach(message=>{
+    const card = document.createElement('div')
+    card.className = `message-card ${message.status}`
+    card.innerHTML = `
+      <span class="pill ${messageStatusClass(message.status)}">${messageStatusLabel(message.status)}</span>
+      <span class="pill gray">${messageTypeLabel(message.type)}</span>
+      <strong>${message.channel || 'whatsapp'} · ${message.phone || 'Sin teléfono'}</strong>
+      <small>${message.createdAt ? new Date(message.createdAt).toLocaleString('es-CO') : '-'}</small>
+      <small>${message.text || 'Sin contenido.'}</small>
+      ${message.internalNote ? `<small><strong>Nota interna:</strong> ${message.internalNote}</small>` : ''}
+      ${message.linkedRequestId ? `<small><strong>Solicitud vinculada:</strong> ${message.linkedRequestId}</small>` : ''}
+      ${(currentUser.role === 'admin' || currentUser.role === 'teacher') ? `
+        <div class="message-actions">
+          <button class="btn btn-secondary" onclick="updateMessageStatusFromDossier('${message.id}','read')">Marcar leído</button>
+          <button class="btn btn-secondary" onclick="updateMessageStatusFromDossier('${message.id}','follow_up')">Seguimiento</button>
+          <button class="btn btn-secondary" onclick="updateMessageStatusFromDossier('${message.id}','answered')">Respondido</button>
+          ${message.linkedRequestId ? `<button class="btn btn-secondary" onclick="window.location.href='solicitudes.html'">Ver solicitud</button>` : `<button class="btn btn-secondary" onclick="createRequestFromDossierMessage('${message.id}')">Crear solicitud</button>`}
+        </div>
+      ` : ''}
+    `
+    container.appendChild(card)
+  })
+}
+
+
+
+function saveRequests(items){
+  const normalized = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeRequest)
+    ? (Array.isArray(items)?items:[]).map(item=>SchemaRegistry.normalizeRequest(item))
+    : items
+
+  saveArray(REQUESTS_KEY, normalized)
+}
+
+function getTeacherIdByName(name){
+  const teacher = loadTeachers().find(item => item.name === name)
+  return teacher?.teacherId || ''
+}
+
+function getTeacherNameById(teacherId){
+  const teacher = loadTeachers().find(item => item.teacherId === teacherId || item.id === teacherId || item.code === teacherId)
+  return teacher?.name || ''
+}
+
+function getCurrentTeacherId(){
+  return currentUser.teacherId || currentUser.teacherCode || currentUser.id || ''
+}
+
+function normalizeTeacherRef(item){
+  const teacherId = item?.teacherId || item?.teacherCode || getTeacherIdByName(item?.teacher) || ''
+  const teacher = item?.teacher || getTeacherNameById(teacherId) || 'Por asignar'
+  return {...item,teacherId,teacherCode:teacherId,teacher}
+}
+
+function teacherOwnsStudent(student){
+  if(currentUser.role !== 'teacher') return true
+  const teacherId = getCurrentTeacherId()
+
+  if((student.teacherId && student.teacherId === teacherId) || (student.teacherCode && student.teacherCode === teacherId)) return true
+  if(student.teacher && currentUser.name && String(student.teacher).toLowerCase() === String(currentUser.name).toLowerCase()) return true
+
+  const groups = loadGroups().filter(group => (teacherId && group.teacherId === teacherId) || group.teacher === currentUser.name)
+  const packages = loadPackages().filter(pkg => (teacherId && pkg.teacherId === teacherId) || pkg.teacher === currentUser.name)
+
+  const inGroup = groups.some(group => (group.students || []).some(item => item.code === student.code || item.name === student.name))
+  const inPackage = packages.some(pkg => (pkg.students || []).some(item => item.code === student.code || item.name === student.name))
+
+  return inGroup || inPackage
+}
+
+function canViewStudent(student){
+  if(currentUser.role === 'admin') return true
+
+  if(currentUser.role === 'student'){
+    const codeMatch = currentUser.studentId && (currentUser.studentId === student.code || currentUser.studentId === student.id)
+    const emailMatch = currentUser.email && student.email && currentUser.email.toLowerCase() === student.email.toLowerCase()
+    return Boolean(codeMatch || emailMatch)
+  }
+
+  if(currentUser.role === 'teacher'){
+    return teacherOwnsStudent(student)
+  }
+
+  return false
+}
+
+function requestStatusClass(status){
+  if(status === 'Aprobada') return 'ok'
+  if(status === 'Rechazada') return 'danger'
+  if(status === 'En revisión') return 'warning'
+  return 'gray'
+}
+
+function generateRequestCode(){
+  const requests = loadRequests()
+  const numbers = requests.map(request => request.id).filter(id => /^REQ-\d+$/.test(id)).map(id => parseInt(id.replace('REQ-',''),10))
+  const next = numbers.length ? Math.max(...numbers)+1 : 1
+  return `REQ-${String(next).padStart(4,'0')}`
+}
+
+function calculatePercent(value){
+  if(!value || !String(value).includes('/')) return 0
+  const parts = String(value).split('/')
+  const current = parseFloat(parts[0])
+  const total = parseFloat(parts[1])
+  if(!total || Number.isNaN(current) || Number.isNaN(total)) return 0
+  return Math.max(0,Math.min(100,(current/total)*100))
+}
+
+function deny(message){
+  document.body.innerHTML = `<h2 style="padding:40px;font-family:Arial;color:#0d2b45">${message}</h2>`
+}
+
+
+
+function loadInterventions(){
+  return loadArray(INTERVENTIONS_KEY).map(item=>{
+    const normalized = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeIntervention)
+      ? SchemaRegistry.normalizeIntervention(item)
+      : {...item}
+
+    return {
+      ...normalized,
+      id:normalized.id||normalized.interventionId||'',
+      interventionId:normalized.interventionId||normalized.id||'',
+      studentId:normalized.studentId||normalized.studentCode||'',
+      studentCode:normalized.studentCode||normalized.studentId||'',
+      studentName:normalized.studentName||normalized.name||'Estudiante',
+      studentEmail:normalized.studentEmail||normalized.email||'',
+      teacherId:normalized.teacherId||normalized.teacherCode||'',
+      teacherCode:normalized.teacherCode||normalized.teacherId||'',
+      evaluationId:normalized.evaluationId||'',
+      type:normalized.type||'Evaluación',
+      level:normalized.level||'',
+      unit:normalized.unit||'',
+      unitTitle:normalized.unitTitle||normalized.unit_title||'',
+      score:normalized.score===null||normalized.score===undefined||normalized.score===''?null:Number(normalized.score),
+      severity:normalized.severity||'risk',
+      recommendation:normalized.recommendation||'Asignar refuerzo académico.',
+      status:normalized.status||'pending',
+      createdAt:normalized.createdAt||'',
+      updatedAt:normalized.updatedAt||'',
+      notes:normalized.notes||'',
+      plan:normalized.plan||null
+    }
+  })
+}
+
+function saveInterventions(items){
+  const normalized = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeIntervention)
+    ? (Array.isArray(items)?items:[]).map(item=>SchemaRegistry.normalizeIntervention(item))
+    : items
+
+  saveArray(INTERVENTIONS_KEY, normalized)
+}
+
+function getStudentInterventions(student){
+  return loadInterventions()
+    .filter(item =>
+      item.studentId === student.code ||
+      item.studentId === student.studentId ||
+      item.studentName === student.name ||
+      item.studentEmail === student.email
+    )
+    .sort((a,b)=>new Date(b.createdAt||0)-new Date(a.createdAt||0))
+}
+
+function closeIntervention(id){
+  if(currentUser.role !== 'admin' && currentUser.role !== 'teacher'){
+    alert('No tienes permiso para cerrar intervenciones.')
+    return
+  }
+
+  const items = loadInterventions()
+  const index = items.findIndex(item => item.id === id)
+  if(index < 0) return
+
+  const note = prompt('Nota de cierre de la intervención:')
+  if(note === null) return
+
+  items[index].status = 'closed'
+  items[index].closedAt = new Date().toISOString()
+  items[index].closedBy = currentUser.name || currentUser.email || currentUser.role || 'Usuario'
+  items[index].updatedAt = new Date().toISOString()
+  items[index].notes = note.trim()
+
+  saveInterventions(items)
+  renderInterventions()
+}
+
+
+function generateFallbackReinforcementPlan(item){
+  const focus = item.type || 'Evaluación'
+  const severity = item.severity || 'risk'
+  const tools = focus === 'Speaking'
+    ? ['Speaking_portal.html','Grammar_portal.html']
+    : focus === 'Listening'
+      ? ['Listening_portal.html']
+      : ['Grammar_portal.html']
+
+  const actions = severity === 'critical'
+    ? ['Repetir la unidad completa antes de avanzar.','Completar 3 sesiones de práctica guiada.','Revisar errores con profesor o administrador.','Repetir evaluación en modo Exam.']
+    : ['Completar 2 sesiones de práctica dirigida.','Reforzar los puntos débiles de la unidad.','Repetir una evaluación corta o práctica controlada.']
+
+  return {focus,status:'pending',actions,recommendedTools:tools,progress:{assignedPractice:false,guidedReview:false,repeatedEvaluation:false}}
+}
+
+function getInterventionPlan(item){
+  return item.plan && Array.isArray(item.plan.actions) ? item.plan : generateFallbackReinforcementPlan(item)
+}
+
+function toolLabel(tool){
+  if(tool.includes('Speaking')) return 'Abrir Speaking'
+  if(tool.includes('Listening')) return 'Abrir Listening'
+  if(tool.includes('Grammar')) return 'Abrir Grammar'
+  return 'Abrir práctica'
+}
+
+function toolUrl(tool,item){
+  const params = new URLSearchParams({
+    mode:'practice',
+    level:item.level || '',
+    unit:String(item.unit || ''),
+    type:item.type || ''
+  })
+  return `${tool}?${params.toString()}`
+}
+
+
+
+function ensurePlanProgress(plan){
+  plan.progress = plan.progress || {}
+  plan.progress.assignedPractice = Boolean(plan.progress.assignedPractice)
+  plan.progress.guidedReview = Boolean(plan.progress.guidedReview)
+  plan.progress.repeatedEvaluation = Boolean(plan.progress.repeatedEvaluation)
+  plan.canReevaluate = Boolean(plan.progress.assignedPractice && plan.progress.guidedReview)
+  return plan
+}
+
+function updatePlanProgress(id,key,value){
+  if(currentUser.role !== 'admin' && currentUser.role !== 'teacher'){
+    alert('No tienes permiso para actualizar el plan de refuerzo.')
+    return
+  }
+
+  const items = loadInterventions()
+  const index = items.findIndex(item => item.id === id)
+  if(index < 0) return
+
+  const item = items[index]
+  item.plan = getInterventionPlan(item)
+  item.plan = ensurePlanProgress(item.plan)
+  item.plan.progress[key] = value
+  item.plan = ensurePlanProgress(item.plan)
+  item.plan.status = item.plan.canReevaluate ? 'ready_for_reevaluation' : 'in_progress'
+  item.updatedBy = currentUser.name || currentUser.email || currentUser.role || 'Usuario'
+  item.updatedAt = new Date().toISOString()
+
+  items[index] = item
+  saveInterventions(items)
+  renderInterventions()
+}
+
+function reevaluationUrl(item){
+  const map = {
+    Grammar:'Grammar_portal.html',
+    Listening:'Listening_portal.html',
+    Speaking:'Speaking_portal.html'
+  }
+  const base = map[item.type] || 'Grammar_portal.html'
+  const params = new URLSearchParams({
+    mode:'exam',
+    type:item.type || '',
+    level:item.level || '',
+    unit:String(item.unit || ''),
+    reevaluation:'true',
+    interventionId:item.id || ''
+  })
+  return `${base}?${params.toString()}`
+}
+
+function formatImprovement(item){
+  if(item.improvement === null || item.improvement === undefined || item.improvement === '') return '--'
+  const value = Number(item.improvement)
+  if(Number.isNaN(value)) return '--'
+  return value > 0 ? `+${value}%` : `${value}%`
+}
+
+
+function renderInterventions(){
+  const container = document.getElementById('interventionsList')
+  if(!container || !currentStudent) return
+
+  const items = getStudentInterventions(currentStudent)
+  const open = items.filter(item => item.status !== 'closed')
+  container.innerHTML = ''
+
+  if(!items.length){
+    container.innerHTML = '<div class="empty">No hay intervenciones académicas registradas para este estudiante.</div>'
+    return
+  }
+
+  if(open.length){
+    const alert = document.createElement('div')
+    alert.className = open.some(item=>item.severity==='critical') ? 'eval-alert danger' : 'eval-alert warning'
+    alert.innerText = `${open.length} intervención(es) abierta(s). Revisa la recomendación antes de avanzar académicamente.`
+    container.appendChild(alert)
+  }
+
+  items.forEach(item=>{
+    const isClosed = item.status === 'closed'
+    const card = document.createElement('div')
+    card.className = `intervention-card ${isClosed ? 'closed' : item.severity === 'critical' ? 'critical' : 'risk'}`
+    card.innerHTML = `
+      <span class="pill ${isClosed ? 'ok' : item.severity === 'critical' ? 'danger' : 'warning'}">${isClosed ? 'Cerrada' : item.severity === 'critical' ? 'Crítica' : 'En riesgo'}</span>
+      <strong>${item.type} · ${item.level} Unidad ${item.unit} · ${item.score === null ? '--' : item.score + '%'}</strong>
+      <small>${item.recommendation}</small>
+      ${(()=>{
+        const plan = ensurePlanProgress(getInterventionPlan(item))
+        const canManage = currentUser.role === 'admin' || currentUser.role === 'teacher'
+        return `<div class="plan-box">
+          <strong>Plan de refuerzo automático</strong>
+          <ul>${plan.actions.map(action=>`<li>${action}</li>`).join('')}</ul>
+
+          <div class="reinforcement-roadmap">
+            <div class="roadmap-step ${plan.progress.assignedPractice ? 'done' : 'pending'}">1. Práctica ${plan.progress.assignedPractice ? 'completada' : 'pendiente'}</div>
+            <div class="roadmap-step ${plan.progress.guidedReview ? 'done' : 'pending'}">2. Revisión ${plan.progress.guidedReview ? 'completada' : 'pendiente'}</div>
+            <div class="roadmap-step ${plan.progress.repeatedEvaluation ? 'done' : 'pending'}">3. Re-evaluación ${plan.progress.repeatedEvaluation ? 'realizada' : 'pendiente'}</div>
+          </div>
+
+          <div class="loop-metrics">
+            <div class="loop-metric"><small>Score inicial</small><strong>${item.score === null ? '--' : item.score + '%'}</strong></div>
+            <div class="loop-metric"><small>Último score</small><strong>${item.lastScore === null || item.lastScore === undefined ? '--' : item.lastScore + '%'}</strong></div>
+            <div class="loop-metric"><small>Mejora</small><strong>${formatImprovement(item)}</strong></div>
+          </div>
+
+          ${canManage && item.status !== 'closed' ? `<div class="plan-toggle-actions">
+            <button class="btn btn-secondary" onclick="updatePlanProgress('${item.id}','assignedPractice',${!plan.progress.assignedPractice})">${plan.progress.assignedPractice ? 'Desmarcar práctica' : 'Marcar práctica'}</button>
+            <button class="btn btn-secondary" onclick="updatePlanProgress('${item.id}','guidedReview',${!plan.progress.guidedReview})">${plan.progress.guidedReview ? 'Desmarcar revisión' : 'Marcar revisión'}</button>
+          </div>` : ''}
+
+          <div class="plan-tools">
+            ${plan.recommendedTools.map(tool=>`<button class="btn btn-secondary" onclick="window.location.href='${toolUrl(tool,item)}'">${toolLabel(tool)}</button>`).join('')}
+            ${plan.canReevaluate && item.status !== 'closed' && !plan.progress.repeatedEvaluation ? `<button class="btn" onclick="window.location.href='${reevaluationUrl(item)}'">Re-evaluar</button>` : ''}
+          </div>
+        </div>`
+      })()}
+      <small>Creada: ${item.createdAt ? new Date(item.createdAt).toLocaleString('es-CO') : '-'}</small>
+      ${item.notes ? `<small><strong>Nota:</strong> ${item.notes}</small>` : ''}
+      ${(currentUser.role === 'admin' || currentUser.role === 'teacher') && !isClosed ? `<div class="intervention-actions"><button class="btn btn-secondary" onclick="closeIntervention('${item.id}')">Cerrar intervención</button></div>` : ''}
+    `
+    container.appendChild(card)
+  })
+}
+
+
+function loadExamResults(){
+  const examResults = loadArray(EXAM_RESULTS_KEY)
+  const assessmentResults = loadArray(ASSESSMENT_RESULTS_KEY)
+  const merged = [...examResults, ...assessmentResults]
+  const seen = new Set()
+  return merged.map(normalizeExamResult).filter(result=>{
+    const key = result.id || `${result.studentId}-${result.type}-${result.level}-${result.unit}-${result.date}-${result.score}`
+    if(seen.has(key)) return false
+    seen.add(key)
+    return true
+  })
+}
+
+function normalizeExamResult(raw={}){
+  const normalized = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeResult)
+    ? SchemaRegistry.normalizeResult(raw)
+    : {...raw}
+
+  return {
+    ...normalized,
+    id: normalized.id || normalized.resultId || '',
+    resultId: normalized.resultId || normalized.id || '',
+    evaluationId: normalized.evaluationId || normalized.assignmentId || normalized.assessmentId || '',
+    assignmentId: normalized.assignmentId || normalized.evaluationId || '',
+    assessmentId: normalized.assessmentId || normalized.evaluationId || '',
+    studentId: normalized.studentId || normalized.studentCode || '',
+    studentCode: normalized.studentCode || normalized.studentId || '',
+    studentName: normalized.studentName || normalized.name || normalized.student || '',
+    studentEmail: normalized.studentEmail || normalized.email || '',
+    teacherId: normalized.teacherId || normalized.teacherCode || '',
+    teacherCode: normalized.teacherCode || normalized.teacherId || '',
+    type: normalized.type || normalized.skill || 'Evaluación',
+    mode: String(normalized.mode || 'exam').toLowerCase(),
+    level: normalized.level || normalized.level_code || '',
+    unit: normalized.unit || normalized.unit_number || '',
+    unitTitle: normalized.unitTitle || normalized.unit_title || normalized.title || '',
+    score: normalized.score ?? normalized.finalScore ?? normalized.percentage ?? null,
+    percentage: normalized.percentage ?? normalized.score ?? normalized.finalScore ?? null,
+    finalScore: normalized.finalScore ?? normalized.score ?? normalized.percentage ?? null,
+    submittedAt: normalized.submittedAt || normalized.date || normalized.createdAt || '',
+    createdAt: normalized.createdAt || normalized.submittedAt || normalized.date || '',
+    updatedAt: normalized.updatedAt || normalized.submittedAt || normalized.createdAt || '',
+    date: normalized.date || normalized.submittedAt || normalized.createdAt || ''
+  }
+}
+
+function scoreNumber(result){
+  if(result.score === null || result.score === undefined || result.score === '') return null
+  const parsed = Number(String(result.score).replace('%','').trim())
+  return Number.isNaN(parsed) ? null : parsed
+}
+
+function resultStatus(result){
+  const score = scoreNumber(result)
+  if(score === null) return {label:'Sin nota', className:'gray'}
+  if(score < 60) return {label:'Intervención', className:'danger'}
+  if(score < 75) return {label:'En riesgo', className:'warning'}
+  return {label:'Aprobado', className:'ok'}
+}
+
+function resultBelongsToStudent(result, student){
+  const codeMatch = result.studentId && student.code && result.studentId === student.code
+  const idMatch = result.studentId && student.studentId && result.studentId === student.studentId
+  const emailMatch = result.studentEmail && student.email && String(result.studentEmail).toLowerCase() === String(student.email).toLowerCase()
+  const nameMatch = result.studentName && student.name && result.studentName === student.name
+  return Boolean(codeMatch || idMatch || emailMatch || nameMatch)
+}
+
+function getStudentResults(student){
+  return loadExamResults()
+    .filter(result => resultBelongsToStudent(result, student))
+    .sort((a,b)=>new Date(b.date || 0)-new Date(a.date || 0))
+}
+
+function average(numbers){
+  if(!numbers.length) return null
+  return Math.round(numbers.reduce((sum,item)=>sum+item,0)/numbers.length)
+}
+
+function formatResultDate(value){
+  const date = new Date(value)
+  if(Number.isNaN(date.getTime())) return value || '-'
+  return date.toLocaleString('es-CO',{year:'numeric',month:'short',day:'2-digit',hour:'2-digit',minute:'2-digit'})
+}
+
+function renderEvaluationHistory(student){
+  const summary = document.getElementById('evaluationSummary')
+  const table = document.getElementById('evaluationHistoryTable')
+  if(!summary || !table) return
+
+  const results = getStudentResults(student)
+  const examResults = results.filter(result => result.mode === 'exam')
+  const practiceResults = results.filter(result => result.mode === 'practice')
+  const scores = results.map(scoreNumber).filter(score => score !== null)
+  const examScores = examResults.map(scoreNumber).filter(score => score !== null)
+  const avg = average(scores)
+  const examAvg = average(examScores)
+  const lowScores = results.filter(result => {
+    const score = scoreNumber(result)
+    return score !== null && score < 75
+  })
+
+  let alertClass = 'ok'
+  let alertText = 'No hay alertas de evaluación. El historial disponible está en rango estable.'
+  if(!results.length){
+    alertClass = 'warning'
+    alertText = 'Este estudiante todavía no tiene resultados registrados en Grammar, Listening o Speaking.'
+  }else if(lowScores.some(result => (scoreNumber(result) || 0) < 60)){
+    alertClass = 'danger'
+    alertText = 'Hay resultados por debajo de 60%. Se recomienda intervención académica antes de avanzar.'
+  }else if(lowScores.length){
+    alertClass = 'warning'
+    alertText = 'Hay resultados por debajo de 75%. Conviene asignar práctica o refuerzo por unidad.'
+  }
+
+  summary.innerHTML = `
+    <div class="eval-metrics">
+      <div class="eval-metric"><small>Total</small><strong>${results.length}</strong></div>
+      <div class="eval-metric"><small>Exámenes</small><strong>${examResults.length}</strong></div>
+      <div class="eval-metric"><small>Prácticas</small><strong>${practiceResults.length}</strong></div>
+      <div class="eval-metric"><small>Promedio</small><strong>${avg === null ? '--' : avg + '%'}</strong></div>
+    </div>
+    <div class="eval-alert ${alertClass}">${alertText}${examAvg !== null ? ` Promedio en exámenes: ${examAvg}%.` : ''}</div>
+  `
+
+  table.innerHTML = ''
+
+  if(!results.length){
+    table.innerHTML = '<tr><td colspan="6">No hay evaluaciones registradas para este estudiante.</td></tr>'
+    return
+  }
+
+  results.slice(0,20).forEach(result=>{
+    const status = resultStatus(result)
+    const score = scoreNumber(result)
+    const scoreClass = status.className === 'ok' ? 'ok' : status.className === 'warning' ? 'warning' : status.className === 'danger' ? 'danger' : ''
+    const row = document.createElement('tr')
+    row.innerHTML = `
+      <td>${formatResultDate(result.date)}</td>
+      <td>${result.type}</td>
+      <td><span class="pill ${result.mode === 'exam' ? 'danger' : 'gray'}">${result.mode === 'exam' ? 'Exam' : 'Practice'}</span></td>
+      <td>${result.level || '--'} · Unit ${result.unit || '--'}${result.unitTitle ? `<br><small>${result.unitTitle}</small>` : ''}</td>
+      <td><span class="score-strong ${scoreClass}">${score === null ? '--' : score + '%'}</span></td>
+      <td><span class="pill ${status.className}">${status.label}</span></td>
+    `
+    table.appendChild(row)
+  })
+}
+
+function renderDossier(){
+  const code = getStudentFromURL()
+  const students = loadStudents()
+  const student = students.find(s => s.code === code || s.id === code)
+
+  if(!student){
+    deny('Estudiante no encontrado.')
+    return
+  }
+
+  if(!canViewStudent(student)){
+    deny('No tienes permiso para ver este dossier.')
+    return
+  }
+
+  currentStudent = student
+
+  document.getElementById('studentName').innerText = student.name || 'Estudiante'
+  document.getElementById('studentMeta').innerText =
+    `${student.code || ''} · ${student.service || ''} · ${student.level || ''}`
+
+  document.getElementById('teacher').innerText = student.teacher || getTeacherNameById(student.teacherId) || '-'
+  document.getElementById('group').innerText = student.group || '-'
+  document.getElementById('service').innerText = student.service || '-'
+  document.getElementById('studentPhone').innerText = student.phone || student.whatsapp || '-'
+  document.getElementById('status').innerText = student.status || 'Activo'
+
+  document.getElementById('trackingText').innerText =
+    `${student.trackingLabel || 'Seguimiento'}: ${student.trackingValue || 'Sin datos'}`
+
+  document.getElementById('progressBar').style.width = calculatePercent(student.trackingValue) + '%'
+
+  const history = document.getElementById('historyTable')
+  history.innerHTML = `
+    <tr>
+      <td>Progreso actual</td>
+      <td>${student.trackingValue || 'Sin datos'}</td>
+    </tr>
+    <tr>
+      <td>Último estado</td>
+      <td>${student.status || 'Activo'}</td>
+    </tr>
+  `
+
+  renderRequests()
+}
+
+function visibleRequests(){
+  if(!currentStudent) return []
+  const code = currentStudent.code || currentStudent.studentId || currentStudent.id || ''
+  return loadRequests().filter(request =>
+    request.studentCode === code ||
+    request.studentId === code ||
+    (request.studentEmail && currentStudent.email && normalizeEmail(request.studentEmail) === normalizeEmail(currentStudent.email))
+  )
+}
+
+function renderRequests(){
+  const container = document.getElementById('requestsList')
+  const btn = document.getElementById('newRequestBtn')
+  if(!container || !currentStudent) return
+
+  if(btn){
+    btn.style.display = currentUser.role === 'student' || currentUser.role === 'admin' ? 'inline-block' : 'none'
+  }
+
+  const requests = visibleRequests()
+  container.innerHTML = ''
+
+  if(!requests.length){
+    container.innerHTML = '<div class="empty">No hay solicitudes registradas para este estudiante.</div>'
+    return
+  }
+
+  requests.sort((a,b)=>String(b.createdAt||'').localeCompare(String(a.createdAt||''))).forEach(request=>{
+    const card = document.createElement('div')
+    card.className = 'request-card'
+    card.innerHTML = `
+      <span class="pill ${requestStatusClass(request.status)}">${request.status || 'Nueva'}</span>
+      <strong>${request.id} · ${request.type}</strong>
+      <small>${request.reason || 'Sin detalle.'}</small>
+      ${request.requestedDate ? `<small>Fecha solicitada: ${request.requestedDate}${request.requestedTime ? ' · '+request.requestedTime : ''}</small>` : ''}
+      <small>Creada: ${request.createdAt ? new Date(request.createdAt).toLocaleString('es-CO') : '-'}</small>
+      ${request.teacherNote ? `<small><strong>Nota profesor:</strong> ${request.teacherNote}</small>` : ''}
+      ${request.adminNote ? `<small><strong>Respuesta administración:</strong> ${request.adminNote}</small>` : ''}
+      ${(currentUser.role === 'admin' || currentUser.role === 'teacher') ? `<div class="request-actions"><button class="btn btn-secondary" onclick="openReviewRequestModal('${request.id}')">Revisar</button></div>` : ''}
+    `
+    container.appendChild(card)
+  })
+}
+
+function openRequestModal(){
+  if(!currentStudent) return
+  if(currentUser.role === 'teacher'){
+    alert('El profesor puede observar solicitudes, pero no crearlas por el estudiante.')
+    return
+  }
+  if(!canViewStudent(currentStudent)){
+    alert('No tienes permiso para crear solicitudes para este estudiante.')
+    return
+  }
+
+  document.getElementById('requestStudentLabel').value = `${currentStudent.code} · ${currentStudent.name}`
+  document.getElementById('requestType').value = 'Reprogramación'
+  document.getElementById('requestDate').value = ''
+  document.getElementById('requestTime').value = ''
+  document.getElementById('requestReason').value = ''
+  handleRequestTypeChange()
+  document.getElementById('requestModal').classList.add('active')
+}
+
+function closeRequestModal(){
+  document.getElementById('requestModal').classList.remove('active')
+}
+
+function handleRequestTypeChange(){
+  const type = document.getElementById('requestType').value
+  const needsSchedule = type === 'Reprogramación' || type === 'Cambio de horario'
+  document.getElementById('requestDateField').style.display = needsSchedule ? 'flex' : 'none'
+  document.getElementById('requestTimeField').style.display = needsSchedule ? 'flex' : 'none'
+}
+
+function createRequest(){
+  if(!currentStudent) return
+
+  const type = document.getElementById('requestType').value
+  const requestedDate = document.getElementById('requestDate').value
+  const requestedTime = document.getElementById('requestTime').value
+  const reason = document.getElementById('requestReason').value.trim()
+
+  if(!type || !reason){
+    alert('Tipo y motivo son obligatorios.')
+    return
+  }
+
+  if((type === 'Reprogramación' || type === 'Cambio de horario') && !requestedDate){
+    alert('Para reprogramación o cambio de horario debes indicar una fecha solicitada.')
+    return
+  }
+
+  const request = {
+    id: generateRequestCode(),
+    studentCode: currentStudent.code || currentStudent.studentId || '',
+    studentId: currentStudent.code || currentStudent.studentId || '',
+    studentName: currentStudent.name,
+    studentEmail: currentStudent.email || '',
+    studentPhone: currentStudent.phone || currentStudent.whatsapp || '',
+    teacher: currentStudent.teacher || '',
+    teacherId: currentStudent.teacherId || currentStudent.teacherCode || getTeacherIdByName(currentStudent.teacher) || '',
+    service: currentStudent.service || '',
+    type,
+    reason,
+    requestedDate,
+    requestedTime,
+    status: 'Nueva',
+    adminNote: '',
+    teacherNote: '',
+    createdByRole: currentUser.role,
+    createdByEmail: currentUser.email || '',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  }
+
+  const requests = loadRequests()
+  requests.push(request)
+  saveRequests(requests)
+  closeRequestModal()
+  renderRequests()
+}
+
+function openReviewRequestModal(requestId){
+  const request = loadRequests().find(item => item.id === requestId)
+  if(!request) return
+
+  if(currentUser.role !== 'admin' && currentUser.role !== 'teacher'){
+    alert('No tienes permiso para revisar solicitudes.')
+    return
+  }
+
+  if(currentUser.role === 'teacher' && !teacherOwnsStudent(currentStudent)){
+    alert('No tienes permiso para revisar esta solicitud.')
+    return
+  }
+
+  document.getElementById('reviewRequestId').value = request.id
+  document.getElementById('reviewRequestSummary').value = `${request.id} · ${request.studentName} · ${request.type}`
+  document.getElementById('reviewStatus').value = request.status || 'Nueva'
+  document.getElementById('reviewAdminNote').value = request.adminNote || ''
+  document.getElementById('reviewTeacherNote').value = request.teacherNote || ''
+
+  document.querySelectorAll('.admin-review-only').forEach(el => { el.style.display = currentUser.role === 'admin' ? 'flex' : 'none' })
+  document.querySelectorAll('.teacher-review-only').forEach(el => { el.style.display = currentUser.role === 'teacher' || currentUser.role === 'admin' ? 'flex' : 'none' })
+
+  document.getElementById('reviewRequestModal').classList.add('active')
+}
+
+function closeReviewRequestModal(){
+  document.getElementById('reviewRequestModal').classList.remove('active')
+}
+
+function saveRequestReview(){
+  const requestId = document.getElementById('reviewRequestId').value
+  const requests = loadRequests()
+  const index = requests.findIndex(item => item.id === requestId)
+  if(index < 0) return
+
+  if(currentUser.role === 'admin'){
+    requests[index].status = document.getElementById('reviewStatus').value
+    requests[index].adminNote = document.getElementById('reviewAdminNote').value.trim()
+  }
+
+  if(currentUser.role === 'teacher' || currentUser.role === 'admin'){
+    requests[index].teacherNote = document.getElementById('reviewTeacherNote').value.trim()
+  }
+
+  requests[index].reviewedBy = currentUser.name || currentUser.email || currentUser.role || 'Usuario'
+  requests[index].updatedAt = new Date().toISOString()
+  saveRequests(requests)
+  closeReviewRequestModal()
+  renderRequests()
+}
+
+
+async function downloadDossierPDF(){
+  if(!window.html2canvas || !window.jspdf){
+    alert('No se pudo cargar la herramienta de PDF. Revisa tu conexión a internet o usa Imprimir / guardar como PDF.')
+    return
+  }
+
+  const jsPDF = window.jspdf.jsPDF
+  const element = document.querySelector('.container')
+  if(!element){
+    alert('No se encontró el dossier para generar el PDF.')
+    return
+  }
+
+  const hiddenBefore = []
+  document.querySelectorAll('.session-bar, #backButton, .pdf-actions, .pdf-note, .modal').forEach(el=>{
+    hiddenBefore.push([el, el.style.display])
+    el.style.display = 'none'
+  })
+
+  try{
+    const canvas = await html2canvas(element, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: '#f5f9fc',
+      windowWidth: element.scrollWidth,
+      windowHeight: element.scrollHeight
+    })
+
+    const imgData = canvas.toDataURL('image/png')
+    const pdf = new jsPDF('p','mm','a4')
+
+    const pageWidth = pdf.internal.pageSize.getWidth()
+    const pageHeight = pdf.internal.pageSize.getHeight()
+    const margin = 8
+    const usableWidth = pageWidth - margin * 2
+    const imgHeight = (canvas.height * usableWidth) / canvas.width
+
+    let heightLeft = imgHeight
+    let position = margin
+
+    pdf.addImage(imgData, 'PNG', margin, position, usableWidth, imgHeight)
+    heightLeft -= (pageHeight - margin * 2)
+
+    while(heightLeft > 0){
+      pdf.addPage()
+      position = margin - (imgHeight - heightLeft)
+      pdf.addImage(imgData, 'PNG', margin, position, usableWidth, imgHeight)
+      heightLeft -= (pageHeight - margin * 2)
+    }
+
+    const studentName = (document.getElementById('studentName')?.innerText || 'Estudiante')
+      .replace(/[^\w\sáéíóúÁÉÍÓÚñÑ-]/g,'')
+      .trim()
+      .replace(/\s+/g,'_')
+
+    const date = new Date().toISOString().slice(0,10)
+    pdf.save(`Dossier_${studentName}_${date}.pdf`)
+  }catch(error){
+    console.error(error)
+    alert('No se pudo generar el PDF. Usa el botón Imprimir / guardar como PDF como alternativa.')
+  }finally{
+    hiddenBefore.forEach(([el, display])=>{
+      el.style.display = display
+    })
+  }
+}
+
+
+renderSession()
+renderDossier()
+</script>
+
+</body>
+</html>

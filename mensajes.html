@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mensajes | Wisdom Academy</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#0d2b45;
+  --accent:#1fb6b9;
+  --light:#f5f9fc;
+  --white:#fff;
+  --text:#1f2d3d;
+  --gray:#6b7c93;
+  --border:#dcebf2;
+  --hover:#E6FF00;
+  --soft:#e7f8f8;
+  --danger-bg:#ffefef;
+  --danger:#b00020;
+  --warning-bg:#fff8d6;
+  --warning:#8a6d00;
+  --success-bg:#eef7ee;
+  --success:#257a36;
+}
+
+body{
+  font-family:Inter,Arial,sans-serif;
+  background:linear-gradient(180deg,#f7fbfc,#eef5f7);
+  color:var(--text);
+}
+
+.app{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:260px 1fr;
+}
+
+.sidebar{
+  background:white;
+  border-right:1px solid var(--border);
+  padding:28px 22px;
+  position:sticky;
+  top:0;
+  height:100vh;
+}
+
+.logo{
+  font-weight:900;
+  color:var(--primary);
+  letter-spacing:.18em;
+  margin-bottom:24px;
+  font-size:1.2rem;
+  padding-bottom:18px;
+  border-bottom:1px solid var(--border);
+}
+
+.menu-group{margin-bottom:20px}
+.menu-title{
+  font-size:.72rem;
+  color:var(--gray);
+  font-weight:900;
+  letter-spacing:.12em;
+  margin-bottom:8px;
+  cursor:pointer;
+}
+.menu-items{display:none}
+.menu-group.active .menu-items{display:block}
+
+.side-link{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:var(--text);
+  text-decoration:none;
+  padding:10px 12px;
+  border-radius:12px;
+  font-weight:800;
+  font-size:.9rem;
+  margin-bottom:6px;
+}
+.side-link:hover,.side-link.active{background:var(--soft)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.role-hidden{display:none!important}
+
+.user-box{
+  margin-top:24px;
+  padding:14px;
+  border-radius:16px;
+  background:var(--soft);
+  border:1px solid var(--border);
+}
+.user-box strong{display:block;color:var(--primary);font-size:.9rem;margin-bottom:4px}
+.user-box small{display:block;color:var(--gray);font-weight:700;line-height:1.35}
+
+.logout-btn{
+  width:100%;
+  margin-top:12px;
+  padding:10px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  background:white;
+  color:var(--primary);
+  font-weight:900;
+  cursor:pointer;
+}
+.logout-btn:hover{background:var(--hover);color:black}
+
+.main{padding:30px}
+.main:before{
+  content:"Centro de comunicación";
+  display:block;
+  color:var(--gray);
+  font-size:.72rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  font-weight:900;
+  margin-bottom:10px;
+}
+
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:16px;
+  flex-wrap:wrap;
+  margin-bottom:22px;
+  background:linear-gradient(135deg,#123e68,#1f5f93);
+  color:white;
+  border-radius:28px;
+  padding:24px 26px;
+  box-shadow:0 18px 44px rgba(13,43,69,.10);
+}
+
+h1{
+  font-size:clamp(2rem,4vw,3rem);
+  letter-spacing:-.04em;
+}
+.sub{
+  color:rgba(255,255,255,.78);
+  font-size:.92rem;
+  margin-top:6px;
+  line-height:1.4;
+  font-weight:800;
+}
+
+.role-pill{
+  display:inline-block;
+  margin-left:10px;
+  background:rgba(255,255,255,.18);
+  font-size:.75rem;
+  font-weight:900;
+  padding:5px 10px;
+  border-radius:999px;
+}
+
+.btn{
+  padding:10px 16px;
+  border-radius:999px;
+  font-weight:900;
+  border:none;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-block;
+  font-size:.9rem;
+}
+.btn-primary{background:var(--accent);color:white}
+.btn-secondary{background:white;color:var(--primary);border:1px solid var(--border)}
+.btn-danger{background:var(--danger-bg);color:var(--danger);border:1px solid #ffd1d1}
+.btn:hover{background:var(--hover);color:black}
+
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+
+.notice{
+  background:#eef7ff;
+  border:1px solid #cfe0f1;
+  color:var(--primary);
+  padding:14px 16px;
+  border-radius:18px;
+  margin-bottom:20px;
+  font-weight:800;
+  line-height:1.4;
+}
+
+.metrics{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+  margin-bottom:22px;
+}
+.metric{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:18px;
+  min-height:92px;
+  box-shadow:0 10px 24px rgba(13,43,69,.07);
+}
+.metric span{
+  display:block;
+  color:var(--gray);
+  font-weight:900;
+  font-size:.72rem;
+  text-transform:uppercase;
+  letter-spacing:.09em;
+  margin-bottom:10px;
+}
+.metric strong{
+  display:block;
+  color:#123e68;
+  font-size:2.3rem;
+  line-height:1;
+}
+.metric small{
+  display:block;
+  color:var(--gray);
+  margin-top:8px;
+  font-weight:700;
+}
+
+.panel{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:26px;
+  padding:20px;
+  margin-bottom:20px;
+  box-shadow:0 10px 24px rgba(13,43,69,.07);
+}
+.panel h2{color:#123e68;margin-bottom:14px}
+
+.filters{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:12px;
+  align-items:end;
+}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:.78rem;font-weight:900;color:var(--primary)}
+.field input,.field select,.field textarea{
+  min-height:42px;
+  border-radius:15px;
+  border:1px solid var(--border);
+  padding:0 12px;
+  font:inherit;
+  background:#fbfdff;
+}
+.field textarea{
+  padding:12px;
+  min-height:90px;
+  resize:vertical;
+}
+
+.inbox-grid{
+  display:grid;
+  grid-template-columns:380px 1fr;
+  gap:18px;
+}
+.message-list{
+  display:grid;
+  gap:10px;
+  max-height:650px;
+  overflow:auto;
+}
+.message-card{
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:14px;
+  background:#fbfdff;
+  cursor:pointer;
+}
+.message-card:hover,.message-card.active{
+  background:#f0fbfc;
+  border-color:#bfecef;
+}
+.message-card strong{
+  display:block;
+  color:#123e68;
+  margin-bottom:4px;
+}
+.message-card small{
+  display:block;
+  color:var(--gray);
+  line-height:1.35;
+}
+.message-card p{
+  margin-top:8px;
+  font-weight:650;
+  line-height:1.35;
+}
+
+.pill{
+  display:inline-block;
+  padding:5px 10px;
+  border-radius:999px;
+  font-size:.72rem;
+  font-weight:900;
+  background:var(--soft);
+  color:var(--accent);
+  white-space:nowrap;
+}
+.pill.success{background:var(--success-bg);color:var(--success)}
+.pill.warning{background:var(--warning-bg);color:var(--warning)}
+.pill.danger{background:var(--danger-bg);color:var(--danger)}
+.pill.gray{background:#eef2f5;color:var(--gray)}
+
+.message-body{
+  background:#f8fbfc;
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:16px;
+  line-height:1.45;
+  font-weight:650;
+  margin:12px 0;
+}
+.timeline{
+  display:grid;
+  gap:10px;
+  margin-top:14px;
+}
+.timeline-item{
+  border-left:4px solid var(--accent);
+  padding:10px 12px;
+  background:#fbfdff;
+  border-radius:12px;
+}
+.timeline-item small{
+  color:var(--gray);
+  font-weight:800;
+}
+
+.empty{
+  color:var(--gray);
+  padding:24px;
+  text-align:center;
+  border:1px dashed var(--border);
+  border-radius:20px;
+  background:#fbfdff;
+  font-weight:800;
+}
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(13,43,69,.35);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:20;
+}
+.modal.active{display:flex}
+.modal-box{
+  width:100%;
+  max-width:680px;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:24px;
+  box-shadow:0 20px 50px rgba(13,43,69,.18);
+}
+.modal-box h2{
+  color:var(--primary);
+  margin-bottom:16px;
+}
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.full{grid-column:1/-1}
+.modal-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  margin-top:18px;
+}
+
+@media(max-width:1050px){
+  .app{grid-template-columns:1fr}
+  .sidebar{position:relative;height:auto}
+  .metrics{grid-template-columns:repeat(2,1fr)}
+  .filters,.inbox-grid{grid-template-columns:1fr}
+}
+@media(max-width:650px){
+  .main{padding:18px}
+  .metrics,.filters,.form-grid{grid-template-columns:1fr}
+}
+
+.mode-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 10px;
+  border-radius:999px;
+  background:#e7f8f8;
+  color:#0d2b45;
+  font-size:.72rem;
+  font-weight:900;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+}
+
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<aside class="sidebar">
+  <div class="logo">WISDOM</div>
+
+  <div class="menu-group active">
+    <div class="menu-title">Panel ▾</div>
+    <div class="menu-items">
+      <a class="side-link" href="dashboard.html"><span class="dot"></span> Dashboard</a>
+    </div>
+  </div>
+
+  <div class="menu-group">
+    <div class="menu-title">Personas ▾</div>
+    <div class="menu-items">
+      <a class="side-link" data-roles="admin" href="estudiantes.html"><span class="dot"></span> Estudiantes</a>
+      <a class="side-link" data-roles="admin" href="profesores.html"><span class="dot"></span> Profesores</a>
+      <a class="side-link" data-roles="admin" href="usuarios.html"><span class="dot"></span> Usuarios</a>
+    </div>
+  </div>
+
+  <div class="menu-group">
+    <div class="menu-title">Servicios ▾</div>
+    <div class="menu-items">
+      <a class="side-link" data-roles="admin,teacher" href="grupales.html"><span class="dot"></span> Grupales</a>
+      <a class="side-link" data-roles="admin,teacher" href="privadas.html"><span class="dot"></span> Privadas / Semi</a>
+    </div>
+  </div>
+
+  <div class="menu-group active">
+    <div class="menu-title">Gestión ▾</div>
+    <div class="menu-items">
+      <a class="side-link" href="calendario.html"><span class="dot"></span> Calendario</a>
+      <a class="side-link" data-roles="admin" href="finanzas.html"><span class="dot"></span> Finanzas</a>
+      <a class="side-link" href="solicitudes.html"><span class="dot"></span> Solicitudes</a>
+      <a class="side-link" href="reportes.html"><span class="dot"></span> Reportes</a>
+      <a class="side-link active" data-roles="admin,teacher" href="mensajes.html"><span class="dot"></span> Mensajes</a>
+    </div>
+  </div>
+
+  <div class="menu-group">
+    <div class="menu-title">Práctica y exámenes ▾</div>
+    <div class="menu-items">
+      <a class="side-link" href="Grammar_portal.html"><span class="dot"></span> Grammar</a>
+      <a class="side-link" href="Listening_portal.html"><span class="dot"></span> Listening</a>
+      <a class="side-link" href="Speaking_portal.html"><span class="dot"></span> Speaking</a>
+      <a class="side-link" data-roles="admin,teacher" href="evaluaciones.html"><span class="dot"></span> Evaluaciones</a>
+      <a class="side-link" href="resultados.html"><span class="dot"></span> Resultados</a>
+    </div>
+  </div>
+
+  <div class="user-box">
+    <strong id="sidebarUserName">Usuario</strong>
+    <small id="sidebarUserRole">Rol</small>
+    <small id="sidebarUserEmail">correo</small>
+    <button class="logout-btn" onclick="logout()">Cerrar sesión</button>
+  </div>
+</aside>
+
+<main class="main">
+
+  <div class="topbar">
+    <div>
+      <h1>Mensajes <span id="rolePill" class="role-pill">Rol</span></h1>
+      <div class="sub">Inbox para recibir, clasificar y gestionar mensajes entrantes desde WhatsApp. <span class="mode-badge" id="dataModeBadge">Modo local</span></div>
+    </div>
+    <div class="actions">
+      <button class="btn btn-secondary" onclick="window.location.href='dashboard.html'">Dashboard</button>
+      <button class="btn btn-primary" data-roles="admin,teacher" onclick="openMessageModal()">Simular mensaje recibido</button>
+    </div>
+  </div>
+
+  <div class="notice">
+    Modo prototipo migrable: la interfaz ya usa <strong>messagesService</strong>. Ahora trabaja con localStorage; cuando el portal esté online, solo cambia <strong>DATA_MODE</strong> a <strong>remote</strong> y conecta Supabase/Firebase/webhook.
+  </div>
+
+  <section class="metrics">
+    <div class="metric"><span>Total</span><strong id="totalMessages">0</strong><small>Según permisos</small></div>
+    <div class="metric"><span>Nuevos</span><strong id="newMessages">0</strong><small>Sin leer</small></div>
+    <div class="metric"><span>Seguimiento</span><strong id="followMessages">0</strong><small>Requieren acción</small></div>
+    <div class="metric"><span>Solicitudes</span><strong id="requestMessages">0</strong><small>Convertidos</small></div>
+  </section>
+
+  <section class="panel">
+    <h2>Filtros</h2>
+    <div class="filters">
+      <div class="field">
+        <label>Buscar</label>
+        <input id="searchInput" oninput="renderMessages()" placeholder="Nombre, teléfono, mensaje...">
+      </div>
+      <div class="field">
+        <label>Estado</label>
+        <select id="statusFilter" onchange="renderMessages()">
+          <option value="">Todos</option>
+          <option value="new">Nuevo</option>
+          <option value="read">Leído</option>
+          <option value="follow_up">Seguimiento</option>
+          <option value="answered">Respondido</option>
+          <option value="converted_request">Solicitud creada</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Tipo</label>
+        <select id="typeFilter" onchange="renderMessages()">
+          <option value="">Todos</option>
+          <option value="academic">Académico</option>
+          <option value="schedule">Horario</option>
+          <option value="payment">Pago</option>
+          <option value="certificate">Certificado</option>
+          <option value="request">Solicitud</option>
+          <option value="general">General</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Estudiante</label>
+        <select id="studentFilter" onchange="renderMessages()">
+          <option value="">Todos</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Acción</label>
+        <button class="btn btn-secondary" onclick="resetFilters()">Limpiar</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Cómo funcionará en línea</h2>
+    <div class="notice" style="margin-bottom:0">
+      Estudiante escribe a WhatsApp → WhatsApp Business API envía el mensaje a un webhook →
+      backend guarda el mensaje → el portal lo muestra aquí.
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="inbox-grid">
+      <div>
+        <h2>Inbox</h2>
+        <div id="messageList" class="message-list"></div>
+      </div>
+      <div>
+        <h2>Detalle</h2>
+        <div id="messageDetail" class="empty">Selecciona un mensaje.</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+</div>
+
+<div class="modal" id="messageModal">
+  <div class="modal-box">
+    <h2>Simular mensaje recibido por WhatsApp</h2>
+    <div class="form-grid">
+      <div class="field full">
+        <label>Estudiante</label>
+        <select id="messageStudentSelect"></select>
+      </div>
+      <div class="field">
+        <label>WhatsApp</label>
+        <input id="messagePhone" placeholder="+57...">
+      </div>
+      <div class="field">
+        <label>Tipo inicial</label>
+        <select id="messageType">
+          <option value="academic">Académico</option>
+          <option value="schedule">Horario</option>
+          <option value="payment">Pago</option>
+          <option value="certificate">Certificado</option>
+          <option value="request">Solicitud</option>
+          <option value="general">General</option>
+        </select>
+      </div>
+      <div class="field full">
+        <label>Mensaje recibido</label>
+        <textarea id="messageText" placeholder="Ej: Hola, necesito cambiar mi horario de clase."></textarea>
+      </div>
+      <div class="field full">
+        <label>Nota interna</label>
+        <textarea id="internalNote" placeholder="Nota para admin/profesor."></textarea>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeMessageModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="createMessage()">Guardar como recibido</button>
+    </div>
+  </div>
+</div>
+
+<script src="storage.js"></script>
+<script src="schemaRegistry.js"></script>
+<script>
+const CURRENT_USER_KEY='wisdom_current_user';
+const STUDENTS_KEY='wisdom_students_demo';
+const MESSAGES_KEY='wisdom_messages';
+const REQUESTS_KEY='wisdom_requests_demo';
+
+const WisdomStorage = window.WisdomStorage || {
+  get(key, fallback=null){
+    try{
+      const raw = localStorage.getItem(key);
+      if(raw === null || raw === undefined) return fallback;
+      return JSON.parse(raw);
+    }catch(error){
+      return fallback;
+    }
+  },
+  set(key, value){
+    localStorage.setItem(key, JSON.stringify(value));
+  },
+  remove(key){
+    localStorage.removeItem(key);
+  },
+  exists(key){
+    return localStorage.getItem(key) !== null;
+  },
+  clear(){
+    localStorage.clear();
+  }
+};
+
+const currentUser=WisdomStorage.get(CURRENT_USER_KEY,null);
+if(!currentUser||!currentUser.role){window.location.href='login.html'}
+
+
+/*
+  DATA_MODE controla la fuente de datos.
+  - 'local': pruebas actuales con localStorage.
+  - 'remote': futuro backend online con Supabase/Firebase + webhook de WhatsApp.
+  La UI no debe cambiar: solo se reemplaza la implementación remote.
+*/
+const DATA_MODE='local';
+
+function safeParse(key){
+  const data = WisdomStorage.get(key, []);
+  return Array.isArray(data) ? data : [];
+}
+
+function saveArray(key,data){
+  WisdomStorage.set(key, Array.isArray(data) ? data : []);
+}
+
+function normalizeMessage(message={}){
+  const base = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeMessage)
+    ? SchemaRegistry.normalizeMessage(message)
+    : {...message};
+
+  const now = new Date().toISOString();
+
+  const normalized = {
+    ...base,
+    id: base.id || '',
+    source: base.source || 'manual',
+    channel: base.channel || 'whatsapp',
+    studentId: base.studentId || base.studentCode || '',
+    studentCode: base.studentCode || base.studentId || '',
+    studentName: base.studentName || base.name || 'Estudiante',
+    studentEmail: base.studentEmail || base.email || '',
+    teacherId: base.teacherId || base.teacherCode || '',
+    teacherCode: base.teacherCode || base.teacherId || '',
+    phone: base.phone || base.whatsapp || '',
+    type: base.type || 'general',
+    text: base.text || base.message || '',
+    internalNote: base.internalNote || '',
+    status: base.status || 'new',
+    linkedRequestId: base.linkedRequestId || '',
+    createdAt: base.createdAt || now,
+    updatedAt: base.updatedAt || base.createdAt || now,
+    history: Array.isArray(base.history) ? base.history : []
+  };
+
+  normalized.history = normalized.history.map(item=>({
+    status: item.status || normalized.status,
+    note: item.note || '',
+    at: item.at || item.createdAt || normalized.updatedAt,
+    by: item.by || 'Sistema'
+  }));
+
+  return normalized;
+}
+
+function dedupeMessages(messages){
+  const seen = new Set();
+
+  return (messages || [])
+    .map(message=>normalizeMessage(message))
+    .filter(message=>{
+      const key = message.id || `${message.studentId}-${message.phone}-${message.text}-${message.createdAt}`;
+
+      if(seen.has(key)) return false;
+
+      seen.add(key);
+      return true;
+    });
+}
+
+const messagesServiceLocal={
+  async list(){
+    const messages = safeParse(MESSAGES_KEY);
+
+    const normalized = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeCollection)
+      ? SchemaRegistry.normalizeCollection(messages,'normalizeMessage').map(normalizeMessage)
+      : messages.map(normalizeMessage);
+
+    return dedupeMessages(normalized);
+  },
+  async saveAll(messages){
+    saveArray(MESSAGES_KEY, dedupeMessages(messages));
+  },
+  async create(message){
+    const messages=await this.list();
+    const normalized = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeMessage)
+      ? normalizeMessage(SchemaRegistry.normalizeMessage(message))
+      : normalizeMessage(message);
+    const duplicate = messages.some(existing =>
+      existing.studentId === normalized.studentId &&
+      existing.phone === normalized.phone &&
+      existing.text === normalized.text &&
+      Math.abs(new Date(existing.createdAt || 0) - new Date(normalized.createdAt || 0)) < 60000
+    );
+    if(duplicate){
+      alert('Este mensaje parece estar duplicado y no se guardó de nuevo.');
+      return null;
+    }
+    messages.push(normalized);
+    await this.saveAll(messages);
+    return normalized;
+  },
+  async update(id,patch){
+    const messages=await this.list();
+    const index=messages.findIndex(x=>x.id===id);
+    if(index<0)return null;
+    const updated = {...messages[index],...patch,updatedAt:new Date().toISOString()};
+
+    messages[index] = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeMessage)
+      ? normalizeMessage(SchemaRegistry.normalizeMessage(updated))
+      : normalizeMessage(updated);
+
+    await this.saveAll(messages);
+    return messages[index];
+  }
+};
+
+const messagesServiceRemote={
+  async list(){
+    /*
+      FUTURO ONLINE:
+      Ejemplo Supabase:
+      const { data, error } = await supabase
+        .from('messages')
+        .select('*')
+        .order('createdAt', { ascending:false });
+      if(error) throw error;
+      return data || [];
+
+      Flujo real:
+      WhatsApp Business API -> Webhook -> backend -> tabla messages -> portal.
+    */
+    console.warn('DATA_MODE remote todavía no está conectado. Usando local como fallback.');
+    return messagesServiceLocal.list();
+  },
+  async create(message){
+    /*
+      En producción, los mensajes entrantes NO deberían crearse desde el portal.
+      Los crea el webhook cuando WhatsApp envía un evento.
+      Esta función puede quedar para pruebas internas o registros manuales.
+    */
+    console.warn('DATA_MODE remote create no conectado. Usando local como fallback.');
+    return messagesServiceLocal.create(message);
+  },
+  async update(id,patch){
+    /*
+      Ejemplo Supabase:
+      const { data, error } = await supabase
+        .from('messages')
+        .update(patch)
+        .eq('id', id)
+        .select()
+        .single();
+      if(error) throw error;
+      return data;
+    */
+    console.warn('DATA_MODE remote update no conectado. Usando local como fallback.');
+    return messagesServiceLocal.update(id,patch);
+  }
+};
+
+const messagesService = DATA_MODE === 'remote' ? messagesServiceRemote : messagesServiceLocal;
+
+let selectedMessageId='';
+const urlParams=new URLSearchParams(window.location.search);
+const initialStudentFilter=urlParams.get('student')||urlParams.get('code')||'';
+const initialMessageFilter=urlParams.get('message')||'';
+
+function logout(){
+  WisdomStorage.remove(CURRENT_USER_KEY);
+  window.location.href='login.html';
+}
+
+function roleLabel(role){
+  return ({admin:'Administrativo',teacher:'Profesor',student:'Estudiante'}[role]||role||'Usuario');
+}
+
+function canRoleAccess(roles){
+  if(!roles)return true;
+  return roles.split(',').map(r=>r.trim()).includes(currentUser.role);
+}
+
+function applyRoleVisibility(){
+  document.querySelectorAll('[data-roles]').forEach(el=>{
+    if(!canRoleAccess(el.getAttribute('data-roles')))el.classList.add('role-hidden');
+  });
+}
+
+function renderSession(){
+  document.getElementById('sidebarUserName').innerText=currentUser.name||'Usuario Wisdom';
+  document.getElementById('sidebarUserRole').innerText=roleLabel(currentUser.role);
+  document.getElementById('sidebarUserEmail').innerText=currentUser.email||'';
+  document.getElementById('rolePill').innerText=roleLabel(currentUser.role);
+  const badge=document.getElementById('dataModeBadge');
+  if(badge) badge.innerText=DATA_MODE==='remote'?'Modo remoto':'Modo local';
+}
+
+function getStudents(){
+  const students = safeParse(STUDENTS_KEY);
+
+  if(typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeStudent){
+    return students.map(student=>SchemaRegistry.normalizeStudent(student));
+  }
+
+  return students;
+}
+
+function teacherId(){
+  return currentUser.teacherId||currentUser.teacherCode||currentUser.id||'';
+}
+
+function studentVisible(student){
+  if(currentUser.role==='admin')return true;
+  if(currentUser.role==='teacher'){
+    return student.teacherId===teacherId()||
+           student.teacherCode===teacherId()||
+           student.teacher===currentUser.name;
+  }
+  if(currentUser.role==='student'){
+    return student.code===currentUser.studentId||
+           student.studentId===currentUser.studentId||
+           student.email===currentUser.email;
+  }
+  return false;
+}
+
+function messageVisible(message){
+  if(currentUser.role==='admin')return true;
+
+  if(currentUser.role==='teacher'){
+    return message.teacherId===teacherId()||
+      getStudents().filter(studentVisible).some(s=>s.code===message.studentId||s.name===message.studentName);
+  }
+
+  if(currentUser.role==='student'){
+    return message.studentId===currentUser.studentId||
+           message.studentEmail===currentUser.email||
+           message.studentName===currentUser.name;
+  }
+
+  return false;
+}
+
+function nextMessageId(messages){
+  const nums=messages
+    .map(x=>x.id)
+    .filter(id=>/^MSG-\d+$/.test(id||''))
+    .map(id=>parseInt(id.replace('MSG-',''),10));
+  const next=nums.length?Math.max(...nums)+1:1;
+  return `MSG-${String(next).padStart(4,'0')}`;
+}
+
+function nextRequestId(requests){
+  const nums=requests
+    .map(x=>x.id)
+    .filter(id=>/^REQ-\d+$/.test(id||''))
+    .map(id=>parseInt(id.replace('REQ-',''),10));
+  const next=nums.length?Math.max(...nums)+1:1;
+  return `REQ-${String(next).padStart(4,'0')}`;
+}
+
+function statusInfo(status){
+  return {
+    new:['Nuevo','danger'],
+    read:['Leído','gray'],
+    follow_up:['Seguimiento','warning'],
+    answered:['Respondido','success'],
+    converted_request:['Solicitud creada','success']
+  }[status]||['Nuevo','danger'];
+}
+
+function typeLabel(type){
+  return {
+    academic:'Académico',
+    schedule:'Horario',
+    payment:'Pago',
+    certificate:'Certificado',
+    request:'Solicitud',
+    general:'General'
+  }[type]||'General';
+}
+
+function formatDate(value){
+  const date=new Date(value);
+  if(Number.isNaN(date.getTime()))return '-';
+  return date.toLocaleString('es-CO',{
+    year:'numeric',
+    month:'short',
+    day:'2-digit',
+    hour:'2-digit',
+    minute:'2-digit'
+  });
+}
+
+function populateStudentSelects(){
+  const students=getStudents().filter(studentVisible);
+
+  const filter=document.getElementById('studentFilter');
+  const select=document.getElementById('messageStudentSelect');
+
+  filter.innerHTML='<option value="">Todos</option>';
+  select.innerHTML='';
+
+  if(!students.length){
+    select.innerHTML='<option value="">No hay estudiantes</option>';
+    return;
+  }
+
+  students.forEach(student=>{
+    const id=student.code||student.studentId||student.id;
+    const label=`${id||'SIN-COD'} · ${student.name||'Sin nombre'}`;
+
+    const optionFilter=document.createElement('option');
+    optionFilter.value=id;
+    optionFilter.textContent=label;
+    filter.appendChild(optionFilter);
+
+    const optionSelect=document.createElement('option');
+    optionSelect.value=id;
+    optionSelect.textContent=label;
+    optionSelect.dataset.name=student.name||'';
+    optionSelect.dataset.email=student.email||'';
+    optionSelect.dataset.phone=student.phone||student.whatsapp||'';
+    optionSelect.dataset.teacherId=student.teacherId||student.teacherCode||'';
+    select.appendChild(optionSelect);
+  });
+
+  if(initialStudentFilter){
+    filter.value=initialStudentFilter;
+  }
+}
+
+function openMessageModal(){
+  populateStudentSelects();
+  document.getElementById('messagePhone').value=document.getElementById('messageStudentSelect').selectedOptions[0]?.dataset.phone||'';
+  document.getElementById('messageText').value='';
+  document.getElementById('internalNote').value='';
+  document.getElementById('messageModal').classList.add('active');
+}
+
+function closeMessageModal(){
+  document.getElementById('messageModal').classList.remove('active');
+}
+
+document.getElementById('messageStudentSelect').addEventListener('change',function(){
+  document.getElementById('messagePhone').value=this.selectedOptions[0]?.dataset.phone||'';
+});
+
+async function createMessage(){
+  const current=await messagesService.list();
+  const select=document.getElementById('messageStudentSelect');
+  const option=select.selectedOptions[0];
+
+  if(!select.value){
+    alert('Selecciona un estudiante.');
+    return;
+  }
+
+  const text=document.getElementById('messageText').value.trim();
+  if(!text){
+    alert('Escribe el mensaje recibido.');
+    return;
+  }
+
+  const message={
+    id:nextMessageId(current),
+    source:'incoming_whatsapp_simulation',
+    channel:'whatsapp',
+    studentId:select.value,
+    studentName:option.dataset.name||'Estudiante',
+    studentEmail:option.dataset.email||'',
+    teacherId:option.dataset.teacherId||'',
+    phone:document.getElementById('messagePhone').value.trim(),
+    type:document.getElementById('messageType').value,
+    text,
+    internalNote:document.getElementById('internalNote').value.trim(),
+    status:'new',
+    linkedRequestId:'',
+    createdAt:new Date().toISOString(),
+    updatedAt:new Date().toISOString(),
+    history:[
+      {
+        status:'new',
+        note:'Mensaje recibido por WhatsApp (simulado).',
+        at:new Date().toISOString(),
+        by:currentUser.name||currentUser.email||'Sistema'
+      }
+    ]
+  };
+
+  const saved = await messagesService.create(message);
+  if(!saved) return;
+  closeMessageModal();
+  selectedMessageId = saved.id;
+  renderMessages();
+}
+
+async function updateMessageStatus(id,status){
+  const messages=await messagesService.list();
+  const message=messages.find(m=>m.id===id);
+  if(!message)return;
+
+  const history=Array.isArray(message.history)?message.history:[];
+  history.push({
+    status,
+    note:`Estado cambiado a ${statusInfo(status)[0]}.`,
+    at:new Date().toISOString(),
+    by:currentUser.name||currentUser.email||'Usuario'
+  });
+
+  await messagesService.update(id,{status,history});
+  selectedMessageId=id;
+  renderMessages();
+}
+
+async function createRequestFromMessage(id){
+  const messages=await messagesService.list();
+  const message=messages.find(m=>m.id===id);
+  if(!message)return;
+
+  if(message.linkedRequestId){
+    alert('Este mensaje ya tiene una solicitud vinculada.');
+    return;
+  }
+
+  const requests=safeParse(REQUESTS_KEY);
+  const existingOpen = requests.find(request =>
+    (request.sourceMessageId && request.sourceMessageId === message.id) ||
+    (
+      ['Nueva','En revisión'].includes(request.status || 'Nueva') &&
+      (request.studentCode === message.studentId || request.studentId === message.studentId) &&
+      request.type === 'Solicitud por WhatsApp' &&
+      String(request.reason || '').trim() === String(message.text || '').trim()
+    )
+  );
+
+  if(existingOpen){
+    await messagesService.update(id,{
+      status:'converted_request',
+      type:'request',
+      linkedRequestId:existingOpen.id || '',
+      history:[...(Array.isArray(message.history)?message.history:[]),{
+        status:'converted_request',
+        note:`Vinculado a solicitud existente ${existingOpen.id}.`,
+        at:new Date().toISOString(),
+        by:currentUser.name||currentUser.email||'Usuario'
+      }]
+    });
+    alert('Este mensaje ya tenía una solicitud abierta relacionada. Se vinculó la existente.');
+    selectedMessageId=id;
+    renderMessages();
+    return;
+  }
+
+  const now = new Date().toISOString();
+  const rawRequest={
+    id:nextRequestId(requests),
+    requestId:nextRequestId(requests),
+    source:'whatsapp',
+    sourceMessageId:message.id,
+    studentCode:message.studentId,
+    studentId:message.studentId,
+    studentName:message.studentName,
+    studentEmail:message.studentEmail||'',
+    studentPhone:message.phone||'',
+    teacherId:message.teacherId||'',
+    teacherCode:message.teacherCode||message.teacherId||'',
+    type:'Solicitud por WhatsApp',
+    reason:message.text,
+    requestedDate:'',
+    requestedTime:'',
+    status:'Nueva',
+    adminNote:'',
+    teacherNote:'',
+    createdByRole:'student_whatsapp',
+    createdByEmail:message.studentEmail||'',
+    createdAt:now,
+    updatedAt:now,
+    reviewedBy:'',
+    reviewedAt:''
+  };
+
+  const request = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeRequest)
+    ? SchemaRegistry.normalizeRequest(rawRequest)
+    : rawRequest;
+
+  requests.push(request);
+  saveArray(REQUESTS_KEY,requests);
+
+  const history=Array.isArray(message.history)?message.history:[];
+  history.push({
+    status:'converted_request',
+    note:`Convertido en solicitud ${request.id}.`,
+    at:now,
+    by:currentUser.name||currentUser.email||'Usuario'
+  });
+
+  await messagesService.update(id,{
+    status:'converted_request',
+    type:'request',
+    linkedRequestId:request.id,
+    history
+  });
+
+  selectedMessageId=id;
+  renderMessages();
+}
+
+
+async function renderMessages(){
+  const search=document.getElementById('searchInput').value.trim().toLowerCase();
+  const status=document.getElementById('statusFilter').value;
+  const type=document.getElementById('typeFilter').value;
+  const student=document.getElementById('studentFilter').value;
+
+  const all=(await messagesService.list())
+    .filter(messageVisible)
+    .sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt));
+
+  if(initialMessageFilter && !selectedMessageId){
+    selectedMessageId=initialMessageFilter;
+  }
+
+  const filtered=all.filter(message=>{
+    const haystack=[
+      message.id,
+      message.studentName,
+      message.studentId,
+      message.phone,
+      message.text,
+      message.internalNote,
+      typeLabel(message.type),
+      statusInfo(message.status)[0]
+    ].join(' ').toLowerCase();
+
+    if(search&&!haystack.includes(search))return false;
+    if(status&&message.status!==status)return false;
+    if(type&&message.type!==type)return false;
+    if(student&&message.studentId!==student)return false;
+
+    return true;
+  });
+
+  document.getElementById('totalMessages').innerText=all.length;
+  document.getElementById('newMessages').innerText=all.filter(m=>m.status==='new').length;
+  document.getElementById('followMessages').innerText=all.filter(m=>m.status==='follow_up').length;
+  document.getElementById('requestMessages').innerText=all.filter(m=>m.status==='converted_request').length;
+
+  const list=document.getElementById('messageList');
+  list.innerHTML='';
+
+  if(!filtered.length){
+    list.innerHTML='<div class="empty">No hay mensajes.</div>';
+    renderDetail(null);
+    return;
+  }
+
+  filtered.forEach(message=>{
+    const info=statusInfo(message.status);
+    const card=document.createElement('div');
+    card.className='message-card '+(selectedMessageId===message.id?'active':'');
+    card.onclick=()=>{
+      selectedMessageId=message.id;
+      renderMessages();
+    };
+
+    card.innerHTML=`
+      <span class="pill ${info[1]}">${info[0]}</span>
+      <span class="pill gray">${typeLabel(message.type)}</span>
+      <strong>${message.studentName}</strong>
+      <small>${message.phone||'Sin teléfono'} · ${formatDate(message.createdAt)}</small>
+      <p>${message.text.slice(0,120)}${message.text.length>120?'...':''}</p>
+    `;
+
+    list.appendChild(card);
+  });
+
+  const selected=filtered.find(m=>m.id===selectedMessageId)||filtered[0];
+  selectedMessageId=selected.id;
+  renderDetail(selected);
+}
+
+function renderDetail(message){
+  const detail=document.getElementById('messageDetail');
+
+  if(!message){
+    detail.className='empty';
+    detail.innerHTML='Selecciona un mensaje.';
+    return;
+  }
+
+  const info=statusInfo(message.status);
+  const history=Array.isArray(message.history)?message.history:[];
+
+  detail.className='';
+
+  detail.innerHTML=`
+    <div class="actions" style="margin-bottom:12px">
+      <span class="pill ${info[1]}">${info[0]}</span>
+      <span class="pill gray">${typeLabel(message.type)}</span>
+      <span class="pill gray">${message.channel||'whatsapp'}</span>
+    </div>
+
+    <h2>${message.studentName}</h2>
+    <div style="color:var(--gray);font-weight:800">
+      ${message.phone||'Sin teléfono'} · ${formatDate(message.createdAt)}
+    </div>
+
+    <div class="message-body">${message.text}</div>
+
+    ${message.internalNote?`<div class="notice"><strong>Nota interna:</strong> ${message.internalNote}</div>`:''}
+
+    <div class="actions">
+      <button class="btn btn-secondary" onclick="updateMessageStatus('${message.id}','read')">Marcar leído</button>
+      <button class="btn btn-secondary" onclick="updateMessageStatus('${message.id}','follow_up')">Seguimiento</button>
+      <button class="btn btn-primary" onclick="updateMessageStatus('${message.id}','answered')">Respondido</button>
+      <button class="btn btn-secondary" onclick="createRequestFromMessage('${message.id}')">Crear solicitud</button>
+      <button class="btn btn-secondary" onclick="window.location.href='dossier.html?code=${encodeURIComponent(message.studentId)}'">Abrir dossier</button>
+      ${message.linkedRequestId?`<button class="btn btn-secondary" onclick="window.location.href='solicitudes.html?search=${encodeURIComponent(message.linkedRequestId)}'">Ver solicitud ${message.linkedRequestId}</button>`:''}
+    </div>
+
+    <div class="timeline">
+      <h2>Historial</h2>
+      ${
+        history.map(item=>`
+          <div class="timeline-item">
+            <small>${formatDate(item.at)} · ${item.by||'Sistema'}</small><br>
+            ${item.note||statusInfo(item.status)[0]}
+          </div>
+        `).join('') || '<div class="empty">Sin historial.</div>'
+      }
+    </div>
+  `;
+}
+
+function resetFilters(){
+  document.getElementById('searchInput').value='';
+  document.getElementById('statusFilter').value='';
+  document.getElementById('typeFilter').value='';
+  document.getElementById('studentFilter').value='';
+  renderMessages();
+}
+
+document.querySelectorAll('.menu-title').forEach(title=>{
+  title.addEventListener('click',()=>title.parentElement.classList.toggle('active'));
+});
+
+renderSession();
+applyRoleVisibility();
+populateStudentSelects();
+renderMessages();
+</script>
+
+</body>
+</html>

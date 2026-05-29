@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Profesores | Wisdom Academy</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --primary:#0d2b45;
+  --accent:#1fb6b9;
+  --light:#f5f9fc;
+  --white:#fff;
+  --text:#1f2d3d;
+  --gray:#6b7c93;
+  --border:#dcebf2;
+  --hover:#E6FF00;
+  --soft:#e7f8f8;
+  --warning:#fff8d6;
+  --danger:#ffefef;
+  --ok:#eef7ee;
+}
+body{font-family:Inter,Arial,sans-serif;background:var(--light);color:var(--text)}
+.wrap{max-width:1180px;margin:auto;padding:28px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;gap:18px;flex-wrap:wrap}
+h1{color:var(--primary);font-size:1.9rem;font-weight:900}
+h2,h3{color:var(--primary)}
+.sub{color:var(--gray);font-size:.9rem;margin-top:4px;line-height:1.4}
+.btn{padding:10px 16px;border-radius:999px;border:none;font-weight:800;cursor:pointer;text-decoration:none;display:inline-block}
+.btn-primary{background:var(--accent);color:white}
+.btn-secondary{background:white;color:var(--primary);border:1px solid var(--border)}
+.btn-danger{background:#ffefef;color:#b00020;border:1px solid #ffd1d1}
+.btn:hover{background:var(--hover);color:black}
+.btn-danger:hover{background:#b00020;color:white}
+.card{background:white;border:1px solid var(--border);border-radius:20px;padding:20px;box-shadow:0 8px 24px rgba(13,43,69,.05);margin-bottom:20px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.search{width:100%;padding:12px;border:1px solid var(--border);border-radius:12px;margin-bottom:18px;font:inherit}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;color:var(--gray);font-size:.75rem;text-transform:uppercase;padding:10px}
+td{padding:12px 10px;border-top:1px solid var(--border);font-weight:600;vertical-align:top}
+.table-wrap{overflow:auto}
+.pill{background:var(--soft);color:var(--accent);padding:5px 10px;border-radius:999px;font-size:.75rem;font-weight:900;display:inline-block}
+.pill.ok{background:var(--ok);color:#257a36}
+.pill.warning{background:var(--warning);color:#8a6d00}
+.pill.danger{background:var(--danger);color:#b00020}
+.modal{position:fixed;inset:0;background:rgba(13,43,69,.35);display:none;align-items:center;justify-content:center;padding:20px;z-index:20}
+.modal.active{display:flex}
+.modal-box{width:100%;max-width:680px;background:white;border:1px solid var(--border);border-radius:22px;padding:24px;box-shadow:0 20px 50px rgba(13,43,69,.18)}
+.modal-box h2{color:var(--primary);margin-bottom:16px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:.8rem;font-weight:900;color:var(--primary)}
+.field input,.field select{padding:11px;border-radius:12px;border:1px solid var(--border);font:inherit}
+.full{grid-column:1/-1}
+.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap}
+.empty{color:var(--gray);padding:18px;text-align:center;border:1px dashed var(--border);border-radius:14px;background:#fbfdff}
+.userbox{display:flex;align-items:center;gap:10px;background:white;border:1px solid var(--border);border-radius:999px;padding:8px 12px}
+.userbox small{color:var(--gray)}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+@media(max-width:900px){.grid,.form-grid{grid-template-columns:1fr}.topbar{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<section>
+  <div class="topbar">
+    <div>
+      <h1>Profesores</h1>
+      <div class="sub">Crea, edita, activa/inactiva y elimina profesores solo si no tienen grupos ni paquetes asignados.</div>
+    </div>
+
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+      <div class="userbox" id="userBox"></div>
+      <button class="btn btn-secondary" onclick="window.location.href='dashboard.html'">Dashboard</button>
+      <button class="btn btn-primary" onclick="openTeacherModal()">Crear profesor</button>
+      <button class="btn btn-secondary" onclick="logout()">Cerrar sesión</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <input class="search" id="teacherSearch" placeholder="Buscar por código, nombre, correo o idioma..." onkeyup="renderTeachers()">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Idiomas</th>
+            <th>Tarifa</th>
+            <th>Estado</th>
+            <th>Asignaciones</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="teachersTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Clases grupales sin profesor</h3><br>
+      <div id="unassignedGroups"></div>
+    </div>
+
+    <div class="card">
+      <h3>Paquetes privados / semi sin profesor</h3><br>
+      <div id="unassignedPackages"></div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div class="modal" id="teacherModal">
+  <div class="modal-box">
+    <h2 id="teacherModalTitle">Crear profesor</h2>
+    <div class="form-grid">
+      <div class="field">
+        <label>Código</label>
+        <input id="teacherId" readonly placeholder="TCH-0001">
+      </div>
+      <div class="field">
+        <label>Estado</label>
+        <select id="teacherStatus">
+          <option>Activo</option>
+          <option>Inactivo</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Nombre</label>
+        <input id="teacherName" placeholder="Nombre completo">
+      </div>
+      <div class="field">
+        <label>Correo</label>
+        <input id="teacherEmail" type="email" placeholder="correo@email.com">
+      </div>
+      <div class="field">
+        <label>Teléfono</label>
+        <input id="teacherPhone" placeholder="Número de contacto">
+      </div>
+      <div class="field">
+        <label>Tarifa por hora</label>
+        <input id="teacherHourlyRate" type="number" min="0" placeholder="20000">
+      </div>
+      <div class="field full">
+        <label>Idiomas</label>
+        <input id="teacherLanguages" placeholder="Inglés, Francés, Alemán...">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeTeacherModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveTeacher()">Guardar profesor</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="assignModal">
+  <div class="modal-box">
+    <h2>Asignar profesor</h2>
+    <input type="hidden" id="assignType">
+    <input type="hidden" id="assignId">
+    <div class="field">
+      <label>Profesor</label>
+      <select id="assignTeacher"></select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeAssignModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveAssignment()">Guardar asignación</button>
+    </div>
+  </div>
+</div>
+
+<script src="storage.js"></script>
+<script src="schemaRegistry.js"></script>
+<script>
+const CURRENT_USER_KEY='wisdom_current_user'
+const TEACHERS_KEY='wisdom_teachers_demo'
+const USERS_KEY='wisdom_users'
+const GROUPS_KEY='wisdom_groups_demo'
+const PRIVATE_KEY='wisdom_private_demo'
+const DEFAULT_HOURLY_RATE=20000
+
+function safeParse(value,fallback=[]){
+  try{
+    const parsed=value?JSON.parse(value):fallback
+    return Array.isArray(parsed)?parsed:fallback
+  }catch(error){return fallback}
+}
+
+function load(key){
+  if(typeof WisdomStorage !== 'undefined' && WisdomStorage && typeof WisdomStorage.get === 'function'){
+    return WisdomStorage.get(key,[])
+  }
+  return safeParse(localStorage.getItem(key),[])
+}
+
+function save(key,value){
+  if(typeof WisdomStorage !== 'undefined' && WisdomStorage && typeof WisdomStorage.set === 'function'){
+    WisdomStorage.set(key,value)
+    return
+  }
+  localStorage.setItem(key,JSON.stringify(value))
+}
+
+function remove(key){
+  if(typeof WisdomStorage !== 'undefined' && WisdomStorage && typeof WisdomStorage.remove === 'function'){
+    WisdomStorage.remove(key)
+    return
+  }
+  localStorage.removeItem(key)
+}
+
+function money(value){return new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:0}).format(Number(value)||0)}
+
+const currentUser=(typeof WisdomStorage !== 'undefined' && WisdomStorage && typeof WisdomStorage.get === 'function')
+  ? WisdomStorage.get(CURRENT_USER_KEY,null)
+  : JSON.parse(localStorage.getItem(CURRENT_USER_KEY) || 'null')
+
+if(!currentUser || currentUser.role!=='admin'){
+  window.location.href='login.html'
+}
+
+let teachers=loadTeachers()
+let groups=loadGroups()
+let packages=loadPackages()
+
+function logout(){
+  remove(CURRENT_USER_KEY)
+  window.location.href='login.html'
+}
+
+function renderUser(){
+  const box=document.getElementById('userBox')
+  box.innerHTML=`<strong>${currentUser.name||'Usuario'}</strong><small>${currentUser.role||''}</small>`
+}
+
+function hasSchemaRegistry(){
+  return typeof SchemaRegistry !== 'undefined' && SchemaRegistry && typeof SchemaRegistry.normalizeTeacher === 'function'
+}
+
+function normalizeTeacherFallback(teacher={}){
+  const id=teacher.id || teacher.teacherId || teacher.teacherCode || teacher.code || generateLegacyCompatibleId(teacher)
+  const status=teacher.status==='Pausado'?'Inactivo':(teacher.status||'Activo')
+  return {
+    ...teacher,
+    id,
+    code:id,
+    teacherId:id,
+    teacherCode:id,
+    hourlyRate:Number(teacher.hourlyRate)||DEFAULT_HOURLY_RATE,
+    status:status==='Inactivo'?'Inactivo':'Activo'
+  }
+}
+
+function normalizeTeacherSafe(teacher={}){
+  const normalized=hasSchemaRegistry()
+    ? SchemaRegistry.normalizeTeacher(teacher)
+    : normalizeTeacherFallback(teacher)
+
+  const id=normalized.id || normalized.teacherId || normalized.teacherCode || normalized.code || teacher.id || teacher.teacherId || teacher.teacherCode || teacher.code || ''
+  const status=normalized.status==='Pausado'?'Inactivo':(normalized.status||teacher.status||'Activo')
+
+  return {
+    ...teacher,
+    ...normalized,
+    id,
+    code:id,
+    teacherId:id,
+    teacherCode:id,
+    hourlyRate:Number(normalized.hourlyRate ?? teacher.hourlyRate)||DEFAULT_HOURLY_RATE,
+    status:status==='Inactivo'?'Inactivo':'Activo'
+  }
+}
+
+function normalizeTeacherCollectionSafe(collection=[]){
+  const items=Array.isArray(collection)?collection:[]
+  if(typeof SchemaRegistry !== 'undefined' && SchemaRegistry && typeof SchemaRegistry.normalizeCollection === 'function'){
+    return SchemaRegistry.normalizeCollection(items,'normalizeTeacher').map(normalizeTeacherSafe)
+  }
+  return items.map(normalizeTeacherSafe)
+}
+
+function loadTeachers(){
+  const normalized=load(TEACHERS_KEY).map(normalizeTeacherSafe)
+  save(TEACHERS_KEY,normalized)
+  return normalized
+}
+
+function generateLegacyCompatibleId(teacher){
+  if(teacher.code) return teacher.code
+  return ''
+}
+
+function saveTeachers(){
+  teachers=normalizeTeacherCollectionSafe(teachers)
+  save(TEACHERS_KEY,teachers)
+}
+
+function loadGroups(){return load(GROUPS_KEY)}
+function saveGroups(){save(GROUPS_KEY,groups)}
+function loadPackages(){return load(PRIVATE_KEY)}
+function savePackages(){save(PRIVATE_KEY,packages)}
+
+function getTeacherId(teacher){
+  return teacher.id || teacher.teacherId || teacher.code
+}
+
+function generateTeacherCode(){
+  const numbers=teachers
+    .map(teacher=>getTeacherId(teacher))
+    .filter(code=>/^TCH-\d+$/.test(code))
+    .map(code=>parseInt(code.replace('TCH-',''),10))
+  const nextNumber=numbers.length?Math.max(...numbers)+1:1
+  return `TCH-${String(nextNumber).padStart(4,'0')}`
+}
+
+function countTeacherAssignments(teacher){
+  const id=getTeacherId(teacher)
+  const name=teacher.name
+  const assignedGroups=loadGroups().filter(group=>
+    group.teacherId===id ||
+    group.teacherCode===id ||
+    group.teacher===name
+  )
+  const assignedPackages=loadPackages().filter(pkg=>
+    pkg.teacherId===id ||
+    pkg.teacherCode===id ||
+    pkg.teacher===name
+  )
+  return {
+    groups:assignedGroups.length,
+    packages:assignedPackages.length,
+    total:assignedGroups.length+assignedPackages.length
+  }
+}
+
+
+function userForTeacher(teacherId){
+  const users = load(USERS_KEY)
+  return users.find(user =>
+    user.role === 'teacher' &&
+    (user.teacherId === teacherId || user.teacherCode === teacherId)
+  ) || null
+}
+
+function openCreateUserForTeacher(teacherId){
+  if(!teacherId) return
+  window.location.href = `usuarios.html?teacher=${encodeURIComponent(teacherId)}`
+}
+
+function renderTeachers(){
+  teachers=loadTeachers()
+  const tbody=document.getElementById('teachersTable')
+  const q=(document.getElementById('teacherSearch').value||'').toLowerCase()
+  tbody.innerHTML=''
+
+  const filtered=teachers.filter(teacher=>{
+    const text=`${getTeacherId(teacher)} ${teacher.name} ${teacher.email} ${teacher.languages} ${teacher.status}`.toLowerCase()
+    return !q || text.includes(q)
+  })
+
+  if(!filtered.length){
+    tbody.innerHTML='<tr><td colspan="8">No hay profesores para mostrar.</td></tr>'
+    return
+  }
+
+  filtered.forEach(teacher=>{
+    const id=getTeacherId(teacher)
+    const assignments=countTeacherAssignments(teacher)
+    const canDelete=assignments.total===0
+    const row=document.createElement('tr')
+    row.innerHTML=`
+      <td>${id}</td>
+      <td><strong>${teacher.name||'-'}</strong></td>
+      <td>${teacher.email||'-'}</td>
+      <td>${teacher.languages||'-'}</td>
+      <td>${money(teacher.hourlyRate||DEFAULT_HOURLY_RATE)}</td>
+      <td><span class="pill ${teacher.status==='Activo'?'ok':'danger'}">${teacher.status||'Activo'}</span></td>
+      <td>
+        <span class="pill ${assignments.total?'warning':'ok'}">${assignments.groups} grupos · ${assignments.packages} paquetes</span>
+      </td>
+      <td>
+        <div class="actions">
+          ${userForTeacher(id) ? `<span class="pill ok">Usuario creado</span>` : `<button class="btn btn-secondary" onclick="openCreateUserForTeacher('${id}')">Crear usuario</button>`}
+          <button class="btn btn-secondary" onclick="openTeacherModal('${id}')">Editar</button>
+          <button class="btn btn-secondary" onclick="toggleTeacherStatus('${id}')">${teacher.status==='Activo'?'Inactivar':'Activar'}</button>
+          <button class="btn btn-secondary" onclick="showTeacherAssignments('${id}')">Ver</button>
+          ${canDelete ? `<button class="btn btn-danger" onclick="deleteTeacher('${id}')">Borrar</button>` : ''}
+        </div>
+      </td>
+    `
+    tbody.appendChild(row)
+  })
+}
+
+function clearTeacherForm(){
+  document.getElementById('teacherId').value=''
+  document.getElementById('teacherName').value=''
+  document.getElementById('teacherEmail').value=''
+  document.getElementById('teacherPhone').value=''
+  document.getElementById('teacherLanguages').value=''
+  document.getElementById('teacherHourlyRate').value=DEFAULT_HOURLY_RATE
+  document.getElementById('teacherStatus').value='Activo'
+}
+
+function openTeacherModal(id=''){
+  clearTeacherForm()
+  const title=document.getElementById('teacherModalTitle')
+
+  if(id){
+    const teacher=teachers.find(item=>getTeacherId(item)===id)
+    if(!teacher)return
+    title.textContent='Editar profesor'
+    document.getElementById('teacherId').value=getTeacherId(teacher)
+    document.getElementById('teacherName').value=teacher.name||''
+    document.getElementById('teacherEmail').value=teacher.email||''
+    document.getElementById('teacherPhone').value=teacher.phone||''
+    document.getElementById('teacherLanguages').value=teacher.languages||''
+    document.getElementById('teacherHourlyRate').value=teacher.hourlyRate||DEFAULT_HOURLY_RATE
+    document.getElementById('teacherStatus').value=teacher.status||'Activo'
+  }else{
+    title.textContent='Crear profesor'
+    document.getElementById('teacherId').value=generateTeacherCode()
+  }
+
+  document.getElementById('teacherModal').classList.add('active')
+}
+
+function closeTeacherModal(){
+  document.getElementById('teacherModal').classList.remove('active')
+}
+
+function saveTeacher(){
+  const id=document.getElementById('teacherId').value.trim()
+  const name=document.getElementById('teacherName').value.trim()
+  const email=document.getElementById('teacherEmail').value.trim().toLowerCase()
+  const phone=document.getElementById('teacherPhone').value.trim()
+  const languages=document.getElementById('teacherLanguages').value.trim()
+  const rawHourlyRate=Number(document.getElementById('teacherHourlyRate').value)
+  const hourlyRate=Number.isNaN(rawHourlyRate) || rawHourlyRate <= 0 ? DEFAULT_HOURLY_RATE : rawHourlyRate
+  const status=document.getElementById('teacherStatus').value
+
+  if(!id || !name || !email){
+    alert('Código, nombre y correo son obligatorios.')
+    return
+  }
+
+  if(!email.includes('@')){
+    alert('Ingresa un correo válido para el profesor.')
+    return
+  }
+
+  const duplicateEmail=teachers.some(teacher=>getTeacherId(teacher)!==id && (teacher.email||'').toLowerCase()===email.toLowerCase())
+  if(duplicateEmail){
+    alert('Ya existe otro profesor con ese correo.')
+    return
+  }
+
+  const index=teachers.findIndex(teacher=>getTeacherId(teacher)===id)
+  const payload=normalizeTeacherSafe({
+    id,
+    code:id,
+    teacherId:id,
+    teacherCode:id,
+    name,
+    email,
+    phone,
+    languages,
+    hourlyRate,
+    status,
+    updatedAt:new Date().toISOString()
+  })
+
+  if(index>=0){
+    teachers[index]=normalizeTeacherSafe({...teachers[index],...payload})
+  }else{
+    teachers.push(normalizeTeacherSafe({...payload,createdAt:new Date().toISOString()}))
+  }
+
+  saveTeachers()
+  closeTeacherModal()
+  renderTeachers()
+  renderUnassigned()
+}
+
+function toggleTeacherStatus(id){
+  const index=teachers.findIndex(teacher=>getTeacherId(teacher)===id)
+  if(index===-1)return
+
+  const teacher=teachers[index]
+  const assignments=countTeacherAssignments(teacher)
+
+  if(teacher.status==='Activo' && assignments.total>0){
+    const ok=confirm(`${teacher.name} tiene ${assignments.groups} grupo(s) y ${assignments.packages} paquete(s) asignado(s). Si lo inactivas, revisa calendario, privadas, grupales y payroll. ¿Deseas continuar?`)
+    if(!ok)return
+  }
+
+  teachers[index].status=teachers[index].status==='Activo'?'Inactivo':'Activo'
+  teachers[index].updatedAt=new Date().toISOString()
+  saveTeachers()
+  renderTeachers()
+  renderUnassigned()
+}
+
+function deleteTeacher(id){
+  const teacher=teachers.find(item=>getTeacherId(item)===id)
+  if(!teacher)return
+
+  const assignments=countTeacherAssignments(teacher)
+  if(assignments.total>0){
+    alert(`No puedes borrar a ${teacher.name} porque tiene ${assignments.groups} grupo(s) y ${assignments.packages} paquete(s) asignado(s). Primero reasigna o libera esas clases.`)
+    return
+  }
+
+  const confirmed=confirm(`¿Seguro que quieres borrar a ${teacher.name}? Esta acción solo se permite porque no tiene grupos ni privadas asignadas.`)
+  if(!confirmed)return
+
+  teachers=teachers.filter(item=>getTeacherId(item)!==id)
+  saveTeachers()
+  renderTeachers()
+  renderUnassigned()
+}
+
+function teacherOptionsHTML(){
+  const activeTeachers=teachers.filter(teacher=>teacher.status==='Activo')
+  if(!activeTeachers.length)return '<option value="">No hay profesores activos</option>'
+  return '<option value="">Seleccionar profesor</option>'+activeTeachers.map(teacher=>{
+    const id=getTeacherId(teacher)
+    return `<option value="${id}">${id} · ${teacher.name}</option>`
+  }).join('')
+}
+
+function openAssignModal(type,id){
+  document.getElementById('assignType').value=type
+  document.getElementById('assignId').value=id
+  document.getElementById('assignTeacher').innerHTML=teacherOptionsHTML()
+  document.getElementById('assignModal').classList.add('active')
+}
+
+function closeAssignModal(){
+  document.getElementById('assignModal').classList.remove('active')
+}
+
+function saveAssignment(){
+  const type=document.getElementById('assignType').value
+  const id=document.getElementById('assignId').value
+  const teacherId=document.getElementById('assignTeacher').value
+
+  if(!teacherId){
+    alert('Selecciona un profesor.')
+    return
+  }
+
+  const teacher=teachers.find(item=>getTeacherId(item)===teacherId)
+  if(!teacher)return
+
+  if(teacher.status !== 'Activo'){
+    alert('No puedes asignar grupos o paquetes a un profesor inactivo.')
+    return
+  }
+
+  const teacherPayload={
+    teacher:teacher.name,
+    teacherId:getTeacherId(teacher),
+    teacherCode:getTeacherId(teacher),
+    teacherEmail:teacher.email||'',
+    updatedAt:new Date().toISOString()
+  }
+
+  if(type==='group'){
+    groups=loadGroups().map(group=>{
+      if(group.id!==id && group.code!==id)return group
+      return {...group,...teacherPayload}
+    })
+    saveGroups()
+  }
+
+  if(type==='package'){
+    packages=loadPackages().map(pkg=>{
+      if(pkg.id!==id && pkg.code!==id)return pkg
+      return {...pkg,...teacherPayload}
+    })
+    savePackages()
+  }
+
+  closeAssignModal()
+  renderUnassigned()
+  renderTeachers()
+}
+
+function renderUnassigned(){
+  groups=loadGroups()
+  packages=loadPackages()
+
+  const groupsContainer=document.getElementById('unassignedGroups')
+  const packagesContainer=document.getElementById('unassignedPackages')
+
+  const unassignedGroups=groups.filter(group=>!group.teacherId && !group.teacherCode && (!group.teacher || group.teacher==='Por asignar'))
+  const unassignedPackages=packages.filter(pkg=>!pkg.teacherId && !pkg.teacherCode && (!pkg.teacher || pkg.teacher==='Por asignar'))
+
+  groupsContainer.innerHTML=''
+  packagesContainer.innerHTML=''
+
+  if(!unassignedGroups.length){
+    groupsContainer.innerHTML='<div class="empty">No hay grupos pendientes por asignar.</div>'
+  }else{
+    unassignedGroups.forEach(group=>{
+      const id=group.id || group.code
+      const card=document.createElement('div')
+      card.className='card'
+      card.style.boxShadow='none'
+      card.innerHTML=`
+        <span class="pill">${group.code || group.id || 'SIN-COD'}</span>
+        <h3>${group.name || 'Grupo sin nombre'}</h3>
+        <div class="sub">${group.level || ''} · ${group.schedule || ''}</div><br>
+        <button class="btn btn-secondary" onclick="openAssignModal('group','${id}')">Asignar profesor</button>
+      `
+      groupsContainer.appendChild(card)
+    })
+  }
+
+  if(!unassignedPackages.length){
+    packagesContainer.innerHTML='<div class="empty">No hay paquetes pendientes por asignar.</div>'
+  }else{
+    unassignedPackages.forEach(pkg=>{
+      const id=pkg.id || pkg.code
+      const names=Array.isArray(pkg.students)?pkg.students.map(s=>s.name).join(' + '):'Paquete sin estudiante'
+      const card=document.createElement('div')
+      card.className='card'
+      card.style.boxShadow='none'
+      card.innerHTML=`
+        <span class="pill">${pkg.code || pkg.id || 'SIN-COD'}</span>
+        <h3>${names || 'Paquete sin estudiante'}</h3>
+        <div class="sub">${pkg.type || 'Privada'} · ${pkg.total || 20} horas</div><br>
+        <button class="btn btn-secondary" onclick="openAssignModal('package','${id}')">Asignar profesor</button>
+      `
+      packagesContainer.appendChild(card)
+    })
+  }
+}
+
+function showTeacherAssignments(id){
+  const teacher=teachers.find(item=>getTeacherId(item)===id)
+  if(!teacher)return
+
+  const assignedGroups=loadGroups().filter(group=>group.teacherId===id || group.teacherCode===id || group.teacher===teacher.name)
+  const assignedPackages=loadPackages().filter(pkg=>pkg.teacherId===id || pkg.teacherCode===id || pkg.teacher===teacher.name)
+
+  const groupList=assignedGroups.length?assignedGroups.map(group=>`• ${group.code || group.id} · ${group.name}`).join('\n'):'Sin grupos asignados'
+  const packageList=assignedPackages.length?assignedPackages.map(pkg=>`• ${pkg.code || pkg.id} · ${(pkg.students||[]).map(s=>s.name).join(' + ')}`).join('\n'):'Sin paquetes asignados'
+
+  alert(`${teacher.name}\n\nGrupos:\n${groupList}\n\nPrivadas / Semi:\n${packageList}`)
+}
+
+function renderAll(){
+  renderUser()
+  renderTeachers()
+  renderUnassigned()
+}
+
+renderAll()
+</script>
+</body>
+</html>

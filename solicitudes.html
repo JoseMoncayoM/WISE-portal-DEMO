@@ -1,0 +1,329 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Solicitudes | Wisdom Academy</title><style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#0d2b45;--accent:#1fb6b9;--light:#f5f9fc;--white:#fff;--text:#1f2d3d;--gray:#6b7c93;--border:#dcebf2;--hover:#E6FF00;--soft-accent:#e7f8f8;--danger-bg:#ffefef;--danger:#b00020;--warning-bg:#fff8d6;--warning:#8a6d00;--success-bg:#eef7ee;--success:#257a36}
+body{font-family:Inter,Arial,sans-serif;background:var(--light);color:var(--text)}
+.app{min-height:100vh;display:grid;grid-template-columns:260px 1fr}
+.sidebar{background:var(--white);border-right:1px solid var(--border);padding:28px 22px;position:sticky;top:0;height:100vh}
+.logo{font-weight:900;color:var(--primary);letter-spacing:.08em;margin-bottom:24px}
+.menu-group{margin-bottom:20px}.menu-title{font-size:.75rem;color:var(--gray);font-weight:800;letter-spacing:.12em;margin-bottom:8px;cursor:pointer;display:flex;justify-content:space-between}.menu-items{display:none}.menu-group.active .menu-items{display:block}
+.side-link{display:flex;align-items:center;gap:10px;color:var(--text);text-decoration:none;padding:10px 12px;border-radius:12px;font-weight:700;font-size:.9rem;margin-bottom:6px}.side-link:hover,.side-link.active{background:var(--soft-accent)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}.role-hidden{display:none!important}
+.user-box{margin-top:24px;padding:14px;border-radius:16px;background:var(--soft-accent);border:1px solid var(--border)}.user-box strong{display:block;color:var(--primary);font-size:.9rem;margin-bottom:4px}.user-box small{display:block;color:var(--gray);font-weight:700;line-height:1.35}.logout-btn{width:100%;margin-top:12px;padding:10px 12px;border-radius:999px;border:1px solid var(--border);background:white;color:var(--primary);font-weight:900;cursor:pointer}.logout-btn:hover{background:var(--hover);color:black}
+.main{padding:30px}.topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:24px}h1{color:var(--primary);font-size:2rem}.sub{color:var(--gray);font-size:.92rem;margin-top:6px;line-height:1.4}
+.btn{padding:10px 16px;border-radius:999px;font-weight:900;border:none;cursor:pointer;text-decoration:none;display:inline-block;font-size:.9rem}.btn-primary{background:var(--accent);color:white}.btn-secondary{background:white;color:var(--primary);border:1px solid var(--border)}.btn-danger{background:var(--danger-bg);color:var(--danger);border:1px solid #ffd1d1}.btn:hover{background:var(--hover);color:black}
+.actions{display:flex;gap:10px;flex-wrap:wrap}.role-pill{display:inline-block;margin-left:10px;background:var(--soft-accent);color:var(--accent);font-size:.75rem;font-weight:900;padding:5px 10px;border-radius:999px;vertical-align:middle}
+.panel{background:white;border:1px solid var(--border);border-radius:20px;padding:20px;margin-bottom:20px}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:22px}.metric{background:white;border:1px solid var(--border);border-radius:20px;padding:18px;min-height:92px}.metric span{display:block;color:var(--gray);font-weight:900;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}.metric strong{display:block;color:var(--primary);font-size:2rem;line-height:1}.metric small{display:block;color:var(--gray);margin-top:8px;font-weight:700}
+.filters{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;align-items:end}.field{display:flex;flex-direction:column;gap:6px}.field label{font-size:.78rem;font-weight:900;color:var(--primary)}.field input,.field select,.field textarea{min-height:42px;border-radius:12px;border:1px solid var(--border);padding:0 12px;font:inherit;background:#fbfdff}.field textarea{padding:12px;min-height:84px;resize:vertical}
+.table-wrap{width:100%;overflow:auto}table{width:100%;border-collapse:collapse;min-width:980px}th{text-align:left;color:var(--gray);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;padding:12px 10px;border-bottom:1px solid var(--border)}td{padding:13px 10px;border-bottom:1px solid var(--border);font-weight:650;vertical-align:top}
+.pill{display:inline-block;padding:5px 10px;border-radius:999px;font-size:.72rem;font-weight:900;background:var(--soft-accent);color:var(--accent);white-space:nowrap}.pill.success{background:var(--success-bg);color:var(--success)}.pill.warning{background:var(--warning-bg);color:var(--warning)}.pill.danger{background:var(--danger-bg);color:var(--danger)}.pill.gray{background:#eef2f5;color:var(--gray)}
+.empty{color:var(--gray);padding:24px;text-align:center;border:1px dashed var(--border);border-radius:16px;background:#fbfdff;font-weight:800}.notice{background:#eef7ff;border:1px solid #cfe0f1;color:var(--primary);padding:14px 16px;border-radius:16px;margin-bottom:20px;font-weight:800;line-height:1.4}
+.modal{position:fixed;inset:0;background:rgba(13,43,69,.35);display:none;align-items:center;justify-content:center;padding:20px;z-index:20}.modal.active{display:flex}.modal-box{width:100%;max-width:650px;background:white;border:1px solid var(--border);border-radius:22px;padding:24px;box-shadow:0 20px 50px rgba(13,43,69,.18)}.modal-box h2{color:var(--primary);margin-bottom:16px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.full{grid-column:1/-1}.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+.report-card{border:1px solid var(--border);border-radius:16px;padding:14px;background:#fbfdff;margin-top:12px}.report-card strong{display:block;color:var(--primary);margin-bottom:5px}.report-card small{display:block;color:var(--gray);line-height:1.35}
+@media(max-width:1050px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.metrics{grid-template-columns:repeat(2,1fr)}.filters{grid-template-columns:repeat(2,1fr)}}@media(max-width:650px){.main{padding:18px}.metrics,.filters,.form-grid{grid-template-columns:1fr}table{min-width:850px}}
+
+.whatsapp-origin{
+  display:inline-block;
+  margin-top:6px;
+  padding:4px 8px;
+  border-radius:999px;
+  background:#e7f8f8;
+  color:#0d2b45;
+  font-size:.7rem;
+  font-weight:900;
+}
+.source-detail{
+  margin-top:6px;
+  color:var(--gray);
+  font-size:.78rem;
+  line-height:1.35;
+  font-weight:700;
+}
+</style></head><body><div class="app">
+<aside class="sidebar">
+  <div class="logo">WISDOM</div>
+  <div class="menu-group active"><div class="menu-title">Panel ▾</div><div class="menu-items"><a class="side-link" href="dashboard.html"><span class="dot"></span> Dashboard</a></div></div>
+  <div class="menu-group"><div class="menu-title">Personas ▾</div><div class="menu-items"><a class="side-link" data-roles="admin" href="estudiantes.html"><span class="dot"></span> Estudiantes</a><a class="side-link" data-roles="admin" href="profesores.html"><span class="dot"></span> Profesores</a><a class="side-link" data-roles="admin" href="usuarios.html"><span class="dot"></span> Usuarios</a></div></div>
+  <div class="menu-group"><div class="menu-title">Servicios ▾</div><div class="menu-items"><a class="side-link" data-roles="admin,teacher" href="grupales.html"><span class="dot"></span> Grupales</a><a class="side-link" data-roles="admin,teacher" href="privadas.html"><span class="dot"></span> Privadas / Semi</a></div></div>
+  <div class="menu-group active"><div class="menu-title">Gestión ▾</div><div class="menu-items"><a class="side-link" data-roles="admin,teacher,student" href="calendario.html"><span class="dot"></span> Calendario</a><a class="side-link" data-roles="admin" href="finanzas.html"><span class="dot"></span> Finanzas</a><a class="side-link active" data-roles="admin,teacher,student" href="solicitudes.html"><span class="dot"></span> Solicitudes</a><a class="side-link " data-roles="admin,teacher,student" href="reportes.html"><span class="dot"></span> Reportes</a><a class="side-link" data-roles="admin,teacher" href="mensajes.html"><span class="dot"></span> Mensajes</a></div></div>
+  <div class="menu-group"><div class="menu-title">Práctica y exámenes ▾</div><div class="menu-items"><a class="side-link" data-roles="admin,teacher,student" href="Grammar_portal.html"><span class="dot"></span> Grammar</a><a class="side-link" data-roles="admin,teacher,student" href="Listening_portal.html"><span class="dot"></span> Listening</a><a class="side-link" data-roles="admin,teacher,student" href="Speaking_portal.html"><span class="dot"></span> Speaking</a><a class="side-link" data-roles="admin,teacher" href="evaluaciones.html"><span class="dot"></span> Evaluaciones</a><a class="side-link" data-roles="admin,teacher,student" href="resultados.html"><span class="dot"></span> Resultados</a></div></div>
+  <div class="user-box"><strong id="sidebarUserName">Usuario</strong><small id="sidebarUserRole">Rol</small><small id="sidebarUserEmail">correo</small><button class="logout-btn" onclick="logout()">Cerrar sesión</button></div>
+</aside>
+<main class="main"><div class="topbar"><div><h1>Solicitudes <span id="rolePill" class="role-pill">Rol</span></h1><div class="sub">Reprogramaciones, cambios de horario y certificados.</div></div><div class="actions"><button class="btn btn-secondary" onclick="window.location.href='dashboard.html'">Dashboard</button><button class="btn btn-primary" id="newRequestTopBtn" onclick="openRequestModal()">Nueva solicitud</button></div></div><div class="notice" id="noticeBox"></div><section class="metrics"><div class="metric"><span>Total</span><strong id="totalCount">0</strong><small>Según permisos</small></div><div class="metric"><span>Nuevas</span><strong id="newCount">0</strong><small>Sin gestionar</small></div><div class="metric"><span>En revisión</span><strong id="reviewCount">0</strong><small>Proceso activo</small></div><div class="metric"><span>Cerradas</span><strong id="closedCount">0</strong><small>Aprobadas/rechazadas</small></div></section><section class="panel"><h2 style="color:var(--primary);margin-bottom:14px">Filtros</h2><div class="filters"><div class="field"><label>Buscar</label><input id="searchInput" placeholder="Estudiante, tipo, código..." oninput="renderRequests()"></div><div class="field"><label>Estado</label><select id="statusFilter" onchange="renderRequests()"><option value="">Todos</option><option>Nueva</option><option>En revisión</option><option>Aprobada</option><option>Rechazada</option></select></div><div class="field"><label>Tipo</label><select id="typeFilter" onchange="renderRequests()"><option value="">Todos</option><option>Reprogramación</option><option>Cambio de horario</option><option>Certificado de estudio</option><option>Solicitud por WhatsApp</option></select></div><div class="field"><label>Acción</label><button class="btn btn-secondary" onclick="resetFilters()">Limpiar filtros</button></div></div></section><section class="panel"><div id="emptyState" class="empty" style="display:none">No hay solicitudes para mostrar.</div><div class="table-wrap" id="tableWrap"><table><thead><tr><th>Creada</th><th>Estudiante</th><th>Tipo</th><th>Fecha solicitada</th><th>Estado</th><th>Notas</th><th>Acciones</th></tr></thead><tbody id="requestsTable"></tbody></table></div></section></main></div><div class="modal" id="requestModal"><div class="modal-box"><h2>Nueva solicitud</h2><div class="form-grid"><div class="field full"><label>Estudiante</label><select id="studentSelect"></select></div><div class="field full"><label>Tipo</label><select id="requestType" onchange="handleRequestTypeChange()"><option value="Reprogramación">Reprogramación de clase</option><option value="Cambio de horario">Cambio de horario</option><option value="Certificado de estudio">Certificado de estudio</option></select></div><div class="field" id="requestDateField"><label>Fecha solicitada</label><input id="requestDate" type="date"></div><div class="field" id="requestTimeField"><label>Hora solicitada</label><input id="requestTime" type="time"></div><div class="field full"><label>Motivo / detalle</label><textarea id="requestReason" placeholder="Describe la solicitud con suficiente contexto."></textarea></div></div><div class="modal-actions"><button class="btn btn-secondary" onclick="closeRequestModal()">Cancelar</button><button class="btn btn-primary" onclick="createRequest()">Enviar</button></div></div></div><div class="modal" id="reviewModal"><div class="modal-box"><h2>Revisar solicitud</h2><input type="hidden" id="reviewId"><div class="form-grid"><div class="field full"><label>Solicitud</label><input id="reviewSummary" readonly></div><div class="field"><label>Estado</label><select id="reviewStatus"><option>Nueva</option><option>En revisión</option><option>Aprobada</option><option>Rechazada</option></select></div><div class="field full"><label>Nota administrativa</label><textarea id="reviewAdminNote"></textarea></div><div class="field full"><label>Nota profesor</label><textarea id="reviewTeacherNote"></textarea></div></div><div class="modal-actions"><button class="btn btn-secondary" onclick="closeReviewModal()">Cancelar</button><button class="btn btn-primary" onclick="saveReview()">Guardar</button></div></div></div><script src="storage.js"></script>
+<script src="schemaRegistry.js"></script>
+<script>
+const CURRENT_USER_KEY='wisdom_current_user', STUDENTS_KEY='wisdom_students_demo', REQUESTS_KEY='wisdom_requests_demo', MESSAGES_KEY='wisdom_messages', EXAM_RESULTS_KEY='wisdom_exam_results', ASSESSMENT_RESULTS_KEY='wisdom_assessment_results', INTERVENTIONS_KEY='wisdom_interventions';
+
+const Store = window.WisdomStorage || {
+  get(key, fallback=null){
+    try{ const raw=localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; }
+    catch(e){ return fallback; }
+  },
+  set(key,value){ localStorage.setItem(key, JSON.stringify(value)); },
+  remove(key){ localStorage.removeItem(key); },
+  exists(key){ return localStorage.getItem(key)!==null; }
+};
+
+const currentUser=Store.get(CURRENT_USER_KEY,null);
+if(!currentUser||!currentUser.role){window.location.href='login.html'}
+
+function safeParse(key){
+  const data=Store.get(key,[]);
+  return Array.isArray(data)?data:[];
+}
+function saveArray(key,data){Store.set(key,Array.isArray(data)?data:[])}
+function logout(){Store.remove(CURRENT_USER_KEY);window.location.href='login.html'}
+function roleLabel(r){return ({admin:'Administrativo',teacher:'Profesor',student:'Estudiante'}[r]||r||'Usuario')}
+function renderSession(){document.getElementById('sidebarUserName').innerText=currentUser.name||'Usuario Wisdom';document.getElementById('sidebarUserRole').innerText=roleLabel(currentUser.role);document.getElementById('sidebarUserEmail').innerText=currentUser.email||'';document.getElementById('rolePill').innerText=roleLabel(currentUser.role)}
+function canRoleAccess(roles){if(!roles)return true;return roles.split(',').map(r=>r.trim()).includes(currentUser.role)}
+function applyRoleVisibility(){document.querySelectorAll('[data-roles]').forEach(el=>{if(!canRoleAccess(el.getAttribute('data-roles')))el.classList.add('role-hidden')})}
+function teacherId(){return currentUser.teacherId||currentUser.teacherCode||currentUser.id||''}
+function normalizeText(value){return String(value||'').trim()}
+function normalizeEmail(value){return normalizeText(value).toLowerCase()}
+function getStudents(){
+  return safeParse(STUDENTS_KEY).map(s=>{
+    const base=(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeStudent)
+      ? SchemaRegistry.normalizeStudent(s)
+      : {...s}
+
+    return {
+      ...base,
+      id:base.id||base.code||base.studentId||'',
+      code:base.code||base.studentId||base.id||'',
+      studentId:base.studentId||base.code||base.id||'',
+      name:base.name||base.studentName||'',
+      email:base.email||'',
+      teacherId:base.teacherId||base.teacherCode||'',
+      teacherCode:base.teacherCode||base.teacherId||'',
+      teacher:base.teacher||base.teacherName||''
+    }
+  })
+}
+function getMessages(){
+  return safeParse(MESSAGES_KEY).map(m=>{
+    const base=(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeMessage)
+      ? SchemaRegistry.normalizeMessage(m)
+      : {...m}
+
+    return {
+      ...base,
+      id:base.id||base.messageId||'',
+      messageId:base.messageId||base.id||'',
+      studentId:base.studentId||base.studentCode||'',
+      studentCode:base.studentCode||base.studentId||'',
+      studentName:base.studentName||base.name||'Estudiante',
+      studentEmail:base.studentEmail||base.email||'',
+      phone:base.phone||base.whatsapp||'',
+      text:base.text||base.message||'',
+      status:base.status||'new',
+      createdAt:base.createdAt||'',
+      updatedAt:base.updatedAt||''
+    }
+  })
+}
+function getMessageById(id){return getMessages().find(m=>m.id===id)||null}
+function requestSourceLabel(r){return r.source==='whatsapp'||r.sourceMessageId?'WhatsApp':'Portal'}
+function requestPhone(r){if(r.studentPhone)return r.studentPhone;const msg=getMessageById(r.sourceMessageId);return msg?.phone||''}
+function requestSourceText(r){const msg=getMessageById(r.sourceMessageId);if(msg?.text)return msg.text;return r.reason||''}
+function openMessageSource(rid){
+  const r=getRequests().find(x=>x.id===rid);
+  if(!r)return;
+  const student=r.studentCode||r.studentId||'';
+  window.location.href='mensajes.html'+(student?'?student='+encodeURIComponent(student):'');
+}
+function studentVisible(s){
+  if(currentUser.role==='admin')return true;
+  if(currentUser.role==='student')return s.code===currentUser.studentId||s.studentId===currentUser.studentId||(s.email&&currentUser.email&&normalizeEmail(s.email)===normalizeEmail(currentUser.email));
+  if(currentUser.role==='teacher')return (teacherId()&&(s.teacherId===teacherId()||s.teacherCode===teacherId()))||s.teacher===currentUser.name;
+  return false;
+}
+function normalizeRequest(r={}){
+  const base=(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeRequest)
+    ? SchemaRegistry.normalizeRequest(r)
+    : {...r}
+
+  const now=new Date().toISOString();
+  const studentCode=base.studentCode||base.studentId||base.code||'';
+
+  return {
+    ...base,
+    id:base.id||base.requestId||'',
+    requestId:base.requestId||base.id||'',
+    source:base.source||(base.sourceMessageId?'whatsapp':'portal'),
+    sourceMessageId:base.sourceMessageId||'',
+    studentCode,
+    studentId:base.studentId||studentCode,
+    studentName:base.studentName||base.name||'Estudiante',
+    studentEmail:base.studentEmail||base.email||'',
+    studentPhone:base.studentPhone||base.phone||base.whatsapp||'',
+    teacher:base.teacher||base.teacherName||'',
+    teacherId:base.teacherId||base.teacherCode||'',
+    teacherCode:base.teacherCode||base.teacherId||'',
+    type:base.type||'Solicitud',
+    reason:base.reason||base.detail||'',
+    requestedDate:base.requestedDate||'',
+    requestedTime:base.requestedTime||'',
+    status:base.status||'Nueva',
+    adminNote:base.adminNote||'',
+    teacherNote:base.teacherNote||'',
+    createdByRole:base.createdByRole||'unknown',
+    createdByEmail:base.createdByEmail||'',
+    createdAt:base.createdAt||now,
+    updatedAt:base.updatedAt||base.createdAt||now
+  };
+}
+function getRequests(){
+  const requests=safeParse(REQUESTS_KEY)
+
+  if(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeCollection){
+    return SchemaRegistry.normalizeCollection(requests,'normalizeRequest').map(normalizeRequest)
+  }
+
+  return requests.map(normalizeRequest)
+}
+function requestVisible(r){
+  if(currentUser.role==='admin')return true;
+  if(currentUser.role==='student')return r.studentCode===currentUser.studentId||r.studentId===currentUser.studentId||r.studentName===currentUser.name||normalizeEmail(r.createdByEmail)===normalizeEmail(currentUser.email);
+  if(currentUser.role==='teacher')return r.teacherId===teacherId()||r.teacherCode===teacherId()||r.teacher===currentUser.name;
+  return false;
+}
+function normalizeResult(raw={}){
+  const base=(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeResult)
+    ? SchemaRegistry.normalizeResult(raw)
+    : {...raw}
+
+  const sr=base.score??base.finalScore??base.percentage??null
+  const score=sr===null||sr===undefined||sr===''?null:Number(String(sr).replace('%',''))
+
+  return {
+    ...base,
+    evaluationId:base.evaluationId||base.assignmentId||base.assessmentId||'',
+    studentId:base.studentId||base.studentCode||'',
+    studentCode:base.studentCode||base.studentId||'',
+    studentName:base.studentName||base.name||base.student||'Estudiante',
+    studentEmail:base.studentEmail||base.email||'',
+    teacherId:base.teacherId||base.teacherCode||'',
+    teacherCode:base.teacherCode||base.teacherId||'',
+    type:base.type||base.skill||'Evaluación',
+    mode:String(base.mode||'practice').toLowerCase(),
+    level:base.level||base.level_code||'',
+    unit:base.unit||base.unit_number||'',
+    score:Number.isNaN(score)?null:score,
+    date:base.date||base.submittedAt||base.createdAt||''
+  }
+}
+function getResults(){const merged=[...safeParse(EXAM_RESULTS_KEY),...safeParse(ASSESSMENT_RESULTS_KEY)].map(normalizeResult);const seen=new Set();return merged.filter(r=>{const k=r.evaluationId||r.id||`${r.studentId}-${r.type}-${r.level}-${r.unit}-${r.date}-${r.score}`;if(seen.has(k))return false;seen.add(k);return true})}
+function resultVisible(r){if(currentUser.role==='admin')return true;if(currentUser.role==='student')return r.studentId===currentUser.studentId||r.studentName===currentUser.name||normalizeEmail(r.studentEmail)===normalizeEmail(currentUser.email);if(currentUser.role==='teacher')return r.teacherId===teacherId()||getStudents().filter(studentVisible).some(s=>s.code===r.studentId||s.name===r.studentName);return false}
+function normalizeIntervention(i={}){
+  const base=(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeIntervention)
+    ? SchemaRegistry.normalizeIntervention(i)
+    : {...i}
+
+  return {
+    ...base,
+    interventionId:base.interventionId||base.id||'',
+    studentId:base.studentId||base.studentCode||'',
+    studentCode:base.studentCode||base.studentId||'',
+    studentName:base.studentName||base.name||'Estudiante',
+    studentEmail:base.studentEmail||base.email||'',
+    teacherId:base.teacherId||base.teacherCode||'',
+    teacherCode:base.teacherCode||base.teacherId||'',
+    type:base.type||'Evaluación',
+    level:base.level||'',
+    unit:base.unit||'',
+    score:base.score===null||base.score===undefined||base.score===''?null:Number(base.score),
+    severity:base.severity||'risk',
+    recommendation:base.recommendation||'Asignar refuerzo académico.',
+    status:base.status||'pending',
+    createdAt:base.createdAt||'',
+    updatedAt:base.updatedAt||base.createdAt||''
+  }
+}
+function getInterventions(){return safeParse(INTERVENTIONS_KEY).map(normalizeIntervention)}
+function interventionVisible(i){if(currentUser.role==='admin')return true;if(currentUser.role==='student')return i.studentId===currentUser.studentId||i.studentName===currentUser.name||normalizeEmail(i.studentEmail)===normalizeEmail(currentUser.email);if(currentUser.role==='teacher')return i.teacherId===teacherId()||getStudents().filter(studentVisible).some(s=>s.code===i.studentId||s.name===i.studentName);return false}
+function formatDate(v){const d=new Date(v);return Number.isNaN(d.getTime())?(v||'-'):d.toLocaleString('es-CO',{year:'numeric',month:'short',day:'2-digit',hour:'2-digit',minute:'2-digit'})}
+function requestStatusClass(s){if(s==='Aprobada')return 'success';if(s==='Rechazada')return 'danger';if(s==='En revisión')return 'warning';return 'gray'}
+function visibleRequests(){return getRequests().filter(requestVisible).sort((a,b)=>String(b.createdAt||'').localeCompare(String(a.createdAt||'')))}
+function generateRequestCode(){const rs=getRequests();const nums=rs.map(r=>r.id).filter(id=>/^REQ-\d+$/.test(id||'')).map(id=>parseInt(id.replace('REQ-',''),10));const next=nums.length?Math.max(...nums)+1:1;return `REQ-${String(next).padStart(4,'0')}`}
+function populateStudentSelect(){const sel=document.getElementById('studentSelect');sel.innerHTML='';const students=getStudents().filter(studentVisible);if(!students.length){sel.innerHTML='<option value="">No hay estudiantes disponibles</option>';return}students.forEach(s=>{const o=document.createElement('option');o.value=s.code||s.studentId||s.id;o.textContent=`${s.code||'SIN-COD'} · ${s.name||'Sin nombre'}`;o.dataset.name=s.name||'';o.dataset.email=s.email||'';o.dataset.teacher=s.teacher||'';o.dataset.teacherId=s.teacherId||s.teacherCode||'';o.dataset.phone=s.phone||s.whatsapp||'';sel.appendChild(o)});if(currentUser.role==='student')sel.disabled=true}
+function handleRequestTypeChange(){const type=document.getElementById('requestType').value;const needs=type==='Reprogramación'||type==='Cambio de horario';document.getElementById('requestDateField').style.display=needs?'flex':'none';document.getElementById('requestTimeField').style.display=needs?'flex':'none'}
+function openRequestModal(){if(currentUser.role==='teacher'){alert('El profesor puede observar solicitudes, pero no crearlas por el estudiante.');return}populateStudentSelect();handleRequestTypeChange();document.getElementById('requestReason').value='';document.getElementById('requestDate').value='';document.getElementById('requestTime').value='';document.getElementById('requestModal').classList.add('active')}
+function closeRequestModal(){document.getElementById('requestModal').classList.remove('active')}
+function isDuplicateOpenRequest(payload){
+  return getRequests().some(r=>
+    ['Nueva','En revisión'].includes(r.status||'Nueva') &&
+    r.studentCode===payload.studentCode &&
+    r.type===payload.type &&
+    (r.requestedDate||'')===(payload.requestedDate||'') &&
+    normalizeText(r.reason).toLowerCase()===normalizeText(payload.reason).toLowerCase()
+  );
+}
+function createRequest(){
+  const sel=document.getElementById('studentSelect');const code=sel.value;if(!code){alert('Selecciona un estudiante.');return}
+  const type=document.getElementById('requestType').value;const requestedDate=document.getElementById('requestDate').value;const requestedTime=document.getElementById('requestTime').value;const reason=document.getElementById('requestReason').value.trim();
+  if(!reason){alert('El motivo es obligatorio.');return}
+  if((type==='Reprogramación'||type==='Cambio de horario')&&!requestedDate){alert('Debes indicar fecha solicitada.');return}
+  const opt=sel.selectedOptions[0];
+  const now=new Date().toISOString();
+  const rawRequest={id:generateRequestCode(),requestId:generateRequestCode(),source:'portal',studentCode:code,studentId:code,studentName:opt.dataset.name||'',studentEmail:opt.dataset.email||'',studentPhone:opt.dataset.phone||'',teacher:opt.dataset.teacher||'',teacherId:opt.dataset.teacherId||'',teacherCode:opt.dataset.teacherId||'',type,reason,requestedDate,requestedTime,status:'Nueva',adminNote:'',teacherNote:'',createdByRole:currentUser.role,createdByEmail:currentUser.email||'',createdAt:now,updatedAt:now};
+
+  const req=(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeRequest)
+    ? normalizeRequest(SchemaRegistry.normalizeRequest(rawRequest))
+    : normalizeRequest(rawRequest);
+  if(isDuplicateOpenRequest(req)){alert('Ya existe una solicitud abierta con la misma información para este estudiante.');return}
+  const rs=getRequests();rs.push(req);saveArray(REQUESTS_KEY,rs);closeRequestModal();renderRequests();
+}
+function openReviewModal(id){
+  const r=getRequests().find(x=>x.id===id);if(!r)return;if(currentUser.role==='student'){alert('No tienes permiso para revisar solicitudes.');return}
+  if(currentUser.role==='teacher'&&!requestVisible(r)){alert('No tienes permiso para revisar esta solicitud.');return}
+  document.getElementById('reviewId').value=r.id;document.getElementById('reviewSummary').value=`${r.id} · ${r.studentName||r.studentCode} · ${r.type}`;document.getElementById('reviewStatus').value=r.status||'Nueva';document.getElementById('reviewAdminNote').value=r.adminNote||'';document.getElementById('reviewTeacherNote').value=r.teacherNote||'';document.getElementById('reviewStatus').disabled=currentUser.role!=='admin';document.getElementById('reviewAdminNote').disabled=currentUser.role!=='admin';document.getElementById('reviewModal').classList.add('active')
+}
+function closeReviewModal(){document.getElementById('reviewModal').classList.remove('active')}
+function saveReview(){
+  const id=document.getElementById('reviewId').value;const rs=getRequests();const i=rs.findIndex(r=>r.id===id);if(i<0)return;
+  if(currentUser.role==='admin'){rs[i].status=document.getElementById('reviewStatus').value;rs[i].adminNote=document.getElementById('reviewAdminNote').value.trim();rs[i].reviewedBy=currentUser.email||currentUser.name||'';rs[i].reviewedAt=new Date().toISOString()}
+  if(currentUser.role==='teacher'||currentUser.role==='admin'){rs[i].teacherNote=document.getElementById('reviewTeacherNote').value.trim();rs[i].teacherReviewedBy=currentUser.email||currentUser.name||'';rs[i].teacherReviewedAt=new Date().toISOString()}
+  rs[i].updatedAt=new Date().toISOString();
+
+  const normalized=(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeCollection)
+    ? SchemaRegistry.normalizeCollection(rs,'normalizeRequest').map(normalizeRequest)
+    : rs.map(normalizeRequest)
+
+  saveArray(REQUESTS_KEY,normalized);
+  closeReviewModal();
+  renderRequests();
+}
+function resetFilters(){document.getElementById('searchInput').value='';document.getElementById('statusFilter').value='';document.getElementById('typeFilter').value='';renderRequests()}
+function renderMetrics(rs){document.getElementById('totalCount').innerText=rs.length;document.getElementById('newCount').innerText=rs.filter(r=>(r.status||'Nueva')==='Nueva').length;document.getElementById('reviewCount').innerText=rs.filter(r=>(r.status||'')==='En revisión').length;document.getElementById('closedCount').innerText=rs.filter(r=>['Aprobada','Rechazada'].includes(r.status||'')).length}
+function renderRequests(){
+  const search=document.getElementById('searchInput').value.trim().toLowerCase();const status=document.getElementById('statusFilter').value;const type=document.getElementById('typeFilter').value;
+  const rs=visibleRequests().filter(r=>{const hay=[r.id,r.studentName,r.studentCode,r.type,r.reason,r.status,requestSourceLabel(r),r.sourceMessageId,requestPhone(r)].join(' ').toLowerCase();if(search&&!hay.includes(search))return false;if(status&&(r.status||'Nueva')!==status)return false;if(type&&r.type!==type)return false;return true});
+  renderMetrics(rs);const table=document.getElementById('requestsTable'),empty=document.getElementById('emptyState'),wrap=document.getElementById('tableWrap');table.innerHTML='';if(!rs.length){empty.style.display='block';wrap.style.display='none';return}empty.style.display='none';wrap.style.display='block';
+  rs.forEach(r=>{const row=document.createElement('tr');row.innerHTML=`
+  <td>${formatDate(r.createdAt)}</td>
+  <td>
+    <strong>${r.studentName||r.studentCode||'Estudiante'}</strong><br>
+    <small>${r.studentCode||''}</small>
+    ${requestPhone(r)?`<div class="source-detail">Tel: ${requestPhone(r)}</div>`:''}
+  </td>
+  <td>
+    ${r.type||'Solicitud'}
+    ${requestSourceLabel(r)==='WhatsApp'?'<span class="whatsapp-origin">WhatsApp</span>':''}
+    <br><small>${r.reason||''}</small>
+    ${r.sourceMessageId?`<div class="source-detail">Mensaje origen: ${r.sourceMessageId}</div>`:''}
+  </td>
+  <td>${r.requestedDate||'-'} ${r.requestedTime||''}</td>
+  <td><span class="pill ${requestStatusClass(r.status||'Nueva')}">${r.status||'Nueva'}</span></td>
+  <td><small>${r.teacherNote?'<strong>Profesor:</strong> '+r.teacherNote+'<br>':''}${r.adminNote?'<strong>Admin:</strong> '+r.adminNote:''}</small></td>
+  <td>
+    ${currentUser.role==='student'?'':'<button class="btn btn-secondary" onclick="openReviewModal(\''+r.id+'\')">Revisar</button>'}
+    ${r.sourceMessageId && currentUser.role!=='student'?'<button class="btn btn-secondary" style="margin-top:6px" onclick="openMessageSource(\''+r.id+'\')">Ver mensaje</button>':''}
+    <button class="btn btn-secondary" style="margin-top:6px" onclick="window.location.href='dossier.html?code=${encodeURIComponent(r.studentCode||r.studentId||'')}'">Dossier</button>
+  </td>
+`;table.appendChild(row)})
+}
+
+document.querySelectorAll('.menu-title').forEach(t=>t.addEventListener('click',()=>t.parentElement.classList.toggle('active')));renderSession();applyRoleVisibility();
+document.getElementById('noticeBox').innerText=currentUser.role==='admin'?'Vista administrativa: puedes revisar, aprobar o rechazar solicitudes. Las solicitudes originadas por WhatsApp aparecen marcadas con su mensaje fuente.':currentUser.role==='teacher'?'Vista profesor: puedes ver solicitudes de tus estudiantes y dejar observaciones.':'Vista estudiante: puedes crear solicitudes y consultar su estado.';renderRequests();
+
+</script></body></html>

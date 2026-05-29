@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Finanzas | Wisdom Academy</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --primary:#0d2b45;
+  --accent:#1fb6b9;
+  --light:#f5f9fc;
+  --white:#fff;
+  --text:#1f2d3d;
+  --gray:#6b7c93;
+  --border:#dcebf2;
+  --hover:#E6FF00;
+  --soft:#e7f8f8;
+  --danger:#ffefef;
+  --warning:#fff8d6;
+  --ok:#eef7ee;
+}
+body{font-family:Inter,Arial,sans-serif;background:var(--light);color:var(--text)}
+.wrap{max-width:1280px;margin:auto;padding:28px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;gap:16px;flex-wrap:wrap}
+h1{color:var(--primary);font-size:1.9rem;font-weight:900}h2,h3{color:var(--primary)}
+.sub{color:var(--gray);font-size:.9rem;margin-top:4px;line-height:1.4}
+.btn{padding:10px 16px;border-radius:999px;border:none;font-weight:800;cursor:pointer;text-decoration:none;display:inline-block;font-size:.9rem}
+.btn-primary{background:var(--accent);color:white}.btn-secondary{background:white;color:var(--primary);border:1px solid var(--border)}.btn-danger{background:#ffefef;color:#b00020;border:1px solid #ffd1d1}.btn:hover{background:var(--hover);color:black}
+.card{background:white;border:1px solid var(--border);border-radius:20px;padding:20px;margin-bottom:20px;box-shadow:0 8px 24px rgba(13,43,69,.05)}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px}.metric{background:white;border:1px solid var(--border);border-radius:18px;padding:18px}.metric span{font-size:.75rem;color:var(--gray);font-weight:900;text-transform:uppercase}.metric strong{display:block;color:var(--primary);font-size:1.7rem;margin-top:6px}.metric small{color:var(--gray)}
+.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:20px}.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.field{display:flex;flex-direction:column;gap:6px}.field label{font-size:.8rem;font-weight:900;color:var(--primary)}.field input,.field select,.field textarea{padding:11px;border-radius:12px;border:1px solid var(--border);font:inherit;background:white}.field textarea{min-height:76px;resize:vertical}.full{grid-column:1/-1}
+table{width:100%;border-collapse:collapse}th{text-align:left;color:var(--gray);font-size:.72rem;text-transform:uppercase;padding:10px}td{padding:12px 10px;border-top:1px solid var(--border);font-weight:600;vertical-align:top}.table-wrap{overflow:auto}
+.pill{background:var(--soft);color:var(--accent);padding:5px 10px;border-radius:999px;font-size:.72rem;font-weight:900;display:inline-block}.pill.ok{background:var(--ok);color:#257a36}.pill.warning{background:var(--warning);color:#8a6d00}.pill.danger{background:var(--danger);color:#b00020}.pill.gray{background:#eef2f6;color:#526273}
+.alert{border:1px solid var(--border);border-radius:16px;padding:14px;background:#fbfdff;margin-bottom:10px}.alert strong{display:block;color:var(--primary);margin:6px 0 4px}.alert small{color:var(--gray);line-height:1.35;display:block}.empty{color:var(--gray);padding:14px;border:1px dashed var(--border);border-radius:14px;background:#fbfdff}.userbox{display:flex;align-items:center;gap:10px;background:white;border:1px solid var(--border);border-radius:999px;padding:8px 12px}.userbox small{color:var(--gray)}
+.modal{position:fixed;inset:0;background:rgba(13,43,69,.35);display:none;align-items:center;justify-content:center;padding:20px;z-index:20}.modal.active{display:flex}.modal-box{width:100%;max-width:720px;background:white;border:1px solid var(--border);border-radius:22px;padding:24px;box-shadow:0 20px 50px rgba(13,43,69,.18)}.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+@media(max-width:1000px){.grid,.metrics{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div>
+      <h1>Finanzas</h1>
+      <div class="sub">Control de pagos estudiantiles, alertas de renovación/mora y horas dictadas por profesor.</div>
+    </div>
+    <div class="toolbar">
+      <div class="userbox" id="userBox"></div>
+      <button class="btn btn-secondary" onclick="window.location.href='dashboard.html'">Dashboard</button>
+      <button class="btn btn-primary admin-only" onclick="openFinanceModal()">Registrar / editar pago</button>
+      <button class="btn btn-secondary" onclick="logout()">Cerrar sesión</button>
+    </div>
+  </div>
+
+  <div class="metrics">
+    <div class="metric"><span>Por cobrar</span><strong id="metricDue">$0</strong><small>Saldos pendientes</small></div>
+    <div class="metric"><span>Pagado</span><strong id="metricPaid">$0</strong><small>Pagos registrados</small></div>
+    <div class="metric"><span>Alertas</span><strong id="metricAlerts">0</strong><small>Financieras activas</small></div>
+    <div class="metric"><span>Horas docentes</span><strong id="metricTeacherHours">0</strong><small>Horas dictadas calculadas</small></div>
+  </div>
+
+  <div class="card">
+    <div class="toolbar">
+      <div class="field" style="min-width:220px">
+        <label>Buscar estudiante</label>
+        <input id="searchInput" placeholder="Nombre, código, servicio..." onkeyup="renderAll()">
+      </div>
+      <div class="field" style="min-width:180px">
+        <label>Estado</label>
+        <select id="statusFilter" onchange="renderAll()">
+          <option value="all">Todos</option>
+          <option value="Al día">Al día</option>
+          <option value="Pendiente">Pendiente</option>
+          <option value="En mora">En mora</option>
+          <option value="Renovación próxima">Renovación próxima</option>
+          <option value="Pronta renovación">Pronta renovación</option>
+        </select>
+      </div>
+      <div class="field" style="min-width:180px">
+        <label>Servicio</label>
+        <select id="serviceFilter" onchange="renderAll()">
+          <option value="all">Todos</option>
+          <option value="Grupal">Grupal</option>
+          <option value="Privada">Privada</option>
+          <option value="Semiprivada">Semiprivada</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <main>
+      <div class="card">
+        <h3>Estado financiero por estudiante</h3>
+        <div class="sub">Cruza pagos registrados con clases/sesiones vistas.</div><br>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Estudiante</th><th>Servicio</th><th>Clases / sesiones</th><th>Monto</th><th>Pagado</th><th>Saldo</th><th>Acuerdo</th><th>Estado</th><th class="admin-only">Acción</th>
+              </tr>
+            </thead>
+            <tbody id="financeTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Horas dictadas por profesor</h3>
+        <div class="sub">Privadas se calculan desde sesiones registradas. Grupales se calculan como clase registrada × 1.25 horas.</div><br>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Profesor</th><th>Horas privadas</th><th>Horas grupales</th><th>Total horas</th><th>Tarifa</th><th>Pago estimado</th></tr></thead>
+            <tbody id="payrollTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <aside>
+      <div class="card">
+        <h3>Alertas financieras</h3><br>
+        <div id="alertsList"></div>
+      </div>
+      <div class="card">
+        <h3>Reglas actuales</h3><br>
+        <div class="alert"><span class="pill warning">Privadas / Semi</span><strong>Pronta renovación desde sesión 17</strong><small>Si el paquete tiene 20 sesiones, la alerta se activa cuando ya van más de 16 sesiones registradas.</small></div>
+        <div class="alert"><span class="pill danger">Privadas / Semi</span><strong>Mora por acuerdo de pago</strong><small>Si hay saldo pendiente y se pactó pagar en una sesión específica, el sistema marca mora cuando esa sesión ya fue registrada y el saldo no está pagado.</small></div>
+        <div class="alert"><span class="pill warning">Grupales</span><strong>Advertencia desde clase 13</strong><small>Si no está totalmente pagado, aparece advertencia.</small></div>
+        <div class="alert"><span class="pill danger">Grupales</span><strong>Mora desde clase 17</strong><small>Si aún tiene saldo, pasa a mora.</small></div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<div class="modal" id="financeModal">
+  <div class="modal-box">
+    <h2>Registrar / editar pago</h2><br>
+    <div class="form-grid">
+      <div class="field full"><label>Estudiante</label><select id="financeStudent"></select></div>
+      <div class="field"><label>Monto pactado</label><input id="amountDue" type="number" min="0" placeholder="Ej: 450000"></div>
+      <div class="field"><label>Monto pagado</label><input id="amountPaid" type="number" min="0" placeholder="Ej: 250000"></div>
+      <div class="field"><label>Fecha límite de pago</label><input id="dueDate" type="date"></div>
+      <div class="field"><label>Sesión pactada para pagar saldo</label><input id="paymentDueSession" type="number" min="1" max="10" placeholder="Ej: 8 o 10"></div>
+      <div class="field"><label>Estado manual</label><select id="manualStatus"><option value="auto">Automático</option><option>Al día</option><option>Pendiente</option><option>En mora</option><option>Pronta renovación</option><option>Renovación próxima</option></select></div>
+      <div class="field full"><label>Notas</label><textarea id="financeNotes" placeholder="Ej: paga el saldo en la sesión 8; acuerdo autorizado por administración..."></textarea></div>
+      <div class="field full"><div class="sub"><strong>Nota:</strong> En privadas/semiprivadas, si hay saldo pendiente y llenas “Sesión pactada para pagar saldo”, el estudiante sigue “Al día” hasta antes de esa sesión. Si esa sesión ya fue registrada y el saldo sigue pendiente, pasa automáticamente a “En mora”. La sesión pactada no puede ser superior a la sesión 10.</div></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeFinanceModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveFinanceRecord()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<script src="storage.js"></script>
+<script src="schemaRegistry.js"></script>
+<script>
+const CURRENT_USER_KEY='wisdom_current_user'
+const USERS_KEY='wisdom_users'
+const STUDENTS_KEY='wisdom_students_demo'
+const GROUPS_KEY='wisdom_groups_demo'
+const PRIVATE_KEY='wisdom_private_demo'
+const TEACHERS_KEY='wisdom_teachers_demo'
+const FINANCE_KEY='wisdom_finance_demo'
+const DEFAULT_HOURLY_RATE=20000
+
+function safeParse(value,fallback=[]){try{return value?JSON.parse(value):fallback}catch(e){return fallback}}
+function load(key){return WisdomStorage.get(key,[])}
+function save(key,value){WisdomStorage.set(key,value)}
+function money(value){return new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:0}).format(Number(value)||0)}
+function num(value){return Number(value)||0}
+function normalizeService(value){
+  const service=String(value||'').trim()
+  if(!service) return 'Sin servicio'
+  const clean=service.toLowerCase()
+  if(clean.includes('semi')) return 'Semiprivada'
+  if(clean.includes('privada')) return 'Privada'
+  if(clean.includes('grupal')) return 'Grupal'
+  return service
+}
+function normalizeFinanceRecord(record={}){
+  const base = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeFinance)
+    ? SchemaRegistry.normalizeFinance(record)
+    : {...record}
+
+  if(!base || !(base.studentCode || base.studentId)) return null
+
+  const studentCode = base.studentCode || base.studentId || ''
+  const teacherId = base.teacherId || base.teacherCode || ''
+  const amountDue = Math.max(0,num(base.amountDue))
+  const amountPaid = Math.max(0,Math.min(num(base.amountPaid),amountDue))
+  const paymentDueSession = base.paymentDueSession===null || base.paymentDueSession===undefined || base.paymentDueSession==='' ? null : Math.min(10,Math.max(1,num(base.paymentDueSession)))
+
+  return {
+    ...base,
+    id:base.id || ('FIN-'+studentCode),
+    studentId:base.studentId || studentCode,
+    studentCode,
+    teacherId,
+    teacherCode:base.teacherCode || teacherId,
+    service:normalizeService(base.service),
+    groupOrPackage:base.groupOrPackage || base.group || base.packageCode || '',
+    amountDue,
+    amountPaid,
+    dueDate:base.dueDate || '',
+    paymentDueSession,
+    manualStatus:base.manualStatus || 'auto',
+    createdAt:base.createdAt || new Date().toISOString(),
+    updatedAt:base.updatedAt || new Date().toISOString()
+  }
+}
+
+const users=load(USERS_KEY)
+const currentUser=WisdomStorage.get(CURRENT_USER_KEY,null)
+if(!users.length || !currentUser){window.location.href='login.html'}
+
+function logout(){WisdomStorage.remove(CURRENT_USER_KEY);window.location.href='login.html'}
+function isAdmin(){return currentUser && currentUser.role==='admin'}
+function renderUser(){
+  const box=document.getElementById('userBox')
+  box.innerHTML=`<strong>${currentUser.name||'Usuario'}</strong><small>${currentUser.role||''}</small>`
+  if(!isAdmin()){
+    document.querySelectorAll('.admin-only').forEach(el=>el.style.display='none')
+    document.querySelectorAll('.metric')[0].querySelector('span').textContent='Por cobrar'
+    document.querySelectorAll('.metric')[1].querySelector('span').textContent='Pagado'
+  }
+  if(currentUser.role==='teacher'){
+    document.querySelector('h1').textContent='Finanzas docentes'
+    document.querySelector('.sub').textContent='Vista docente: horas dictadas y alertas de tus estudiantes. Los valores monetarios quedan reservados para administración.'
+  }
+}
+
+function getStudents(){
+  const students=load(STUDENTS_KEY)
+  if(typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeStudent){
+    return Array.isArray(students)?students.map(student=>SchemaRegistry.normalizeStudent(student)):[]
+  }
+  return Array.isArray(students)?students:[]
+}
+function getGroups(){
+  const groups=load(GROUPS_KEY)
+  if(typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeGroup){
+    return Array.isArray(groups)?groups.map(group=>SchemaRegistry.normalizeGroup(group)):[]
+  }
+  return Array.isArray(groups)?groups:[]
+}
+function getPackages(){
+  const packages=load(PRIVATE_KEY)
+  if(typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizePrivatePackage){
+    return Array.isArray(packages)?packages.map(pkg=>SchemaRegistry.normalizePrivatePackage(pkg)):[]
+  }
+  return Array.isArray(packages)?packages:[]
+}
+function getTeachers(){
+  const teachers=load(TEACHERS_KEY)
+  if(typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeTeacher){
+    return Array.isArray(teachers)?teachers.map(teacher=>SchemaRegistry.normalizeTeacher(teacher)):[]
+  }
+  return (Array.isArray(teachers)?teachers:[]).map(teacher=>{
+    const id=teacher.id || teacher.teacherId || teacher.code || teacher.teacherCode || ''
+    return {...teacher,id,teacherId:id,teacherCode:teacher.teacherCode||id,code:id,status:teacher.status||'Activo'}
+  })
+}
+function getTeacherIdFromUser(){
+  return currentUser.teacherId || currentUser.teacherCode || currentUser.id || ''
+}
+function getTeacherNameById(teacherId){
+  const teacher=getTeachers().find(t=>t.teacherId===teacherId || t.id===teacherId || t.code===teacherId)
+  return teacher?.name || ''
+}
+function getTeacherIdByName(name){
+  const teacher=getTeachers().find(t=>t.name===name || t.teacher===name)
+  return teacher?.teacherId || ''
+}
+function normalizeTeacherRef(item){
+  const teacherId=item?.teacherId || item?.teacherCode || getTeacherIdByName(item?.teacher) || ''
+  const teacher=item?.teacher || getTeacherNameById(teacherId) || 'Profesor por asignar'
+  return {...item,teacherId,teacherCode:teacherId,teacher}
+}
+function belongsToCurrentTeacher(item){
+  if(currentUser.role!=='teacher') return true
+  const teacherId=getTeacherIdFromUser()
+  const ref=normalizeTeacherRef(item)
+  return (
+    (teacherId && (ref.teacherId===teacherId || ref.teacherCode===teacherId)) ||
+    (ref.teacher && ref.teacher===currentUser.name) ||
+    (ref.teacherEmail && ref.teacherEmail===currentUser.email)
+  )
+}
+function teacherCanSeeStudent(student){
+  if(currentUser.role!=='teacher') return true
+  const teacherId=getTeacherIdFromUser()
+  if((student.teacherId&&student.teacherId===teacherId) || (student.teacherCode&&student.teacherCode===teacherId) || student.teacher===currentUser.name) return true
+
+  const groups=getGroups().filter(belongsToCurrentTeacher)
+  const packages=getPackages().map(normalizePackage).filter(belongsToCurrentTeacher)
+
+  const inGroup=groups.some(g=>(g.students||[]).some(s=>s.code===student.code || s.name===student.name))
+  const inPackage=packages.some(pkg=>(pkg.students||[]).some(s=>s.code===student.code || s.name===student.name))
+  return inGroup || inPackage
+}
+function getFinance(){
+  const finance=load(FINANCE_KEY)
+
+  if(typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeCollection){
+    return SchemaRegistry
+      .normalizeCollection(Array.isArray(finance)?finance:[],'normalizeFinance')
+      .map(normalizeFinanceRecord)
+      .filter(Boolean)
+  }
+
+  return (Array.isArray(finance)?finance:[]).map(normalizeFinanceRecord).filter(Boolean)
+}
+function setFinance(items){
+  const normalized=(typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeCollection)
+    ? SchemaRegistry.normalizeCollection(Array.isArray(items)?items:[],'normalizeFinance').map(normalizeFinanceRecord).filter(Boolean)
+    : (Array.isArray(items)?items:[]).map(normalizeFinanceRecord).filter(Boolean)
+
+  save(FINANCE_KEY,normalized)
+}
+
+function normalizePackage(pkg){
+  const base=normalizeTeacherRef(pkg||{})
+  const sessions=Array.isArray(base.sessions)?base.sessions.map(session=>{
+    const ref=normalizeTeacherRef({...session,teacherId:session.teacherId||session.teacherCode||base.teacherId,teacher:session.teacher||base.teacher})
+    return {...session,teacher:ref.teacher,teacherId:ref.teacherId,teacherCode:ref.teacherId,hours:num(session.hours)}
+  }):[]
+  return {...base,total:num(base.total)||20,students:Array.isArray(base.students)?base.students:[],sessions}
+}
+function packageUsedHours(pkg){return normalizePackage(pkg).sessions.reduce((sum,s)=>sum+num(s.hours),0)}
+function groupCurrentClass(group){return Math.max(num(group.currentClass),Object.keys(group.attendance||{}).length)}
+function studentGroup(student){
+  return getGroups().map(normalizeTeacherRef).find(g=>
+    g.name===student.group || g.code===student.group || g.id===student.group ||
+    (Array.isArray(g.students)&&g.students.some(s=>s.code===student.code || s.name===student.name))
+  )
+}
+function studentPackage(student){
+  return getPackages().map(normalizePackage).find(pkg=>pkg.students.some(s=>s.code===student.code || s.name===student.name) || pkg.code===student.group || pkg.id===student.group)
+}
+function studentProgress(student){
+  if((student.service||'').toLowerCase().includes('grupal')){
+    const group=studentGroup(student)
+    const current=group?groupCurrentClass(group):parseTracking(student.trackingValue).current
+    return {label:'clases',current,total:48,sessions:current,hours:current*1.25,teacher:group?.teacher||student.teacher||'Por asignar',teacherId:group?.teacherId||group?.teacherCode||student.teacherId||student.teacherCode||'',groupOrPackage:group?.name||student.group||'-'}
+  }
+  const pkg=studentPackage(student)
+  const parsed=parseTracking(student.trackingValue)
+  const sessions=pkg?normalizePackage(pkg).sessions.length:parsed.current
+  const hours=pkg?packageUsedHours(pkg):parsed.current
+  const total=pkg?num(pkg.total)||20:parsed.total||20
+  return {label:'sesiones',current:sessions,total,hours,teacher:pkg?.teacher||student.teacher||'Por asignar',teacherId:pkg?.teacherId||pkg?.teacherCode||student.teacherId||student.teacherCode||'',groupOrPackage:pkg?.code||pkg?.id||student.group||'-'}
+}
+function parseTracking(value){
+  if(!value || !String(value).includes('/')) return {current:0,total:0}
+  const [a,b]=String(value).split('/').map(v=>parseFloat(v.trim()))
+  return {current:Number.isNaN(a)?0:a,total:Number.isNaN(b)?0:b}
+}
+function financeForStudent(student){return getFinance().find(f=>f.studentCode===student.code) || null}
+function isPrivateService(student){
+  const service=normalizeService(student.service).toLowerCase()
+  return service.includes('privada') || service.includes('semi')
+}
+function computedStatus(student,finance,progress){
+  const due=num(finance?.amountDue), paid=num(finance?.amountPaid), balance=Math.max(0,due-paid)
+  const dueSession=num(finance?.paymentDueSession)
+  if(finance?.manualStatus && finance.manualStatus!=='auto') return finance.manualStatus
+  const service=normalizeService(student.service).toLowerCase()
+
+  if(due<=0 && paid<=0) return 'Sin registro'
+  if(balance<=0) {
+    if(isPrivateService(student) && progress.current>16 && progress.current<progress.total) return 'Pronta renovación'
+    if(isPrivateService(student) && progress.current>=progress.total) return 'Paquete terminado'
+    return 'Al día'
+  }
+
+  if(isPrivateService(student)){
+    if(dueSession>0 && progress.current>=dueSession) return 'En mora'
+    if(progress.current>=progress.total) return 'Paquete terminado'
+    if(progress.current>16) return 'Pronta renovación'
+    if(dueSession>0 && progress.current<dueSession) return 'Al día'
+    return 'Pendiente'
+  }
+
+  if(service.includes('grupal')){
+    if(progress.current>=17 && balance>0) return 'En mora'
+    if(progress.current>=13 && balance>0) return 'Pendiente'
+  }
+
+  return balance>0?'Pendiente':'Al día'
+}
+function statusClass(status){
+  if(['Al día'].includes(status)) return 'ok'
+  if(['En mora','Paquete terminado'].includes(status)) return 'danger'
+  if(['Pendiente','Renovación próxima','Pronta renovación','Sin registro'].includes(status)) return 'warning'
+  return 'gray'
+}
+function visibleStudents(){
+  let students=getStudents()
+  if(currentUser.role==='student') students=students.filter(s=>s.code===currentUser.studentId || s.email===currentUser.email)
+  if(currentUser.role==='teacher') students=students.filter(teacherCanSeeStudent)
+  const q=(document.getElementById('searchInput')?.value||'').toLowerCase()
+  const status=document.getElementById('statusFilter')?.value||'all'
+  const service=document.getElementById('serviceFilter')?.value||'all'
+  return students.filter(student=>{
+    const progress=studentProgress(student), finance=financeForStudent(student), st=computedStatus(student,finance,progress)
+    const text=`${student.code} ${student.name} ${student.email} ${student.service} ${student.group}`.toLowerCase()
+    return (!q||text.includes(q)) && (status==='all'||st===status) && (service==='all'||student.service===service)
+  })
+}
+function renderFinanceTable(){
+  const tbody=document.getElementById('financeTable')
+  const students=visibleStudents()
+  tbody.innerHTML=''
+  if(!students.length){tbody.innerHTML='<tr><td colspan="9">No hay estudiantes para mostrar.</td></tr>';return}
+  students.forEach(student=>{
+    const finance=financeForStudent(student)
+    const progress=studentProgress(student)
+    const due=num(finance?.amountDue), paid=num(finance?.amountPaid), balance=Math.max(0,due-paid)
+    const st=computedStatus(student,finance,progress)
+    const row=document.createElement('tr')
+    row.innerHTML=`
+      <td><strong>${student.name}</strong><br><small>${student.code}</small></td>
+      <td>${normalizeService(student.service)}<br><small>${progress.groupOrPackage}</small></td>
+      <td>${progress.current} / ${progress.total} ${progress.label}<br><small>${isPrivateService(student)?progress.hours+' horas dictadas':''}</small></td>
+      <td>${isAdmin()?money(due):'—'}</td>
+      <td>${isAdmin()?money(paid):'—'}</td>
+      <td>${isAdmin()?money(balance):'—'}</td>
+      <td>${finance?.paymentDueSession ? 'Saldo pactado sesión '+finance.paymentDueSession : '-'}</td>
+      <td><span class="pill ${statusClass(st)}">${st}</span></td>
+      <td class="admin-only"><button class="btn btn-secondary" onclick="openFinanceModal('${student.code}')">Editar</button></td>
+    `
+    tbody.appendChild(row)
+  })
+  if(!isAdmin()){
+    document.querySelectorAll('.admin-only').forEach(el=>el.style.display='none')
+    document.querySelectorAll('.metric')[0].querySelector('span').textContent='Por cobrar'
+    document.querySelectorAll('.metric')[1].querySelector('span').textContent='Pagado'
+  }
+  if(currentUser.role==='teacher'){
+    document.querySelector('h1').textContent='Finanzas docentes'
+    document.querySelector('.sub').textContent='Vista docente: horas dictadas y alertas de tus estudiantes. Los valores monetarios quedan reservados para administración.'
+  }
+}
+function buildAlerts(){
+  const alerts=[]
+  visibleStudents().forEach(student=>{
+    const finance=financeForStudent(student)
+    const progress=studentProgress(student)
+    const due=num(finance?.amountDue), paid=num(finance?.amountPaid), balance=Math.max(0,due-paid)
+    const st=computedStatus(student,finance,progress)
+    if(st==='Renovación próxima' || st==='Pronta renovación') alerts.push({level:'warning',title:'Pronta renovación',detail:`${student.name} lleva ${progress.current}/${progress.total} ${progress.label}. Conviene ofrecer nuevo paquete.`})
+    if(st==='En mora') alerts.push({level:'danger',title:'Estudiante en mora',detail:isAdmin()?`${student.name} va en ${progress.current} ${progress.label} y tiene saldo de ${money(balance)}${finance?.paymentDueSession ? `. El saldo estaba pactado para la sesión ${finance.paymentDueSession}.` : '.'}`:`${student.name} va en ${progress.current} ${progress.label} y está en mora.`})
+    if(st==='Pendiente') alerts.push({level:'warning',title:'Pago pendiente',detail:isAdmin()?`${student.name} tiene saldo de ${money(balance)}.`:`${student.name} tiene pago pendiente.`})
+    if(st==='Paquete terminado') alerts.push({level:'danger',title:'Paquete terminado',detail:`${student.name} completó ${progress.total} horas. No debería seguir tomando sesiones sin renovación.`})
+    if(st==='Sin registro') alerts.push({level:'warning',title:'Sin registro financiero',detail:`${student.name} no tiene monto pactado ni pago registrado.`})
+  })
+  return alerts
+}
+function renderAlerts(){
+  const container=document.getElementById('alertsList')
+  const alerts=buildAlerts()
+  container.innerHTML=''
+  if(!alerts.length){container.innerHTML='<div class="empty">No hay alertas financieras activas.</div>';return}
+  alerts.slice(0,12).forEach(a=>{
+    const div=document.createElement('div')
+    div.className='alert'
+    div.innerHTML=`<span class="pill ${a.level==='danger'?'danger':'warning'}">${a.level==='danger'?'Urgente':'Revisar'}</span><strong>${a.title}</strong><small>${a.detail}</small>`
+    container.appendChild(div)
+  })
+}
+function teacherRate(identifier){
+  const teacher=getTeachers().find(t=>t.teacherId===identifier || t.id===identifier || t.code===identifier || t.name===identifier || t.teacher===identifier)
+  return num(teacher?.hourlyRate)||DEFAULT_HOURLY_RATE
+}
+function teacherHours(){
+  const map={}
+  function add(item,type,hours){
+    const ref=normalizeTeacherRef(item||{})
+    const id=ref.teacherId || ref.teacher || 'SIN-ID'
+    const name=(ref.teacher||getTeacherNameById(id)||'Profesor por asignar').trim()||'Profesor por asignar'
+
+    if(currentUser.role==='teacher' && !belongsToCurrentTeacher(ref)) return
+
+    if(!map[id]) map[id]={teacherId:id,teacher:name,privateHours:0,groupHours:0}
+    if(type==='private') map[id].privateHours+=hours
+    if(type==='group') map[id].groupHours+=hours
+  }
+
+  getPackages().map(normalizePackage).filter(belongsToCurrentTeacher).forEach(pkg=>{
+    pkg.sessions.forEach(session=>add({...session,teacherId:session.teacherId||pkg.teacherId,teacher:session.teacher||pkg.teacher},'private',num(session.hours)))
+  })
+
+  getGroups().map(normalizeTeacherRef).filter(belongsToCurrentTeacher).forEach(group=>{
+    add(group,'group',groupCurrentClass(group)*1.25)
+  })
+
+  return Object.values(map).sort((a,b)=>a.teacher.localeCompare(b.teacher))
+}
+function renderPayroll(){
+  const tbody=document.getElementById('payrollTable')
+  const rows=teacherHours()
+  tbody.innerHTML=''
+  if(!rows.length){tbody.innerHTML='<tr><td colspan="6">No hay horas docentes calculadas todavía.</td></tr>';return}
+  rows.forEach(r=>{
+    const total=r.privateHours+r.groupHours
+    const rate=teacherRate(r.teacher)
+    const tr=document.createElement('tr')
+    tr.innerHTML=`<td><strong>${r.teacher}</strong><br><small>${r.teacherId||''}</small></td><td>${r.privateHours.toFixed(2)}</td><td>${r.groupHours.toFixed(2)}</td><td>${total.toFixed(2)}</td><td>${isAdmin()?money(rate):'—'}</td><td>${isAdmin()?money(total*rate):'—'}</td>`
+    tbody.appendChild(tr)
+  })
+}
+function renderMetrics(){
+  let totalDue=0,totalPaid=0
+  visibleStudents().forEach(student=>{const f=financeForStudent(student);totalDue+=num(f?.amountDue);totalPaid+=num(f?.amountPaid)})
+  const hours=teacherHours().reduce((sum,r)=>sum+r.privateHours+r.groupHours,0)
+  document.getElementById('metricDue').textContent=isAdmin()?money(Math.max(0,totalDue-totalPaid)):'—'
+  document.getElementById('metricPaid').textContent=isAdmin()?money(totalPaid):'—'
+  document.getElementById('metricAlerts').textContent=buildAlerts().length
+  document.getElementById('metricTeacherHours').textContent=hours.toFixed(1)
+}
+function openFinanceModal(studentCode=''){
+  if(!isAdmin()) return
+  const select=document.getElementById('financeStudent')
+  const students=getStudents()
+  select.innerHTML=''
+  students.forEach(s=>{
+    const opt=document.createElement('option')
+    opt.value=s.code; opt.textContent=`${s.code} · ${s.name} · ${normalizeService(s.service)}`
+    select.appendChild(opt)
+  })
+  if(studentCode) select.value=studentCode
+  loadFinanceIntoForm(select.value)
+  select.onchange=()=>loadFinanceIntoForm(select.value)
+  document.getElementById('financeModal').classList.add('active')
+}
+function loadFinanceIntoForm(code){
+  const f=getFinance().find(item=>item.studentCode===code)||{}
+  document.getElementById('amountDue').value=f.amountDue||''
+  document.getElementById('amountPaid').value=f.amountPaid||''
+  document.getElementById('dueDate').value=f.dueDate||''
+  document.getElementById('paymentDueSession').value=f.paymentDueSession||''
+  document.getElementById('manualStatus').value=f.manualStatus||'auto'
+  document.getElementById('financeNotes').value=f.notes||''
+}
+function closeFinanceModal(){document.getElementById('financeModal').classList.remove('active')}
+function saveFinanceRecord(){
+  const code=document.getElementById('financeStudent').value
+  const student=getStudents().find(s=>s.code===code)
+  if(!student){alert('Selecciona un estudiante válido.');return}
+
+  const rawPaymentDueSession=document.getElementById('paymentDueSession').value
+  const paymentDueSession=rawPaymentDueSession==='' ? null : Number(rawPaymentDueSession)
+
+  if(paymentDueSession !== null && (Number.isNaN(paymentDueSession) || paymentDueSession < 1)){
+    alert('La sesión pactada para pagar debe ser un número entre 1 y 10.')
+    return
+  }
+
+  if(paymentDueSession !== null && paymentDueSession > 10){
+    alert('La sesión pactada para pagar no puede ser mayor a la sesión 10.')
+    return
+  }
+
+  const amountDue=num(document.getElementById('amountDue').value)
+  const amountPaid=num(document.getElementById('amountPaid').value)
+
+  if(amountDue <= 0){
+    alert('El monto pactado debe ser mayor a 0.')
+    return
+  }
+
+  if(amountPaid < 0){
+    alert('El monto pagado no puede ser negativo.')
+    return
+  }
+
+  if(amountPaid > amountDue){
+    alert('El monto pagado no puede ser mayor al monto pactado.')
+    return
+  }
+
+  const now=new Date().toISOString()
+  const existing=getFinance().find(item=>item.studentCode===code)
+
+  const rawRecord={
+    id:existing?.id || 'FIN-'+code,
+    studentId:student.code,
+    studentCode:student.code,
+    studentName:student.name,
+    service:normalizeService(student.service),
+    groupOrPackage:student.group||'',
+    teacher:student.teacher||'',
+    teacherId:student.teacherId||student.teacherCode||'',
+    teacherCode:student.teacherCode||student.teacherId||'',
+    amountDue,
+    amountPaid,
+    dueDate:document.getElementById('dueDate').value,
+    paymentDueSession:paymentDueSession,
+    manualStatus:document.getElementById('manualStatus').value || 'auto',
+    notes:document.getElementById('financeNotes').value.trim(),
+    createdAt:existing?.createdAt || now,
+    updatedAt:now
+  }
+
+  const record=(typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeFinance)
+    ? normalizeFinanceRecord(SchemaRegistry.normalizeFinance(rawRecord))
+    : normalizeFinanceRecord(rawRecord)
+  let finance=getFinance()
+  const index=finance.findIndex(f=>f.studentCode===code)
+  if(index>=0) finance[index]=record; else finance.push(record)
+  setFinance(finance)
+  closeFinanceModal()
+  renderAll()
+}
+function renderAll(){renderUser();renderFinanceTable();renderAlerts();renderPayroll();renderMetrics()}
+renderAll()
+</script>
+</body>
+</html>
