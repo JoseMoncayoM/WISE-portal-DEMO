@@ -8,26 +8,61 @@
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--primary:#0d2b45;--accent:#1fb6b9;--light:#f5f9fc;--white:#fff;--text:#1f2d3d;--gray:#6b7c93;--border:#dcebf2;--hover:#E6FF00;--soft:#e7f8f8;--warning:#fff8d6;--danger:#ffefef;--ok:#eef7ee}
 body{font-family:Inter,Arial,sans-serif;background:var(--light);color:var(--text)}
-.wrap{max-width:1120px;margin:auto;padding:28px}
-.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
-h1{color:var(--primary);font-size:1.9rem;font-weight:900}.sub{color:var(--gray);font-size:.9rem;margin-top:4px}
-.btn{padding:10px 16px;border-radius:999px;border:none;font-weight:800;cursor:pointer;text-decoration:none;display:inline-block}.btn-primary{background:var(--accent);color:white}.btn-secondary{background:white;color:var(--primary);border:1px solid var(--border)}.btn:hover{background:var(--hover);color:black}.user-chip{display:flex;align-items:center;gap:10px;background:white;border:1px solid var(--border);border-radius:999px;padding:8px 12px;font-size:.82rem;font-weight:800;color:var(--primary)}.user-chip small{color:var(--gray);font-weight:700}.role-notice{background:#fff8d6;border:1px solid #f0df88;color:#8a6d00;border-radius:16px;padding:12px 14px;margin-bottom:18px;font-weight:800}.is-hidden{display:none!important}.btn-danger{background:#ffefef;color:#b00020;border:1px solid #ffd1d1}.btn-danger:hover{background:#b00020;color:white}
-.card{background:white;border:1px solid var(--border);border-radius:20px;padding:20px;box-shadow:0 8px 24px rgba(13,43,69,.05)}
-.search{width:100%;padding:12px;border:1px solid var(--border);border-radius:12px;margin-bottom:18px}
-table{width:100%;border-collapse:collapse}th{text-align:left;color:var(--gray);font-size:.75rem;text-transform:uppercase;padding:10px}td{padding:14px 10px;border-top:1px solid var(--border);font-weight:600}.pill{background:var(--soft);color:var(--accent);padding:5px 10px;border-radius:999px;font-size:.75rem;font-weight:900;display:inline-block}.pill.warning{background:var(--warning);color:#8a6d00}.pill.danger{background:var(--danger);color:#b00020}.pill.ok{background:var(--ok);color:#257a36}.pill.gray{background:#eef2f6;color:#526273}
-.view{display:none}.view.active{display:block}.back{margin-bottom:20px}
-.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;margin-bottom:18px}.info{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.info div{background:#fbfdff;border:1px solid var(--border);border-radius:14px;padding:12px}.info small{color:var(--gray);font-weight:800}.info strong{display:block;color:var(--primary);margin-top:4px}
-.skills{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.skill{border:1px solid var(--border);border-radius:14px;padding:10px;background:#fbfdff}.bar{height:8px;background:#eaf2f6;border-radius:999px;overflow:hidden;margin-top:6px}.bar span{display:block;height:100%;background:var(--accent)}
-.tabs{display:flex;gap:10px;margin:20px 0}.tab{padding:8px 12px;border-radius:999px;border:1px solid var(--border);cursor:pointer;font-weight:800;background:white}.tab.active{background:var(--accent);color:white;border-color:var(--accent)}.section{display:none}.section.active{display:block}.row{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--border);border-radius:14px;padding:12px;background:#fbfdff;margin-bottom:10px;gap:12px}.row small{color:var(--gray);line-height:1.35}.request-card{border:1px solid var(--border);border-radius:16px;padding:14px;background:#fbfdff;margin-bottom:12px}.request-card strong{color:var(--primary);display:block;margin:6px 0}.request-card small{color:var(--gray);display:block;line-height:1.35}.request-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.empty{color:var(--gray);padding:18px;text-align:center;border:1px dashed var(--border);border-radius:14px;background:#fbfdff}
-.modal{position:fixed;inset:0;background:rgba(13,43,69,.35);display:none;align-items:center;justify-content:center;padding:20px;z-index:20}.modal.active{display:flex}.modal-box{width:100%;max-width:520px;background:white;border:1px solid var(--border);border-radius:22px;padding:24px;box-shadow:0 20px 50px rgba(13,43,69,.18)}.modal-box h2{color:var(--primary);margin-bottom:16px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.form-field{display:flex;flex-direction:column;gap:6px}.form-field label{font-size:.8rem;font-weight:900;color:var(--primary)}.form-field input,.form-field select,.form-field textarea{padding:11px;border-radius:12px;border:1px solid var(--border);font:inherit}.form-field textarea{min-height:84px;resize:vertical}.full{grid-column:1/-1}.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px} @media(max-width:700px){.form-grid{grid-template-columns:1fr}}
-@media(max-width:900px){.grid,.info{grid-template-columns:1fr}}
+.wrap{max-width:1120px;margin:auto;padding:28px}.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;gap:12px;flex-wrap:wrap}h1{color:var(--primary);font-size:1.9rem;font-weight:900}.sub{color:var(--gray);font-size:.9rem;margin-top:4px}.btn{padding:10px 16px;border-radius:999px;border:none;font-weight:800;cursor:pointer;text-decoration:none;display:inline-block}.btn-primary{background:var(--accent);color:white}.btn-secondary{background:white;color:var(--primary);border:1px solid var(--border)}.btn:hover{background:var(--hover);color:black}.user-chip{display:flex;align-items:center;gap:10px;background:white;border:1px solid var(--border);border-radius:999px;padding:8px 12px;font-size:.82rem;font-weight:800;color:var(--primary)}.user-chip small{color:var(--gray);font-weight:700}.role-notice{background:#fff8d6;border:1px solid #f0df88;color:#8a6d00;border-radius:16px;padding:12px 14px;margin-bottom:18px;font-weight:800}.is-hidden{display:none!important}.btn-danger{background:#ffefef;color:#b00020;border:1px solid #ffd1d1}.btn-danger:hover{background:#b00020;color:white}.card{background:white;border:1px solid var(--border);border-radius:20px;padding:20px;box-shadow:0 8px 24px rgba(13,43,69,.05)}.search{width:100%;padding:12px;border:1px solid var(--border);border-radius:12px;margin-bottom:18px}table{width:100%;border-collapse:collapse}th{text-align:left;color:var(--gray);font-size:.75rem;text-transform:uppercase;padding:10px}td{padding:14px 10px;border-top:1px solid var(--border);font-weight:600}.pill{background:var(--soft);color:var(--accent);padding:5px 10px;border-radius:999px;font-size:.75rem;font-weight:900;display:inline-block}.pill.warning{background:var(--warning);color:#8a6d00}.pill.danger{background:var(--danger);color:#b00020}.pill.ok{background:var(--ok);color:#257a36}.pill.gray{background:#eef2f6;color:#526273}.view{display:none}.view.active{display:block}.back{margin-bottom:20px}.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;margin-bottom:18px}.info{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.info div{background:#fbfdff;border:1px solid var(--border);border-radius:14px;padding:12px}.info small{color:var(--gray);font-weight:800}.info strong{display:block;color:var(--primary);margin-top:4px}.skills{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.skill{border:1px solid var(--border);border-radius:14px;padding:10px;background:#fbfdff}.bar{height:8px;background:#eaf2f6;border-radius:999px;overflow:hidden;margin-top:6px}.bar span{display:block;height:100%;background:var(--accent)}.tabs{display:flex;gap:10px;margin:20px 0;flex-wrap:wrap}.tab{padding:8px 12px;border-radius:999px;border:1px solid var(--border);cursor:pointer;font-weight:800;background:white}.tab.active{background:var(--accent);color:white;border-color:var(--accent)}.section{display:none}.section.active{display:block}.row{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--border);border-radius:14px;padding:12px;background:#fbfdff;margin-bottom:10px;gap:12px}.row small{color:var(--gray);line-height:1.35}.request-card{border:1px solid var(--border);border-radius:16px;padding:14px;background:#fbfdff;margin-bottom:12px}.request-card strong{color:var(--primary);display:block;margin:6px 0}.request-card small{color:var(--gray);display:block;line-height:1.35}.request-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.empty{color:var(--gray);padding:18px;text-align:center;border:1px dashed var(--border);border-radius:14px;background:#fbfdff}.modal{position:fixed;inset:0;background:rgba(13,43,69,.35);display:none;align-items:center;justify-content:center;padding:20px;z-index:20}.modal.active{display:flex}.modal-box{width:100%;max-width:560px;background:white;border:1px solid var(--border);border-radius:22px;padding:24px;box-shadow:0 20px 50px rgba(13,43,69,.18)}.modal-box h2{color:var(--primary);margin-bottom:16px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.form-field{display:flex;flex-direction:column;gap:6px}.form-field label{font-size:.8rem;font-weight:900;color:var(--primary)}.form-field input,.form-field select,.form-field textarea{padding:11px;border-radius:12px;border:1px solid var(--border);font:inherit}.form-field textarea{min-height:84px;resize:vertical}.full{grid-column:1/-1}.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}.service-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}.service-summary .summary-box{background:#fbfdff;border:1px solid var(--border);border-radius:14px;padding:12px}.service-summary small{display:block;color:var(--gray);font-weight:900;text-transform:uppercase;letter-spacing:.05em;font-size:.7rem;margin-bottom:5px}.service-summary strong{display:block;color:var(--primary);font-size:1.25rem}.service-summary .summary-box.warning{background:var(--warning);border-color:#f4df8a}.service-summary .summary-box.danger{background:var(--danger);border-color:#ffd1d1}.service-summary .summary-box.ok{background:var(--ok);border-color:#c7f0d6}@media(max-width:900px){.grid,.info,.service-summary{grid-template-columns:1fr}.topbar{align-items:flex-start}}@media(max-width:700px){.form-grid{grid-template-columns:1fr}}
 
-.service-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}.service-summary .summary-box{background:#fbfdff;border:1px solid var(--border);border-radius:14px;padding:12px}.service-summary small{display:block;color:var(--gray);font-weight:900;text-transform:uppercase;letter-spacing:.05em;font-size:.7rem;margin-bottom:5px}.service-summary strong{display:block;color:var(--primary);font-size:1.25rem}.service-summary .summary-box.warning{background:var(--warning);border-color:#f4df8a}.service-summary .summary-box.danger{background:var(--danger);border-color:#ffd1d1}.service-summary .summary-box.ok{background:var(--ok);border-color:#c7f0d6}@media(max-width:800px){.service-summary{grid-template-columns:1fr}}
+
+/* ===========================
+   WISDOM ERP GLOBAL SIDEBAR — FASE 16
+   UX navigation layer only. Logic untouched.
+=========================== */
+.erp-app-shell{min-height:100vh;display:grid;grid-template-columns:260px 1fr;background:var(--light,#f5f9fc)}
+.erp-sidebar{background:rgba(255,255,255,.92);border-right:1px solid var(--border,#dcebf2);padding:24px 18px;position:sticky;top:0;height:100vh;overflow:auto;box-shadow:12px 0 32px rgba(13,43,69,.045);z-index:30}
+.erp-sidebar-logo{display:flex;align-items:center;justify-content:flex-start;padding:8px 0 18px;margin-bottom:18px;border-bottom:1px solid var(--border,#dcebf2)}
+.erp-sidebar-logo img{width:145px;max-width:100%;height:auto;display:block;object-fit:contain}
+.erp-menu-group{margin-bottom:16px}.erp-menu-title{color:var(--gray,#6b7c93);font-size:.70rem;font-weight:900;text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;display:flex;justify-content:space-between}.erp-menu-items{display:grid;gap:5px}
+.erp-side-link{display:flex;align-items:center;gap:10px;color:var(--text,#1f2d3d);text-decoration:none;padding:10px 12px;border-radius:14px;font-weight:800;font-size:.88rem;border:1px solid transparent;transition:.18s ease}
+.erp-side-link:hover,.erp-side-link.active{background:linear-gradient(135deg,var(--soft,#e7f8f8),#f7ffff);border-color:#caeff2;transform:translateX(2px)}
+.erp-side-dot{width:8px;height:8px;border-radius:50%;background:var(--accent,#1fb6b9);box-shadow:0 0 0 4px rgba(31,182,185,.12);flex:0 0 auto}
+.erp-sidebar-user{margin-top:22px;padding:14px;border-radius:18px;background:linear-gradient(135deg,#f7ffff,var(--soft,#e7f8f8));border:1px solid var(--border,#dcebf2)}
+.erp-sidebar-user strong{display:block;color:var(--primary,#0d2b45);font-size:.9rem;margin-bottom:4px}.erp-sidebar-user small{display:block;color:var(--gray,#6b7c93);font-weight:700;line-height:1.35}
+.erp-sidebar-logout{width:100%;margin-top:12px;padding:10px 12px;border-radius:999px;border:1px solid var(--border,#dcebf2);background:white;color:var(--primary,#0d2b45);font-weight:900;cursor:pointer}.erp-sidebar-logout:hover{background:var(--hover,#E6FF00);color:black}
+.erp-main-content{min-width:0;width:100%}.erp-mobile-bar{display:none;position:sticky;top:0;z-index:40;background:rgba(255,255,255,.94);border-bottom:1px solid var(--border,#dcebf2);padding:12px 16px;justify-content:space-between;align-items:center;gap:12px}.erp-mobile-bar strong{color:var(--primary,#0d2b45)}
+.erp-mobile-toggle{border:1px solid var(--border,#dcebf2);background:white;color:var(--primary,#0d2b45);border-radius:999px;padding:8px 12px;font-weight:900;cursor:pointer}.erp-role-hidden{display:none!important}
+@media(max-width:980px){.erp-app-shell{display:block}.erp-mobile-bar{display:flex}.erp-sidebar{position:fixed;left:0;top:0;bottom:0;width:min(84vw,300px);height:100vh;transform:translateX(-105%);transition:transform .22s ease}.erp-sidebar.open{transform:translateX(0)}.erp-main-content{width:100%}body.erp-menu-open{overflow:hidden}}
+
+</style>
+
+<style id="wisdom-phase16-ux-layer">
+.breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:14px;color:var(--gray);font-size:.82rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em}
+.breadcrumb a{color:var(--accent);text-decoration:none}.breadcrumb span{color:var(--primary)}
+.quick-filter-row{display:flex;gap:8px;flex-wrap:wrap;margin:-6px 0 18px}
+.filter-chip{border:1px solid var(--border);background:white;color:var(--primary);border-radius:999px;padding:8px 12px;font-weight:900;cursor:pointer;font-size:.78rem}
+.filter-chip.active,.filter-chip:hover{background:var(--accent);border-color:var(--accent);color:white}
+.ux-summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.ux-summary-card{background:white;border:1px solid var(--border);border-radius:18px;padding:16px;box-shadow:0 8px 22px rgba(13,43,69,.05)}
+.ux-summary-card small{display:block;color:var(--gray);font-size:.72rem;font-weight:900;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}.ux-summary-card strong{display:block;color:var(--primary);font-size:1.45rem;line-height:1}
+.dossier-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.dossier-summary .summary-box{background:white;border:1px solid var(--border);border-radius:16px;padding:14px}.dossier-summary small{display:block;color:var(--gray);font-weight:900;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em}.dossier-summary strong{display:block;color:var(--primary);font-size:1.25rem;margin-top:5px}.dossier-summary .danger{background:var(--danger);border-color:#ffd1d1}.dossier-summary .warning{background:var(--warning);border-color:#f4df8a}.dossier-summary .ok{background:var(--ok);border-color:#c7f0d6}
+.modal-section-title{grid-column:1/-1;margin-top:4px;padding-top:8px;color:var(--primary);font-weight:900;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;border-top:1px solid var(--border)}
+@media(max-width:900px){.ux-summary-grid,.dossier-summary{grid-template-columns:1fr 1fr}}@media(max-width:640px){.ux-summary-grid,.dossier-summary{grid-template-columns:1fr}.card{overflow:auto}table{min-width:760px}}
 </style>
 </head>
 <body>
-<div class="wrap">
 
+<div class="erp-app-shell">
+  <aside class="erp-sidebar" id="erpSidebar">
+    <a class="erp-sidebar-logo" href="dashboard.html" aria-label="Ir al dashboard"><img src="logo.jpg" alt="Wisdom Academy Logo"></a>
+    <div class="erp-menu-group"><div class="erp-menu-title">Panel</div><div class="erp-menu-items"><a class="erp-side-link " data-roles="admin,teacher,student" href="dashboard.html"><span class="erp-side-dot"></span> Dashboard</a></div></div>
+    <div class="erp-menu-group"><div class="erp-menu-title">Personas</div><div class="erp-menu-items"><a class="erp-side-link active" data-roles="admin,teacher,student" href="estudiantes.html"><span class="erp-side-dot"></span> Estudiantes</a><a class="erp-side-link " data-roles="admin" href="profesores.html"><span class="erp-side-dot"></span> Profesores</a><a class="erp-side-link " data-roles="admin" href="usuarios.html"><span class="erp-side-dot"></span> Usuarios</a></div></div>
+    <div class="erp-menu-group"><div class="erp-menu-title">Académico</div><div class="erp-menu-items"><a class="erp-side-link" data-roles="admin,teacher" href="grupales.html"><span class="erp-side-dot"></span> Grupales</a><a class="erp-side-link" data-roles="admin,teacher" href="privadas.html"><span class="erp-side-dot"></span> Privadas / Semi</a><a class="erp-side-link" data-roles="admin,teacher,student" href="calendario.html"><span class="erp-side-dot"></span> Calendario</a></div></div>
+    <div class="erp-menu-group"><div class="erp-menu-title">Evaluación</div><div class="erp-menu-items"><a class="erp-side-link" data-roles="admin,teacher" href="placement_portal_integrado.html"><span class="erp-side-dot"></span> Nuevo diagnóstico</a><a class="erp-side-link" data-roles="admin,teacher" href="diagnostico_resultados.html"><span class="erp-side-dot"></span> Resultados diagnóstico</a><a class="erp-side-link" data-roles="admin,teacher" href="evaluaciones.html"><span class="erp-side-dot"></span> Evaluaciones</a><a class="erp-side-link" data-roles="admin,teacher,student" href="resultados.html"><span class="erp-side-dot"></span> Resultados</a></div></div>
+    <div class="erp-menu-group"><div class="erp-menu-title">Gestión</div><div class="erp-menu-items"><a class="erp-side-link" data-roles="admin" href="finanzas.html"><span class="erp-side-dot"></span> Finanzas</a><a class="erp-side-link" data-roles="admin" href="solicitudes.html"><span class="erp-side-dot"></span> Solicitudes</a><a class="erp-side-link" data-roles="admin,teacher,student" href="reportes.html"><span class="erp-side-dot"></span> Reportes</a><a class="erp-side-link" data-roles="admin,teacher" href="mensajes.html"><span class="erp-side-dot"></span> Mensajes</a></div></div>
+    <div class="erp-menu-group"><div class="erp-menu-title">Práctica</div><div class="erp-menu-items"><a class="erp-side-link" data-roles="admin,teacher,student" href="Grammar_portal.html"><span class="erp-side-dot"></span> Grammar</a><a class="erp-side-link" data-roles="admin,teacher,student" href="Listening_portal.html"><span class="erp-side-dot"></span> Listening</a><a class="erp-side-link" data-roles="admin,teacher,student" href="Speaking_portal.html"><span class="erp-side-dot"></span> Speaking</a></div></div>
+    <div class="erp-sidebar-user"><strong id="erpSidebarUserName">Usuario</strong><small id="erpSidebarUserRole">Rol</small><small id="erpSidebarUserEmail">correo</small><button class="erp-sidebar-logout" type="button" onclick="if(typeof logout==='function'){logout()}else{window.location.href='login.html'}">Cerrar sesión</button></div>
+  </aside>
+  <main class="erp-main-content"><div class="erp-mobile-bar"><strong>Wisdom Academy</strong><button class="erp-mobile-toggle" type="button" onclick="toggleErpSidebar()">Menú</button></div>
+
+<div class="wrap">
+<div class="breadcrumb"><a href="dashboard.html">Dashboard</a><span>/</span><span>Estudiantes</span></div>
 <section id="studentsView" class="view active">
   <div class="topbar">
     <div><h1>Estudiantes</h1><div class="sub">Gestión administrativa de estudiantes y acceso rápido al dossier.</div></div>
@@ -39,267 +74,339 @@ table{width:100%;border-collapse:collapse}th{text-align:left;color:var(--gray);f
     </div>
   </div>
   <div id="roleNotice" class="role-notice is-hidden"></div>
-
+  <div id="studentsUXSummary" class="ux-summary-grid"></div>
   <div class="card">
     <input class="search" id="searchInput" placeholder="Buscar por código, nombre, correo, teléfono o servicio..." onkeyup="searchStudents()">
-    <table>
-      <thead><tr><th>Código</th><th>Nombre</th><th>Correo</th><th>Teléfono</th><th>Servicio</th><th>Estado</th><th>Acciones</th></tr></thead>
-      <tbody id="studentsTable"></tbody>
-    </table>
+    <div class="quick-filter-row" id="studentQuickFilters">
+      <button class="filter-chip active" type="button" onclick="setStudentUXFilter('all',this)">Todos</button>
+      <button class="filter-chip" type="button" onclick="setStudentUXFilter('Activo',this)">Activos</button>
+      <button class="filter-chip" type="button" onclick="setStudentUXFilter('Pausado',this)">Pausados</button>
+      <button class="filter-chip" type="button" onclick="setStudentUXFilter('Finalizado',this)">Finalizados</button>
+      <button class="filter-chip" type="button" onclick="setStudentUXFilter('Grupal',this)">Grupales</button>
+      <button class="filter-chip" type="button" onclick="setStudentUXFilter('Privada',this)">Privadas</button>
+      <button class="filter-chip" type="button" onclick="setStudentUXFilter('Semiprivada',this)">Semiprivadas</button>
+    </div>
+    <table><thead><tr><th>Código</th><th>Nombre</th><th>Correo</th><th>Teléfono</th><th>Servicio</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="studentsTable"></tbody></table>
   </div>
 </section>
-
 <section id="dossierView" class="view">
   <button class="btn btn-secondary back" onclick="showStudents()">← Volver a estudiantes</button>
-  <div class="topbar">
-    <div><h1 id="studentName">Juan Pérez</h1><div class="sub" id="studentMeta">Código: WA-0001 · Grupal · B1 Threshold</div></div>
-    <span class="pill">Activo</span>
-  </div>
-
-  <div class="grid">
-    <div class="card">
-      <h3>Identidad</h3><br>
-      <div class="info">
-        <div><small>Profesor</small><strong id="teacherName">Laura Méndez</strong></div>
-        <div><small>Grupo / paquete</small><strong id="groupName">B1 Noche</strong></div>
-        <div><small>Teléfono / WhatsApp</small><strong id="studentPhone">Sin teléfono</strong></div>
-      </div>
-    </div>
-    <div class="card">
-      <h3>Progreso</h3><br>
-      <div class="skills">
-        <div class="skill">Speaking<div class="bar"><span style="width:65%"></span></div></div>
-        <div class="skill">Listening<div class="bar"><span style="width:60%"></span></div></div>
-        <div class="skill">Grammar<div class="bar"><span style="width:55%"></span></div></div>
-        <div class="skill">Vocabulary<div class="bar"><span style="width:70%"></span></div></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="tabs">
-    <div class="tab active" onclick="showTab('seguimiento',this)">Seguimiento</div>
-    <div class="tab" onclick="showTab('practica',this)">Práctica</div>
-    <div class="tab" onclick="showTab('comentarios',this)">Comentarios</div>
-    <div class="tab" onclick="showTab('solicitudes',this)">Solicitudes</div>
-  </div>
-
-  <div id="seguimiento" class="section active card">
-    <h3>Seguimiento</h3><br>
-    <div id="studentServiceSummary"></div>
-    <div class="row"><span id="trackingLabel">Clases asistidas</span><strong id="trackingValue">28 / 48</strong></div>
-    <div class="row"><span>Porcentaje</span><strong id="trackingPercent">--</strong></div>
-  </div>
+  <div class="topbar"><div><h1 id="studentName">Estudiante</h1><div class="sub" id="studentMeta">Código · Servicio · Nivel</div></div><span class="pill" id="studentStatusPill">Activo</span></div>
+  <div id="dossierUXSummary" class="dossier-summary"></div>
+  <div class="grid"><div class="card"><h3>Identidad</h3><br><div class="info"><div><small>Profesor</small><strong id="teacherName">Por asignar</strong></div><div><small>Grupo / paquete</small><strong id="groupName">Por asignar</strong></div><div><small>Teléfono / WhatsApp</small><strong id="studentPhone">Sin teléfono</strong></div></div></div><div class="card"><h3>Progreso</h3><br><div class="skills"><div class="skill">Speaking<div class="bar"><span style="width:65%"></span></div></div><div class="skill">Listening<div class="bar"><span style="width:60%"></span></div></div><div class="skill">Grammar<div class="bar"><span style="width:55%"></span></div></div><div class="skill">Vocabulary<div class="bar"><span style="width:70%"></span></div></div></div></div></div>
+  <div class="tabs"><div class="tab active" onclick="showTab('seguimiento',this)">Seguimiento</div><div class="tab" onclick="showTab('practica',this)">Práctica</div><div class="tab" onclick="showTab('comentarios',this)">Comentarios</div><div class="tab" onclick="showTab('solicitudes',this)">Solicitudes</div></div>
+  <div id="seguimiento" class="section active card"><h3>Seguimiento</h3><br><div id="studentServiceSummary"></div><div class="row"><span id="trackingLabel">Seguimiento</span><strong id="trackingValue">--</strong></div><div class="row"><span>Porcentaje</span><strong id="trackingPercent">--</strong></div></div>
   <div id="practica" class="section card"><h3>Práctica</h3><br><p class="sub">Acceso a la plataforma de práctica.</p><br><button class="btn btn-primary">Ir a práctica</button></div>
   <div id="comentarios" class="section card"><h3>Comentarios</h3><br><div class="row"><span>Semana 1</span><small>Debe mejorar fluidez en respuestas largas.</small></div><div class="row"><span>Semana 2</span><small>Buen progreso en listening.</small></div></div>
-  <div id="solicitudes" class="section card">
-    <div class="topbar" style="margin-bottom:10px">
-      <div>
-        <h3>Solicitudes</h3>
-        <div class="sub">Reprogramación, cambio de horario y certificado de estudio.</div>
-      </div>
-      <button class="btn btn-primary" id="newRequestBtn" onclick="openRequestModal()">Nueva solicitud</button>
-    </div>
-    <div id="requestsList"></div>
-  </div>
+  <div id="solicitudes" class="section card"><div class="topbar" style="margin-bottom:10px"><div><h3>Solicitudes</h3><div class="sub">Reprogramación, cambio de horario y certificado de estudio.</div></div><button class="btn btn-primary" id="newRequestBtn" onclick="openRequestModal()">Nueva solicitud</button></div><div id="requestsList"></div></div>
 </section>
-
 </div>
-
-<div class="modal" id="createModal">
-  <div class="modal-box">
-    <h2>Crear estudiante</h2>
-    <div class="form-grid">
-      <div class="form-field"><label>Código</label><input id="newCode" placeholder="WA-0003"></div>
-      <div class="form-field"><label>Nombre</label><input id="newName" placeholder="Nombre completo"></div>
-      <div class="form-field"><label>Correo</label><input id="newEmail" placeholder="correo@email.com"></div>
-      <div class="form-field"><label>Teléfono / WhatsApp</label><input id="newPhone" placeholder="+57 300 000 0000"></div>
-      <div class="form-field"><label>Servicio</label><select id="newService"><option>Grupal</option><option>Privada</option><option>Semiprivada</option></select></div>
-      <div class="form-field"><label>Nivel</label><input id="newLevel" placeholder="A1, A2, B1, B2"></div>
-      <div class="form-field"><label>Profesor</label><input id="newTeacher" placeholder="Profesor asignado"></div>
-      <div class="form-field"><label>Grupo / paquete</label><select id="newGroup"></select></div>
-      <div class="form-field"><label>Estado</label><select id="newStatus"><option>Activo</option><option>Pausado</option><option>Finalizado</option></select></div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closeCreateModal()">Cancelar</button>
-      <button class="btn btn-primary" onclick="createStudent()">Guardar estudiante</button>
-    </div>
-  </div>
-</div>
-
-<div class="modal" id="editModal">
-  <div class="modal-box">
-    <h2>Editar estudiante</h2>
-    <input type="hidden" id="editOriginalCode">
-    <div class="form-grid">
-      <div class="form-field"><label>Código</label><input id="editCode"></div>
-      <div class="form-field"><label>Nombre</label><input id="editName"></div>
-      <div class="form-field"><label>Correo</label><input id="editEmail"></div>
-      <div class="form-field"><label>Teléfono / WhatsApp</label><input id="editPhone" placeholder="+57 300 000 0000"></div>
-      <div class="form-field"><label>Servicio</label><select id="editService"><option>Grupal</option><option>Privada</option><option>Semiprivada</option></select></div>
-      <div class="form-field"><label>Nivel</label><input id="editLevel"></div>
-      <div class="form-field"><label>Profesor</label><input id="editTeacher"></div>
-      <div class="form-field"><label>Grupo / paquete</label><select id="editGroup"></select></div>
-      <div class="form-field"><label>Estado</label><select id="editStatus"><option>Activo</option><option>Pausado</option><option>Finalizado</option></select></div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closeEditModal()">Cancelar</button>
-      <button class="btn btn-primary" onclick="saveEditStudent()">Guardar cambios</button>
-    </div>
-  </div>
-</div>
-
-<div class="modal" id="requestModal">
-  <div class="modal-box">
-    <h2>Nueva solicitud</h2>
-    <div class="form-grid">
-      <div class="form-field full"><label>Estudiante</label><input id="requestStudentLabel" readonly></div>
-      <div class="form-field full"><label>Tipo de solicitud</label><select id="requestType" onchange="handleRequestTypeChange()"><option value="Reprogramación">Reprogramación de clase</option><option value="Cambio de horario">Cambio de horario</option><option value="Certificado de estudio">Certificado de estudio</option></select></div>
-      <div class="form-field" id="requestDateField"><label>Fecha solicitada</label><input id="requestDate" type="date"></div>
-      <div class="form-field" id="requestTimeField"><label>Hora solicitada</label><input id="requestTime" type="time"></div>
-      <div class="form-field full"><label>Motivo / detalle</label><textarea id="requestReason" placeholder="Describe la solicitud con suficiente contexto."></textarea></div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closeRequestModal()">Cancelar</button>
-      <button class="btn btn-primary" onclick="createRequest()">Enviar solicitud</button>
-    </div>
-  </div>
-</div>
-
-<div class="modal" id="reviewRequestModal">
-  <div class="modal-box">
-    <h2>Revisar solicitud</h2>
-    <input type="hidden" id="reviewRequestId">
-    <div class="form-grid">
-      <div class="form-field full"><label>Solicitud</label><input id="reviewRequestSummary" readonly></div>
-      <div class="form-field admin-review-only"><label>Estado</label><select id="reviewStatus"><option>Nueva</option><option>En revisión</option><option>Aprobada</option><option>Rechazada</option></select></div>
-      <div class="form-field full admin-review-only"><label>Nota administrativa</label><textarea id="reviewAdminNote" placeholder="Respuesta oficial para el estudiante."></textarea></div>
-      <div class="form-field full teacher-review-only"><label>Observación del profesor</label><textarea id="reviewTeacherNote" placeholder="Observación académica o logística."></textarea></div>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-secondary" onclick="closeReviewRequestModal()">Cancelar</button>
-      <button class="btn btn-primary" onclick="saveRequestReview()">Guardar revisión</button>
-    </div>
-  </div>
-</div>
-
+<div class="modal" id="createModal"><div class="modal-box"><h2>Crear estudiante</h2><div class="form-grid"><div class="modal-section-title">Información básica</div><div class="form-field"><label>Código</label><input id="newCode" placeholder="WA-0003"></div><div class="form-field"><label>Nombre</label><input id="newName" placeholder="Nombre completo"></div><div class="form-field"><label>Correo</label><input id="newEmail" placeholder="correo@email.com"></div><div class="form-field"><label>Teléfono / WhatsApp</label><input id="newPhone" placeholder="+57 300 000 0000"></div><div class="modal-section-title">Información académica</div><div class="form-field"><label>Servicio</label><select id="newService"><option>Grupal</option><option>Privada</option><option>Semiprivada</option></select></div><div class="form-field"><label>Nivel</label><input id="newLevel" placeholder="A1, A2, B1, B2"></div><div class="form-field"><label>Profesor</label><input id="newTeacher" placeholder="Profesor asignado"></div><div class="form-field"><label>Grupo / paquete</label><select id="newGroup"></select></div><div class="modal-section-title">Estado del estudiante</div><div class="form-field"><label>Estado</label><select id="newStatus"><option>Activo</option><option>Pausado</option><option>Finalizado</option></select></div></div><div class="modal-actions"><button class="btn btn-secondary" onclick="closeCreateModal()">Cancelar</button><button class="btn btn-primary" onclick="createStudent()">Guardar estudiante</button></div></div></div>
+<div class="modal" id="editModal"><div class="modal-box"><h2>Editar estudiante</h2><input type="hidden" id="editOriginalCode"><div class="form-grid"><div class="modal-section-title">Información básica</div><div class="form-field"><label>Código</label><input id="editCode"></div><div class="form-field"><label>Nombre</label><input id="editName"></div><div class="form-field"><label>Correo</label><input id="editEmail"></div><div class="form-field"><label>Teléfono / WhatsApp</label><input id="editPhone"></div><div class="modal-section-title">Información académica</div><div class="form-field"><label>Servicio</label><select id="editService"><option>Grupal</option><option>Privada</option><option>Semiprivada</option></select></div><div class="form-field"><label>Nivel</label><input id="editLevel"></div><div class="form-field"><label>Profesor</label><input id="editTeacher"></div><div class="form-field"><label>Grupo / paquete</label><select id="editGroup"></select></div><div class="modal-section-title">Estado del estudiante</div><div class="form-field"><label>Estado</label><select id="editStatus"><option>Activo</option><option>Pausado</option><option>Finalizado</option></select></div></div><div class="modal-actions"><button class="btn btn-secondary" onclick="closeEditModal()">Cancelar</button><button class="btn btn-primary" onclick="saveEditStudent()">Guardar cambios</button></div></div></div>
+<div class="modal" id="requestModal"><div class="modal-box"><h2>Nueva solicitud</h2><div class="form-grid"><div class="form-field full"><label>Estudiante</label><input id="requestStudentLabel" readonly></div><div class="form-field full"><label>Tipo de solicitud</label><select id="requestType" onchange="handleRequestTypeChange()"><option value="Reprogramación">Reprogramación de clase</option><option value="Cambio de horario">Cambio de horario</option><option value="Certificado de estudio">Certificado de estudio</option></select></div><div class="form-field" id="requestDateField"><label>Fecha solicitada</label><input id="requestDate" type="date"></div><div class="form-field" id="requestTimeField"><label>Hora solicitada</label><input id="requestTime" type="time"></div><div class="form-field full"><label>Motivo / detalle</label><textarea id="requestReason" placeholder="Describe la solicitud con suficiente contexto."></textarea></div></div><div class="modal-actions"><button class="btn btn-secondary" onclick="closeRequestModal()">Cancelar</button><button class="btn btn-primary" onclick="createRequest()">Enviar solicitud</button></div></div></div>
+<div class="modal" id="reviewRequestModal"><div class="modal-box"><h2>Revisar solicitud</h2><input type="hidden" id="reviewRequestId"><div class="form-grid"><div class="form-field full"><label>Solicitud</label><input id="reviewRequestSummary" readonly></div><div class="form-field admin-review-only"><label>Estado</label><select id="reviewStatus"><option>Nueva</option><option>En revisión</option><option>Aprobada</option><option>Rechazada</option></select></div><div class="form-field full admin-review-only"><label>Nota administrativa</label><textarea id="reviewAdminNote"></textarea></div><div class="form-field full teacher-review-only"><label>Observación del profesor</label><textarea id="reviewTeacherNote"></textarea></div></div><div class="modal-actions"><button class="btn btn-secondary" onclick="closeReviewRequestModal()">Cancelar</button><button class="btn btn-primary" onclick="saveRequestReview()">Guardar revisión</button></div></div></div>
 <script src="js/core/storage.js"></script>
 <script src="js/core/schemaRegistry.js"></script>
-<script src="js/services/studentService.js"></script>
-
+<script src="js/core/apiClient.js"></script>
+<script src="js/core/backendAdapter.js"></script>
 <script>
-const USERS_KEY = 'wisdom_users'
-const CURRENT_USER_KEY = 'wisdom_current_user'
-
-function getCurrentUser(){return WisdomStorage.get(CURRENT_USER_KEY, null)}
-function getUsers(){return WisdomStorage.get(USERS_KEY, [])}
-function protectPage(){const users=getUsers();const currentUser=getCurrentUser();if(!users.length||!currentUser||!currentUser.role){window.location.href='login.html';return null}return currentUser}
-const currentUser = protectPage()
-function logout(){WisdomStorage.remove(CURRENT_USER_KEY);window.location.href='login.html'}
-function roleLabel(role){if(role==='admin')return'Administrativo';if(role==='teacher')return'Profesor';if(role==='student')return'Estudiante';return role||'Usuario'}
-function applyRoleHeader(){if(!currentUser)return;const nameEl=document.getElementById('currentUserName');const roleEl=document.getElementById('currentUserRole');if(nameEl)nameEl.innerText=currentUser.name||currentUser.email||'Usuario';if(roleEl)roleEl.innerText=roleLabel(currentUser.role)}
-function canManageStudents(){return currentUser&&currentUser.role==='admin'}
-function canViewStudent(student){if(!currentUser)return false;if(currentUser.role==='admin')return true;if(currentUser.role==='teacher')return teacherOwnsStudent(student);if(currentUser.role==='student'){const codeMatch=currentUser.studentId&&student.code&&currentUser.studentId===student.code;const emailMatch=currentUser.email&&student.email&&String(currentUser.email).toLowerCase()===String(student.email).toLowerCase();return Boolean(codeMatch||emailMatch)}return false}
-function applyRolePermissions(){if(!currentUser)return;const notice=document.getElementById('roleNotice');if(!canManageStudents()){document.querySelectorAll('.admin-only').forEach(el=>el.classList.add('is-hidden'))}if(currentUser.role==='teacher'){notice.classList.remove('is-hidden');notice.innerText='Modo profesor: puedes consultar los estudiantes asociados a tu usuario, pero no crear, editar ni borrar estudiantes.'}if(currentUser.role==='student'){notice.classList.remove('is-hidden');notice.innerText='Modo estudiante: solo puedes consultar tu propia información académica.'}}
-
-const STORAGE_KEY='wisdom_students_demo'
-const REQUESTS_KEY='wisdom_requests_demo'
-const TEACHERS_KEY='wisdom_teachers_demo'
-const GROUPS_KEY='wisdom_groups_demo'
-const PRIVATE_KEY='wisdom_private_demo'
-
-function safeParseArray(key){return WisdomStorage.get(key, [])}
-function loadTeachers(){return safeParseArray(TEACHERS_KEY).map(teacher=>{const id=teacher.id||teacher.teacherId||teacher.code||teacher.teacherCode||'';return{...teacher,id,teacherId:id,code:id,status:teacher.status||'Activo'}})}
-function getTeacherIdByName(name){const teacher=loadTeachers().find(item=>item.name===name);return teacher?.teacherId||''}
-function getTeacherNameById(teacherId){const teacher=loadTeachers().find(item=>item.teacherId===teacherId||item.id===teacherId||item.code===teacherId);return teacher?.name||''}
-function getCurrentTeacherId(){return currentUser.teacherId||currentUser.teacherCode||currentUser.id||''}
-function normalizeTeacherRef(item){const teacherId=item?.teacherId||item?.teacherCode||getTeacherIdByName(item?.teacher)||'';const teacher=item?.teacher||getTeacherNameById(teacherId)||'Por asignar';return{...item,teacherId,teacherCode:teacherId,teacher}}
-function loadGroups(){return safeParseArray(GROUPS_KEY).map(normalizeTeacherRef)}
-function loadPackages(){return safeParseArray(PRIVATE_KEY).map(pkg=>{const normalized=normalizeTeacherRef(pkg);return{...normalized,students:Array.isArray(normalized.students)?normalized.students:[]}})}
-function normalizeGroupData(group){return{...group,students:Array.isArray(group.students)?group.students:[],attendance:group.attendance||{},currentClass:Number(group.currentClass)||Object.keys(group.attendance||{}).length||0}}
-function normalizePrivatePackage(pkg){const normalized={...pkg};normalized.total=Number(normalized.total)||20;normalized.sessions=Array.isArray(normalized.sessions)?normalized.sessions:[];normalized.students=Array.isArray(normalized.students)?normalized.students:[];return normalized}
-function usedPrivateHours(pkg){return normalizePrivatePackage(pkg).sessions.reduce((sum,session)=>sum+(Number(session.hours)||0),0)}
-function studentInPackage(student,pkg){const normalized=normalizePrivatePackage(pkg);return normalized.students.some(item=>item.code===student.code||item.name===student.name)}
-function studentInGroup(student,group){const normalized=normalizeGroupData(group);return normalized.students.some(item=>item.code===student.code||item.name===student.name)}
-function getStudentPrivatePackage(student){return loadPackages().map(normalizePrivatePackage).find(pkg=>studentInPackage(student,pkg))||null}
-function getStudentGroup(student){return loadGroups().map(normalizeGroupData).find(group=>studentInGroup(student,group))||null}
-function calculateGroupAttendance(student,group){const normalized=normalizeGroupData(group);const sessions=Object.keys(normalized.attendance||{});const totalSessions=sessions.length||normalized.currentClass||0;let present=0;let absent=0;sessions.forEach(sessionNumber=>{const record=normalized.attendance[sessionNumber]||{};const status=record[student.code];if(status==='present')present++;if(status==='absent')absent++});const counted=present+absent;const base=counted||totalSessions;const percent=base?Math.round((present/base)*100):0;return{present,absent,totalSessions,counted,percent,group:normalized}}
-function serviceType(student){return String(student.service||'').toLowerCase()}
-function buildStudentTracking(student){const type=serviceType(student);if(type.includes('privada')||type.includes('semi')){const pkg=getStudentPrivatePackage(student);if(pkg){const used=usedPrivateHours(pkg);const total=Number(pkg.total)||20;const remaining=Math.max(0,total-used);const percent=total?Math.round((used/total)*100):0;return{mode:'private',label:'Horas usadas',value:`${used} / ${total}`,percent,html:`<div class="service-summary"><div class="summary-box ${remaining<=3?'warning':'ok'}"><small>Horas usadas</small><strong>${used} / ${total}</strong></div><div class="summary-box ${remaining<=3?'warning':'ok'}"><small>Horas restantes</small><strong>${remaining}</strong></div><div class="summary-box"><small>Sesiones registradas</small><strong>${pkg.sessions.length}</strong></div></div><div class="sub" style="margin-top:10px">Paquete: ${pkg.code||pkg.id||'Sin código'} · ${pkg.teacher||'Profesor por asignar'}</div>`}}return{mode:'private',label:'Horas usadas',value:student.trackingValue||'0 / 20',percent:extractPercent(student.trackingValue),html:`<div class="empty">No se encontró paquete privado/semi vinculado. Mostrando seguimiento manual.</div>`}}if(type.includes('grupal')){const group=getStudentGroup(student);if(group){const attendance=calculateGroupAttendance(student,group);return{mode:'group',label:'Asistencia',value:`${attendance.present} / ${attendance.counted||attendance.totalSessions}`,percent:attendance.percent,html:`<div class="service-summary"><div class="summary-box ${attendance.percent<70?'danger':'ok'}"><small>Asistencia</small><strong>${attendance.percent}%</strong></div><div class="summary-box"><small>Presentes</small><strong>${attendance.present}</strong></div><div class="summary-box ${attendance.absent?'warning':'ok'}"><small>Ausencias</small><strong>${attendance.absent}</strong></div></div><div class="sub" style="margin-top:10px">Grupo: ${group.code||group.id||'Sin código'} · ${group.name||student.group||'Grupo'} · Clase actual: ${group.currentClass}/48</div>`}}return{mode:'group',label:'Clases asistidas',value:student.trackingValue||'0 / 48',percent:extractPercent(student.trackingValue),html:`<div class="empty">No se encontró grupo vinculado. Mostrando seguimiento manual.</div>`}}return{mode:'unknown',label:student.trackingLabel||'Seguimiento',value:student.trackingValue||'--',percent:extractPercent(student.trackingValue),html:`<div class="empty">Este estudiante no tiene un servicio académico vinculado.</div>`}}
-function extractPercent(value){if(!value||!String(value).includes('/'))return null;const[a,b]=String(value).split('/').map(item=>Number(String(item).trim()));if(!b||Number.isNaN(a)||Number.isNaN(b))return null;return Math.round((a/b)*100)}
-function renderStudentServiceTracking(student){const container=document.getElementById('studentServiceSummary');const label=document.getElementById('trackingLabel');const value=document.getElementById('trackingValue');const percent=document.getElementById('trackingPercent');if(!container||!label||!value||!percent)return;const tracking=buildStudentTracking(student);container.innerHTML=tracking.html;label.innerText=tracking.label;value.innerText=tracking.value;percent.innerText=tracking.percent===null?'--':tracking.percent+'%'}
-function teacherOwnsStudent(student){if(currentUser.role!=='teacher')return true;const teacherId=getCurrentTeacherId();if((student.teacherId&&student.teacherId===teacherId)||(student.teacherCode&&student.teacherCode===teacherId))return true;if(student.teacher&&currentUser.name&&String(student.teacher).toLowerCase()===String(currentUser.name).toLowerCase())return true;const groups=loadGroups().filter(group=>(teacherId&&group.teacherId===teacherId)||group.teacher===currentUser.name);const packages=loadPackages().filter(pkg=>(teacherId&&pkg.teacherId===teacherId)||pkg.teacher===currentUser.name);const inGroup=groups.some(group=>(group.students||[]).some(item=>item.code===student.code||item.name===student.name));const inPackage=packages.some(pkg=>(pkg.students||[]).some(item=>item.code===student.code||item.name===student.name));return inGroup||inPackage}
-function loadRequests(){return safeParseArray(REQUESTS_KEY)}
-function saveRequests(items){WisdomStorage.set(REQUESTS_KEY,items)}
-function generateRequestCode(){const requests=loadRequests();const numbers=requests.map(request=>request.id).filter(id=>/^REQ-\d+$/.test(id)).map(id=>parseInt(id.replace('REQ-',''),10));const next=numbers.length?Math.max(...numbers)+1:1;return`REQ-${String(next).padStart(4,'0')}`}
-function requestStatusClass(status){if(status==='Aprobada')return'ok';if(status==='Rechazada')return'danger';if(status==='En revisión')return'warning';return'gray'}
-
-const defaultStudents=[{code:'WA-0001',name:'Juan Pérez',email:'juan@email.com',phone:'+57 300 000 0001',service:'Grupal',level:'B1 Threshold',teacher:'Laura Méndez',group:'B1 Noche',status:'Activo',trackingLabel:'Clases asistidas',trackingValue:'28 / 48'},{code:'WA-0002',name:'Mariana Ruiz',email:'mariana@email.com',phone:'+57 300 000 0002',service:'Privada',level:'A2 Waystage',teacher:'Carlos Peña',group:'Paquete 20 horas',status:'Activo',trackingLabel:'Horas usadas',trackingValue:'8 / 20'}]
-let students=loadStudents()
-let currentStudentCode=null
-const groupOptions={Grupal:['B1 Noche','A2 Mañana','A1 Tarde'],Privada:['Paquete privado 20 horas','Paquete privado 10 horas'],Semiprivada:['Semiprivada 20 horas · Grupo 1','Semiprivada 20 horas · Grupo 2']}
-function fillGroupSelect(selectId,service,selectedValue=''){const select=document.getElementById(selectId);select.innerHTML='';const options=groupOptions[service]||[];options.forEach(option=>{const item=document.createElement('option');item.value=option;item.textContent=option;if(option===selectedValue)item.selected=true;select.appendChild(item)})}
-
-function normalizeStudentContact(student){
-  const normalized = window.SchemaRegistry
-    ? SchemaRegistry.normalizeStudent(student)
-    : student
-  const phone = normalized.phone || normalized.whatsapp || ''
-  return {...normalized, phone, whatsapp:phone}
-}
-
-function loadStudents(){
-  const savedStudents = WisdomStorage.get(STORAGE_KEY, [])
-  if(Array.isArray(savedStudents) && savedStudents.length){
-    const normalizedStudents = savedStudents.map(normalizeStudentContact)
-    WisdomStorage.set(STORAGE_KEY, normalizedStudents)
-    return normalizedStudents
+(function(){
+  const originalAlert=window.alert;
+  window.__wisdomOriginalAlert=originalAlert;
+  window.alert=function(message){
+    const text=String(message||'').toLowerCase();
+    const isServiceLoadNotice=
+      text.includes('studentservice')||
+      text.includes('teacherservice')||
+      text.includes('groupservice')||
+      text.includes('scheduleservice')||
+      text.includes('attendanceservice')||
+      text.includes('authservice')||
+      text.includes('permissions')||
+      (text.includes('service')&&(text.includes('carg')||text.includes('load')));
+    if(isServiceLoadNotice)return;
+    return originalAlert.apply(window,arguments);
+  };
+})();
+</script>
+<script src="js/core/demoSeed.js"></script>
+<script src="js/services/authService.js"></script>
+<script src="js/core/permissions.js"></script>
+<script src="js/services/studentService.js"></script>
+<script src="js/services/teacherService.js"></script>
+<script src="js/services/groupService.js"></script>
+<script src="js/services/scheduleService.js"></script>
+<script src="js/services/attendanceService.js"></script>
+<script src="js/services/reportService.js"></script>
+<script>
+(function(){
+  if(window.__wisdomOriginalAlert){
+    window.alert=window.__wisdomOriginalAlert;
+    delete window.__wisdomOriginalAlert;
   }
-  const normalizedDefaults = defaultStudents.map(normalizeStudentContact)
-  WisdomStorage.set(STORAGE_KEY, normalizedDefaults)
-  return normalizedDefaults
-}
-
-function saveStudents(){
-  const normalizedStudents = window.SchemaRegistry
-    ? SchemaRegistry.normalizeCollection(students, 'normalizeStudent').map(normalizeStudentContact)
-    : students.map(normalizeStudentContact)
-  students = normalizedStudents
-  WisdomStorage.set(STORAGE_KEY, normalizedStudents)
-}
-
-function userForStudent(studentCode){const users=Array.isArray(WisdomStorage.get(USERS_KEY,[]))?WisdomStorage.get(USERS_KEY,[]):[];return users.find(user=>user.role==='student'&&(user.studentId===studentCode||user.studentCode===studentCode))||null}
-function openCreateUserForStudent(studentCode){if(!studentCode)return;window.location.href=`usuarios.html?student=${encodeURIComponent(studentCode)}`}
-function renderStudents(){const tbody=document.getElementById('studentsTable');tbody.innerHTML='';const visibleStudents=students.filter(canViewStudent);if(!visibleStudents.length){tbody.innerHTML=`<tr><td colspan="7">No hay estudiantes visibles para este usuario.</td></tr>`;return}visibleStudents.forEach(student=>{const row=document.createElement('tr');row.innerHTML=`<td>${student.code}</td><td>${student.name}</td><td>${student.email}</td><td>${student.phone||student.whatsapp||'<span class="sub">Sin teléfono</span>'}</td><td>${student.service}<br><small class="sub">${buildStudentTracking(student).label}: ${buildStudentTracking(student).value}</small></td><td><span class="pill">${student.status}</span></td><td><button class="btn btn-secondary" onclick="openExternalDossier('${student.code}')">Ver dossier</button> ${canManageStudents()?(userForStudent(student.code)?`<span class="pill">Usuario creado</span>`:`<button class="btn btn-secondary" onclick="openCreateUserForStudent('${student.code}')">Crear usuario</button>`):''} ${canManageStudents()?`<button class="btn btn-secondary" onclick="openEditModal('${student.code}')">Editar</button>`:''} ${canManageStudents()?`<button class="btn btn-danger" onclick="deleteStudent('${student.code}')">Borrar</button>`:''}</td>`;tbody.appendChild(row)})}
+})();
+</script>
+<script>
+const USERS_KEY='wisdom_users',CURRENT_USER_KEY='wisdom_current_user',STORAGE_KEY='wisdom_students_demo',REQUESTS_KEY='wisdom_requests_demo',TEACHERS_KEY='wisdom_teachers_demo',GROUPS_KEY='wisdom_groups_demo',PRIVATE_KEY='wisdom_private_demo';
+const Store=window.WisdomStorage||{get(k,f=null){try{const r=localStorage.getItem(k);return r?JSON.parse(r):f}catch(e){return f}},set(k,v){localStorage.setItem(k,JSON.stringify(v))},remove(k){localStorage.removeItem(k)}};
+function normalizeRole(role){const r=String(role||'').trim().toLowerCase();if(['admin','administrador','administrativo'].includes(r))return'admin';if(['teacher','profesor','docente'].includes(r))return'teacher';if(['student','estudiante','alumno'].includes(r))return'student';return r}
+function getCurrentUser(){const user=Store.get(CURRENT_USER_KEY,null);if(user)user.role=normalizeRole(user.role);return user}
+function protectPage(){const currentUser=getCurrentUser();if(!currentUser||!currentUser.role){window.location.href='login.html';return null}return currentUser}
+const currentUser=protectPage();
+function logout(){Store.remove(CURRENT_USER_KEY);window.location.href='login.html'}
+function roleLabel(role){return{admin:'Administrativo',teacher:'Profesor',student:'Estudiante'}[normalizeRole(role)]||role||'Usuario'}
+function applyRoleHeader(){if(!currentUser)return;document.getElementById('currentUserName').innerText=currentUser.name||currentUser.email||'Usuario';document.getElementById('currentUserRole').innerText=roleLabel(currentUser.role)}
+function permissionSafe(method,fallback=false){if(window.WisdomPermissions&&typeof WisdomPermissions[method]==='function'){try{return Boolean(WisdomPermissions[method]())}catch(error){console.warn(`WisdomPermissions.${method}() falló. Usando rol local.`,error)}}return fallback}
+function isAdminUser(){return permissionSafe('isAdmin',Boolean(currentUser&&currentUser.role==='admin'))}
+function isTeacherUser(){return permissionSafe('isTeacher',Boolean(currentUser&&currentUser.role==='teacher'))}
+function isStudentUser(){return permissionSafe('isStudent',Boolean(currentUser&&currentUser.role==='student'))}
+function canManageStudents(){return isAdminUser()}
+function canViewStudent(student){if(!currentUser||!student)return false;if(isAdminUser())return true;if(isTeacherUser())return teacherOwnsStudent(student);if(isStudentUser()){return Boolean((currentUser.studentId&&student.code===currentUser.studentId)||(currentUser.studentCode&&student.code===currentUser.studentCode)||(currentUser.email&&student.email&&String(currentUser.email).toLowerCase()===String(student.email).toLowerCase()))}return false}
+function applyRolePermissions(){if(!currentUser)return;const notice=document.getElementById('roleNotice');if(!canManageStudents())document.querySelectorAll('.admin-only').forEach(el=>el.classList.add('is-hidden'));if(isTeacherUser()){notice.classList.remove('is-hidden');notice.innerText='Modo profesor: puedes consultar los estudiantes asociados a tu usuario, pero no crear, editar ni borrar estudiantes.'}if(isStudentUser()){notice.classList.remove('is-hidden');notice.innerText='Modo estudiante: solo puedes consultar tu propia información académica.'}}
+function safeArray(key){const v=Store.get(key,[]);return Array.isArray(v)?v:[]}
+function normalizeStudentContact(student={}){const base=(window.SchemaRegistry&&SchemaRegistry.normalizeStudent)?SchemaRegistry.normalizeStudent(student):{...student};const code=base.code||base.studentId||base.id||'';const phone=base.phone||base.whatsapp||'';return{...base,id:base.id||code,code,studentId:base.studentId||code,studentCode:base.studentCode||code,name:base.name||base.studentName||'',email:base.email||'',phone,whatsapp:phone,teacherId:base.teacherId||base.teacherCode||'',teacherCode:base.teacherCode||base.teacherId||'',teacher:base.teacher||base.teacherName||'',service:base.service||'Grupal',status:base.status||'Activo'}}
+function loadTeachers(){return safeArray(TEACHERS_KEY).map(t=>{const id=t.id||t.teacherId||t.code||t.teacherCode||'';return{...t,id,teacherId:id,teacherCode:id,code:id,status:t.status||'Activo'}})}
+function getTeacherIdByName(name){const teacher=loadTeachers().find(t=>t.name===name);return teacher?.teacherId||''}
+function getTeacherNameById(id){const teacher=loadTeachers().find(t=>t.teacherId===id||t.id===id||t.code===id);return teacher?.name||''}
+function getCurrentTeacherId(){return currentUser.teacherId||currentUser.teacherCode||currentUser.id||''}
+function normalizeTeacherRef(item={}){const teacherId=item.teacherId||item.teacherCode||getTeacherIdByName(item.teacher)||'';const teacher=item.teacher||getTeacherNameById(teacherId)||'Por asignar';return{...item,teacherId,teacherCode:teacherId,teacher}}
+function loadGroups(){return safeArray(GROUPS_KEY).map(g=>({...normalizeTeacherRef(g),students:Array.isArray(g.students)?g.students:[],attendance:g.attendance||{},currentClass:Number(g.currentClass)||Object.keys(g.attendance||{}).length||0}))}
+function loadPackages(){return safeArray(PRIVATE_KEY).map(p=>{const n=normalizeTeacherRef(p);return{...n,total:Number(n.total)||20,sessions:Array.isArray(n.sessions)?n.sessions:[],students:Array.isArray(n.students)?n.students:[]}})}
+function teacherOwnsStudent(student){if(!isTeacherUser())return true;const id=getCurrentTeacherId();if((student.teacherId&&student.teacherId===id)||(student.teacherCode&&student.teacherCode===id))return true;if(student.teacher&&currentUser.name&&String(student.teacher).toLowerCase()===String(currentUser.name).toLowerCase())return true;const groups=loadGroups().filter(g=>(id&&g.teacherId===id)||g.teacher===currentUser.name);const packages=loadPackages().filter(p=>(id&&p.teacherId===id)||p.teacher===currentUser.name);return groups.some(g=>(g.students||[]).some(s=>s.code===student.code||s.name===student.name))||packages.some(p=>(p.students||[]).some(s=>s.code===student.code||s.name===student.name))}
+function extractPercent(value){if(!value||!String(value).includes('/'))return null;const [a,b]=String(value).split('/').map(x=>Number(String(x).trim()));return b&&!Number.isNaN(a)&&!Number.isNaN(b)?Math.round(a/b*100):null}
+function getStudentGroup(student){return loadGroups().find(g=>(g.students||[]).some(s=>s.code===student.code||s.name===student.name))||null}
+function getStudentPrivatePackage(student){return loadPackages().find(p=>(p.students||[]).some(s=>s.code===student.code||s.name===student.name))||null}
+function usedPrivateHours(pkg){return (pkg.sessions||[]).reduce((sum,s)=>sum+(Number(s.hours)||0),0)}
+function hasAttendanceServiceMethod(methodName){return typeof AttendanceService!=='undefined'&&AttendanceService&&typeof AttendanceService[methodName]==='function'}
+function hasReportServiceMethod(method){return typeof ReportService!=='undefined'&&ReportService&&typeof ReportService[method]==='function'}
+function callReportService(method,...args){if(!hasReportServiceMethod(method))return null;try{return ReportService[method](...args)}catch(error){console.warn(`ReportService.${method} falló. Se usará fallback seguro.`,error);return null}}
+function getStudentSummarySafe(studentId){return callReportService('getStudentSummary',studentId)}
+function getAcademicProgressSafe(studentId){return callReportService('getAcademicProgress',studentId)}
+function getAttendanceSummarySafe(studentId){return callReportService('getAttendanceSummary',studentId)}
+function canUnlockReportSafe(studentId){const result=callReportService('canUnlockReport',studentId);return result===null?null:Boolean(result)}
+function attendanceServiceStudentSummary(student){const code=student.code||student.studentId||student.id||'';if(!code)return null;if(hasAttendanceServiceMethod('calculateStudentAttendance')){try{const result=AttendanceService.calculateStudentAttendance(code);if(result&&typeof result==='object'){const present=Number(result.present??result.presentCount??result.attended??result.completed??0)||0;const absent=Number(result.absent??result.absentCount??result.absences??0)||0;const late=Number(result.late??result.lateCount??result.lateArrivals??0)||0;const excused=Number(result.excused??result.excusedCount??result.excusedAbsences??0)||0;const total=Number(result.total??result.totalClasses??result.count??(present+absent+late+excused))||0;const percentValue=result.percent??result.percentage??result.attendancePercent;const percent=percentValue!==undefined&&percentValue!==null&&percentValue!==''?Math.round(Number(String(percentValue).replace('%',''))):(total?Math.round(((present+late+excused)/total)*100):0);return{present,absent,late,excused,total,percent,source:'AttendanceService'}}}catch(error){console.warn('AttendanceService.calculateStudentAttendance() falló. Usando asistencia embebida del grupo.',error)}}if(hasAttendanceServiceMethod('getByStudent')){try{const records=AttendanceService.getByStudent(code);if(Array.isArray(records)&&records.length){let present=0,absent=0,late=0,excused=0;records.forEach(record=>{const status=String(record.status||record.attendanceStatus||record.value||record.students?.[code]||'').toLowerCase();if(status==='present'||status==='completed')present++;else if(status==='absent')absent++;else if(status==='late')late++;else if(status==='excused')excused++;});const total=present+absent+late+excused;return{present,absent,late,excused,total,percent:total?Math.round(((present+late+excused)/total)*100):0,source:'AttendanceService'}}}catch(error){console.warn('AttendanceService.getByStudent() falló. Usando asistencia embebida del grupo.',error)}}return null}
+function calculateGroupAttendance(student,group){const serviceSummary=attendanceServiceStudentSummary(student);if(serviceSummary&&serviceSummary.total>0)return serviceSummary;const sessions=Object.keys(group.attendance||{}).filter(key=>/^\d+$/.test(String(key)));let present=0,absent=0,late=0,excused=0;sessions.forEach(n=>{const r=group.attendance[n]||{};const status=String(r[student.code]||'').toLowerCase();if(status==='present')present++;if(status==='absent')absent++;if(status==='late')late++;if(status==='excused')excused++});const counted=present+absent+late+excused;const base=counted||sessions.length||group.currentClass||0;return{present,absent,late,excused,total:base,percent:base?Math.round(((present+late+excused)/base)*100):0,source:'group.attendance'}}
+function buildStudentTracking(student){const type=String(student.service||'').toLowerCase();if(type.includes('privada')||type.includes('semi')){const pkg=getStudentPrivatePackage(student);if(pkg){const used=usedPrivateHours(pkg),total=Number(pkg.total)||20,remaining=Math.max(0,total-used),percent=total?Math.round(used/total*100):0;return{label:'Horas usadas',value:`${used} / ${total}`,percent,html:`<div class="service-summary"><div class="summary-box ${remaining<=3?'warning':'ok'}"><small>Horas usadas</small><strong>${used} / ${total}</strong></div><div class="summary-box ${remaining<=3?'warning':'ok'}"><small>Horas restantes</small><strong>${remaining}</strong></div><div class="summary-box"><small>Sesiones registradas</small><strong>${pkg.sessions.length}</strong></div></div><div class="sub" style="margin-top:10px">Paquete: ${pkg.code||pkg.id||'Sin código'} · ${pkg.teacher||'Profesor por asignar'}</div>`}}return{label:'Horas usadas',value:student.trackingValue||'0 / 20',percent:extractPercent(student.trackingValue),html:'<div class="empty">No se encontró paquete privado/semi vinculado. Mostrando seguimiento manual.</div>'}}if(type.includes('grupal')){const group=getStudentGroup(student);if(group){const a=calculateGroupAttendance(student,group);return{label:'Asistencia',value:`${a.present} / ${a.total}`,percent:a.percent,html:`<div class="service-summary"><div class="summary-box ${a.percent<70?'danger':'ok'}"><small>Asistencia</small><strong>${a.percent}%</strong></div><div class="summary-box"><small>Presentes</small><strong>${a.present}</strong></div><div class="summary-box ${a.absent?'warning':'ok'}"><small>Ausencias</small><strong>${a.absent}</strong></div><div class="summary-box ${a.late?'warning':'ok'}"><small>Tardanzas</small><strong>${a.late||0}</strong></div><div class="summary-box ${a.excused?'ok':''}"><small>Excusas</small><strong>${a.excused||0}</strong></div></div><div class="sub" style="margin-top:10px">Grupo: ${group.code||group.id||'Sin código'} · ${group.name||student.group||'Grupo'} · Clase actual: ${group.currentClass}/48 · Fuente: ${a.source||'group.attendance'}</div>`}}return{label:'Clases asistidas',value:student.trackingValue||'0 / 48',percent:extractPercent(student.trackingValue),html:'<div class="empty">No se encontró grupo vinculado. Mostrando seguimiento manual.</div>'}}return{label:student.trackingLabel||'Seguimiento',value:student.trackingValue||'--',percent:extractPercent(student.trackingValue),html:'<div class="empty">Este estudiante no tiene un servicio académico vinculado.</div>'}}
+function renderStudentServiceTracking(student){const t=buildStudentTracking(student);document.getElementById('studentServiceSummary').innerHTML=t.html;document.getElementById('trackingLabel').innerText=t.label;document.getElementById('trackingValue').innerText=t.value;document.getElementById('trackingPercent').innerText=t.percent===null?'--':t.percent+'%'}
+const defaultStudents=[{code:'WA-0001',name:'Juan Pérez',email:'juan@email.com',phone:'+57 300 000 0001',service:'Grupal',level:'B1 Threshold',teacher:'Laura Méndez',group:'B1 Noche',status:'Activo',trackingLabel:'Clases asistidas',trackingValue:'28 / 48'},{code:'WA-0002',name:'Mariana Ruiz',email:'mariana@email.com',phone:'+57 300 000 0002',service:'Privada',level:'A2 Waystage',teacher:'Carlos Peña',group:'Paquete 20 horas',status:'Activo',trackingLabel:'Horas usadas',trackingValue:'8 / 20'}];
+function loadStudents(){const saved=safeArray(STORAGE_KEY);const source=saved.length?saved:defaultStudents;const normalized=source.map(normalizeStudentContact);if(!saved.length)Store.set(STORAGE_KEY,normalized);return normalized}
+function saveStudents(){students=students.map(normalizeStudentContact);Store.set(STORAGE_KEY,students)}
+let students=loadStudents();let currentStudentCode=null;const groupOptions={Grupal:['B1 Noche','A2 Mañana','A1 Tarde'],Privada:['Paquete privado 20 horas','Paquete privado 10 horas'],Semiprivada:['Semiprivada 20 horas · Grupo 1','Semiprivada 20 horas · Grupo 2']};
+function fillGroupSelect(selectId,service,selectedValue=''){const select=document.getElementById(selectId);select.innerHTML='';(groupOptions[service]||[]).forEach(option=>{const item=document.createElement('option');item.value=option;item.textContent=option;if(option===selectedValue)item.selected=true;select.appendChild(item)})}
+function userForStudent(code){return safeArray(USERS_KEY).find(u=>normalizeRole(u.role)==='student'&&(u.studentId===code||u.studentCode===code))||null}
+function openCreateUserForStudent(code){window.location.href=`usuarios.html?student=${encodeURIComponent(code)}`}
+function renderStudents(){students=students.map(normalizeStudentContact);const tbody=document.getElementById('studentsTable');tbody.innerHTML='';const visible=students.filter(canViewStudent);if(!visible.length){tbody.innerHTML='<tr><td colspan="7">No hay estudiantes visibles para este usuario.</td></tr>';return}visible.forEach(student=>{const tracking=buildStudentTracking(student);const row=document.createElement('tr');row.innerHTML=`<td>${student.code}</td><td>${student.name}</td><td>${student.email}</td><td>${student.phone||'<span class="sub">Sin teléfono</span>'}</td><td>${student.service}<br><small class="sub">${tracking.label}: ${tracking.value}</small></td><td><span class="pill">${student.status}</span></td><td><button class="btn btn-secondary" onclick="openExternalDossier('${student.code}')">Ver dossier</button> ${canManageStudents()?(userForStudent(student.code)?'<span class="pill">Usuario creado</span>':`<button class="btn btn-secondary" onclick="openCreateUserForStudent('${student.code}')">Crear usuario</button>`):''} ${canManageStudents()?`<button class="btn btn-secondary" onclick="openEditModal('${student.code}')">Editar</button>`:''} ${canManageStudents()?`<button class="btn btn-danger" onclick="deleteStudent('${student.code}')">Borrar</button>`:''}</td>`;tbody.appendChild(row)})}
 function searchStudents(){const input=document.getElementById('searchInput').value.toLowerCase();document.querySelectorAll('#studentsTable tr').forEach(row=>{row.style.display=row.innerText.toLowerCase().includes(input)?'':'none'})}
 function openCreateModal(){if(!canManageStudents()){alert('No tienes permiso para crear estudiantes.');return}document.getElementById('newCode').value=generateStudentCode();document.getElementById('newCode').readOnly=true;fillGroupSelect('newGroup',document.getElementById('newService').value);document.getElementById('createModal').classList.add('active')}
 function closeCreateModal(){document.getElementById('createModal').classList.remove('active')}
-function openEditModal(code){if(!canManageStudents()){alert('No tienes permiso para editar estudiantes.');return}const student=students.find(item=>item.code===code);if(!student)return;document.getElementById('editOriginalCode').value=student.code;document.getElementById('editCode').value=student.code;document.getElementById('editName').value=student.name;document.getElementById('editEmail').value=student.email;document.getElementById('editPhone').value=student.phone||student.whatsapp||'';document.getElementById('editService').value=student.service;document.getElementById('editLevel').value=student.level;document.getElementById('editTeacher').value=student.teacher;fillGroupSelect('editGroup',student.service,student.group);document.getElementById('editStatus').value=student.status;document.getElementById('editModal').classList.add('active')}
+function openEditModal(code){if(!canManageStudents()){alert('No tienes permiso para editar estudiantes.');return}const s=students.find(x=>x.code===code);if(!s)return;document.getElementById('editOriginalCode').value=s.code;document.getElementById('editCode').value=s.code;document.getElementById('editName').value=s.name;document.getElementById('editEmail').value=s.email;document.getElementById('editPhone').value=s.phone||'';document.getElementById('editService').value=s.service;document.getElementById('editLevel').value=s.level;document.getElementById('editTeacher').value=s.teacher;fillGroupSelect('editGroup',s.service,s.group);document.getElementById('editStatus').value=s.status;document.getElementById('editModal').classList.add('active')}
 function closeEditModal(){document.getElementById('editModal').classList.remove('active')}
-function saveEditStudent(){if(!canManageStudents()){alert('No tienes permiso para guardar cambios.');return}const originalCode=document.getElementById('editOriginalCode').value;const code=document.getElementById('editCode').value.trim();const name=document.getElementById('editName').value.trim();const email=document.getElementById('editEmail').value.trim();const phone=document.getElementById('editPhone').value.trim();const service=document.getElementById('editService').value;const level=document.getElementById('editLevel').value.trim()||'Por definir';const teacher=document.getElementById('editTeacher').value.trim()||'Por asignar';const group=document.getElementById('editGroup').value.trim()||'Por asignar';const status=document.getElementById('editStatus').value;if(!code||!name||!email){alert('Código, nombre y correo son obligatorios.');return}const duplicate=students.some(student=>student.code===code&&student.code!==originalCode);if(duplicate){alert('Ese código ya existe. Usa otro código.');return}students=students.map(student=>{if(student.code!==originalCode)return student;return normalizeStudentContact({...student,code,name,email,phone,whatsapp:phone,service,level,teacher,teacherId:getTeacherIdByName(teacher),teacherCode:getTeacherIdByName(teacher),group,status,trackingLabel:service==='Grupal'?'Clases asistidas':'Horas usadas',trackingValue:service==='Grupal'?(student.trackingLabel==='Clases asistidas'?student.trackingValue:'0 / 48'):(student.trackingLabel==='Horas usadas'?student.trackingValue:'0 / 20')})});saveStudents();renderStudents();closeEditModal()}
-function deleteStudent(code){if(!canManageStudents()){alert('No tienes permiso para borrar estudiantes.');return}const student=students.find(item=>item.code===code);if(!student)return;const confirmed=confirm(`¿Seguro que quieres borrar a ${student.name} (${student.code})? Esta acción no se puede deshacer.`);if(!confirmed)return;students=students.filter(item=>item.code!==code);saveStudents();renderStudents();if(currentStudentCode===code){currentStudentCode=null;showStudents()}}
-function generateStudentCode(){const numbers=students.map(student=>student.code).filter(code=>/^WA-\d+$/.test(code)).map(code=>parseInt(code.replace('WA-',''),10));const nextNumber=numbers.length?Math.max(...numbers)+1:1;return`WA-${String(nextNumber).padStart(4,'0')}`}
-function createStudent(){if(!canManageStudents()){alert('No tienes permiso para crear estudiantes.');return}const code=document.getElementById('newCode').value.trim();const name=document.getElementById('newName').value.trim();const email=document.getElementById('newEmail').value.trim();const phone=document.getElementById('newPhone').value.trim();const service=document.getElementById('newService').value;const level=document.getElementById('newLevel').value.trim()||'Por definir';const teacher=document.getElementById('newTeacher').value.trim()||'Por asignar';const group=document.getElementById('newGroup').value.trim()||'Por asignar';if(!code||!name||!email){alert('Código, nombre y correo son obligatorios.');return}const exists=students.some(student=>student.code===code);if(exists){alert('Ese código ya existe. Usa otro código.');return}const newStudent=normalizeStudentContact({code,name,email,phone,whatsapp:phone,service,level,teacher,teacherId:getTeacherIdByName(teacher),teacherCode:getTeacherIdByName(teacher),group,status:'Activo',trackingLabel:service==='Grupal'?'Clases asistidas':'Horas usadas',trackingValue:service==='Grupal'?'0 / 48':'0 / 20'});students.push(newStudent);saveStudents();renderStudents();closeCreateModal();clearCreateForm()}
+function saveEditStudent(){if(!canManageStudents()){alert('No tienes permiso para guardar cambios.');return}const originalCode=document.getElementById('editOriginalCode').value,code=document.getElementById('editCode').value.trim(),name=document.getElementById('editName').value.trim(),email=document.getElementById('editEmail').value.trim(),phone=document.getElementById('editPhone').value.trim(),service=document.getElementById('editService').value,level=document.getElementById('editLevel').value.trim()||'Por definir',teacher=document.getElementById('editTeacher').value.trim()||'Por asignar',group=document.getElementById('editGroup').value.trim()||'Por asignar',status=document.getElementById('editStatus').value;if(!code||!name||!email){alert('Código, nombre y correo son obligatorios.');return}if(students.some(s=>s.code===code&&s.code!==originalCode)){alert('Ese código ya existe. Usa otro código.');return}students=students.map(s=>s.code!==originalCode?s:normalizeStudentContact({...s,code,name,email,phone,whatsapp:phone,service,level,teacher,teacherId:getTeacherIdByName(teacher),teacherCode:getTeacherIdByName(teacher),group,status,trackingLabel:service==='Grupal'?'Clases asistidas':'Horas usadas',trackingValue:service==='Grupal'?(s.trackingLabel==='Clases asistidas'?s.trackingValue:'0 / 48'):(s.trackingLabel==='Horas usadas'?s.trackingValue:'0 / 20')}));saveStudents();renderStudents();closeEditModal()}
+function deleteStudent(code){if(!canManageStudents()){alert('No tienes permiso para borrar estudiantes.');return}const student=students.find(s=>s.code===code);if(!student)return;if(!confirm(`¿Seguro que quieres borrar a ${student.name} (${student.code})? Esta acción no se puede deshacer.`))return;students=students.filter(s=>s.code!==code);saveStudents();renderStudents();if(currentStudentCode===code){currentStudentCode=null;showStudents()}}
+function generateStudentCode(){const nums=students.map(s=>s.code).filter(c=>/^WA-\d+$/.test(c)).map(c=>parseInt(c.replace('WA-',''),10));return`WA-${String(nums.length?Math.max(...nums)+1:1).padStart(4,'0')}`}
+function createStudent(){if(!canManageStudents()){alert('No tienes permiso para crear estudiantes.');return}const code=document.getElementById('newCode').value.trim(),name=document.getElementById('newName').value.trim(),email=document.getElementById('newEmail').value.trim(),phone=document.getElementById('newPhone').value.trim(),service=document.getElementById('newService').value,level=document.getElementById('newLevel').value.trim()||'Por definir',teacher=document.getElementById('newTeacher').value.trim()||'Por asignar',group=document.getElementById('newGroup').value.trim()||'Por asignar';if(!code||!name||!email){alert('Código, nombre y correo son obligatorios.');return}if(students.some(s=>s.code===code)){alert('Ese código ya existe. Usa otro código.');return}students.push(normalizeStudentContact({code,name,email,phone,whatsapp:phone,service,level,teacher,teacherId:getTeacherIdByName(teacher),teacherCode:getTeacherIdByName(teacher),group,status:'Activo',trackingLabel:service==='Grupal'?'Clases asistidas':'Horas usadas',trackingValue:service==='Grupal'?'0 / 48':'0 / 20'}));saveStudents();renderStudents();closeCreateModal();clearCreateForm()}
 function clearCreateForm(){['newCode','newName','newEmail','newPhone','newLevel','newTeacher','newGroup'].forEach(id=>document.getElementById(id).value='');document.getElementById('newService').value='Grupal'}
-function openExternalDossier(code){const student=students.find(item=>item.code===code);if(!student)return;if(!canViewStudent(student)){alert('No tienes permiso para ver este dossier.');return}window.location.href=`dossier.html?code=${encodeURIComponent(code)}`}
-function openDossier(code){const student=students.find(item=>item.code===code);if(!student)return;if(!canViewStudent(student)){alert('No tienes permiso para ver este dossier.');return}currentStudentCode=code;document.getElementById('studentsView').classList.remove('active');document.getElementById('dossierView').classList.add('active');document.getElementById('studentName').innerText=student.name;document.getElementById('studentMeta').innerText=`Código: ${student.code} · ${student.service} · ${student.level}`;document.getElementById('teacherName').innerText=student.teacher;document.getElementById('groupName').innerText=student.group;document.getElementById('studentPhone').innerText=student.phone||student.whatsapp||'Sin teléfono';renderStudentServiceTracking(student);renderRequestsForStudent(student)}
-function requestsVisibleForCurrentRole(student){const requests=loadRequests();if(currentUser.role==='admin')return requests.filter(request=>request.studentCode===student.code);if(currentUser.role==='teacher')return requests.filter(request=>request.studentCode===student.code&&teacherOwnsStudent(student));if(currentUser.role==='student')return requests.filter(request=>request.studentCode===student.code);return[]}
-function renderRequestsForStudent(student){const container=document.getElementById('requestsList');const btn=document.getElementById('newRequestBtn');if(!container)return;if(btn){btn.style.display=currentUser.role==='student'||currentUser.role==='admin'?'inline-block':'none'}const requests=requestsVisibleForCurrentRole(student);container.innerHTML='';if(!requests.length){container.innerHTML='<div class="empty">No hay solicitudes registradas para este estudiante.</div>';return}requests.sort((a,b)=>String(b.createdAt||'').localeCompare(String(a.createdAt||''))).forEach(request=>{const card=document.createElement('div');card.className='request-card';card.innerHTML=`<span class="pill ${requestStatusClass(request.status)}">${request.status||'Nueva'}</span><strong>${request.id} · ${request.type}</strong><small>${request.reason||'Sin detalle.'}</small>${request.requestedDate?`<small>Fecha solicitada: ${request.requestedDate}${request.requestedTime?' · '+request.requestedTime:''}</small>`:''}<small>Creada: ${request.createdAt?new Date(request.createdAt).toLocaleString('es-CO'):'-'}</small>${request.teacherNote?`<small><strong>Nota profesor:</strong> ${request.teacherNote}</small>`:''}${request.adminNote?`<small><strong>Respuesta administración:</strong> ${request.adminNote}</small>`:''}${(currentUser.role==='admin'||currentUser.role==='teacher')?`<div class="request-actions"><button class="btn btn-secondary" onclick="openReviewRequestModal('${request.id}')">Revisar</button></div>`:''}`;container.appendChild(card)})}
-function openRequestModal(){const student=students.find(item=>item.code===currentStudentCode);if(!student)return;if(currentUser.role==='teacher'){alert('El profesor puede observar solicitudes, pero no crearlas por el estudiante.');return}if(!canViewStudent(student)){alert('No tienes permiso para crear solicitudes para este estudiante.');return}document.getElementById('requestStudentLabel').value=`${student.code} · ${student.name}`;document.getElementById('requestType').value='Reprogramación';document.getElementById('requestDate').value='';document.getElementById('requestTime').value='';document.getElementById('requestReason').value='';handleRequestTypeChange();document.getElementById('requestModal').classList.add('active')}
+function openExternalDossier(code){const student=students.find(s=>s.code===code);if(!student)return;if(!canViewStudent(student)){alert('No tienes permiso para ver este dossier.');return}window.location.href=`dossier.html?code=${encodeURIComponent(code)}`}
+function openDossier(code){const student=students.find(s=>s.code===code);if(!student||!canViewStudent(student))return;currentStudentCode=code;document.getElementById('studentsView').classList.remove('active');document.getElementById('dossierView').classList.add('active');document.getElementById('studentName').innerText=student.name;document.getElementById('studentMeta').innerText=`Código: ${student.code} · ${student.service} · ${student.level}`;document.getElementById('teacherName').innerText=student.teacher||'Por asignar';document.getElementById('groupName').innerText=student.group||'Por asignar';document.getElementById('studentPhone').innerText=student.phone||'Sin teléfono';document.getElementById('studentStatusPill').innerText=student.status||'Activo';renderStudentServiceTracking(student);renderRequestsForStudent(student)}
+function loadRequests(){return safeArray(REQUESTS_KEY)}function saveRequests(items){Store.set(REQUESTS_KEY,items)}
+function generateRequestCode(){const nums=loadRequests().map(r=>r.id).filter(id=>/^REQ-\d+$/.test(id||'')).map(id=>parseInt(id.replace('REQ-',''),10));return`REQ-${String(nums.length?Math.max(...nums)+1:1).padStart(4,'0')}`}
+function requestStatusClass(status){if(status==='Aprobada')return'ok';if(status==='Rechazada')return'danger';if(status==='En revisión')return'warning';return'gray'}
+function requestsVisibleForCurrentRole(student){const requests=loadRequests();if(isAdminUser())return requests.filter(r=>r.studentCode===student.code||r.studentId===student.code);if(isTeacherUser())return requests.filter(r=>(r.studentCode===student.code||r.studentId===student.code)&&teacherOwnsStudent(student));if(isStudentUser())return requests.filter(r=>r.studentCode===student.code||r.studentId===student.code);return[]}
+function renderRequestsForStudent(student){const container=document.getElementById('requestsList'),btn=document.getElementById('newRequestBtn');if(btn)btn.style.display=isStudentUser()||isAdminUser()?'inline-block':'none';const requests=requestsVisibleForCurrentRole(student);container.innerHTML='';if(!requests.length){container.innerHTML='<div class="empty">No hay solicitudes registradas para este estudiante.</div>';return}requests.sort((a,b)=>String(b.createdAt||'').localeCompare(String(a.createdAt||''))).forEach(r=>{const card=document.createElement('div');card.className='request-card';card.innerHTML=`<span class="pill ${requestStatusClass(r.status)}">${r.status||'Nueva'}</span><strong>${r.id} · ${r.type}</strong><small>${r.reason||'Sin detalle.'}</small>${r.requestedDate?`<small>Fecha solicitada: ${r.requestedDate}${r.requestedTime?' · '+r.requestedTime:''}</small>`:''}<small>Creada: ${r.createdAt?new Date(r.createdAt).toLocaleString('es-CO'):'-'}</small>${r.teacherNote?`<small><strong>Nota profesor:</strong> ${r.teacherNote}</small>`:''}${r.adminNote?`<small><strong>Respuesta administración:</strong> ${r.adminNote}</small>`:''}${(isAdminUser()||isTeacherUser())?`<div class="request-actions"><button class="btn btn-secondary" onclick="openReviewRequestModal('${r.id}')">Revisar</button></div>`:''}`;container.appendChild(card)})}
+function openRequestModal(){const student=students.find(s=>s.code===currentStudentCode);if(!student)return;if(isTeacherUser()){alert('El profesor puede observar solicitudes, pero no crearlas por el estudiante.');return}if(!canViewStudent(student)){alert('No tienes permiso para crear solicitudes para este estudiante.');return}document.getElementById('requestStudentLabel').value=`${student.code} · ${student.name}`;document.getElementById('requestType').value='Reprogramación';document.getElementById('requestDate').value='';document.getElementById('requestTime').value='';document.getElementById('requestReason').value='';handleRequestTypeChange();document.getElementById('requestModal').classList.add('active')}
 function closeRequestModal(){document.getElementById('requestModal').classList.remove('active')}
-function handleRequestTypeChange(){const type=document.getElementById('requestType').value;const needsSchedule=type==='Reprogramación'||type==='Cambio de horario';document.getElementById('requestDateField').style.display=needsSchedule?'flex':'none';document.getElementById('requestTimeField').style.display=needsSchedule?'flex':'none'}
-function createRequest(){const student=students.find(item=>item.code===currentStudentCode);if(!student)return;const type=document.getElementById('requestType').value;const requestedDate=document.getElementById('requestDate').value;const requestedTime=document.getElementById('requestTime').value;const reason=document.getElementById('requestReason').value.trim();if(!type||!reason){alert('Tipo y motivo son obligatorios.');return}if((type==='Reprogramación'||type==='Cambio de horario')&&!requestedDate){alert('Para reprogramación o cambio de horario debes indicar una fecha solicitada.');return}const request={id:generateRequestCode(),studentCode:student.code,studentName:student.name,studentEmail:student.email||'',studentPhone:student.phone||student.whatsapp||'',teacher:student.teacher||'',teacherId:student.teacherId||student.teacherCode||getTeacherIdByName(student.teacher)||'',service:student.service||'',type,reason,requestedDate,requestedTime,status:'Nueva',adminNote:'',teacherNote:'',createdByRole:currentUser.role,createdByEmail:currentUser.email||'',createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};const requests=loadRequests();requests.push(request);saveRequests(requests);closeRequestModal();renderRequestsForStudent(student)}
-function openReviewRequestModal(requestId){const request=loadRequests().find(item=>item.id===requestId);if(!request)return;if(currentUser.role!=='admin'&&currentUser.role!=='teacher'){alert('No tienes permiso para revisar solicitudes.');return}const student=students.find(item=>item.code===request.studentCode);if(student&&!canViewStudent(student)){alert('No tienes permiso para revisar esta solicitud.');return}document.getElementById('reviewRequestId').value=request.id;document.getElementById('reviewRequestSummary').value=`${request.id} · ${request.studentName} · ${request.type}`;document.getElementById('reviewStatus').value=request.status||'Nueva';document.getElementById('reviewAdminNote').value=request.adminNote||'';document.getElementById('reviewTeacherNote').value=request.teacherNote||'';document.querySelectorAll('.admin-review-only').forEach(el=>{el.style.display=currentUser.role==='admin'?'flex':'none'});document.querySelectorAll('.teacher-review-only').forEach(el=>{el.style.display=currentUser.role==='teacher'||currentUser.role==='admin'?'flex':'none'});document.getElementById('reviewRequestModal').classList.add('active')}
+function handleRequestTypeChange(){const type=document.getElementById('requestType').value,needs=type==='Reprogramación'||type==='Cambio de horario';document.getElementById('requestDateField').style.display=needs?'flex':'none';document.getElementById('requestTimeField').style.display=needs?'flex':'none'}
+function createRequest(){const student=students.find(s=>s.code===currentStudentCode);if(!student)return;if(isTeacherUser()){alert('El profesor puede observar solicitudes, pero no crearlas por el estudiante.');return}if(!canViewStudent(student)){alert('No tienes permiso para crear solicitudes para este estudiante.');return}const type=document.getElementById('requestType').value,requestedDate=document.getElementById('requestDate').value,requestedTime=document.getElementById('requestTime').value,reason=document.getElementById('requestReason').value.trim();if(!type||!reason){alert('Tipo y motivo son obligatorios.');return}if((type==='Reprogramación'||type==='Cambio de horario')&&!requestedDate){alert('Para reprogramación o cambio de horario debes indicar una fecha solicitada.');return}const request={id:generateRequestCode(),requestId:generateRequestCode(),source:'portal',studentCode:student.code,studentId:student.code,studentName:student.name,studentEmail:student.email||'',studentPhone:student.phone||'',teacher:student.teacher||'',teacherId:student.teacherId||student.teacherCode||getTeacherIdByName(student.teacher)||'',teacherCode:student.teacherId||student.teacherCode||getTeacherIdByName(student.teacher)||'',service:student.service||'',type,reason,requestedDate,requestedTime,status:'Nueva',adminNote:'',teacherNote:'',createdByRole:currentUser.role,createdByEmail:currentUser.email||'',createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};const requests=loadRequests();requests.push(request);saveRequests(requests);closeRequestModal();renderRequestsForStudent(student)}
+function openReviewRequestModal(id){const request=loadRequests().find(r=>r.id===id);if(!request)return;if(!isAdminUser()&&!isTeacherUser()){alert('No tienes permiso para revisar solicitudes.');return}const student=students.find(s=>s.code===request.studentCode||s.code===request.studentId);if(student&&!canViewStudent(student)){alert('No tienes permiso para revisar esta solicitud.');return}document.getElementById('reviewRequestId').value=request.id;document.getElementById('reviewRequestSummary').value=`${request.id} · ${request.studentName} · ${request.type}`;document.getElementById('reviewStatus').value=request.status||'Nueva';document.getElementById('reviewAdminNote').value=request.adminNote||'';document.getElementById('reviewTeacherNote').value=request.teacherNote||'';document.querySelectorAll('.admin-review-only').forEach(el=>{el.style.display=isAdminUser()?'flex':'none'});document.querySelectorAll('.teacher-review-only').forEach(el=>{el.style.display=isTeacherUser()||isAdminUser()?'flex':'none'});document.getElementById('reviewRequestModal').classList.add('active')}
 function closeReviewRequestModal(){document.getElementById('reviewRequestModal').classList.remove('active')}
-function saveRequestReview(){const requestId=document.getElementById('reviewRequestId').value;const requests=loadRequests();const index=requests.findIndex(item=>item.id===requestId);if(index<0)return;if(currentUser.role==='admin'){requests[index].status=document.getElementById('reviewStatus').value;requests[index].adminNote=document.getElementById('reviewAdminNote').value.trim()}if(currentUser.role==='teacher'||currentUser.role==='admin'){requests[index].teacherNote=document.getElementById('reviewTeacherNote').value.trim()}requests[index].updatedAt=new Date().toISOString();saveRequests(requests);closeReviewRequestModal();const student=students.find(item=>item.code===requests[index].studentCode);if(student)renderRequestsForStudent(student)}
+function saveRequestReview(){const id=document.getElementById('reviewRequestId').value,requests=loadRequests(),i=requests.findIndex(r=>r.id===id);if(i<0)return;if(isAdminUser()){requests[i].status=document.getElementById('reviewStatus').value;requests[i].adminNote=document.getElementById('reviewAdminNote').value.trim()}if(isTeacherUser()||isAdminUser()){requests[i].teacherNote=document.getElementById('reviewTeacherNote').value.trim()}requests[i].updatedAt=new Date().toISOString();saveRequests(requests);closeReviewRequestModal();const student=students.find(s=>s.code===requests[i].studentCode||s.code===requests[i].studentId);if(student)renderRequestsForStudent(student)}
 function showStudents(){document.getElementById('dossierView').classList.remove('active');document.getElementById('studentsView').classList.add('active')}
 function showTab(id,el){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById(id).classList.add('active');el.classList.add('active')}
-
-document.getElementById('newService').addEventListener('change',e=>fillGroupSelect('newGroup',e.target.value))
-document.getElementById('editService').addEventListener('change',e=>fillGroupSelect('editGroup',e.target.value))
-applyRoleHeader()
-applyRolePermissions()
-renderStudents()
-fillGroupSelect('newGroup','Grupal')
+document.getElementById('newService').addEventListener('change',e=>fillGroupSelect('newGroup',e.target.value));document.getElementById('editService').addEventListener('change',e=>fillGroupSelect('editGroup',e.target.value));applyRoleHeader();applyRolePermissions();renderStudents();fillGroupSelect('newGroup','Grupal');
 </script>
+
+<style id="wisdom-phase13-modal-scroll-fix">
+.modal.active{overflow:auto!important;align-items:flex-start!important;}
+.modal-box{max-height:calc(100vh - 40px)!important;overflow:auto!important;}
+</style>
+
+<script id="wisdom-phase13-runtime-hardening">
+(function(){
+  if(window.__wisdomPhase13RuntimeHardeningApplied)return;
+  window.__wisdomPhase13RuntimeHardeningApplied=true;
+  window.addEventListener('error',function(event){
+    try{console.error('Wisdom FASE 13 runtime error:',event.error||event.message||event);}catch(error){}
+  });
+  window.addEventListener('unhandledrejection',function(event){
+    try{console.error('Wisdom FASE 13 promise rejection:',event.reason||event);}catch(error){}
+  });
+  window.addEventListener('storage',function(event){
+    try{
+      const criticalKeys=['wisdom_users','wisdom_teachers_demo','wisdom_students_demo','wisdom_groups_demo','wisdom_private_demo','wisdom_requests_demo'];
+      if(event && criticalKeys.includes(event.key) && document.visibilityState==='visible'){
+        console.info('Wisdom FASE 13: cambio externo detectado en',event.key);
+      }
+    }catch(error){}
+  });
+})();
+</script>
+
+<script id="wisdom-phase13-students-hardening">
+(function(){
+  if(window.__wisdomPhase13StudentsHardeningApplied)return;
+  window.__wisdomPhase13StudentsHardeningApplied=true;
+  function txt(v){return String(v||'').trim();}
+  function email(v){return txt(v).toLowerCase();}
+  function normStudent(raw){
+    const s=(typeof normalizeStudentContact==='function')?normalizeStudentContact(raw||{}):(raw||{});
+    const code=txt(s.code||s.studentCode||s.studentId||s.id);
+    return {...s,id:s.id||code,code,studentId:s.studentId||code,studentCode:s.studentCode||code,name:txt(s.name||s.studentName),email:email(s.email),phone:txt(s.phone||s.whatsapp),whatsapp:txt(s.whatsapp||s.phone),status:s.status||'Activo',updatedAt:s.updatedAt||new Date().toISOString()};
+  }
+  function dedupeStudents(list){
+    const out=[]; const codes=new Set(); const emails=new Set();
+    (Array.isArray(list)?list:[]).forEach(raw=>{
+      const s=normStudent(raw); if(!s.code||!s.name)return;
+      const codeKey=s.code.toLowerCase(); const emailKey=s.email;
+      if(codes.has(codeKey))return;
+      if(emailKey&&emails.has(emailKey))return;
+      codes.add(codeKey); if(emailKey)emails.add(emailKey); out.push(s);
+    });
+    return out;
+  }
+  window.wisdomPhase13NormalizeStudents=dedupeStudents;
+  if(typeof saveStudents==='function'){
+    const originalSaveStudents=saveStudents;
+    window.saveStudents=function(){try{students=dedupeStudents(students);}catch(error){console.warn('FASE 13: no se pudo normalizar estudiantes.',error)}return originalSaveStudents.apply(this,arguments);};
+  }
+  if(typeof createStudent==='function'){
+    const originalCreateStudent=createStudent;
+    window.createStudent=function(){
+      const emailEl=document.getElementById('newEmail');
+      const emailValue=email(emailEl&&emailEl.value);
+      if(!emailValue || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailValue)){alert('Correo de estudiante inválido.');return;}
+      if(emailEl)emailEl.value=emailValue;
+      if(Array.isArray(students)&&students.some(s=>email(s.email)===emailValue)){alert('Ya existe un estudiante con ese correo.');return;}
+      return originalCreateStudent.apply(this,arguments);
+    };
+  }
+  if(typeof saveEditStudent==='function'){
+    const originalSaveEditStudent=saveEditStudent;
+    window.saveEditStudent=function(){
+      const emailEl=document.getElementById('editEmail');
+      const codeEl=document.getElementById('editCode');
+      const originalCode=txt(document.getElementById('editOriginalCode')&&document.getElementById('editOriginalCode').value);
+      const emailValue=email(emailEl&&emailEl.value);
+      if(!emailValue || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailValue)){alert('Correo de estudiante inválido.');return;}
+      if(Array.isArray(students)&&students.some(s=>email(s.email)===emailValue&&s.code!==originalCode)){alert('Ya existe otro estudiante con ese correo.');return;}
+      if(emailEl)emailEl.value=emailValue;
+      if(codeEl)codeEl.value=txt(codeEl.value);
+      return originalSaveEditStudent.apply(this,arguments);
+    };
+  }
+  if(typeof saveRequests==='function'){
+    const originalSaveRequests=saveRequests;
+    window.saveRequests=function(items){
+      const seen=new Set();
+      const cleaned=(Array.isArray(items)?items:[]).map(r=>{
+        const id=txt(r.id||r.requestId);
+        return {...r,id,requestId:id,reason:txt(r.reason),updatedAt:r.updatedAt||new Date().toISOString()};
+      }).filter(r=>{
+        if(!r.id||!r.studentCode||!r.type)return false;
+        const key=[r.sourceMessageId||'',r.studentCode||r.studentId||'',r.type||'',r.requestedDate||'',r.requestedTime||'',r.status||'Nueva'].join('|');
+        if(seen.has(key))return false; seen.add(key); return true;
+      });
+      return originalSaveRequests.call(this,cleaned);
+    };
+  }
+})();
+</script>
+
+
+<script id="wisdom-phase16-students-ux">
+(function(){
+  window.__studentUXFilter='all';
+  window.setStudentUXFilter=function(filter,button){
+    window.__studentUXFilter=filter||'all';
+    document.querySelectorAll('#studentQuickFilters .filter-chip').forEach(chip=>chip.classList.remove('active'));
+    if(button)button.classList.add('active');
+    if(typeof renderStudents==='function')renderStudents();
+  };
+  function matchesFilter(student){
+    const f=window.__studentUXFilter||'all';
+    if(f==='all')return true;
+    const service=String(student.service||'').toLowerCase();
+    const status=String(student.status||'').toLowerCase();
+    if(['Activo','Pausado','Finalizado'].includes(f))return status===f.toLowerCase();
+    return service.includes(f.toLowerCase());
+  }
+  function statusPillClass(status){
+    const s=String(status||'').toLowerCase();
+    if(s.includes('paus'))return 'warning';
+    if(s.includes('final')||s.includes('inactivo'))return 'gray';
+    return 'ok';
+  }
+  window.renderStudentsUXSummary=function(){
+    const box=document.getElementById('studentsUXSummary');
+    if(!box || !Array.isArray(students))return;
+    const visible=students.map(normalizeStudentContact).filter(canViewStudent);
+    const active=visible.filter(s=>String(s.status||'').toLowerCase()==='activo').length;
+    const group=visible.filter(s=>String(s.service||'').toLowerCase().includes('grupal')).length;
+    const priv=visible.filter(s=>String(s.service||'').toLowerCase().includes('privada')).length;
+    const withoutPhone=visible.filter(s=>!s.phone).length;
+    box.innerHTML=`<div class="ux-summary-card"><small>Visibles</small><strong>${visible.length}</strong></div><div class="ux-summary-card"><small>Activos</small><strong>${active}</strong></div><div class="ux-summary-card"><small>Grupales / Privadas</small><strong>${group} / ${priv}</strong></div><div class="ux-summary-card"><small>Sin WhatsApp</small><strong>${withoutPhone}</strong></div>`;
+  };
+  const originalRenderStudents=window.renderStudents;
+  window.renderStudents=function(){
+    students=students.map(normalizeStudentContact);
+    const tbody=document.getElementById('studentsTable');
+    if(!tbody)return;
+    tbody.innerHTML='';
+    const q=(document.getElementById('searchInput')?.value||'').toLowerCase();
+    const visible=students.filter(canViewStudent).filter(matchesFilter).filter(student=>{
+      const text=`${student.code} ${student.name} ${student.email} ${student.phone} ${student.service} ${student.status}`.toLowerCase();
+      return !q || text.includes(q);
+    });
+    if(typeof renderStudentsUXSummary==='function')renderStudentsUXSummary();
+    if(!visible.length){tbody.innerHTML='<tr><td colspan="7">No hay estudiantes para este filtro.</td></tr>';return;}
+    visible.forEach(student=>{
+      const tracking=buildStudentTracking(student);
+      const row=document.createElement('tr');
+      row.innerHTML=`<td><strong>${student.code}</strong></td><td><strong>${student.name}</strong><br><small class="sub">${student.level||'Nivel pendiente'}</small></td><td>${student.email||'<span class="sub">Sin correo</span>'}</td><td>${student.phone||'<span class="sub">Sin teléfono</span>'}</td><td>${student.service}<br><small class="sub">${tracking.label}: ${tracking.value}</small></td><td><span class="pill ${statusPillClass(student.status)}">${student.status||'Activo'}</span></td><td><button class="btn btn-secondary" onclick="openExternalDossier('${student.code}')">Dossier</button> ${canManageStudents()?(userForStudent(student.code)?'<span class="pill ok">Usuario creado</span>':`<button class="btn btn-secondary" onclick="openCreateUserForStudent('${student.code}')">Crear usuario</button>`):''} ${canManageStudents()?`<button class="btn btn-secondary" onclick="openEditModal('${student.code}')">Editar</button>`:''} ${canManageStudents()?`<button class="btn btn-danger" onclick="deleteStudent('${student.code}')">Borrar</button>`:''}</td>`;
+      tbody.appendChild(row);
+    });
+  };
+  window.searchStudents=function(){if(typeof renderStudents==='function')renderStudents();};
+  const originalOpenDossier=window.openDossier;
+  window.openDossier=function(code){
+    if(typeof originalOpenDossier==='function')originalOpenDossier(code);
+    const student=Array.isArray(students)?students.find(s=>s.code===code):null;
+    const target=document.getElementById('dossierUXSummary');
+    if(!student||!target)return;
+    const tracking=buildStudentTracking(student);
+    const requests=(typeof loadRequests==='function'?loadRequests():[]).filter(r=>r.studentCode===student.code||r.studentId===student.code);
+    const openRequests=requests.filter(r=>!['Aprobada','Rechazada','Cerrada'].includes(String(r.status||''))).length;
+    const percent=tracking.percent===null?'--':tracking.percent+'%';
+    const riskClass=tracking.percent!==null&&tracking.percent<70?'danger':(openRequests?'warning':'ok');
+    target.innerHTML=`<div class="summary-box ${riskClass}"><small>Indicador principal</small><strong>${percent}</strong></div><div class="summary-box"><small>${tracking.label}</small><strong>${tracking.value}</strong></div><div class="summary-box ${openRequests?'warning':'ok'}"><small>Solicitudes abiertas</small><strong>${openRequests}</strong></div><div class="summary-box"><small>Contacto</small><strong>${student.phone?'WhatsApp OK':'Pendiente'}</strong></div>`;
+  };
+  if(typeof renderStudents==='function')renderStudents();
+})();
+</script>
+</main>
+</div>
+
+<script>
+function toggleErpSidebar(){const sidebar=document.getElementById('erpSidebar');if(!sidebar)return;sidebar.classList.toggle('open');document.body.classList.toggle('erp-menu-open',sidebar.classList.contains('open'));}
+(function initErpSidebar(){
+  function normalizeRoleLocal(role){const clean=String(role||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');if(['admin','administrador','administrativo','administrator'].includes(clean))return 'admin';if(['teacher','profesor','docente','instructor'].includes(clean))return 'teacher';if(['student','estudiante','alumno','learner'].includes(clean))return 'student';return clean;}
+  function storageGetLocal(key,fallback){try{if(window.WisdomStorage&&typeof WisdomStorage.get==='function')return WisdomStorage.get(key,fallback);const raw=localStorage.getItem(key);return raw?JSON.parse(raw):fallback;}catch(error){return fallback;}}
+  function getCurrentUserLocal(){try{if(window.AuthService&&typeof AuthService.getCurrentUser==='function'){const user=AuthService.getCurrentUser();if(user)return user;}}catch(error){}return storageGetLocal('wisdom_current_user',null)||{};}
+  const user=getCurrentUserLocal();const role=normalizeRoleLocal(user.role||user.userRole||user.type||user.profile||user.access);const labels={admin:'Administrativo',teacher:'Profesor',student:'Estudiante'};
+  const name=document.getElementById('erpSidebarUserName');const roleEl=document.getElementById('erpSidebarUserRole');const email=document.getElementById('erpSidebarUserEmail');
+  if(name)name.textContent=user.name||user.fullName||user.email||'Usuario';if(roleEl)roleEl.textContent=labels[role]||role||'Rol';if(email)email.textContent=user.email||'';
+  document.querySelectorAll('.erp-side-link[data-roles]').forEach(link=>{const allowed=String(link.getAttribute('data-roles')||'').split(',').map(item=>item.trim()).filter(Boolean);if(role&&allowed.length&&!allowed.includes(role))link.classList.add('erp-role-hidden');link.addEventListener('click',()=>{const sidebar=document.getElementById('erpSidebar');if(sidebar)sidebar.classList.remove('open');document.body.classList.remove('erp-menu-open');});});
+})();
+</script>
+
 </body>
 </html>

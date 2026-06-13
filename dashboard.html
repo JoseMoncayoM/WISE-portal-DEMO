@@ -144,6 +144,15 @@
     .lock-card small{display:block;line-height:1.35}
     .hidden-panel{display:none!important}
 
+    .backup-panel{border:1px solid var(--border);border-radius:20px;padding:20px;background:linear-gradient(135deg,#ffffff,#f2fbfc);box-shadow:0 10px 24px rgba(13,43,69,.07);margin-bottom:20px}
+    .backup-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+    .backup-box{border:1px solid var(--border);border-radius:16px;padding:14px;background:#fbfdff}
+    .backup-box small{display:block;color:var(--gray);font-weight:800;text-transform:uppercase;font-size:.7rem;margin-bottom:5px;letter-spacing:.06em}
+    .backup-box strong{display:block;color:var(--primary);font-size:1.2rem}
+    .backup-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .backup-note{margin-top:12px;color:var(--gray);font-size:.9rem;font-weight:700;line-height:1.4}
+    @media(max-width:900px){.backup-grid{grid-template-columns:1fr}}
+
     @media(max-width:900px){.app{grid-template-columns:1fr}.grid,.tables,.summary-grid,.finance-mini,.academic-kpi-grid{grid-template-columns:1fr}.sidebar{position:relative;height:auto}}
 
     .academic-kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:14px}
@@ -460,6 +469,87 @@ th{
 .notification-mini-card small{display:block;color:var(--gray);line-height:1.35}
 .sidebar .alert-count{margin-left:auto}
 
+
+
+/* FASE 16 UX/UI — operational orientation layer */
+.breadcrumb{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:var(--premium-muted,#6b7c93);
+  font-size:.78rem;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  margin-bottom:12px;
+}
+.breadcrumb span:last-child{color:var(--premium-blue,var(--primary));}
+.quick-actions-panel{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+  margin-bottom:20px;
+}
+.quick-action-card{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  padding:16px;
+  border-radius:22px;
+  background:rgba(255,255,255,.96);
+  border:1px solid var(--premium-line,var(--border));
+  text-decoration:none;
+  color:var(--premium-blue,var(--primary));
+  box-shadow:var(--premium-shadow-soft,0 10px 24px rgba(13,43,69,.07));
+  transition:.18s ease;
+}
+.quick-action-card:hover{
+  transform:translateY(-2px);
+  border-color:#bfecef;
+}
+.quick-action-card strong{font-size:.95rem;}
+.quick-action-card small{color:var(--gray);font-weight:800;line-height:1.3;}
+.section-eyebrow{
+  display:inline-flex;
+  margin-bottom:10px;
+  padding:6px 10px;
+  border-radius:999px;
+  background:var(--premium-teal-soft,#e6f7f8);
+  color:var(--premium-teal,#16aeb7);
+  font-size:.68rem;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+.utility-panel{
+  border-style:dashed!important;
+  background:linear-gradient(135deg,#ffffff,#f8fbfc)!important;
+}
+.utility-panel h2::after{
+  content:" Herramienta admin";
+  display:inline-block;
+  margin-left:8px;
+  color:var(--premium-muted,#6b7c93);
+  font-size:.68rem;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+}
+@media(max-width:1100px){
+  .quick-actions-panel{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:640px){
+  .topbar{align-items:flex-start;gap:16px;flex-direction:column;}
+  .topbar .btn{width:100%;}
+  .quick-actions-panel{grid-template-columns:1fr;}
+  .main{padding:18px!important;}
+  .metric{align-items:flex-start;}
+}
+.side-link:focus-visible,.btn:focus-visible,.logout-btn:focus-visible,.quick-action-card:focus-visible{
+  outline:3px solid var(--premium-lime,#E6FF00);
+  outline-offset:3px;
+}
+
 </style>
 </head>
 <body>
@@ -467,7 +557,11 @@ th{
 <div class="app">
 
 <aside class="sidebar">
-  <div class="logo"><img src="logo.jpg" alt="Wisdom Academy Logo"></div>
+  <div class="logo">
+    <a href="wisdom_homepage.html" aria-label="Volver a la página principal de Wisdom Academy">
+        <img src="logo.jpg" alt="Wisdom Academy Logo">
+    </a>
+</div>
 
   <div class="menu-group active">
     <div class="menu-title">Panel ▾</div>
@@ -510,7 +604,7 @@ th{
   <div class="menu-group active">
     <div class="menu-title">Diagnóstico ▾</div>
     <div class="menu-items">
-      <a class="side-link" data-roles="admin,teacher" href="placement_portal_integrado.html"><span class="dot"></span> Nuevo diagnóstico</a>
+      <a class="side-link" data-roles="admin,teacher" href="placement_portal_integrado.html"><span class="dot"></span> Placement</a>
       <a class="side-link" data-roles="admin,teacher" href="diagnostico_resultados.html"><span class="dot"></span> Resultados diagnóstico</a>
     </div>
   </div>
@@ -537,13 +631,42 @@ th{
 
 <main class="main">
 
+  <nav class="breadcrumb" aria-label="Ubicación actual">
+    <span>Inicio</span><span>/</span><span>Dashboard</span>
+  </nav>
+
   <div class="topbar">
-    <div><h1>Dashboard <span id="rolePill" class="role-pill">Rol</span></h1><div style="color:rgba(255,255,255,.78);font-weight:800;margin-top:8px">Gestiona alertas, resultados, intervenciones y operación diaria. <span class="loop-badge">Loop académico activo</span></div></div>
+    <div><h1>Dashboard <span id="rolePill" class="role-pill">Rol</span></h1><div style="color:rgba(255,255,255,.78);font-weight:800;margin-top:8px">Gestiona lo urgente primero: alertas, próximas clases, reportes y operación diaria. <span class="loop-badge">Loop académico activo</span></div></div>
     <button class="btn btn-primary" data-roles="admin" onclick="window.location.href='estudiantes.html'">Crear estudiante</button>
   </div>
 
   <div id="sessionWarning" class="session-warning"></div>
 
+  <section class="quick-actions-panel" aria-label="Acciones rápidas del dashboard">
+    <a class="quick-action-card" data-roles="admin" href="estudiantes.html"><strong>Crear estudiante</strong><small>Alta rápida y revisión de dossier.</small></a>
+    <a class="quick-action-card" data-roles="admin,teacher" href="calendario.html"><strong>Ver calendario</strong><small>Clases próximas y carga operativa.</small></a>
+    <a class="quick-action-card" data-roles="admin,teacher" href="reportes.html"><strong>Revisar reportes</strong><small>Seguimiento académico y progreso.</small></a>
+    <a class="quick-action-card" data-roles="admin" href="finanzas.html"><strong>Pulso financiero</strong><small>Pagos, mora y renovaciones.</small></a>
+    <a class="quick-action-card" data-roles="student" href="resultados.html"><strong>Mis resultados</strong><small>Consulta progreso y evaluaciones.</small></a>
+  </section>
+
+  <div class="backup-panel utility-panel" id="globalBackupPanel" data-roles="admin">
+    <h2>Backup global del demo</h2>
+    <div class="executive-line">Exporta o restaura la información crítica de Wisdom Academy desde un solo archivo JSON. Antes de importar, el sistema descarga automáticamente un respaldo del estado actual.</div>
+    <div class="backup-grid">
+      <div class="backup-box"><small>Incluye</small><strong>Estudiantes, profesores, grupos, privadas y finanzas</strong></div>
+      <div class="backup-box"><small>También incluye</small><strong>Solicitudes, calendario, evaluaciones, resultados, mensajes y notificaciones</strong></div>
+      <div class="backup-box"><small>Formato seguro</small><strong>JSON completo</strong></div>
+    </div>
+    <div class="backup-actions">
+      <button class="btn btn-primary btn-small" onclick="exportFullBackup()">Exportar TODO JSON</button>
+      <button class="btn btn-secondary btn-small" onclick="document.getElementById('fullBackupImportInput').click()">Importar TODO JSON</button>
+      <input id="fullBackupImportInput" type="file" accept="application/json,.json" style="display:none" onchange="importFullBackup(event)">
+    </div>
+    <div class="backup-note">Usa este respaldo antes de modificar servicios, schemas o pantallas críticas. No reemplaza una base de datos real, pero protege el demo durante la migración.</div>
+  </div>
+
+  <div class="section-eyebrow">Indicadores principales</div>
   <div class="metrics">
     <div class="metric"><span>Estudiantes</span><strong id="studentsCount">0</strong></div>
     <div class="metric"><span>Profesores</span><strong id="teachersCount">0</strong></div>
@@ -551,6 +674,7 @@ th{
     <div class="metric"><span>Privadas</span><strong id="privateCount">0</strong></div>
   </div>
 
+  <div class="section-eyebrow">Prioridad diaria</div>
   <div class="panel" id="summaryPanel" style="margin-bottom:20px">
     <h2>Resumen ejecutivo</h2>
     <div id="dailySummary"></div>
@@ -572,6 +696,11 @@ th{
   <div class="panel" id="academicControlPanel" style="margin-bottom:20px">
     <h2>Control académico</h2>
     <div id="academicControl"></div>
+  </div>
+
+  <div class="panel" id="upcomingSchedulesPanel" style="margin-bottom:20px">
+    <h2>Próximas clases</h2>
+    <div id="upcomingSchedulesList"></div>
   </div>
 
   <div class="grid">
@@ -648,8 +777,79 @@ th{
 </main>
 
 </div>
-<script src="storage.js"></script>
-<script src="schemaRegistry.js"></script>
+<script src="js/core/storage.js"></script>
+<script src="js/core/schemaRegistry.js"></script>
+<script src="js/core/apiClient.js"></script>
+<script src="js/core/backendAdapter.js"></script>
+<script src="js/core/demoSeed.js"></script>
+
+<script src="js/services/authService.js"></script>
+<script src="js/core/permissions.js"></script>
+
+<script>
+  // Oculta avisos visuales de carga de servicios durante la inicialización del dashboard.
+  // Los servicios siguen cargando; solo se bloquean alerts repetitivos de tipo "StudentService se cargó".
+  window.__wisdomOriginalAlert = window.alert;
+  window.__wisdomSuppressServiceLoadAlerts = true;
+  window.alert = function(message) {
+    const text = String(message || '');
+    const isServiceLoadNotice = /(?:StudentService|TeacherService|GroupService|ScheduleService|AttendanceService|AuthService).*carg|carg.*(?:StudentService|TeacherService|GroupService|ScheduleService|AttendanceService|AuthService)|servicio.*carg|carg.*servicio/i.test(text);
+    if (window.__wisdomSuppressServiceLoadAlerts && isServiceLoadNotice) {
+      if (window.console && typeof console.info === 'function') {
+        console.info('Aviso de carga de servicio oculto:', text);
+      }
+      return;
+    }
+    return window.__wisdomOriginalAlert.apply(window, arguments);
+  };
+</script>
+<script src="js/services/studentService.js"></script>
+<script src="js/services/teacherService.js"></script>
+<script src="js/services/groupService.js"></script>
+<script src="js/services/scheduleService.js"></script>
+<script src="js/services/attendanceService.js"></script>
+<script src="js/services/reportService.js"></script>
+<script>
+function hasReportServiceMethod(methodName){
+  return typeof ReportService !== 'undefined' && ReportService && typeof ReportService[methodName] === 'function';
+}
+function callReportServiceSafe(methodName,...args){
+  if(!hasReportServiceMethod(methodName)) return null;
+  try{
+    return ReportService[methodName](...args);
+  }catch(error){
+    console.warn(`ReportService.${methodName} falló. Se mantiene fallback local.`, error);
+    return null;
+  }
+}
+function getDashboardMetricsSafe(){
+  return callReportServiceSafe('getDashboardMetrics');
+}
+function getStudentSummarySafe(studentId){
+  return callReportServiceSafe('getStudentSummary', studentId);
+}
+function getGroupSummarySafe(groupId){
+  return callReportServiceSafe('getGroupSummary', groupId);
+}
+function getTeacherSummarySafe(teacherId){
+  return callReportServiceSafe('getTeacherSummary', teacherId);
+}
+function getAttendanceSummarySafe(studentId){
+  return callReportServiceSafe('getAttendanceSummary', studentId);
+}
+function getAcademicProgressSafe(studentId){
+  return callReportServiceSafe('getAcademicProgress', studentId);
+}
+function canUnlockReportSafe(studentId){
+  return callReportServiceSafe('canUnlockReport', studentId);
+}
+</script>
+<script>
+  window.__wisdomSuppressServiceLoadAlerts = false;
+  if (window.__wisdomOriginalAlert) {
+    window.alert = window.__wisdomOriginalAlert;
+  }
+</script>
 <script>
   const CURRENT_USER_KEY = 'wisdom_current_user';
   const USERS_KEY = 'wisdom_users';
@@ -674,13 +874,161 @@ th{
     return clean;
   }
 
-  const currentUser = (typeof WisdomStorage !== 'undefined' && WisdomStorage && typeof WisdomStorage.get === 'function')
-    ? WisdomStorage.get(CURRENT_USER_KEY, null)
-    : safeParseObject(localStorage.getItem(CURRENT_USER_KEY), null);
+  function serviceHas(serviceName, methodName) {
+    const service = window[serviceName];
+    return typeof service !== 'undefined' && service && typeof service[methodName] === 'function';
+  }
 
-  if (!currentUser) {
+
+  function normalizeStudentCodeForAttendance(student = {}) {
+    return String(
+      student.studentId ||
+      student.studentCode ||
+      student.code ||
+      student.id ||
+      ''
+    ).trim();
+  }
+
+  function normalizeAttendancePercentValue(value) {
+    if (value === null || value === undefined || value === '') return null;
+
+    if (typeof value === 'number') {
+      return Number.isFinite(value) ? Math.round(value) : null;
+    }
+
+    if (typeof value === 'string') {
+      const parsed = parseFloat(value.replace('%', '').trim());
+      return Number.isNaN(parsed) ? null : Math.round(parsed);
+    }
+
+    if (typeof value === 'object') {
+      const candidates = [
+        value.percent,
+        value.percentage,
+        value.attendancePercent,
+        value.rate,
+        value.value
+      ];
+
+      for (const candidate of candidates) {
+        const normalized = normalizeAttendancePercentValue(candidate);
+        if (normalized !== null) return normalized;
+      }
+
+      const present = Number(value.present ?? value.presentCount ?? value.attended ?? 0);
+      const total = Number(value.total ?? value.totalClasses ?? value.count ?? 0);
+      if (total > 0) return Math.round((present / total) * 100);
+    }
+
+    return null;
+  }
+
+  function attendanceRecordsByStudentSafe(student) {
+    const studentCode = normalizeStudentCodeForAttendance(student);
+    if (!studentCode) return [];
+
+    if (serviceHas('AttendanceService', 'getByStudent')) {
+      try {
+        const records = AttendanceService.getByStudent(studentCode);
+        return Array.isArray(records) ? records : (records ? [records] : []);
+      } catch (error) {
+        console.warn('AttendanceService.getByStudent() falló. Usando cálculo local de respaldo.', error);
+      }
+    }
+
+    return [];
+  }
+
+  function calculateAttendanceFromRecords(records = [], studentCode = '') {
+    const cleanCode = String(studentCode || '').trim();
+    const statuses = [];
+
+    records.forEach(record => {
+      if (!record) return;
+
+      if (record.students && typeof record.students === 'object' && cleanCode) {
+        const status = record.students[cleanCode] || record.students[String(cleanCode)];
+        if (status) statuses.push(String(status).toLowerCase());
+        return;
+      }
+
+      const status = record.status || record.attendanceStatus || record.studentStatus || '';
+      if (status) statuses.push(String(status).toLowerCase());
+    });
+
+    const relevant = statuses.filter(status => ['present', 'absent', 'late', 'excused'].includes(status));
+    if (!relevant.length) return null;
+
+    const attended = relevant.filter(status => status === 'present' || status === 'late' || status === 'excused').length;
+    return Math.round((attended / relevant.length) * 100);
+  }
+
+  function calculateAttendanceFromGroups(student) {
+    const studentCode = normalizeStudentCodeForAttendance(student);
+    if (!studentCode) return null;
+
+    const groups = normalizeCollectionSafe(loadData(GROUPS_KEY), 'normalizeGroup', normalizeGroupDashboard);
+    const statuses = [];
+
+    groups.forEach(group => {
+      const belongs = (Array.isArray(group.students) ? group.students : []).some(item => {
+        const code = String(item.code || item.studentCode || item.studentId || item.id || '').trim();
+        return code === studentCode;
+      });
+
+      if (!belongs) return;
+
+      Object.keys(group.attendance || {})
+        .filter(key => /^\d+$/.test(String(key)))
+        .forEach(session => {
+          const record = group.attendance[session] || {};
+          const status = record[studentCode];
+          if (status) statuses.push(String(status).toLowerCase());
+        });
+    });
+
+    if (!statuses.length) return null;
+
+    const attended = statuses.filter(status => status === 'present' || status === 'late' || status === 'excused').length;
+    return Math.round((attended / statuses.length) * 100);
+  }
+
+  function getCurrentUserSafe() {
+    if (serviceHas('AuthService', 'getCurrentUser')) {
+      try {
+        const user = AuthService.getCurrentUser();
+        if (user) return user;
+      } catch (error) {
+        console.warn('AuthService.getCurrentUser() falló. Usando respaldo local.', error);
+      }
+    }
+
+    if (typeof WisdomStorage !== 'undefined' && WisdomStorage && typeof WisdomStorage.get === 'function') {
+      return WisdomStorage.get(CURRENT_USER_KEY, null);
+    }
+
+    return safeParseObject(localStorage.getItem(CURRENT_USER_KEY), null);
+  }
+
+  function isAuthenticatedSafe(user) {
+    if (serviceHas('AuthService', 'isAuthenticated')) {
+      try {
+        return AuthService.isAuthenticated();
+      } catch (error) {
+        console.warn('AuthService.isAuthenticated() falló. Validando sesión local.', error);
+      }
+    }
+
+    return Boolean(user && (user.role || user.userRole || user.type || user.profile || user.access));
+  }
+
+  let currentUser = getCurrentUserSafe();
+
+  if (!isAuthenticatedSafe(currentUser)) {
     window.location.href = 'login.html';
   } else {
+    currentUser = currentUser || {};
     currentUser.role = normalizeRole(currentUser.role || currentUser.userRole || currentUser.type || currentUser.profile || currentUser.access);
   }
 
@@ -689,12 +1037,43 @@ th{
   }
 
   function logout() {
+    if (serviceHas('AuthService', 'logout')) {
+      try {
+        AuthService.logout();
+        window.location.href = 'login.html';
+        return;
+      } catch (error) {
+        console.warn('AuthService.logout() falló. Cerrando sesión local.', error);
+      }
+    }
+
     if (typeof WisdomStorage !== 'undefined' && WisdomStorage && typeof WisdomStorage.remove === 'function') {
       WisdomStorage.remove(CURRENT_USER_KEY);
     } else {
       localStorage.removeItem(CURRENT_USER_KEY);
     }
     window.location.href = 'login.html';
+  }
+
+  function isAdmin() {
+    if (serviceHas('WisdomPermissions', 'isAdmin')) {
+      try { return WisdomPermissions.isAdmin(); } catch (error) { console.warn('WisdomPermissions.isAdmin() falló.', error); }
+    }
+    return currentUser.role === 'admin';
+  }
+
+  function isTeacher() {
+    if (serviceHas('WisdomPermissions', 'isTeacher')) {
+      try { return WisdomPermissions.isTeacher(); } catch (error) { console.warn('WisdomPermissions.isTeacher() falló.', error); }
+    }
+    return currentUser.role === 'teacher';
+  }
+
+  function isStudent() {
+    if (serviceHas('WisdomPermissions', 'isStudent')) {
+      try { return WisdomPermissions.isStudent(); } catch (error) { console.warn('WisdomPermissions.isStudent() falló.', error); }
+    }
+    return currentUser.role === 'student';
   }
 
   function getRoleLabel(role) {
@@ -710,6 +1089,17 @@ th{
   function canRoleAccess(allowedRoles) {
     if (!allowedRoles) return true;
     const allowed = allowedRoles.split(',').map(role => normalizeRole(role.trim()));
+
+    if (typeof WisdomPermissions !== 'undefined' && WisdomPermissions) {
+      try {
+        if (allowed.includes('admin') && isAdmin()) return true;
+        if (allowed.includes('teacher') && isTeacher()) return true;
+        if (allowed.includes('student') && isStudent()) return true;
+      } catch (error) {
+        console.warn('WisdomPermissions falló. Usando rol local.', error);
+      }
+    }
+
     return allowed.includes(currentUser.role);
   }
 
@@ -736,12 +1126,12 @@ th{
 
     const warning = document.getElementById('sessionWarning');
 
-    if (currentUser.role === 'teacher') {
+    if (isTeacher()) {
       warning.style.display = 'block';
       warning.innerText = 'Vista de profesor: mostrando solo grupos, privadas, estudiantes y alertas asociados a su teacherId.';
     }
 
-    if (currentUser.role === 'student') {
+    if (isStudent()) {
       warning.style.display = 'block';
       warning.innerText = 'Vista de estudiante: este usuario debe quedar en modo lectura. El dossier del estudiante se conecta en el siguiente paso.';
     }
@@ -754,6 +1144,7 @@ th{
   const REQUESTS_KEY = 'wisdom_requests_demo';
   const AVAILABILITY_KEY = 'wisdom_teacher_availability';
   const MANUAL_EVENTS_KEY = 'wisdom_calendar_manual_events';
+  const SCHEDULES_KEY = 'wisdom_schedules_demo';
   const ASSESSMENT_RESULTS_KEY = 'wisdom_assessment_results';
   const EXAM_RESULTS_KEY = 'wisdom_exam_results';
   const NOTIFICATIONS_KEY = 'wisdom_notifications_demo';
@@ -770,7 +1161,32 @@ th{
     }
   }
 
+  function loadDataFromService(key) {
+    const serviceMap = {
+      [STUDENTS_KEY]: ['StudentService', 'getAll'],
+      [TEACHERS_KEY]: ['TeacherService', 'getAll'],
+      [GROUPS_KEY]: ['GroupService', 'getAll']
+    };
+
+    const config = serviceMap[key];
+    if (!config) return null;
+
+    const [serviceName, methodName] = config;
+    if (!serviceHas(serviceName, methodName)) return null;
+
+    try {
+      const result = window[serviceName][methodName]();
+      return Array.isArray(result) ? result : [];
+    } catch (error) {
+      console.warn(`${serviceName}.${methodName}() falló. Usando WisdomStorage como respaldo.`, error);
+      return null;
+    }
+  }
+
   function loadData(key) {
+    const serviceValue = loadDataFromService(key);
+    if (Array.isArray(serviceValue)) return serviceValue;
+
     let value;
 
     if (typeof WisdomStorage !== 'undefined' && WisdomStorage && typeof WisdomStorage.get === 'function') {
@@ -1202,7 +1618,7 @@ th{
         return arr.findIndex(item => (item.evaluationId || item.id || `${item.studentId}-${item.type}-${item.level}-${item.unit}-${item.submittedAt}-${item.score}`) === key) === index;
       });
 
-    const allNotifications = loadData(NOTIFICATIONS_KEY).map(normalizeNotification);
+    const allNotifications = mergeNotificationsWithDerived(loadData(NOTIFICATIONS_KEY), derivePrivateProgressReportNotifications(allPackages));
     const allEvaluations = normalizeCollectionSafe(loadData(EVALUATIONS_KEY), 'normalizeEvaluation', normalizeEvaluation);
     const allInterventions = normalizeCollectionSafe(loadData(INTERVENTIONS_KEY), 'normalizeIntervention', normalizeIntervention);
     const allMessages = normalizeCollectionSafe(loadData(MESSAGES_KEY), 'normalizeMessage', normalizeMessage);
@@ -1297,6 +1713,85 @@ th{
     return Math.max(0, normalized.total - usedHours(normalized));
   }
 
+  function privateReportProgressValue(pkg) {
+    const normalized = normalizePackage(pkg);
+    const sessionHours = (normalized.sessions || []).reduce((sum, session) => sum + (Number(session.hours) || 0), 0);
+    return Math.max(sessionHours, (normalized.sessions || []).length || 0);
+  }
+
+  function findPrivateReportForStudent(pkg, studentCode) {
+    const reports = pkg && pkg.reports && typeof pkg.reports === 'object' ? pkg.reports : {};
+    const studentReports = reports[studentCode] || {};
+    return studentReports.report1 || studentReports.privateReport || studentReports.progressReport || studentReports.progress_report_private || null;
+  }
+
+  function derivePrivateProgressReportNotifications(packages = []) {
+    const derived = [];
+
+    (Array.isArray(packages) ? packages : []).map(normalizePackage).forEach(pkg => {
+      const progressValue = privateReportProgressValue(pkg);
+      if (progressValue < 18) return;
+
+      (pkg.students || []).forEach(student => {
+        const studentCode = student.code || student.studentId || student.studentCode || '';
+        if (!studentCode) return;
+
+        const report = findPrivateReportForStudent(pkg, studentCode);
+        const accepted = Boolean(report && report.accepted);
+        const finalScore = report ? (report.finalScore ?? report.percentage ?? report.total ?? report.scores?.finalScore ?? '') : '';
+
+        derived.push(normalizeNotification({
+          id: `DERIVED-PRIVATE-REPORT-${pkg.id || pkg.code || 'PK'}-${studentCode}`,
+          refId: `private-progress-report-${pkg.id || pkg.code || 'PK'}-${studentCode}-r1`,
+          type: 'progress_report_private',
+          title: report && report.savedAt ? 'Nuevo reporte de progreso privado/semi' : 'Reporte privado/semi disponible',
+          message: report && report.savedAt
+            ? `${pkg.code || pkg.id || 'Paquete'} · ${student.name || studentCode}: reporte privado guardado${finalScore !== '' ? ' con total ' + Number(finalScore).toFixed(1) + '%' : ''}.`
+            : `${pkg.code || pkg.id || 'Paquete'} · ${student.name || studentCode}: ya llegó a sesión ${progressValue}. El reporte privado está disponible desde sesión 18.`,
+          status: accepted ? 'Resuelta' : 'Nueva',
+          level: 'warning',
+          link: 'privadas.html',
+          packageId: pkg.id || '',
+          packageCode: pkg.code || pkg.id || '',
+          studentId: studentCode,
+          studentCode,
+          studentName: student.name || '',
+          teacherId: pkg.teacherId || pkg.teacherCode || '',
+          teacherName: pkg.teacher || '',
+          reportNumber: 1,
+          accepted,
+          acceptedAt: report?.acceptedAt || '',
+          acceptedBy: report?.acceptedBy || '',
+          finalScore,
+          progressValue,
+          createdAt: report?.savedAt || pkg.updatedAt || new Date().toISOString(),
+          updatedAt: report?.savedAt || pkg.updatedAt || new Date().toISOString()
+        }));
+      });
+    });
+
+    return derived;
+  }
+
+  function mergeNotificationsWithDerived(stored = [], derived = []) {
+    const map = new Map();
+
+    [...(stored || []), ...(derived || [])].map(normalizeNotification).forEach(note => {
+      const key = note.refId || note.id;
+      const previous = map.get(key);
+      if (!previous) {
+        map.set(key, note);
+        return;
+      }
+
+      const previousTime = new Date(previous.updatedAt || previous.createdAt || 0).getTime() || 0;
+      const currentTime = new Date(note.updatedAt || note.createdAt || 0).getTime() || 0;
+      map.set(key, currentTime >= previousTime ? {...previous, ...note} : {...note, ...previous});
+    });
+
+    return Array.from(map.values());
+  }
+
   function extractPercentFromTracking(value) {
     if (!value || typeof value !== 'string' || !value.includes('/')) return null;
     const parts = value.split('/');
@@ -1307,6 +1802,24 @@ th{
   }
 
   function getAttendancePercent(student) {
+    const studentCode = normalizeStudentCodeForAttendance(student);
+
+    if (studentCode && serviceHas('AttendanceService', 'calculateStudentAttendance')) {
+      try {
+        const serviceValue = AttendanceService.calculateStudentAttendance(studentCode);
+        const normalizedServiceValue = normalizeAttendancePercentValue(serviceValue);
+        if (normalizedServiceValue !== null) return normalizedServiceValue;
+      } catch (error) {
+        console.warn('AttendanceService.calculateStudentAttendance() falló. Usando cálculo local.', error);
+      }
+    }
+
+    const serviceRecordsPercent = calculateAttendanceFromRecords(attendanceRecordsByStudentSafe(student), studentCode);
+    if (serviceRecordsPercent !== null) return serviceRecordsPercent;
+
+    const groupedPercent = calculateAttendanceFromGroups(student);
+    if (groupedPercent !== null) return groupedPercent;
+
     if (typeof student.attendancePercent === 'number') return student.attendancePercent;
     if ((student.trackingLabel || '').toLowerCase().includes('clases')) {
       return extractPercentFromTracking(student.trackingValue);
@@ -2335,6 +2848,325 @@ th{
     container.appendChild(note);
   }
 
+
+
+  const GLOBAL_BACKUP_KEYS = [
+    STUDENTS_KEY,
+    TEACHERS_KEY,
+    GROUPS_KEY,
+    PRIVATE_KEY,
+    REQUESTS_KEY,
+    AVAILABILITY_KEY,
+    MANUAL_EVENTS_KEY,
+    SCHEDULES_KEY,
+    ASSESSMENT_RESULTS_KEY,
+    EXAM_RESULTS_KEY,
+    NOTIFICATIONS_KEY,
+    EVALUATIONS_KEY,
+    INTERVENTIONS_KEY,
+    MESSAGES_KEY,
+    'wisdom_finance_demo',
+    'wisdom_placement_results',
+    'wisdom_last_placement_result'
+  ];
+
+  function backupTimestamp() {
+    return new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+  }
+
+  function backupGetValue(key) {
+    if (typeof WisdomStorage !== 'undefined' && WisdomStorage && typeof WisdomStorage.get === 'function') {
+      const fallback = key === 'wisdom_last_placement_result' ? null : [];
+      return WisdomStorage.get(key, fallback);
+    }
+
+    try {
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : (key === 'wisdom_last_placement_result' ? null : []);
+    } catch (error) {
+      return key === 'wisdom_last_placement_result' ? null : [];
+    }
+  }
+
+  function backupSetValue(key, value) {
+    if (typeof WisdomStorage !== 'undefined' && WisdomStorage && typeof WisdomStorage.set === 'function') {
+      WisdomStorage.set(key, value);
+      return;
+    }
+
+    localStorage.setItem(key, JSON.stringify(value));
+  }
+
+  function buildFullBackup() {
+    const data = {};
+    GLOBAL_BACKUP_KEYS.forEach(key => {
+      data[key] = backupGetValue(key);
+    });
+
+    return {
+      app: 'Wisdom Academy',
+      type: 'full-demo-backup',
+      version: '1.0.0',
+      exportedAt: new Date().toISOString(),
+      exportedBy: currentUser?.email || currentUser?.name || currentUser?.role || 'unknown',
+      keys: data
+    };
+  }
+
+  function downloadJSONFile(filename, payload) {
+    const blob = new Blob([JSON.stringify(payload, null, 2)], {type: 'application/json;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  function exportFullBackup() {
+    if (!isAdmin()) {
+      alert('Solo administración puede exportar el backup global.');
+      return;
+    }
+
+    downloadJSONFile(`wisdom-full-backup-${backupTimestamp()}.json`, buildFullBackup());
+  }
+
+  function normalizeImportedBackup(payload) {
+    if (!payload || typeof payload !== 'object') return null;
+    if (payload.keys && typeof payload.keys === 'object') return payload.keys;
+
+    const legacy = {};
+    GLOBAL_BACKUP_KEYS.forEach(key => {
+      if (Object.prototype.hasOwnProperty.call(payload, key)) legacy[key] = payload[key];
+    });
+
+    return Object.keys(legacy).length ? legacy : null;
+  }
+
+  function importFullBackup(event) {
+    if (!isAdmin()) {
+      alert('Solo administración puede importar el backup global.');
+      if (event && event.target) event.target.value = '';
+      return;
+    }
+
+    const file = event.target.files && event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(loadEvent) {
+      try {
+        const parsed = JSON.parse(loadEvent.target.result);
+        const importedKeys = normalizeImportedBackup(parsed);
+
+        if (!importedKeys) {
+          alert('El archivo no tiene un formato válido de backup Wisdom.');
+          event.target.value = '';
+          return;
+        }
+
+        const availableKeys = GLOBAL_BACKUP_KEYS.filter(key => Object.prototype.hasOwnProperty.call(importedKeys, key));
+        if (!availableKeys.length) {
+          alert('El backup no contiene keys reconocidas para restaurar.');
+          event.target.value = '';
+          return;
+        }
+
+        const ok = confirm(`Vas a importar ${availableKeys.length} categoría(s) del backup. Antes de restaurar se descargará un respaldo automático del estado actual. ¿Deseas continuar?`);
+        if (!ok) {
+          event.target.value = '';
+          return;
+        }
+
+        downloadJSONFile(`wisdom-auto-backup-before-import-${backupTimestamp()}.json`, buildFullBackup());
+
+        availableKeys.forEach(key => {
+          backupSetValue(key, importedKeys[key]);
+        });
+
+        alert('Backup importado correctamente. El dashboard se actualizará ahora.');
+        event.target.value = '';
+        refreshDashboard();
+      } catch (error) {
+        alert('No se pudo importar el archivo. Verifica que sea un JSON válido.');
+        event.target.value = '';
+      }
+    };
+
+    reader.readAsText(file);
+  }
+
+
+  function normalizeDashboardSchedule(schedule = {}) {
+    const base = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeSchedule)
+      ? SchemaRegistry.normalizeSchedule(schedule)
+      : {...schedule};
+
+    const teacherId = base.teacherId || base.teacherCode || '';
+    const teacherName = base.teacherName || base.teacher || getTeacherNameById(teacherId) || 'Profesor por asignar';
+    const studentIds = Array.isArray(base.studentIds)
+      ? base.studentIds.map(String)
+      : [base.studentId || base.studentCode || ''].filter(Boolean).map(String);
+
+    return {
+      ...base,
+      id: base.id || base.scheduleId || base.eventId || '',
+      scheduleId: base.scheduleId || base.id || base.eventId || '',
+      title: base.title || base.name || base.groupName || base.packageCode || 'Clase programada',
+      type: base.type || base.classType || base.source || 'Clase',
+      source: base.source || '',
+      teacherId,
+      teacherCode: base.teacherCode || teacherId,
+      teacherName,
+      teacher: teacherName,
+      studentIds,
+      groupId: base.groupId || base.groupCode || '',
+      packageId: base.packageId || base.privatePackageId || '',
+      date: base.date || base.classDate || base.startDate || '',
+      day: base.day || base.scheduleDay || '',
+      startTime: base.startTime || base.start || base.hour || '',
+      endTime: base.endTime || base.end || '',
+      modality: base.modality || base.mode || 'Presencial',
+      location: base.location || base.classroom || base.room || '',
+      status: base.status || 'active'
+    };
+  }
+
+  function getSchedulesFromService() {
+    if (serviceHas('ScheduleService', 'getUpcoming')) {
+      try {
+        const upcoming = ScheduleService.getUpcoming();
+        if (Array.isArray(upcoming)) return upcoming.map(normalizeDashboardSchedule);
+      } catch (error) {
+        console.warn('ScheduleService.getUpcoming() falló. Usando respaldo local.', error);
+      }
+    }
+
+    if (serviceHas('ScheduleService', 'getAll')) {
+      try {
+        const all = ScheduleService.getAll();
+        if (Array.isArray(all)) return all.map(normalizeDashboardSchedule);
+      } catch (error) {
+        console.warn('ScheduleService.getAll() falló. Usando respaldo local.', error);
+      }
+    }
+
+    return null;
+  }
+
+  function getDashboardSchedulesFallback(groups = [], packages = []) {
+    const schedules = [];
+
+    groups.map(normalizeGroupDashboard).forEach(group => {
+      const scheduleDays = Array.isArray(group.scheduleDays) ? group.scheduleDays : [];
+      const title = `${group.code || group.id || 'Grupo'} · ${group.name || 'Grupo'}`;
+      schedules.push(normalizeDashboardSchedule({
+        id: group.scheduleId || `group-${group.id || group.code || title}`,
+        scheduleId: group.scheduleId || '',
+        title,
+        type: 'Grupo',
+        source: 'Grupo',
+        teacherId: group.teacherId || group.teacherCode || '',
+        teacherName: group.teacher || getTeacherNameById(group.teacherId || group.teacherCode) || '',
+        studentIds: (group.students || []).map(student => student.code || student.studentId || student.id).filter(Boolean),
+        groupId: group.id || group.code || '',
+        date: group.start || '',
+        day: scheduleDays.length ? scheduleDays.join(', ') : (group.schedule || ''),
+        startTime: group.startTime || '',
+        endTime: group.endTime || '',
+        modality: group.modality || 'Presencial',
+        location: group.classroom || group.location || ''
+      }));
+    });
+
+    packages.map(normalizePackage).forEach(pkg => {
+      const sessions = Array.isArray(pkg.sessions) ? pkg.sessions : [];
+      sessions.slice(-3).forEach(session => {
+        schedules.push(normalizeDashboardSchedule({
+          id: session.scheduleId || `private-${pkg.id || pkg.code}-${session.date || ''}-${session.startTime || ''}`,
+          scheduleId: session.scheduleId || '',
+          title: `${pkg.code || pkg.id || 'Paquete'} · ${session.studentName || (pkg.students || []).map(student => student.name).join(' + ') || 'Privada'}`,
+          type: pkg.type || 'Privada',
+          source: 'Privada',
+          teacherId: session.teacherId || pkg.teacherId || pkg.teacherCode || '',
+          teacherName: session.teacher || pkg.teacher || '',
+          studentIds: session.studentCode && session.studentCode !== 'ALL'
+            ? [session.studentCode]
+            : (pkg.students || []).map(student => student.code || student.studentId || student.id).filter(Boolean),
+          packageId: pkg.id || pkg.code || '',
+          date: session.date || '',
+          startTime: session.startTime || session.start || '',
+          endTime: session.endTime || session.end || '',
+          modality: session.modality || pkg.modality || 'Presencial',
+          location: session.location || pkg.location || ''
+        }));
+      });
+    });
+
+    return schedules;
+  }
+
+  function scheduleBelongsToCurrentUser(schedule, students = []) {
+    if (isAdmin()) return true;
+
+    if (isTeacher()) {
+      const teacherId = getEffectiveTeacherId();
+      const teacherName = getEffectiveTeacherName();
+      return (teacherId && (schedule.teacherId === teacherId || schedule.teacherCode === teacherId)) ||
+        (teacherName && (schedule.teacherName === teacherName || schedule.teacher === teacherName)) ||
+        (currentUser.email && schedule.teacherEmail === currentUser.email);
+    }
+
+    if (isStudent()) {
+      const possibleIds = [currentUser.studentId, currentUser.studentCode, currentUser.id, currentUser.code].filter(Boolean).map(String);
+      const studentByEmail = students.find(student => student.email && currentUser.email && student.email.toLowerCase() === currentUser.email.toLowerCase());
+      if (studentByEmail) possibleIds.push(studentByEmail.code, studentByEmail.studentId, studentByEmail.studentCode);
+      const cleanIds = possibleIds.filter(Boolean).map(String);
+      return Array.isArray(schedule.studentIds) && schedule.studentIds.some(id => cleanIds.includes(String(id)));
+    }
+
+    return false;
+  }
+
+  function scheduleSortValue(schedule) {
+    const date = schedule.date || new Date().toISOString().slice(0,10);
+    const time = schedule.startTime || '23:59';
+    const stamp = new Date(`${date}T${time}:00`).getTime();
+    return Number.isNaN(stamp) ? Number.MAX_SAFE_INTEGER : stamp;
+  }
+
+  function renderUpcomingSchedules(students = [], groups = [], packages = []) {
+    const container = document.getElementById('upcomingSchedulesList');
+    if (!container) return;
+
+    const serviceSchedules = getSchedulesFromService();
+    const source = Array.isArray(serviceSchedules) ? serviceSchedules : getDashboardSchedulesFallback(groups, packages);
+    const schedules = source
+      .map(normalizeDashboardSchedule)
+      .filter(schedule => String(schedule.status || 'active').toLowerCase() !== 'deleted')
+      .filter(schedule => scheduleBelongsToCurrentUser(schedule, students))
+      .sort((a,b) => scheduleSortValue(a) - scheduleSortValue(b))
+      .slice(0, 8);
+
+    if (!schedules.length) {
+      container.innerHTML = '<div class="empty">No hay próximas clases registradas en la agenda.</div>';
+      return;
+    }
+
+    container.innerHTML = schedules.map(schedule => `
+      <div class="class-card">
+        <strong>${schedule.title}</strong>
+        <div class="meta">${schedule.type || 'Clase'} · ${schedule.teacherName || schedule.teacher || 'Profesor por asignar'}</div>
+        <small>${schedule.date || schedule.day || 'Fecha por definir'} ${schedule.startTime ? '· ' + schedule.startTime : ''}${schedule.endTime ? ' - ' + schedule.endTime : ''} · ${schedule.modality || 'Modalidad por definir'}</small>
+        ${schedule.location ? `<small>${schedule.location}</small>` : ''}
+      </div>
+    `).join('');
+  }
+
+
   function refreshDashboard() {
     const { students, teachers, groups, packages, requests, results, notifications, evaluations, interventions, messages } = getVisibleData();
 
@@ -2373,6 +3205,7 @@ th{
     renderMetrics(students, teachers, groups, packages);
     renderSummary(students, packages, groups, requests, results);
     renderAcademicControl(students, results, evaluations, interventions);
+    renderUpcomingSchedules(students, groups, packages);
     renderGroups(groups);
     renderPrivatePackages(packages);
     renderAlerts(students, packages, groups, requests, results, notifications, evaluations, interventions, messages);
@@ -2398,5 +3231,20 @@ th{
   refreshDashboard();
 </script>
 
+
+<script>
+/* FASE 13 HARDENING PATCH */
+window.addEventListener('storage', function(){
+  try{
+    if(document.visibilityState === 'visible'){
+      location.reload();
+    }
+  }catch(e){}
+});
+window.addEventListener('error', function(e){
+  console.error('Dashboard Runtime Error:', e.error || e.message);
+});
+</script>
 </body>
+
 </html>

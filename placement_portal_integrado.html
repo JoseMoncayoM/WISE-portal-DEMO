@@ -317,7 +317,11 @@
       .no-print { display:none !important; }
       .report-table th { background:#f2f2f2 !important; }
     }
-  </style>
+  
+/* FASE 16 — Placement reassurance + progress */
+.reassurance-card{background:#eef7ff;border:1px solid #cfe0f1;color:var(--wise-blue-dark);border-radius:18px;padding:14px 16px;font-weight:800;line-height:1.45}.placement-progress-shell{width:100%;height:12px;background:#e5eef3;border-radius:999px;overflow:hidden;margin-top:10px}.placement-progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--wise-teal),var(--wise-blue));border-radius:999px;transition:width .2s ease}.placement-progress-text{color:var(--wise-muted);font-weight:900;font-size:.82rem;margin-top:6px}
+
+</style>
 </head>
 <body>
   <div class="app">
@@ -362,6 +366,9 @@
       <div class="notice">
         Distribución: 5 A1 · 5 A2 · 7 B1 · 8 B2. Si el resultado entra en B1/B2, se agregan 2 preguntas de validación.
       </div>
+      <div class="reassurance-card">
+        Este diagnóstico no afecta la admisión del estudiante. Solo ayuda a ubicar el nivel inicial y orientar la recomendación académica.
+      </div>
       <div class="actions">
         <button class="btn btn--primary" id="startBtn">Start placement</button>
         <button class="btn btn--ghost" id="resetBtn">Reset</button>
@@ -376,6 +383,8 @@
         </div>
         <div class="score-pill" id="progressPill">0 / 25 answered</div>
       </div>
+      <div class="placement-progress-shell" aria-label="Progreso del diagnóstico"><div class="placement-progress-fill" id="uxPlacementProgressFill"></div></div>
+      <div class="placement-progress-text" id="uxPlacementProgressText">Pregunta 0 de 25</div>
       <div id="questionHost"></div>
       <div class="actions">
         <button class="btn btn--secondary" id="prevBtn">Previous</button>
@@ -3519,5 +3528,66 @@ ${weakAreas || "Sin áreas críticas detectadas"}
 }
 
 </script>
+
+<script>
+/* Wisdom Academy FASE 13 Closure Hardening */
+(function(){
+ if(window.__wisdomPhase13Closure) return;
+ window.__wisdomPhase13Closure=true;
+
+ window.addEventListener('error', e=>console.error('FASE13',e.error||e.message));
+ window.addEventListener('unhandledrejection', e=>console.error('FASE13 Promise',e.reason));
+
+ window.addEventListener('storage', function(ev){
+   const watched=[
+     'wisdom_placement_results',
+     'wisdom_last_placement_result',
+     'wisdom_exam_results',
+     'wisdom_assessment_results',
+     'wisdom_students_demo'
+   ];
+   if(watched.includes(ev.key) && document.visibilityState==='visible'){
+      location.reload();
+   }
+ });
+
+ if(window.WisdomStorage && WisdomStorage.get && WisdomStorage.set){
+   try{
+     const placements = WisdomStorage.get('wisdom_placement_results',[]);
+     if(Array.isArray(placements)){
+       const seen=new Map();
+       placements.forEach(p=>{
+         const k=(p.placementId||p.resultId||p.id||JSON.stringify(p)).toString();
+         seen.set(k,p);
+       });
+       WisdomStorage.set('wisdom_placement_results', Array.from(seen.values()));
+     }
+   }catch(e){}
+ }
+})();
+</script>
+
+<script>
+/* FASE 16 — Visual placement progress. Additive only. */
+(function(){
+  function updatePlacementProgress(){
+    const counter=(document.getElementById('questionCounter')?.innerText||'').match(/\d+/);
+    const progressText=document.getElementById('progressPill')?.innerText||'';
+    const answered=(progressText.match(/\d+/)||['0'])[0];
+    const current=Number(counter?counter[0]:answered)||0;
+    const totalMatch=progressText.match(/\/\s*(\d+)/);
+    const total=Number(totalMatch?totalMatch[1]:25)||25;
+    const percent=Math.max(0,Math.min(100,(current/total)*100));
+    const fill=document.getElementById('uxPlacementProgressFill');
+    const label=document.getElementById('uxPlacementProgressText');
+    if(fill) fill.style.width=percent+'%';
+    if(label) label.textContent=`Pregunta ${current || 0} de ${total}`;
+  }
+  ['click','change','input'].forEach(evt=>document.addEventListener(evt,()=>setTimeout(updatePlacementProgress,60),true));
+  window.addEventListener('load',()=>setTimeout(updatePlacementProgress,250));
+})();
+</script>
+
 </body>
+
 </html>

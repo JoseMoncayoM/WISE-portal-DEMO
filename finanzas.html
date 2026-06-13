@@ -35,19 +35,64 @@ table{width:100%;border-collapse:collapse}th{text-align:left;color:var(--gray);f
 .alert{border:1px solid var(--border);border-radius:16px;padding:14px;background:#fbfdff;margin-bottom:10px}.alert strong{display:block;color:var(--primary);margin:6px 0 4px}.alert small{color:var(--gray);line-height:1.35;display:block}.empty{color:var(--gray);padding:14px;border:1px dashed var(--border);border-radius:14px;background:#fbfdff}.userbox{display:flex;align-items:center;gap:10px;background:white;border:1px solid var(--border);border-radius:999px;padding:8px 12px}.userbox small{color:var(--gray)}
 .modal{position:fixed;inset:0;background:rgba(13,43,69,.35);display:none;align-items:center;justify-content:center;padding:20px;z-index:20}.modal.active{display:flex}.modal-box{width:100%;max-width:720px;background:white;border:1px solid var(--border);border-radius:22px;padding:24px;box-shadow:0 20px 50px rgba(13,43,69,.18)}.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
 @media(max-width:1000px){.grid,.metrics{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}}
+
+
+/* FASE 13 — Production Simulation hardening: safe modal scroll and mobile resilience */
+.modal-box{max-height:90vh;overflow:auto}
+.table-wrap,.message-list{overscroll-behavior:contain}
+
+
+/* FASE 16 — Sidebar global ERP */
+.app{min-height:100vh;display:grid;grid-template-columns:260px 1fr}
+.sidebar{background:rgba(255,255,255,.92);border-right:1px solid var(--border);padding:28px 22px;position:sticky;top:0;height:100vh;box-shadow:12px 0 32px rgba(13,43,69,.045);z-index:10}
+.sidebar .logo{display:flex;align-items:center;justify-content:flex-start;margin-bottom:24px;padding:10px 0 18px;border-bottom:1px solid var(--border);font-weight:900;color:var(--primary);letter-spacing:.08em}
+.sidebar .logo img{width:145px;max-width:100%;height:auto;object-fit:contain;display:block}
+.menu-group{margin-bottom:20px}.menu-title{font-size:.72rem;color:var(--gray);font-weight:900;letter-spacing:.12em;margin-bottom:8px;cursor:pointer;display:flex;justify-content:space-between}.menu-items{display:none}.menu-group.active .menu-items{display:block}
+.side-link{display:flex;align-items:center;gap:10px;color:var(--text);text-decoration:none;padding:10px 12px;border-radius:12px;font-weight:800;font-size:.9rem;margin-bottom:6px;border:1px solid transparent;transition:.18s ease}.side-link:hover,.side-link.active{background:var(--soft);border-color:#caeff2;transform:translateX(2px)}.dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(31,182,185,.12)}.role-hidden{display:none!important}
+.sidebar .user-box{margin-top:24px;padding:14px;border-radius:16px;background:linear-gradient(135deg,#f7ffff,var(--soft));border:1px solid var(--border);box-shadow:0 10px 24px rgba(13,43,69,.07)}.sidebar .user-box strong{display:block;color:var(--primary);font-size:.9rem;margin-bottom:4px}.sidebar .user-box small{display:block;color:var(--gray);font-weight:700;line-height:1.35}.logout-btn{width:100%;margin-top:12px;padding:10px 12px;border-radius:999px;border:1px solid var(--border);background:white;color:var(--primary);font-weight:900;cursor:pointer}.logout-btn:hover{background:var(--hover);color:black}
+.main{padding:30px}.main:before{content:attr(data-module-label);display:block;color:var(--gray);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;font-weight:900;margin-bottom:10px}.breadcrumb{display:flex;gap:8px;align-items:center;color:var(--gray);font-size:.82rem;font-weight:900;margin-bottom:12px}.breadcrumb a{color:var(--accent);text-decoration:none}.breadcrumb a:hover{text-decoration:underline}.module-hero{background:linear-gradient(135deg,#123e68,#1f5f93);color:white;border-radius:28px;padding:24px 26px;box-shadow:0 18px 44px rgba(13,43,69,.10);margin-bottom:22px}.module-hero h1{color:white!important;font-size:clamp(2rem,4vw,3rem);letter-spacing:-.04em}.module-hero .sub{color:rgba(255,255,255,.78);font-weight:800}.module-hero .toolbar,.module-hero .actions{margin-top:14px}.module-hero .userbox,.module-hero .user-box{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.22);color:white}.module-hero .userbox small,.module-hero .user-box small{color:rgba(255,255,255,.78)}
+.ux-priority-panel{background:linear-gradient(135deg,#ffffff,#f2fbfc);border:1px solid var(--border);border-radius:24px;padding:20px;margin-bottom:20px;box-shadow:0 10px 24px rgba(13,43,69,.07)}.ux-priority-panel h3{color:var(--primary);margin-bottom:8px}.ux-priority-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}.ux-priority-box{border:1px solid var(--border);border-radius:16px;padding:14px;background:#fbfdff}.ux-priority-box strong{display:block;color:var(--primary);margin-bottom:4px}.ux-priority-box small{color:var(--gray);font-weight:700;line-height:1.35}
+.money-stack{display:grid;gap:4px}.money-stack small{color:var(--gray);font-weight:800}.money-stack .balance-due{color:#b00020;font-weight:900}.money-stack .balance-ok{color:#257a36;font-weight:900}
+@media(max-width:1050px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.main{padding:22px}.ux-priority-grid{grid-template-columns:1fr}}
+@media(max-width:650px){.main{padding:18px}.module-hero{padding:20px;border-radius:22px}}
+
 </style>
 </head>
 <body>
+<div class="app">
+<aside class="sidebar">
+  <div class="logo"><img src="logo.jpg" alt="Wisdom Academy Logo" onerror="this.style.display='none';this.parentElement.append('WISDOM')"></div>
+  <div class="menu-group active"><div class="menu-title">Panel ▾</div><div class="menu-items"><a class="side-link" href="dashboard.html"><span class="dot"></span> Dashboard</a></div></div>
+  <div class="menu-group"><div class="menu-title">Personas ▾</div><div class="menu-items"><a class="side-link" data-roles="admin" href="estudiantes.html"><span class="dot"></span> Estudiantes</a><a class="side-link" data-roles="admin" href="profesores.html"><span class="dot"></span> Profesores</a><a class="side-link" data-roles="admin" href="usuarios.html"><span class="dot"></span> Usuarios</a></div></div>
+  <div class="menu-group"><div class="menu-title">Servicios ▾</div><div class="menu-items"><a class="side-link" data-roles="admin,teacher" href="grupales.html"><span class="dot"></span> Grupales</a><a class="side-link" data-roles="admin,teacher" href="privadas.html"><span class="dot"></span> Privadas / Semi</a></div></div>
+  <div class="menu-group active"><div class="menu-title">Gestión ▾</div><div class="menu-items"><a class="side-link" data-roles="admin,teacher,student" href="calendario.html"><span class="dot"></span> Calendario</a><a class="side-link active" data-roles="admin" href="finanzas.html"><span class="dot"></span> Finanzas</a><a class="side-link" data-roles="admin,teacher,student" href="solicitudes.html"><span class="dot"></span> Solicitudes</a><a class="side-link" data-roles="admin,teacher,student" href="reportes.html"><span class="dot"></span> Reportes</a><a class="side-link" data-roles="admin,teacher" href="mensajes.html"><span class="dot"></span> Mensajes</a></div></div>
+  
+  <div class="menu-group">
+    <div class="menu-title">Diagnóstico ▾</div>
+    <div class="menu-items">
+      <a class="side-link" data-roles="admin,teacher" href="placement_portal_integrado.html"><span class="dot"></span> Placement</a>
+      <a class="side-link" data-roles="admin,teacher" href="diagnostico_resultados.html"><span class="dot"></span> Resultados diagnóstico</a>
+    </div>
+  </div>
+
+<div class="menu-group"><div class="menu-title">Práctica y exámenes ▾</div><div class="menu-items"><a class="side-link" data-roles="admin,teacher,student" href="Grammar_portal.html"><span class="dot"></span> Grammar</a><a class="side-link" data-roles="admin,teacher,student" href="Listening_portal.html"><span class="dot"></span> Listening</a><a class="side-link" data-roles="admin,teacher,student" href="Speaking_portal.html"><span class="dot"></span> Speaking</a><a class="side-link" data-roles="admin,teacher" href="evaluaciones.html"><span class="dot"></span> Evaluaciones</a><a class="side-link" data-roles="admin,teacher,student" href="resultados.html"><span class="dot"></span> Resultados</a></div></div>
+  <div class="user-box"><strong id="sidebarUserName">Usuario</strong><small id="sidebarUserRole">Rol</small><small id="sidebarUserEmail">correo</small><button class="logout-btn" onclick="logout()">Cerrar sesión</button></div>
+</aside>
+<main class="main" data-module-label="Centro de control financiero">
 <div class="wrap">
-  <div class="topbar">
+  <div class="breadcrumb"><a href="dashboard.html">Dashboard</a><span>/</span><strong>Finanzas</strong></div>
+  <div class="topbar module-hero">
     <div>
       <h1>Finanzas</h1>
       <div class="sub">Control de pagos estudiantiles, alertas de renovación/mora y horas dictadas por profesor.</div>
     </div>
     <div class="toolbar">
       <div class="userbox" id="userBox"></div>
-      <button class="btn btn-secondary" onclick="window.location.href='dashboard.html'">Dashboard</button>
       <button class="btn btn-primary admin-only" onclick="openFinanceModal()">Registrar / editar pago</button>
+      <button class="btn btn-secondary admin-only" onclick="exportFinanceJSON()">Exportar JSON</button>
+      <button class="btn btn-secondary admin-only" onclick="exportFinanceCSV()">Exportar CSV</button>
+      <button class="btn btn-secondary admin-only" onclick="document.getElementById('financeImportFile').click()">Importar JSON</button>
+      <input id="financeImportFile" type="file" accept="application/json,.json" style="display:none" onchange="importFinanceJSON(event)">
       <button class="btn btn-secondary" onclick="logout()">Cerrar sesión</button>
     </div>
   </div>
@@ -57,6 +102,13 @@ table{width:100%;border-collapse:collapse}th{text-align:left;color:var(--gray);f
     <div class="metric"><span>Pagado</span><strong id="metricPaid">$0</strong><small>Pagos registrados</small></div>
     <div class="metric"><span>Alertas</span><strong id="metricAlerts">0</strong><small>Financieras activas</small></div>
     <div class="metric"><span>Horas docentes</span><strong id="metricTeacherHours">0</strong><small>Horas dictadas calculadas</small></div>
+  </div>
+
+
+  <div class="ux-priority-panel">
+    <h3>Prioridades financieras</h3>
+    <div class="sub">Lo primero que administración debe resolver: mora, renovación y estudiantes sin registro financiero.</div>
+    <div id="alertsList"></div>
   </div>
 
   <div class="card">
@@ -97,7 +149,7 @@ table{width:100%;border-collapse:collapse}th{text-align:left;color:var(--gray);f
           <table>
             <thead>
               <tr>
-                <th>Estudiante</th><th>Servicio</th><th>Clases / sesiones</th><th>Monto</th><th>Pagado</th><th>Saldo</th><th>Acuerdo</th><th>Estado</th><th class="admin-only">Acción</th>
+                <th>Estudiante</th><th>Servicio</th><th>Avance</th><th>Resumen financiero</th><th>Acuerdo</th><th>Estado</th><th class="admin-only">Acción</th>
               </tr>
             </thead>
             <tbody id="financeTable"></tbody>
@@ -119,10 +171,6 @@ table{width:100%;border-collapse:collapse}th{text-align:left;color:var(--gray);f
 
     <aside>
       <div class="card">
-        <h3>Alertas financieras</h3><br>
-        <div id="alertsList"></div>
-      </div>
-      <div class="card">
         <h3>Reglas actuales</h3><br>
         <div class="alert"><span class="pill warning">Privadas / Semi</span><strong>Pronta renovación desde sesión 17</strong><small>Si el paquete tiene 20 sesiones, la alerta se activa cuando ya van más de 16 sesiones registradas.</small></div>
         <div class="alert"><span class="pill danger">Privadas / Semi</span><strong>Mora por acuerdo de pago</strong><small>Si hay saldo pendiente y se pactó pagar en una sesión específica, el sistema marca mora cuando esa sesión ya fue registrada y el saldo no está pagado.</small></div>
@@ -131,6 +179,8 @@ table{width:100%;border-collapse:collapse}th{text-align:left;color:var(--gray);f
       </div>
     </aside>
   </div>
+</div>
+</main>
 </div>
 
 <div class="modal" id="financeModal">
@@ -153,8 +203,11 @@ table{width:100%;border-collapse:collapse}th{text-align:left;color:var(--gray);f
   </div>
 </div>
 
-<script src="storage.js"></script>
-<script src="schemaRegistry.js"></script>
+<script src="js/core/storage.js"></script>
+<script src="js/core/schemaRegistry.js"></script>
+<script src="js/services/authService.js"></script>
+<script src="js/core/permissions.js"></script>
+<script src="js/services/financeService.js"></script>
 <script>
 const CURRENT_USER_KEY='wisdom_current_user'
 const USERS_KEY='wisdom_users'
@@ -165,9 +218,57 @@ const TEACHERS_KEY='wisdom_teachers_demo'
 const FINANCE_KEY='wisdom_finance_demo'
 const DEFAULT_HOURLY_RATE=20000
 
+const Store = window.WisdomStorage || {
+  get(key,fallback=[]){
+    try{
+      const raw=localStorage.getItem(key)
+      return raw?JSON.parse(raw):fallback
+    }catch(error){return fallback}
+  },
+  set(key,value){localStorage.setItem(key,JSON.stringify(value))},
+  remove(key){localStorage.removeItem(key)}
+}
+
+function normalizeRole(role){
+  const value=String(role||'').trim().toLowerCase()
+  if(['admin','administrador','administrativo'].includes(value))return 'admin'
+  if(['teacher','profesor','docente'].includes(value))return 'teacher'
+  if(['student','estudiante','alumno'].includes(value))return 'student'
+  return value
+}
+
+function getCurrentUserSafe(){
+  let user=null
+  if(typeof AuthService!=='undefined' && AuthService){
+    try{
+      if(typeof AuthService.getCurrentUser==='function') user=AuthService.getCurrentUser()
+      else if(typeof AuthService.currentUser==='function') user=AuthService.currentUser()
+    }catch(error){user=null}
+  }
+  if(!user) user=Store.get(CURRENT_USER_KEY,null)
+  if(user && user.role) user.role=normalizeRole(user.role||user.userRole||user.type||user.profile)
+  return user
+}
+
+function isAuthenticatedSafe(){
+  if(typeof AuthService!=='undefined' && AuthService && typeof AuthService.isAuthenticated==='function'){
+    try{return Boolean(AuthService.isAuthenticated())}catch(error){}
+  }
+  return Boolean(currentUser && currentUser.role)
+}
+
+function permissionSafe(method,role){
+  if(typeof WisdomPermissions!=='undefined' && WisdomPermissions && typeof WisdomPermissions[method]==='function'){
+    try{return Boolean(WisdomPermissions[method](currentUser))}catch(error){
+      try{return Boolean(WisdomPermissions[method]())}catch(innerError){}
+    }
+  }
+  return currentUser && normalizeRole(currentUser.role)===role
+}
+
 function safeParse(value,fallback=[]){try{return value?JSON.parse(value):fallback}catch(e){return fallback}}
-function load(key){return WisdomStorage.get(key,[])}
-function save(key,value){WisdomStorage.set(key,value)}
+function load(key){return Store.get(key,[])}
+function save(key,value){Store.set(key,value)}
 function money(value){return new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:0}).format(Number(value)||0)}
 function num(value){return Number(value)||0}
 function normalizeService(value){
@@ -212,15 +313,28 @@ function normalizeFinanceRecord(record={}){
 }
 
 const users=load(USERS_KEY)
-const currentUser=WisdomStorage.get(CURRENT_USER_KEY,null)
-if(!users.length || !currentUser){window.location.href='login.html'}
+const currentUser=getCurrentUserSafe()
+if(!isAuthenticatedSafe()){window.location.href='login.html'}
 
-function logout(){WisdomStorage.remove(CURRENT_USER_KEY);window.location.href='login.html'}
-function isAdmin(){return currentUser && currentUser.role==='admin'}
+function logout(){
+  if(typeof AuthService!=='undefined' && AuthService && typeof AuthService.logout==='function'){
+    try{AuthService.logout()}catch(error){Store.remove(CURRENT_USER_KEY)}
+  }else{
+    Store.remove(CURRENT_USER_KEY)
+  }
+  window.location.href='login.html'
+}
+function isAdmin(){return permissionSafe('isAdmin','admin')}
+function ensureAdminFinanceAccess(action='realizar esta acción financiera'){
+  if(isAdmin()) return true
+  alert(`No autorizado: solo administración puede ${action}.`)
+  return false
+}
 function renderUser(){
   const box=document.getElementById('userBox')
   box.innerHTML=`<strong>${currentUser.name||'Usuario'}</strong><small>${currentUser.role||''}</small>`
   if(!isAdmin()){
+    document.getElementById('financeModal')?.classList.remove('active')
     document.querySelectorAll('.admin-only').forEach(el=>el.style.display='none')
     document.querySelectorAll('.metric')[0].querySelector('span').textContent='Por cobrar'
     document.querySelectorAll('.metric')[1].querySelector('span').textContent='Pagado'
@@ -413,7 +527,7 @@ function renderFinanceTable(){
   const tbody=document.getElementById('financeTable')
   const students=visibleStudents()
   tbody.innerHTML=''
-  if(!students.length){tbody.innerHTML='<tr><td colspan="9">No hay estudiantes para mostrar.</td></tr>';return}
+  if(!students.length){tbody.innerHTML='<tr><td colspan="7">No hay estudiantes para mostrar.</td></tr>';return}
   students.forEach(student=>{
     const finance=financeForStudent(student)
     const progress=studentProgress(student)
@@ -424,9 +538,7 @@ function renderFinanceTable(){
       <td><strong>${student.name}</strong><br><small>${student.code}</small></td>
       <td>${normalizeService(student.service)}<br><small>${progress.groupOrPackage}</small></td>
       <td>${progress.current} / ${progress.total} ${progress.label}<br><small>${isPrivateService(student)?progress.hours+' horas dictadas':''}</small></td>
-      <td>${isAdmin()?money(due):'—'}</td>
-      <td>${isAdmin()?money(paid):'—'}</td>
-      <td>${isAdmin()?money(balance):'—'}</td>
+      <td>${isAdmin()?`<div class="money-stack"><small>Pactado: ${money(due)}</small><small>Pagado: ${money(paid)}</small><span class="${balance>0?'balance-due':'balance-ok'}">Saldo: ${money(balance)}</span></div>`:'—'}</td>
       <td>${finance?.paymentDueSession ? 'Saldo pactado sesión '+finance.paymentDueSession : '-'}</td>
       <td><span class="pill ${statusClass(st)}">${st}</span></td>
       <td class="admin-only"><button class="btn btn-secondary" onclick="openFinanceModal('${student.code}')">Editar</button></td>
@@ -521,7 +633,7 @@ function renderMetrics(){
   document.getElementById('metricTeacherHours').textContent=hours.toFixed(1)
 }
 function openFinanceModal(studentCode=''){
-  if(!isAdmin()) return
+  if(!ensureAdminFinanceAccess('registrar o editar pagos')) return
   const select=document.getElementById('financeStudent')
   const students=getStudents()
   select.innerHTML=''
@@ -536,6 +648,7 @@ function openFinanceModal(studentCode=''){
   document.getElementById('financeModal').classList.add('active')
 }
 function loadFinanceIntoForm(code){
+  if(!isAdmin()) return
   const f=getFinance().find(item=>item.studentCode===code)||{}
   document.getElementById('amountDue').value=f.amountDue||''
   document.getElementById('amountPaid').value=f.amountPaid||''
@@ -546,6 +659,7 @@ function loadFinanceIntoForm(code){
 }
 function closeFinanceModal(){document.getElementById('financeModal').classList.remove('active')}
 function saveFinanceRecord(){
+  if(!ensureAdminFinanceAccess('guardar registros financieros')) return
   const code=document.getElementById('financeStudent').value
   const student=getStudents().find(s=>s.code===code)
   if(!student){alert('Selecciona un estudiante válido.');return}
@@ -614,8 +728,308 @@ function saveFinanceRecord(){
   closeFinanceModal()
   renderAll()
 }
-function renderAll(){renderUser();renderFinanceTable();renderAlerts();renderPayroll();renderMetrics()}
+
+function backupTimestamp(){
+  return new Date().toISOString().replace(/[:.]/g,'-')
+}
+function downloadTextFile(filename,content,mimeType='application/json'){
+  const blob=new Blob([content],{type:mimeType+';charset=utf-8'})
+  const url=URL.createObjectURL(blob)
+  const link=document.createElement('a')
+  link.href=url
+  link.download=filename
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  URL.revokeObjectURL(url)
+}
+function csvEscape(value){
+  const text=String(value??'')
+  if(/[",\n\r;]/.test(text)) return '"'+text.replace(/"/g,'""')+'"'
+  return text
+}
+function exportFinanceJSON(){
+  if(!ensureAdminFinanceAccess('exportar información financiera'))return
+  const payload={
+    exportedAt:new Date().toISOString(),
+    source:'Wisdom Academy',
+    key:FINANCE_KEY,
+    version:'finance-backup-v1',
+    records:getFinance()
+  }
+  downloadTextFile(`wisdom-finance-backup-${new Date().toISOString().slice(0,10)}.json`,JSON.stringify(payload,null,2),'application/json')
+}
+function financeCSVRows(){
+  const students=getStudents()
+  return getFinance().map(record=>{
+    const student=students.find(item=>item.code===record.studentCode || item.studentId===record.studentCode) || {}
+    const progress=student.code?studentProgress(student):{current:'',total:'',label:'',groupOrPackage:record.groupOrPackage||'',teacher:record.teacher||'',teacherId:record.teacherId||''}
+    const status=student.code?computedStatus(student,record,progress):(record.manualStatus&&record.manualStatus!=='auto'?record.manualStatus:'')
+    const amountDue=num(record.amountDue)
+    const amountPaid=num(record.amountPaid)
+    return {
+      studentCode:record.studentCode||'',
+      studentName:record.studentName||student.name||'',
+      service:normalizeService(record.service||student.service),
+      groupOrPackage:record.groupOrPackage||progress.groupOrPackage||'',
+      teacher:record.teacher||progress.teacher||'',
+      teacherId:record.teacherId||record.teacherCode||progress.teacherId||'',
+      amountDue,
+      amountPaid,
+      balance:Math.max(0,amountDue-amountPaid),
+      status,
+      dueDate:record.dueDate||'',
+      paymentDueSession:record.paymentDueSession||'',
+      manualStatus:record.manualStatus||'auto',
+      notes:record.notes||'',
+      createdAt:record.createdAt||'',
+      updatedAt:record.updatedAt||''
+    }
+  })
+}
+function exportFinanceCSV(){
+  if(!ensureAdminFinanceAccess('exportar información financiera'))return
+  const headers=[
+    'studentCode','studentName','service','groupOrPackage','teacher','teacherId',
+    'amountDue','amountPaid','balance','status','dueDate','paymentDueSession','manualStatus','notes','createdAt','updatedAt'
+  ]
+  const rows=financeCSVRows()
+  const csv=[headers.join(',')].concat(rows.map(row=>headers.map(header=>csvEscape(row[header])).join(','))).join('\n')
+  downloadTextFile(`wisdom-finance-${new Date().toISOString().slice(0,10)}.csv`,csv,'text/csv')
+}
+function extractFinanceRecordsFromImport(parsed){
+  if(Array.isArray(parsed))return parsed
+  if(parsed && Array.isArray(parsed.records))return parsed.records
+  if(parsed && Array.isArray(parsed.finance))return parsed.finance
+  if(parsed && Array.isArray(parsed.data))return parsed.data
+  return null
+}
+function importFinanceJSON(event){
+  if(!ensureAdminFinanceAccess('importar información financiera')){
+    if(event && event.target) event.target.value=''
+    return
+  }
+  const input=event.target
+  const file=input.files&&input.files[0]
+  if(!file)return
+  const reader=new FileReader()
+  reader.onload=function(){
+    try{
+      const parsed=JSON.parse(reader.result)
+      const records=extractFinanceRecordsFromImport(parsed)
+      if(!Array.isArray(records)){
+        alert('El archivo no contiene registros financieros válidos.')
+        input.value=''
+        return
+      }
+      const current=getFinance()
+      const backupPayload={
+        exportedAt:new Date().toISOString(),
+        source:'Wisdom Academy',
+        key:FINANCE_KEY,
+        version:'finance-auto-backup-before-import-v1',
+        records:current
+      }
+      downloadTextFile(`wisdom-finance-auto-backup-before-import-${backupTimestamp()}.json`,JSON.stringify(backupPayload,null,2),'application/json')
+      const ok=confirm(`Se importarán ${records.length} registro(s) financieros y se reemplazará la información financiera actual. Ya se descargó un backup automático. ¿Deseas continuar?`)
+      if(!ok){input.value='';return}
+      setFinance(records)
+      input.value=''
+      renderAll()
+      alert('Finanzas importadas correctamente.')
+    }catch(error){
+      alert('No se pudo importar el archivo JSON. Revisa que sea un backup válido.')
+      input.value=''
+    }
+  }
+  reader.readAsText(file)
+}
+
+function renderAll(){renderUser();renderGlobalSidebarFinance();renderFinanceTable();renderAlerts();renderPayroll();renderMetrics()}
+
+function renderGlobalSidebarFinance(){
+  const name=currentUser?.name||currentUser?.email||'Usuario';
+  const role=currentUser?.role||'';
+  const email=currentUser?.email||'';
+  const n=document.getElementById('sidebarUserName'), r=document.getElementById('sidebarUserRole'), e=document.getElementById('sidebarUserEmail');
+  if(n)n.textContent=name;
+  if(r)r.textContent=role;
+  if(e)e.textContent=email;
+  document.querySelectorAll('.menu-title').forEach(title=>{
+    if(title.dataset.bound==='1')return;
+    title.dataset.bound='1';
+    title.addEventListener('click',()=>title.parentElement.classList.toggle('active'));
+  });
+  document.querySelectorAll('[data-roles]').forEach(el=>{
+    const allowed=String(el.dataset.roles||'').split(',').map(x=>x.trim()).filter(Boolean);
+    if(allowed.length && !allowed.includes(role))el.classList.add('role-hidden');
+  });
+}
+
 renderAll()
 </script>
+
+<script>
+/* Wisdom Academy — FASE 13 Domain Hardening Patch */
+(function(){
+  'use strict';
+  if(window.__wisdomPhase13HardeningApplied) return;
+  window.__wisdomPhase13HardeningApplied = true;
+
+  const PHASE13_VERSION = '13.0.0';
+  const MODULE_NAME = document.title || location.pathname.split('/').pop() || 'Wisdom Module';
+
+  function phase13Log(level, message, detail){
+    try{
+      const payload = {module: MODULE_NAME, phase: 'FASE 13', version: PHASE13_VERSION, message, detail: detail || '', at: new Date().toISOString()};
+      if(level === 'error') console.error('[Wisdom Phase13]', payload);
+      else if(level === 'warn') console.warn('[Wisdom Phase13]', payload);
+      else console.info('[Wisdom Phase13]', payload);
+    }catch(error){}
+  }
+
+  function readJSON(key, fallback){
+    try{
+      if(window.WisdomStorage && typeof WisdomStorage.get === 'function'){
+        const value = WisdomStorage.get(key, fallback);
+        return value === undefined || value === null ? fallback : value;
+      }
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
+    }catch(error){
+      phase13Log('warn', 'No se pudo leer storage de forma segura.', {key, error:String(error)});
+      return fallback;
+    }
+  }
+
+  function writeJSON(key, value){
+    try{
+      if(window.WisdomStorage && typeof WisdomStorage.set === 'function'){
+        WisdomStorage.set(key, value);
+      }else{
+        localStorage.setItem(key, JSON.stringify(value));
+      }
+      return true;
+    }catch(error){
+      phase13Log('error', 'No se pudo guardar storage de forma segura.', {key, error:String(error)});
+      return false;
+    }
+  }
+
+  function stableKey(item, fields){
+    const source = item || {};
+    const values = fields.map(field => String(source[field] || '').trim().toLowerCase()).filter(Boolean);
+    return values.length ? values.join('::') : '';
+  }
+
+  function dedupeArray(items, fields){
+    const seen = new Set();
+    return (Array.isArray(items) ? items : []).filter(item => {
+      const direct = String((item && (item.id || item.requestId || item.messageId || item.financeId || item.code)) || '').trim();
+      const key = direct || stableKey(item, fields);
+      if(!key) return true;
+      if(seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
+  window.WisdomPhase13 = Object.assign(window.WisdomPhase13 || {}, {
+    version: PHASE13_VERSION,
+    log: phase13Log,
+    readJSON,
+    writeJSON,
+    dedupeArray,
+    normalizeNumber(value, fallback){
+      const n = Number(value);
+      return Number.isFinite(n) ? n : (fallback || 0);
+    },
+    clamp(value, min, max){
+      const n = Number(value);
+      if(!Number.isFinite(n)) return min;
+      return Math.min(max, Math.max(min, n));
+    }
+  });
+
+  window.addEventListener('error', function(event){
+    phase13Log('error', 'Error runtime capturado.', {message:event.message, file:event.filename, line:event.lineno});
+  });
+
+  window.addEventListener('unhandledrejection', function(event){
+    phase13Log('error', 'Promesa rechazada capturada.', {reason:String(event.reason || '')});
+  });
+
+  window.addEventListener('storage', function(event){
+    const watched = ['wisdom_finance_demo','wisdom_requests_demo','wisdom_messages','wisdom_students_demo','wisdom_groups_demo','wisdom_private_demo','wisdom_schedules_demo'];
+    if(!event || !watched.includes(event.key)) return;
+    if(document.visibilityState !== 'visible') return;
+    try{
+      if(typeof renderAll === 'function') renderAll();
+      else if(typeof renderRequests === 'function') renderRequests();
+      else if(typeof renderMessages === 'function') renderMessages();
+    }catch(error){
+      phase13Log('warn', 'No se pudo refrescar la vista tras cambio de storage.', String(error));
+    }
+  });
+})();
+</script>
+
+<script>
+/* FASE 13 — Finanzas: integrity guards */
+(function(){
+  'use strict';
+  function moneyNum(value){
+    const n = Number(value);
+    return Number.isFinite(n) ? n : 0;
+  }
+  function sanitizeFinanceRecords(records){
+    const seen = new Map();
+    (Array.isArray(records) ? records : []).forEach(record => {
+      if(!record) return;
+      const studentCode = String(record.studentCode || record.studentId || '').trim();
+      if(!studentCode) return;
+      const amountDue = Math.max(0, moneyNum(record.amountDue));
+      const amountPaid = Math.min(amountDue, Math.max(0, moneyNum(record.amountPaid)));
+      const paymentDueSession = record.paymentDueSession === null || record.paymentDueSession === undefined || record.paymentDueSession === ''
+        ? null
+        : Math.min(10, Math.max(1, moneyNum(record.paymentDueSession)));
+      const service = String(record.service || '').trim() || 'Sin servicio';
+      const key = studentCode + '::' + service + '::' + String(record.groupOrPackage || record.group || record.packageCode || '').trim();
+      const clean = Object.assign({}, record, {
+        id: record.id || ('FIN-' + studentCode),
+        studentCode,
+        studentId: record.studentId || studentCode,
+        service,
+        amountDue,
+        amountPaid,
+        paymentDueSession,
+        updatedAt: record.updatedAt || new Date().toISOString(),
+        createdAt: record.createdAt || new Date().toISOString()
+      });
+      seen.set(key, Object.assign(seen.get(key) || {}, clean));
+    });
+    return Array.from(seen.values());
+  }
+  const originalSetFinance = window.setFinance;
+  if(typeof originalSetFinance === 'function'){
+    window.setFinance = function(items){
+      return originalSetFinance.call(this, sanitizeFinanceRecords(items));
+    };
+  }
+  const originalSaveFinanceRecord = window.saveFinanceRecord;
+  if(typeof originalSaveFinanceRecord === 'function'){
+    window.saveFinanceRecord = function(){
+      const due = document.getElementById('amountDue');
+      const paid = document.getElementById('amountPaid');
+      const session = document.getElementById('paymentDueSession');
+      if(due) due.value = Math.max(0, moneyNum(due.value));
+      if(paid) paid.value = Math.min(moneyNum(due && due.value), Math.max(0, moneyNum(paid.value)));
+      if(session && session.value !== '') session.value = Math.min(10, Math.max(1, moneyNum(session.value)));
+      return originalSaveFinanceRecord.apply(this, arguments);
+    };
+  }
+})();
+</script>
+
 </body>
 </html>

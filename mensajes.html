@@ -401,6 +401,16 @@ h1{
   text-transform:uppercase;
 }
 
+
+
+/* FASE 13 — Production Simulation hardening: safe modal scroll and mobile resilience */
+.modal-box{max-height:90vh;overflow:auto}
+.table-wrap,.message-list{overscroll-behavior:contain}
+
+
+.breadcrumb{display:flex;gap:8px;align-items:center;color:var(--gray);font-size:.82rem;font-weight:900;margin-bottom:12px}.breadcrumb a{color:var(--accent);text-decoration:none}.breadcrumb a:hover{text-decoration:underline}
+.quick-lanes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}.lane-card{border:1px solid var(--border);border-radius:20px;padding:16px;background:white;box-shadow:0 10px 24px rgba(13,43,69,.05);cursor:pointer}.lane-card:hover{border-color:#bfecef;background:#f8ffff}.lane-card strong{display:block;color:#123e68;margin-bottom:4px}.lane-card small{color:var(--gray);font-weight:800}.ops-details summary{cursor:pointer;font-weight:900;color:var(--primary)}
+@media(max-width:900px){.quick-lanes{grid-template-columns:1fr}}
 </style>
 </head>
 
@@ -445,7 +455,16 @@ h1{
     </div>
   </div>
 
+  
   <div class="menu-group">
+    <div class="menu-title">Diagnóstico ▾</div>
+    <div class="menu-items">
+      <a class="side-link" data-roles="admin,teacher" href="placement_portal_integrado.html"><span class="dot"></span> Placement</a>
+      <a class="side-link" data-roles="admin,teacher" href="diagnostico_resultados.html"><span class="dot"></span> Resultados diagnóstico</a>
+    </div>
+  </div>
+
+<div class="menu-group">
     <div class="menu-title">Práctica y exámenes ▾</div>
     <div class="menu-items">
       <a class="side-link" href="Grammar_portal.html"><span class="dot"></span> Grammar</a>
@@ -465,6 +484,7 @@ h1{
 </aside>
 
 <main class="main">
+  <div class="breadcrumb"><a href="dashboard.html">Dashboard</a><span>/</span><strong>Mensajes</strong></div>
 
   <div class="topbar">
     <div>
@@ -472,13 +492,17 @@ h1{
       <div class="sub">Inbox para recibir, clasificar y gestionar mensajes entrantes desde WhatsApp. <span class="mode-badge" id="dataModeBadge">Modo local</span></div>
     </div>
     <div class="actions">
-      <button class="btn btn-secondary" onclick="window.location.href='dashboard.html'">Dashboard</button>
       <button class="btn btn-primary" data-roles="admin,teacher" onclick="openMessageModal()">Simular mensaje recibido</button>
+      <button class="btn btn-secondary" data-roles="admin" onclick="exportMessagesJSON()">Exportar JSON</button>
+      <button class="btn btn-secondary" data-roles="admin" onclick="exportMessagesCSV()">Exportar CSV</button>
+      <button class="btn btn-secondary" data-roles="admin" onclick="exportConvertedMessagesCSV()">Exportar solicitudes CSV</button>
+      <button class="btn btn-secondary" data-roles="admin" onclick="document.getElementById('importMessagesFile').click()">Importar JSON</button>
+      <input id="importMessagesFile" type="file" accept="application/json,.json" style="display:none" onchange="importMessagesJSON(event)">
     </div>
   </div>
 
   <div class="notice">
-    Modo prototipo migrable: la interfaz ya usa <strong>messagesService</strong>. Ahora trabaja con localStorage; cuando el portal esté online, solo cambia <strong>DATA_MODE</strong> a <strong>remote</strong> y conecta Supabase/Firebase/webhook.
+    Modo prototipo: aquí puedes clasificar mensajes, convertirlos en solicitudes y dar seguimiento administrativo antes de conectar WhatsApp en producción.
   </div>
 
   <section class="metrics">
@@ -486,6 +510,12 @@ h1{
     <div class="metric"><span>Nuevos</span><strong id="newMessages">0</strong><small>Sin leer</small></div>
     <div class="metric"><span>Seguimiento</span><strong id="followMessages">0</strong><small>Requieren acción</small></div>
     <div class="metric"><span>Solicitudes</span><strong id="requestMessages">0</strong><small>Convertidos</small></div>
+  </section>
+
+  <section class="quick-lanes">
+    <div class="lane-card" onclick="setMessageLane('new')"><strong>Nuevos</strong><small>Mensajes sin leer que requieren primera respuesta.</small></div>
+    <div class="lane-card" onclick="setMessageLane('follow_up')"><strong>Seguimiento</strong><small>Conversaciones que necesitan acción operativa.</small></div>
+    <div class="lane-card" onclick="setMessageLane('converted_request')"><strong>Convertidos</strong><small>Mensajes ya transformados en solicitud.</small></div>
   </section>
 
   <section class="panel">
@@ -531,12 +561,14 @@ h1{
     </div>
   </section>
 
-  <section class="panel">
-    <h2>Cómo funcionará en línea</h2>
-    <div class="notice" style="margin-bottom:0">
-      Estudiante escribe a WhatsApp → WhatsApp Business API envía el mensaje a un webhook →
-      backend guarda el mensaje → el portal lo muestra aquí.
-    </div>
+  <section class="panel ops-details">
+    <details>
+      <summary>¿Cómo funciona la conexión WhatsApp?</summary>
+      <div class="notice" style="margin:14px 0 0">
+        Estudiante escribe a WhatsApp → WhatsApp Business API envía el mensaje a un webhook →
+        backend guarda el mensaje → el portal lo muestra aquí.
+      </div>
+    </details>
   </section>
 
   <section class="panel">
@@ -594,15 +626,139 @@ h1{
   </div>
 </div>
 
-<script src="storage.js"></script>
-<script src="schemaRegistry.js"></script>
+<script src="js/core/storage.js"></script>
+<script src="js/core/schemaRegistry.js"></script>
+<script src="js/services/authService.js"></script>
+<script src="js/core/permissions.js"></script>
+<script src="js/services/scheduleService.js"></script>
 <script>
 const CURRENT_USER_KEY='wisdom_current_user';
 const STUDENTS_KEY='wisdom_students_demo';
 const MESSAGES_KEY='wisdom_messages';
 const REQUESTS_KEY='wisdom_requests_demo';
 
-const WisdomStorage = window.WisdomStorage || {
+function hasScheduleServiceMethod(methodName){
+  return typeof ScheduleService !== 'undefined' &&
+    ScheduleService &&
+    typeof ScheduleService[methodName] === 'function';
+}
+
+function callScheduleService(methodName,...args){
+  if(!hasScheduleServiceMethod(methodName)) return null;
+  try{
+    return ScheduleService[methodName](...args);
+  }catch(error){
+    console.warn(`ScheduleService.${methodName} falló. Se conserva flujo local de mensajes.`,error);
+    return null;
+  }
+}
+
+function scheduleKeywordsFromText(text=''){
+  return String(text||'')
+    .trim()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g,'');
+}
+
+function inferMessageType(selectedType,text){
+  if(selectedType && selectedType !== 'general') return selectedType;
+
+  const value=scheduleKeywordsFromText(text);
+  const scheduleKeywords=[
+    'horario','reprogramar','reprogramacion','cambio de horario','cambiar horario',
+    'cambiar clase','mover clase','mover la clase','no puedo asistir','no podre asistir',
+    'cancelar clase','aplazar clase','agendar','agenda','disponibilidad','otra hora',
+    'otro dia','cambiar la clase','reponer clase'
+  ];
+
+  if(scheduleKeywords.some(keyword=>value.includes(keyword))) return 'schedule';
+  if(value.includes('certificado') || value.includes('constancia')) return 'certificate';
+  if(value.includes('pago') || value.includes('mensualidad') || value.includes('factura')) return 'payment';
+  if(value.includes('tarea') || value.includes('examen') || value.includes('evaluacion')) return 'academic';
+
+  return selectedType || 'general';
+}
+
+function scheduleRequestTypeFromMessage(message){
+  if(message.type === 'schedule') return 'Cambio de horario';
+  if(message.type === 'certificate') return 'Certificado de estudio';
+  return 'Solicitud por WhatsApp';
+}
+
+function getStudentSchedules(studentId){
+  if(!studentId) return [];
+  const direct=callScheduleService('getByStudent',studentId);
+  if(Array.isArray(direct)) return direct;
+
+  const all=callScheduleService('getAll');
+  if(!Array.isArray(all)) return [];
+  return all.filter(item=>{
+    const ids=Array.isArray(item.studentIds)?item.studentIds.map(String):[];
+    return ids.includes(String(studentId)) ||
+      String(item.studentId||item.studentCode||'')===String(studentId);
+  });
+}
+
+function getPrimaryScheduleForStudent(studentId){
+  const schedules=getStudentSchedules(studentId);
+  return schedules[0] || null;
+}
+
+function scheduleTraceFromMessage(message){
+  const schedule=getPrimaryScheduleForStudent(message.studentId || message.studentCode || '');
+  return {
+    scheduleId:schedule?.id || schedule?.scheduleId || '',
+    affectedEntityId:schedule?.groupId || schedule?.packageId || schedule?.privatePackageId || schedule?.entityId || '',
+    affectedEntityType:schedule?.groupId ? 'group' : (schedule?.packageId || schedule?.privatePackageId ? 'private_package' : '')
+  };
+}
+
+function availabilitySummaryForMessage(message){
+  if(!message || message.type !== 'schedule') return '';
+
+  const studentSchedules=getStudentSchedules(message.studentId || message.studentCode || '');
+  const teacherId=message.teacherId || message.teacherCode || studentSchedules[0]?.teacherId || studentSchedules[0]?.teacherCode || '';
+  if(!teacherId) return '';
+
+  let availability=[];
+  const byTeacher=callScheduleService('getTeacherAvailability',teacherId);
+  if(Array.isArray(byTeacher)) availability=byTeacher;
+  if(!availability.length){
+    const allAvailability=callScheduleService('getAvailability');
+    if(Array.isArray(allAvailability)){
+      availability=allAvailability.filter(item=>String(item.teacherId||item.teacherCode||'')===String(teacherId));
+    }
+  }
+
+  const scheduleLines=studentSchedules.slice(0,3).map(item=>{
+    const label=item.title || item.name || item.code || item.id || 'Horario registrado';
+    const day=item.day || (Array.isArray(item.days)?item.days.join(', '):'');
+    const start=item.startTime || item.start || '';
+    const end=item.endTime || item.end || '';
+    return `${label}${day?' · '+day:''}${start?' · '+start+(end?'–'+end:''):''}`;
+  });
+
+  const availabilityLines=availability.slice(0,3).map(item=>{
+    const day=item.day || item.scheduleDay || '';
+    const start=item.start || item.startTime || '';
+    const end=item.end || item.endTime || '';
+    const modality=item.modality || '';
+    return `${day}${start?' · '+start+(end?'–'+end:''):''}${modality?' · '+modality:''}`;
+  });
+
+  if(!scheduleLines.length && !availabilityLines.length) return '';
+
+  return `
+    <div class="notice">
+      <strong>Agenda relacionada:</strong><br>
+      ${scheduleLines.length?`Horario actual: ${scheduleLines.join(' | ')}<br>`:''}
+      ${availabilityLines.length?`Disponibilidad docente: ${availabilityLines.join(' | ')}`:'No hay disponibilidad docente registrada para este profesor.'}
+    </div>
+  `;
+}
+
+const Store = window.WisdomStorage || {
   get(key, fallback=null){
     try{
       const raw = localStorage.getItem(key);
@@ -626,9 +782,41 @@ const WisdomStorage = window.WisdomStorage || {
   }
 };
 
-const currentUser=WisdomStorage.get(CURRENT_USER_KEY,null);
-if(!currentUser||!currentUser.role){window.location.href='login.html'}
+const Auth = (typeof AuthService !== 'undefined' && AuthService) ? AuthService : null;
+const currentUser = (Auth && typeof Auth.getCurrentUser === 'function')
+  ? Auth.getCurrentUser()
+  : Store.get(CURRENT_USER_KEY,null);
 
+if(!currentUser || !currentUser.role){
+  window.location.href='login.html';
+}
+
+
+
+const Permissions = (typeof WisdomPermissions !== 'undefined' && WisdomPermissions) ? WisdomPermissions : null;
+function currentRole(){return String(currentUser.role||'').trim().toLowerCase();}
+function isAdmin(){return Permissions && typeof Permissions.isAdmin==='function' ? Permissions.isAdmin() : currentRole()==='admin';}
+function isTeacher(){return Permissions && typeof Permissions.isTeacher==='function' ? Permissions.isTeacher() : currentRole()==='teacher';}
+function isStudent(){return Permissions && typeof Permissions.isStudent==='function' ? Permissions.isStudent() : currentRole()==='student';}
+function canManageMessages(){return isAdmin() || isTeacher();}
+function ensureCanManageMessages(action='gestionar mensajes'){
+  if(canManageMessages()) return true;
+  alert(`No autorizado para ${action}.`);
+  return false;
+}
+function ensureMessageVisible(message,action='gestionar este mensaje'){
+  if(message && messageVisible(message)) return true;
+  alert(`No autorizado para ${action}.`);
+  return false;
+}
+function escapeHtml(value){
+  return String(value ?? '')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#039;');
+}
 
 /*
   DATA_MODE controla la fuente de datos.
@@ -639,12 +827,161 @@ if(!currentUser||!currentUser.role){window.location.href='login.html'}
 const DATA_MODE='local';
 
 function safeParse(key){
-  const data = WisdomStorage.get(key, []);
+  const data = Store.get(key, []);
   return Array.isArray(data) ? data : [];
 }
 
 function saveArray(key,data){
-  WisdomStorage.set(key, Array.isArray(data) ? data : []);
+  Store.set(key, Array.isArray(data) ? data : []);
+}
+
+
+function backupTimestamp(){
+  return new Date().toISOString().replace(/[:.]/g,'-');
+}
+
+function downloadTextFile(filename, content, mimeType='application/json'){
+  const blob = new Blob([content], {type:mimeType});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
+function csvEscape(value){
+  const text = String(value ?? '');
+  return '"' + text.replace(/"/g,'""') + '"';
+}
+
+function rowsToCSV(headers, rows){
+  const lines = [];
+  lines.push(headers.map(csvEscape).join(','));
+  rows.forEach(row=>{
+    lines.push(headers.map(header=>csvEscape(row[header])).join(','));
+  });
+  return lines.join('\n');
+}
+
+async function getAllMessagesForBackup(){
+  const messages = await messagesService.list();
+  return dedupeMessages(messages);
+}
+
+async function exportMessagesJSON(){
+  if(!isAdmin()){
+    alert('Solo administración puede exportar mensajes.');
+    return;
+  }
+  const messages = await getAllMessagesForBackup();
+  const payload = {
+    app:'Wisdom Academy',
+    module:'messages',
+    key:MESSAGES_KEY,
+    exportedAt:new Date().toISOString(),
+    exportedBy:currentUser.email || currentUser.name || currentUser.role || 'admin',
+    count:messages.length,
+    data:messages
+  };
+  downloadTextFile(`wisdom-messages-backup-${backupTimestamp()}.json`, JSON.stringify(payload,null,2));
+}
+
+async function exportMessagesCSV(){
+  if(!isAdmin()){
+    alert('Solo administración puede exportar mensajes.');
+    return;
+  }
+  const messages = await getAllMessagesForBackup();
+  const headers = ['Message ID','Student ID','Student Name','Phone','Type','Status','Linked Request','Created At','Updated At','Message','Internal Note'];
+  const rows = messages.map(message=>({
+    'Message ID':message.id || '',
+    'Student ID':message.studentId || message.studentCode || '',
+    'Student Name':message.studentName || '',
+    'Phone':message.phone || '',
+    'Type':typeLabel(message.type),
+    'Status':statusInfo(message.status)[0],
+    'Linked Request':message.linkedRequestId || '',
+    'Created At':message.createdAt || '',
+    'Updated At':message.updatedAt || '',
+    'Message':message.text || '',
+    'Internal Note':message.internalNote || ''
+  }));
+  downloadTextFile(`wisdom-messages-${backupTimestamp()}.csv`, rowsToCSV(headers,rows), 'text/csv;charset=utf-8');
+}
+
+async function exportConvertedMessagesCSV(){
+  if(!isAdmin()){
+    alert('Solo administración puede exportar mensajes convertidos.');
+    return;
+  }
+  const messages = (await getAllMessagesForBackup()).filter(message=>message.status === 'converted_request' || message.linkedRequestId);
+  const headers = ['Message ID','Linked Request','Student ID','Student Name','Phone','Created At','Converted At','Message'];
+  const rows = messages.map(message=>({
+    'Message ID':message.id || '',
+    'Linked Request':message.linkedRequestId || '',
+    'Student ID':message.studentId || message.studentCode || '',
+    'Student Name':message.studentName || '',
+    'Phone':message.phone || '',
+    'Created At':message.createdAt || '',
+    'Converted At':message.updatedAt || '',
+    'Message':message.text || ''
+  }));
+  downloadTextFile(`wisdom-messages-converted-requests-${backupTimestamp()}.csv`, rowsToCSV(headers,rows), 'text/csv;charset=utf-8');
+}
+
+async function importMessagesJSON(event){
+  if(!isAdmin()){
+    alert('Solo administración puede importar mensajes.');
+    event.target.value='';
+    return;
+  }
+  const file = event.target.files && event.target.files[0];
+  if(!file)return;
+
+  try{
+    const text = await file.text();
+    const parsed = JSON.parse(text);
+    const incoming = Array.isArray(parsed) ? parsed : parsed.data;
+
+    if(!Array.isArray(incoming)){
+      alert('El archivo no contiene una lista válida de mensajes.');
+      event.target.value='';
+      return;
+    }
+
+    const currentMessages = await getAllMessagesForBackup();
+    const backupPayload = {
+      app:'Wisdom Academy',
+      module:'messages-auto-backup-before-import',
+      key:MESSAGES_KEY,
+      exportedAt:new Date().toISOString(),
+      exportedBy:currentUser.email || currentUser.name || currentUser.role || 'admin',
+      count:currentMessages.length,
+      data:currentMessages
+    };
+    downloadTextFile(`wisdom-messages-auto-backup-before-import-${backupTimestamp()}.json`, JSON.stringify(backupPayload,null,2));
+
+    const ok = confirm(`Se importarán ${incoming.length} mensaje(s). Esto reemplazará los mensajes actuales después de descargar un backup automático. ¿Continuar?`);
+    if(!ok){
+      event.target.value='';
+      return;
+    }
+
+    const normalized = dedupeMessages(incoming);
+    await messagesService.saveAll(normalized);
+    selectedMessageId='';
+    populateStudentSelects();
+    await renderMessages();
+    alert(`Mensajes importados correctamente: ${normalized.length}.`);
+  }catch(error){
+    console.error(error);
+    alert('No se pudo importar el archivo. Verifica que sea un JSON válido.');
+  }finally{
+    event.target.value='';
+  }
 }
 
 function normalizeMessage(message={}){
@@ -800,7 +1137,7 @@ const initialStudentFilter=urlParams.get('student')||urlParams.get('code')||'';
 const initialMessageFilter=urlParams.get('message')||'';
 
 function logout(){
-  WisdomStorage.remove(CURRENT_USER_KEY);
+  Store.remove(CURRENT_USER_KEY);
   window.location.href='login.html';
 }
 
@@ -810,7 +1147,7 @@ function roleLabel(role){
 
 function canRoleAccess(roles){
   if(!roles)return true;
-  return roles.split(',').map(r=>r.trim()).includes(currentUser.role);
+  return roles.split(',').map(r=>r.trim().toLowerCase()).includes(currentRole());
 }
 
 function applyRoleVisibility(){
@@ -843,13 +1180,13 @@ function teacherId(){
 }
 
 function studentVisible(student){
-  if(currentUser.role==='admin')return true;
-  if(currentUser.role==='teacher'){
+  if(isAdmin())return true;
+  if(isTeacher()){
     return student.teacherId===teacherId()||
            student.teacherCode===teacherId()||
            student.teacher===currentUser.name;
   }
-  if(currentUser.role==='student'){
+  if(isStudent()){
     return student.code===currentUser.studentId||
            student.studentId===currentUser.studentId||
            student.email===currentUser.email;
@@ -858,14 +1195,14 @@ function studentVisible(student){
 }
 
 function messageVisible(message){
-  if(currentUser.role==='admin')return true;
+  if(isAdmin())return true;
 
-  if(currentUser.role==='teacher'){
+  if(isTeacher()){
     return message.teacherId===teacherId()||
       getStudents().filter(studentVisible).some(s=>s.code===message.studentId||s.name===message.studentName);
   }
 
-  if(currentUser.role==='student'){
+  if(isStudent()){
     return message.studentId===currentUser.studentId||
            message.studentEmail===currentUser.email||
            message.studentName===currentUser.name;
@@ -964,6 +1301,7 @@ function populateStudentSelects(){
 }
 
 function openMessageModal(){
+  if(!ensureCanManageMessages('crear mensajes manuales')) return;
   populateStudentSelects();
   document.getElementById('messagePhone').value=document.getElementById('messageStudentSelect').selectedOptions[0]?.dataset.phone||'';
   document.getElementById('messageText').value='';
@@ -980,6 +1318,7 @@ document.getElementById('messageStudentSelect').addEventListener('change',functi
 });
 
 async function createMessage(){
+  if(!ensureCanManageMessages('crear mensajes manuales')) return;
   const current=await messagesService.list();
   const select=document.getElementById('messageStudentSelect');
   const option=select.selectedOptions[0];
@@ -1004,7 +1343,7 @@ async function createMessage(){
     studentEmail:option.dataset.email||'',
     teacherId:option.dataset.teacherId||'',
     phone:document.getElementById('messagePhone').value.trim(),
-    type:document.getElementById('messageType').value,
+    type:inferMessageType(document.getElementById('messageType').value,text),
     text,
     internalNote:document.getElementById('internalNote').value.trim(),
     status:'new',
@@ -1029,9 +1368,11 @@ async function createMessage(){
 }
 
 async function updateMessageStatus(id,status){
+  if(!ensureCanManageMessages('actualizar mensajes')) return;
   const messages=await messagesService.list();
   const message=messages.find(m=>m.id===id);
   if(!message)return;
+  if(!ensureMessageVisible(message,'actualizar este mensaje')) return;
 
   const history=Array.isArray(message.history)?message.history:[];
   history.push({
@@ -1047,9 +1388,11 @@ async function updateMessageStatus(id,status){
 }
 
 async function createRequestFromMessage(id){
+  if(!ensureCanManageMessages('convertir mensajes en solicitudes')) return;
   const messages=await messagesService.list();
   const message=messages.find(m=>m.id===id);
   if(!message)return;
+  if(!ensureMessageVisible(message,'convertir este mensaje en solicitud')) return;
 
   if(message.linkedRequestId){
     alert('Este mensaje ya tiene una solicitud vinculada.');
@@ -1086,9 +1429,11 @@ async function createRequestFromMessage(id){
   }
 
   const now = new Date().toISOString();
+  const scheduleTrace=scheduleTraceFromMessage(message);
+  const requestId=nextRequestId(requests);
   const rawRequest={
-    id:nextRequestId(requests),
-    requestId:nextRequestId(requests),
+    id:requestId,
+    requestId,
     source:'whatsapp',
     sourceMessageId:message.id,
     studentCode:message.studentId,
@@ -1098,7 +1443,10 @@ async function createRequestFromMessage(id){
     studentPhone:message.phone||'',
     teacherId:message.teacherId||'',
     teacherCode:message.teacherCode||message.teacherId||'',
-    type:'Solicitud por WhatsApp',
+    type:scheduleRequestTypeFromMessage(message),
+    scheduleId:scheduleTrace.scheduleId,
+    affectedEntityId:scheduleTrace.affectedEntityId,
+    affectedEntityType:scheduleTrace.affectedEntityType,
     reason:message.text,
     requestedDate:'',
     requestedTime:'',
@@ -1139,6 +1487,12 @@ async function createRequestFromMessage(id){
   renderMessages();
 }
 
+
+function setMessageLane(status){
+  const statusFilter=document.getElementById('statusFilter');
+  if(statusFilter){statusFilter.value=status||'';}
+  renderMessages();
+}
 
 async function renderMessages(){
   const search=document.getElementById('searchInput').value.trim().toLowerCase();
@@ -1200,9 +1554,9 @@ async function renderMessages(){
     card.innerHTML=`
       <span class="pill ${info[1]}">${info[0]}</span>
       <span class="pill gray">${typeLabel(message.type)}</span>
-      <strong>${message.studentName}</strong>
-      <small>${message.phone||'Sin teléfono'} · ${formatDate(message.createdAt)}</small>
-      <p>${message.text.slice(0,120)}${message.text.length>120?'...':''}</p>
+      <strong>${escapeHtml(message.studentName)}</strong>
+      <small>${escapeHtml(message.phone||'Sin teléfono')} · ${formatDate(message.createdAt)}</small>
+      <p>${escapeHtml(message.text.slice(0,120))}${message.text.length>120?'...':''}</p>
     `;
 
     list.appendChild(card);
@@ -1234,22 +1588,23 @@ function renderDetail(message){
       <span class="pill gray">${message.channel||'whatsapp'}</span>
     </div>
 
-    <h2>${message.studentName}</h2>
+    <h2>${escapeHtml(message.studentName)}</h2>
     <div style="color:var(--gray);font-weight:800">
-      ${message.phone||'Sin teléfono'} · ${formatDate(message.createdAt)}
+      ${escapeHtml(message.phone||'Sin teléfono')} · ${formatDate(message.createdAt)}
     </div>
 
-    <div class="message-body">${message.text}</div>
+    <div class="message-body">${escapeHtml(message.text)}</div>
 
-    ${message.internalNote?`<div class="notice"><strong>Nota interna:</strong> ${message.internalNote}</div>`:''}
+    ${message.internalNote?`<div class="notice"><strong>Nota interna:</strong> ${escapeHtml(message.internalNote)}</div>`:''}
+    ${availabilitySummaryForMessage(message)}
 
     <div class="actions">
-      <button class="btn btn-secondary" onclick="updateMessageStatus('${message.id}','read')">Marcar leído</button>
+      ${canManageMessages()?`<button class="btn btn-secondary" onclick="updateMessageStatus('${message.id}','read')">Marcar leído</button>
       <button class="btn btn-secondary" onclick="updateMessageStatus('${message.id}','follow_up')">Seguimiento</button>
       <button class="btn btn-primary" onclick="updateMessageStatus('${message.id}','answered')">Respondido</button>
       <button class="btn btn-secondary" onclick="createRequestFromMessage('${message.id}')">Crear solicitud</button>
-      <button class="btn btn-secondary" onclick="window.location.href='dossier.html?code=${encodeURIComponent(message.studentId)}'">Abrir dossier</button>
-      ${message.linkedRequestId?`<button class="btn btn-secondary" onclick="window.location.href='solicitudes.html?search=${encodeURIComponent(message.linkedRequestId)}'">Ver solicitud ${message.linkedRequestId}</button>`:''}
+      <button class="btn btn-secondary" onclick="window.location.href='dossier.html?code=${encodeURIComponent(message.studentId)}'">Abrir dossier</button>`:''}
+      ${message.linkedRequestId?`<button class="btn btn-secondary" onclick="window.location.href='solicitudes.html?search=${encodeURIComponent(message.linkedRequestId)}'">Ver solicitud ${escapeHtml(message.linkedRequestId)}</button>`:''}
     </div>
 
     <div class="timeline">
@@ -1258,7 +1613,7 @@ function renderDetail(message){
         history.map(item=>`
           <div class="timeline-item">
             <small>${formatDate(item.at)} · ${item.by||'Sistema'}</small><br>
-            ${item.note||statusInfo(item.status)[0]}
+            ${escapeHtml(item.note||statusInfo(item.status)[0])}
           </div>
         `).join('') || '<div class="empty">Sin historial.</div>'
       }
@@ -1282,6 +1637,162 @@ renderSession();
 applyRoleVisibility();
 populateStudentSelects();
 renderMessages();
+</script>
+
+
+<script>
+/* Wisdom Academy — FASE 13 Domain Hardening Patch */
+(function(){
+  'use strict';
+  if(window.__wisdomPhase13HardeningApplied) return;
+  window.__wisdomPhase13HardeningApplied = true;
+
+  const PHASE13_VERSION = '13.0.0';
+  const MODULE_NAME = document.title || location.pathname.split('/').pop() || 'Wisdom Module';
+
+  function phase13Log(level, message, detail){
+    try{
+      const payload = {module: MODULE_NAME, phase: 'FASE 13', version: PHASE13_VERSION, message, detail: detail || '', at: new Date().toISOString()};
+      if(level === 'error') console.error('[Wisdom Phase13]', payload);
+      else if(level === 'warn') console.warn('[Wisdom Phase13]', payload);
+      else console.info('[Wisdom Phase13]', payload);
+    }catch(error){}
+  }
+
+  function readJSON(key, fallback){
+    try{
+      if(window.WisdomStorage && typeof WisdomStorage.get === 'function'){
+        const value = WisdomStorage.get(key, fallback);
+        return value === undefined || value === null ? fallback : value;
+      }
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
+    }catch(error){
+      phase13Log('warn', 'No se pudo leer storage de forma segura.', {key, error:String(error)});
+      return fallback;
+    }
+  }
+
+  function writeJSON(key, value){
+    try{
+      if(window.WisdomStorage && typeof WisdomStorage.set === 'function'){
+        WisdomStorage.set(key, value);
+      }else{
+        localStorage.setItem(key, JSON.stringify(value));
+      }
+      return true;
+    }catch(error){
+      phase13Log('error', 'No se pudo guardar storage de forma segura.', {key, error:String(error)});
+      return false;
+    }
+  }
+
+  function stableKey(item, fields){
+    const source = item || {};
+    const values = fields.map(field => String(source[field] || '').trim().toLowerCase()).filter(Boolean);
+    return values.length ? values.join('::') : '';
+  }
+
+  function dedupeArray(items, fields){
+    const seen = new Set();
+    return (Array.isArray(items) ? items : []).filter(item => {
+      const direct = String((item && (item.id || item.requestId || item.messageId || item.financeId || item.code)) || '').trim();
+      const key = direct || stableKey(item, fields);
+      if(!key) return true;
+      if(seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
+  window.WisdomPhase13 = Object.assign(window.WisdomPhase13 || {}, {
+    version: PHASE13_VERSION,
+    log: phase13Log,
+    readJSON,
+    writeJSON,
+    dedupeArray,
+    normalizeNumber(value, fallback){
+      const n = Number(value);
+      return Number.isFinite(n) ? n : (fallback || 0);
+    },
+    clamp(value, min, max){
+      const n = Number(value);
+      if(!Number.isFinite(n)) return min;
+      return Math.min(max, Math.max(min, n));
+    }
+  });
+
+  window.addEventListener('error', function(event){
+    phase13Log('error', 'Error runtime capturado.', {message:event.message, file:event.filename, line:event.lineno});
+  });
+
+  window.addEventListener('unhandledrejection', function(event){
+    phase13Log('error', 'Promesa rechazada capturada.', {reason:String(event.reason || '')});
+  });
+
+  window.addEventListener('storage', function(event){
+    const watched = ['wisdom_finance_demo','wisdom_requests_demo','wisdom_messages','wisdom_students_demo','wisdom_groups_demo','wisdom_private_demo','wisdom_schedules_demo'];
+    if(!event || !watched.includes(event.key)) return;
+    if(document.visibilityState !== 'visible') return;
+    try{
+      if(typeof renderAll === 'function') renderAll();
+      else if(typeof renderRequests === 'function') renderRequests();
+      else if(typeof renderMessages === 'function') renderMessages();
+    }catch(error){
+      phase13Log('warn', 'No se pudo refrescar la vista tras cambio de storage.', String(error));
+    }
+  });
+})();
+</script>
+
+<script>
+/* FASE 13 — Mensajes: inbox/request conversion guards */
+(function(){
+  'use strict';
+  function normalizeText(value){
+    return String(value || '').trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  }
+  function dedupeLocalMessages(messages){
+    const seen = new Set();
+    return (Array.isArray(messages) ? messages : []).filter(message => {
+      if(!message) return false;
+      const key = String(message.id || message.messageId || '').trim() || [message.studentId,message.studentCode,message.phone,normalizeText(message.text),message.createdAt].join('::');
+      if(seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+  const originalSaveArray = window.saveArray;
+  if(typeof originalSaveArray === 'function'){
+    window.saveArray = function(key, data){
+      if(key === 'wisdom_messages') return originalSaveArray.call(this, key, dedupeLocalMessages(data));
+      if(key === 'wisdom_requests_demo') return originalSaveArray.call(this, key, WisdomPhase13.dedupeArray(data, ['sourceMessageId','studentCode','type','reason']));
+      return originalSaveArray.apply(this, arguments);
+    };
+  }
+  const originalCreateMessage = window.createMessage;
+  if(typeof originalCreateMessage === 'function'){
+    window.createMessage = async function(){
+      const text = document.getElementById('messageText');
+      const phone = document.getElementById('messagePhone');
+      if(text) text.value = text.value.trim();
+      if(phone) phone.value = phone.value.trim();
+      return originalCreateMessage.apply(this, arguments);
+    };
+  }
+  const originalCreateRequestFromMessage = window.createRequestFromMessage;
+  if(typeof originalCreateRequestFromMessage === 'function'){
+    window.createRequestFromMessage = async function(id){
+      const messages = WisdomPhase13.readJSON('wisdom_messages', []);
+      const message = (Array.isArray(messages) ? messages : []).find(item => item && (item.id === id || item.messageId === id));
+      if(message && message.linkedRequestId){
+        alert('Este mensaje ya tiene una solicitud vinculada.');
+        return;
+      }
+      return originalCreateRequestFromMessage.apply(this, arguments);
+    };
+  }
+})();
 </script>
 
 </body>

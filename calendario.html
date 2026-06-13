@@ -54,10 +54,288 @@ h2,h3{color:var(--primary)}
 
 @media(max-width:1050px){.grid{grid-template-columns:1fr}.calendar{font-size:.85rem}}
 @media(max-width:760px){.calendar{grid-template-columns:70px repeat(3,1fr);overflow:auto}.hide-mobile{display:none}.form-grid{grid-template-columns:1fr}.topbar{flex-direction:column;align-items:flex-start}}
+
+/* FASE 13 — production simulation hardening: modal safety */
+.modal-box{
+  max-height:90vh;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+
+
+/* ===========================
+   FASE 16 — WISDOM GLOBAL SIDEBAR
+   UX/UI layer only. Existing logic untouched.
+=========================== */
+:root{
+  --sidebar-w:260px;
+  --premium-bg:#eef5f7;
+  --premium-surface:#ffffff;
+  --premium-ink:#0b2438;
+  --premium-muted:#68798d;
+  --premium-line:#d8e6ed;
+  --premium-blue:#123e68;
+  --premium-teal:#16aeb7;
+  --premium-teal-soft:#e6f7f8;
+  --premium-lime:#e6ff00;
+  --premium-shadow-soft:0 10px 24px rgba(13,43,69,.07);
+}
+body{
+  padding-left:var(--sidebar-w);
+  background:
+    radial-gradient(circle at top left, rgba(31,182,185,.11), transparent 34%),
+    linear-gradient(180deg,#f7fbfc 0%, var(--premium-bg) 100%)!important;
+}
+.wisdom-sidebar{
+  position:fixed;
+  inset:0 auto 0 0;
+  width:var(--sidebar-w);
+  background:rgba(255,255,255,.92);
+  backdrop-filter:blur(16px);
+  border-right:1px solid var(--premium-line);
+  box-shadow:12px 0 32px rgba(13,43,69,.045);
+  z-index:1000;
+  padding:22px 18px;
+  overflow-y:auto;
+}
+.wisdom-sidebar-logo{
+  display:flex;
+  align-items:center;
+  padding:8px 0 18px;
+  margin-bottom:18px;
+  border-bottom:1px solid var(--premium-line);
+  text-decoration:none;
+}
+.wisdom-sidebar-logo img{
+  width:145px;
+  max-width:100%;
+  height:auto;
+  object-fit:contain;
+  display:block;
+}
+.wisdom-sidebar-section{
+  margin-bottom:16px;
+}
+.wisdom-sidebar-title{
+  color:#8796a8;
+  font-size:.68rem;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  margin:0 0 8px 10px;
+}
+.wisdom-side-link{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:var(--premium-ink);
+  text-decoration:none;
+  padding:10px 12px;
+  border-radius:13px;
+  font-weight:850;
+  font-size:.88rem;
+  margin-bottom:5px;
+  border:1px solid transparent;
+  transition:.18s ease;
+}
+.wisdom-side-link:hover,
+.wisdom-side-link.active{
+  background:linear-gradient(135deg,var(--premium-teal-soft),#f7ffff);
+  border-color:#caeff2;
+  transform:translateX(2px);
+}
+.wisdom-side-dot{
+  width:8px;
+  height:8px;
+  border-radius:999px;
+  background:var(--premium-teal);
+  box-shadow:0 0 0 4px rgba(31,182,185,.12);
+  flex:0 0 auto;
+}
+.wisdom-sidebar-footer{
+  margin-top:22px;
+  padding:14px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#f7ffff,var(--premium-teal-soft));
+  border:1px solid var(--premium-line);
+  box-shadow:var(--premium-shadow-soft);
+}
+.wisdom-sidebar-footer strong{
+  display:block;
+  color:var(--premium-blue);
+  font-size:.86rem;
+}
+.wisdom-sidebar-footer small{
+  display:block;
+  color:var(--premium-muted);
+  font-weight:750;
+  line-height:1.35;
+  margin-top:3px;
+}
+.wisdom-sidebar-logout{
+  width:100%;
+  margin-top:12px;
+  padding:10px 12px;
+  border-radius:999px;
+  border:1px solid var(--premium-line);
+  background:#fff;
+  color:var(--premium-blue);
+  font-weight:900;
+  cursor:pointer;
+}
+.wisdom-sidebar-logout:hover{
+  background:var(--premium-lime);
+  color:#000;
+}
+.wisdom-breadcrumb{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:8px;
+  color:var(--premium-muted);
+  font-size:.78rem;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  margin-bottom:16px;
+}
+.wisdom-breadcrumb span:last-child{
+  color:var(--premium-blue);
+}
+.wisdom-ux-strip{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin:0 0 20px;
+}
+.wisdom-ux-chip{
+  background:rgba(255,255,255,.96);
+  border:1px solid var(--premium-line);
+  border-radius:18px;
+  padding:14px;
+  box-shadow:var(--premium-shadow-soft);
+}
+.wisdom-ux-chip small{
+  display:block;
+  color:var(--premium-muted);
+  font-size:.68rem;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  margin-bottom:4px;
+}
+.wisdom-ux-chip strong{
+  display:block;
+  color:var(--premium-blue);
+  font-size:.98rem;
+  line-height:1.2;
+}
+.card,.modal-box{
+  box-shadow:var(--premium-shadow-soft)!important;
+}
+@media(max-width:1050px){
+  body{padding-left:0;padding-top:82px}
+  .wisdom-sidebar{
+    width:100%;
+    height:82px;
+    right:0;
+    bottom:auto;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 14px;
+    overflow-x:auto;
+    overflow-y:hidden;
+  }
+  .wisdom-sidebar-logo{
+    border-bottom:0;
+    margin:0 10px 0 0;
+    padding:0;
+    flex:0 0 auto;
+  }
+  .wisdom-sidebar-logo img{width:110px}
+  .wisdom-sidebar-section{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    margin:0;
+    flex:0 0 auto;
+  }
+  .wisdom-sidebar-title{display:none}
+  .wisdom-side-link{
+    margin:0;
+    white-space:nowrap;
+    padding:9px 10px;
+    font-size:.78rem;
+  }
+  .wisdom-sidebar-footer{display:none}
+}
+@media(max-width:760px){
+  .wisdom-ux-strip{grid-template-columns:1fr 1fr}
+}
+@media(max-width:520px){
+  .wisdom-ux-strip{grid-template-columns:1fr}
+}
+
 </style>
 </head>
 <body>
+
+<aside class="wisdom-sidebar" id="wisdomSidebar">
+  <a class="wisdom-sidebar-logo" href="dashboard.html" aria-label="Ir al dashboard">
+    <img src="logo.jpg" alt="Wisdom Academy Logo">
+  </a>
+
+  <div class="wisdom-sidebar-section">
+    <div class="wisdom-sidebar-title">Panel</div>
+    <a class="wisdom-side-link" href="dashboard.html" data-sidebar-link="dashboard.html"><span class="wisdom-side-dot"></span>Dashboard</a>
+  </div>
+
+  <div class="wisdom-sidebar-section">
+    <div class="wisdom-sidebar-title">Personas</div>
+    <a class="wisdom-side-link" href="estudiantes.html" data-sidebar-link="estudiantes.html" data-roles="admin,teacher,student"><span class="wisdom-side-dot"></span>Estudiantes</a>
+    <a class="wisdom-side-link" href="profesores.html" data-sidebar-link="profesores.html" data-roles="admin"><span class="wisdom-side-dot"></span>Profesores</a>
+    <a class="wisdom-side-link" href="usuarios.html" data-sidebar-link="usuarios.html" data-roles="admin"><span class="wisdom-side-dot"></span>Usuarios</a>
+  </div>
+
+  <div class="wisdom-sidebar-section">
+    <div class="wisdom-sidebar-title">Académico</div>
+    <a class="wisdom-side-link" href="grupales.html" data-sidebar-link="grupales.html" data-roles="admin,teacher"><span class="wisdom-side-dot"></span>Grupales</a>
+    <a class="wisdom-side-link" href="privadas.html" data-sidebar-link="privadas.html" data-roles="admin,teacher,student"><span class="wisdom-side-dot"></span>Privadas / Semi</a>
+    <a class="wisdom-side-link" href="calendario.html" data-sidebar-link="calendario.html" data-roles="admin,teacher,student"><span class="wisdom-side-dot"></span>Calendario</a>
+  </div>
+
+  <div class="wisdom-sidebar-section">
+    <div class="wisdom-sidebar-title">Gestión</div>
+    <a class="wisdom-side-link" href="solicitudes.html" data-sidebar-link="solicitudes.html" data-roles="admin,teacher,student"><span class="wisdom-side-dot"></span>Solicitudes</a>
+    <a class="wisdom-side-link" href="reportes.html" data-sidebar-link="reportes.html" data-roles="admin,teacher,student"><span class="wisdom-side-dot"></span>Reportes</a>
+    <a class="wisdom-side-link" href="finanzas.html" data-sidebar-link="finanzas.html" data-roles="admin"><span class="wisdom-side-dot"></span>Finanzas</a>
+    <a class="wisdom-side-link" href="mensajes.html" data-sidebar-link="mensajes.html" data-roles="admin,teacher"><span class="wisdom-side-dot"></span>Mensajes</a>
+  </div>
+
+  <div class="wisdom-sidebar-section">
+    <div class="wisdom-sidebar-title">Evaluación</div>
+    <a class="wisdom-side-link" href="placement_portal_integrado.html" data-sidebar-link="placement_portal_integrado.html" data-roles="admin,teacher"><span class="wisdom-side-dot"></span>Diagnóstico</a>
+    <a class="wisdom-side-link" href="evaluaciones.html" data-sidebar-link="evaluaciones.html" data-roles="admin,teacher"><span class="wisdom-side-dot"></span>Evaluaciones</a>
+    <a class="wisdom-side-link" href="resultados.html" data-sidebar-link="resultados.html" data-roles="admin,teacher,student"><span class="wisdom-side-dot"></span>Resultados</a>
+  </div>
+
+  <div class="wisdom-sidebar-footer">
+    <strong id="wisdomSidebarUser">Usuario</strong>
+    <small id="wisdomSidebarRole">Rol activo</small>
+    <button class="wisdom-sidebar-logout" type="button" onclick="wisdomSidebarLogout()">Cerrar sesión</button>
+  </div>
+</aside>
+
 <div class="wrap">
+  <div class="wisdom-breadcrumb"><span>Dashboard</span><span>/</span><span>Calendario académico</span></div>
+  <div class="wisdom-ux-strip">
+    <div class="wisdom-ux-chip"><small>Vista</small><strong>Semana académica</strong></div>
+    <div class="wisdom-ux-chip"><small>Control</small><strong>Disponibilidad docente</strong></div>
+    <div class="wisdom-ux-chip"><small>Riesgo</small><strong>Cruces y conflictos</strong></div>
+    <div class="wisdom-ux-chip"><small>Acción</small><strong>Clase manual admin</strong></div>
+  </div>
+
   <div id="roleWarning" class="role-warning"></div>
   <div class="topbar">
     <div>
@@ -71,7 +349,6 @@ h2,h3{color:var(--primary)}
           <small id="currentUserRole">Rol</small>
         </div>
       </div>
-      <button class="btn btn-secondary" onclick="window.location.href='dashboard.html'">Dashboard</button>
       <button class="btn btn-primary admin-only" onclick="openEventModal()">Agregar clase manual</button>
       <button class="btn btn-logout" onclick="logout()">Cerrar sesión</button>
     </div>
@@ -95,6 +372,19 @@ h2,h3{color:var(--primary)}
             </select>
           </div>
         </div>
+      </div>
+
+      <div class="card admin-only">
+        <h3>Backup calendario</h3>
+        <div class="sub">Protege disponibilidad docente y eventos manuales antes de hacer cambios.</div><br>
+        <div class="actions">
+          <button class="btn btn-secondary" onclick="exportAvailabilityJSON()">Exportar disponibilidad</button>
+          <button class="btn btn-secondary" onclick="document.getElementById('availabilityImportFile').click()">Importar disponibilidad</button>
+          <button class="btn btn-secondary" onclick="exportManualEventsJSON()">Exportar eventos manuales</button>
+          <button class="btn btn-secondary" onclick="document.getElementById('manualEventsImportFile').click()">Importar eventos manuales</button>
+        </div>
+        <input id="availabilityImportFile" type="file" accept="application/json,.json" style="display:none" onchange="importAvailabilityJSON(event)">
+        <input id="manualEventsImportFile" type="file" accept="application/json,.json" style="display:none" onchange="importManualEventsJSON(event)">
       </div>
 
       <div class="card admin-teacher-only">
@@ -160,32 +450,107 @@ h2,h3{color:var(--primary)}
   </div>
 </div>
 
-<script src="storage.js"></script>
-<script src="schemaRegistry.js"></script>
+<script src="js/core/storage.js"></script>
+<script src="js/core/schemaRegistry.js"></script>
+<script src="js/core/demoSeed.js"></script>
+<script>
+(function(){
+  const originalAlert = window.alert;
+  window.__wisdomOriginalAlert = originalAlert;
+  window.alert = function(message){
+    const text = String(message || '').toLowerCase();
+    const isServiceLoadNotice =
+      text.includes('studentservice') ||
+      text.includes('teacherservice') ||
+      text.includes('groupservice') ||
+      text.includes('scheduleservice') ||
+      text.includes('attendanceservice') ||
+      text.includes('authservice') ||
+      text.includes('permissions') ||
+      (text.includes('service') && (text.includes('carg') || text.includes('load')));
+
+    if(isServiceLoadNotice) return;
+    return originalAlert.apply(window, arguments);
+  };
+})();
+</script>
+<script src="js/services/authService.js"></script>
+<script src="js/core/permissions.js"></script>
+<script src="js/services/studentService.js"></script>
+<script src="js/services/teacherService.js"></script>
+<script src="js/services/groupService.js"></script>
+<script src="js/services/scheduleService.js"></script>
+<script src="js/services/attendanceService.js"></script>
+<script>
+(function(){
+  if(window.__wisdomOriginalAlert){
+    window.alert = window.__wisdomOriginalAlert;
+    delete window.__wisdomOriginalAlert;
+  }
+})();
+</script>
 <script>
 
 const USERS_KEY='wisdom_users'
 const CURRENT_USER_KEY='wisdom_current_user'
 
-const users=WisdomStorage.get(USERS_KEY,[])
-if(!users.length){
-  window.location.href='login.html'
+function normalizeRole(role){
+  const raw=String(role||'').trim().toLowerCase()
+  const clean=raw.normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+  if(['admin','administrador','administrativo','administrator'].includes(clean))return 'admin'
+  if(['teacher','profesor','docente','instructor'].includes(clean))return 'teacher'
+  if(['student','estudiante','alumno','learner'].includes(clean))return 'student'
+  return clean
 }
 
-const currentUser=WisdomStorage.get(CURRENT_USER_KEY,null)
-if(!currentUser||!currentUser.role){
+function getCurrentUserSafe(){
+  if(typeof AuthService!=='undefined' && AuthService){
+    try{
+      if(typeof AuthService.getCurrentUser==='function'){
+        const user=AuthService.getCurrentUser()
+        if(user)return user
+      }
+      if(typeof AuthService.currentUser==='function'){
+        const user=AuthService.currentUser()
+        if(user)return user
+      }
+    }catch(error){
+      console.warn('AuthService no pudo entregar usuario. Se usará WisdomStorage como respaldo.',error)
+    }
+  }
+  return WisdomStorage.get(CURRENT_USER_KEY,null)
+}
+
+function isAuthenticatedSafe(){
+  if(typeof AuthService!=='undefined' && AuthService && typeof AuthService.isAuthenticated==='function'){
+    try{return Boolean(AuthService.isAuthenticated())}catch(error){return Boolean(getCurrentUserSafe())}
+  }
+  return Boolean(getCurrentUserSafe())
+}
+
+const currentUser=getCurrentUserSafe()
+if(!isAuthenticatedSafe()||!currentUser||!currentUser.role){
+  window.location.href='login.html'
+}
+currentUser.role=normalizeRole(currentUser.role||currentUser.userRole||currentUser.type||currentUser.profile||currentUser.access)
+if(!currentUser.role){
   window.location.href='login.html'
 }
 
 function roleLabel(role){
-  if(role==='admin')return 'Administrativo'
-  if(role==='teacher')return 'Profesor'
-  if(role==='student')return 'Estudiante'
+  const normalized=normalizeRole(role)
+  if(normalized==='admin')return 'Administrativo'
+  if(normalized==='teacher')return 'Profesor'
+  if(normalized==='student')return 'Estudiante'
   return role||'Usuario'
 }
 
 function logout(){
-  WisdomStorage.remove(CURRENT_USER_KEY)
+  if(typeof AuthService!=='undefined' && AuthService && typeof AuthService.logout==='function'){
+    try{AuthService.logout()}catch(error){WisdomStorage.remove(CURRENT_USER_KEY)}
+  }else{
+    WisdomStorage.remove(CURRENT_USER_KEY)
+  }
   window.location.href='login.html'
 }
 
@@ -228,15 +593,27 @@ function safeJsonParse(value,fallback){
   try{return value?JSON.parse(value):fallback}catch(error){return fallback}
 }
 function loadGroups(){
-  const groups=WisdomStorage.get(GROUPS_KEY,[])
+  let source=[]
 
-  if(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeGroup){
-    return Array.isArray(groups)
-      ? groups.map(group=>SchemaRegistry.normalizeGroup(group))
-      : []
+  if(typeof GroupService!=='undefined' && GroupService && typeof GroupService.getAll==='function'){
+    try{
+      const serviceGroups=GroupService.getAll()
+      if(Array.isArray(serviceGroups))source=serviceGroups
+    }catch(error){
+      console.warn('GroupService.getAll() falló. Calendario usará WisdomStorage como respaldo.',error)
+    }
   }
 
-  return Array.isArray(groups)?groups:[]
+  if(!source.length){
+    const storedGroups=WisdomStorage.get(GROUPS_KEY,[])
+    source=Array.isArray(storedGroups)?storedGroups:[]
+  }
+
+  if(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeGroup){
+    return source.map(group=>SchemaRegistry.normalizeGroup(group))
+  }
+
+  return source
 }
 function loadPrivatePackages(){
   const packages=WisdomStorage.get(PRIVATE_KEY,[])
@@ -249,33 +626,200 @@ function loadPrivatePackages(){
 
   return Array.isArray(packages)?packages:[]
 }
-function loadAvailability(){return WisdomStorage.get(AVAILABILITY_KEY,[])}
-function saveAvailability(items){WisdomStorage.set(AVAILABILITY_KEY,items)}
-function loadManualEvents(){return WisdomStorage.get(MANUAL_EVENTS_KEY,[])}
+function hasAttendanceServiceMethod(methodName){
+  return typeof AttendanceService !== 'undefined' &&
+    AttendanceService &&
+    typeof AttendanceService[methodName] === 'function'
+}
+
+function getAttendanceRecordsForCalendar(){
+  if(hasAttendanceServiceMethod('getAll')){
+    try{
+      const records=AttendanceService.getAll()
+      return Array.isArray(records)?records:[]
+    }catch(error){
+      console.warn('AttendanceService.getAll() falló en calendario. Se continúa sin métricas de asistencia.',error)
+    }
+  }
+  return []
+}
+
+function canUseScheduleService(){
+  return typeof ScheduleService!=='undefined' &&
+    ScheduleService &&
+    typeof ScheduleService.getAll==='function' &&
+    typeof ScheduleService.create==='function' &&
+    typeof ScheduleService.delete==='function'
+}
+
+function scheduleSourceMatches(item,source){
+  const raw=String(item.source||item.category||item.scheduleType||item.type||'').toLowerCase()
+  return raw===String(source||'').toLowerCase()
+}
+
+function loadScheduleItemsBySource(source,fallbackKey){
+  if(canUseScheduleService()){
+    try{
+      const schedules=ScheduleService.getAll()
+      if(Array.isArray(schedules)){
+        return schedules.filter(item=>scheduleSourceMatches(item,source))
+      }
+    }catch(error){
+      console.warn(`ScheduleService.getAll() falló para ${source}. Se usará WisdomStorage como respaldo.`,error)
+    }
+  }
+  const stored=WisdomStorage.get(fallbackKey,[])
+  return Array.isArray(stored)?stored:[]
+}
+
+function replaceScheduleItemsBySource(source,fallbackKey,items){
+  const normalized=Array.isArray(items)?items:[]
+  if(canUseScheduleService()){
+    try{
+      const current=ScheduleService.getAll()
+      ;(Array.isArray(current)?current:[])
+        .filter(item=>scheduleSourceMatches(item,source))
+        .forEach(item=>ScheduleService.delete(item.id))
+      normalized.forEach(item=>ScheduleService.create({...item,source}))
+      return
+    }catch(error){
+      console.warn(`ScheduleService no pudo reemplazar ${source}. Se usará WisdomStorage como respaldo.`,error)
+    }
+  }
+  WisdomStorage.set(fallbackKey,normalized)
+}
+
+function createScheduleItem(source,fallbackKey,item){
+  if(source==='Manual' && !isAdmin()){
+    denyUnauthorized('Solo administración puede crear eventos manuales.')
+    return null
+  }
+  if(source==='Availability' && !canManageAvailabilityForTeacher(item?.teacherId || item?.teacherCode)){
+    denyUnauthorized('Solo administración o el profesor dueño pueden registrar esta disponibilidad.')
+    return null
+  }
+  const payload={...item,source}
+  if(canUseScheduleService()){
+    try{return ScheduleService.create(payload)}catch(error){console.warn(`ScheduleService.create() falló para ${source}.`,error)}
+  }
+  const current=WisdomStorage.get(fallbackKey,[])
+  const list=Array.isArray(current)?current:[]
+  list.push(payload)
+  WisdomStorage.set(fallbackKey,list)
+  return payload
+}
+
+function deleteScheduleItem(source,fallbackKey,id){
+  if(source==='Manual' && !isAdmin()){
+    denyUnauthorized('Solo administración puede borrar eventos manuales.')
+    return
+  }
+  if(canUseScheduleService()){
+    try{
+      ScheduleService.delete(id)
+      return
+    }catch(error){
+      console.warn(`ScheduleService.delete() falló para ${source}. Se usará WisdomStorage como respaldo.`,error)
+    }
+  }
+  const current=WisdomStorage.get(fallbackKey,[])
+  const list=Array.isArray(current)?current:[]
+  WisdomStorage.set(fallbackKey,list.filter(item=>item.id!==id))
+}
+
+function loadAvailability(){
+  return loadScheduleItemsBySource('Availability',AVAILABILITY_KEY)
+}
+
+function saveAvailability(items){
+  replaceScheduleItemsBySource('Availability',AVAILABILITY_KEY,items)
+}
+
+function loadManualEvents(){
+  return loadScheduleItemsBySource('Manual',MANUAL_EVENTS_KEY)
+}
+
 function saveManualEvents(items){
   const normalized=(Array.isArray(items)?items:[]).map(item=>normalizeCalendarEvent({
     ...item,
-    source:item.source||'Manual'
+    source:'Manual'
   }))
-
-  WisdomStorage.set(MANUAL_EVENTS_KEY,normalized)
+  replaceScheduleItemsBySource('Manual',MANUAL_EVENTS_KEY,normalized)
 }
+function normalizeTeacherForCalendar(teacher={}){
+  const id=teacher.id || teacher.teacherId || teacher.code || teacher.teacherCode || ''
+  return {
+    ...teacher,
+    id,
+    teacherId:id,
+    teacherCode:id,
+    code:id,
+    status:teacher.status||'Activo'
+  }
+}
+
 function loadTeachersData(){
-  const teachers=WisdomStorage.get(TEACHERS_KEY,[])
-  return Array.isArray(teachers)?teachers.map(teacher=>{
-    const id=teacher.id || teacher.teacherId || teacher.code || teacher.teacherCode || ''
-    return {...teacher,id,teacherId:id,code:id,status:teacher.status||'Activo'}
-  }):[]
+  const storedTeachers=WisdomStorage.get(TEACHERS_KEY,[])
+  const storedList=Array.isArray(storedTeachers)?storedTeachers.map(normalizeTeacherForCalendar):[]
+
+  if(
+    typeof TeacherService !== 'undefined' &&
+    TeacherService &&
+    typeof TeacherService.getAll === 'function'
+  ){
+    try{
+      const serviceTeachers=TeacherService.getAll()
+      const serviceList=Array.isArray(serviceTeachers)?serviceTeachers.map(normalizeTeacherForCalendar):[]
+
+      if(serviceList.length || !storedList.length){
+        return serviceList
+      }
+    }catch(error){
+      console.warn('TeacherService.getAll() falló. Calendario usará WisdomStorage como respaldo.',error)
+    }
+  }
+
+  return storedList
 }
 
 let availability=loadAvailability()
 let manualEvents=loadManualEvents()
 let teachersData=loadTeachersData()
 
-function isAdmin(){return currentUser.role==='admin'}
-function isTeacher(){return currentUser.role==='teacher'}
-function isStudent(){return currentUser.role==='student'}
+function isAdmin(){
+  if(typeof WisdomPermissions!=='undefined' && WisdomPermissions && typeof WisdomPermissions.isAdmin==='function'){
+    try{return Boolean(WisdomPermissions.isAdmin())}catch(error){}
+  }
+  return currentUser.role==='admin'
+}
+function isTeacher(){
+  if(typeof WisdomPermissions!=='undefined' && WisdomPermissions && typeof WisdomPermissions.isTeacher==='function'){
+    try{return Boolean(WisdomPermissions.isTeacher())}catch(error){}
+  }
+  return currentUser.role==='teacher'
+}
+function isStudent(){
+  if(typeof WisdomPermissions!=='undefined' && WisdomPermissions && typeof WisdomPermissions.isStudent==='function'){
+    try{return Boolean(WisdomPermissions.isStudent())}catch(error){}
+  }
+  return currentUser.role==='student'
+}
 function currentTeacherId(){return currentUser.teacherId || currentUser.teacherCode || currentUser.id || ''}
+function getCurrentStudentIds(){
+  return [currentUser.studentId,currentUser.studentCode,currentUser.code,currentUser.id]
+    .filter(Boolean)
+    .map(value=>String(value))
+}
+function canManageAvailabilityForTeacher(teacherId){
+  if(isAdmin())return true
+  if(!isTeacher())return false
+  const currentId=String(currentTeacherId()||'')
+  return Boolean(currentId && String(teacherId||'')===currentId)
+}
+function denyUnauthorized(message='No autorizado para realizar esta acción.'){
+  alert(message)
+  return false
+}
 function normalizeTeacher(name){return (name||'Profesor por asignar').trim()||'Profesor por asignar'}
 function getTeacherNameById(teacherId){
   const teacher=teachersData.find(t=>t.teacherId===teacherId || t.id===teacherId || t.code===teacherId)
@@ -305,7 +849,9 @@ function eventBelongsToCurrentUser(event){
     return (id && (event.teacherId===id || event.teacherCode===id)) || event.teacher===currentUser.name || event.teacherEmail===currentUser.email
   }
   if(isStudent()){
-    return currentUser.studentId && Array.isArray(event.studentIds) && event.studentIds.includes(currentUser.studentId)
+    const userStudentIds=getCurrentStudentIds()
+    const eventStudentIds=Array.isArray(event.studentIds)?event.studentIds.map(value=>String(value)):[]
+    return userStudentIds.length>0 && eventStudentIds.some(id=>userStudentIds.includes(id))
   }
   return false
 }
@@ -683,7 +1229,7 @@ function renderAvailability(){
       <strong>${item.teacher}</strong> <span class="pill">${item.modality}</span>
       <div class="sub">${dayLabel(item.day)} · ${item.start} - ${item.end}</div>
       <div class="sub">${item.note||''}</div>
-      <div class="actions"><button class="btn btn-danger" onclick="deleteAvailability(${item._index})">Borrar</button></div>
+      ${isAdmin() || canManageAvailabilityForTeacher(item.teacherId || item.teacherCode) ? `<div class="actions"><button class="btn btn-danger" onclick="deleteAvailability(${item._index})">Borrar</button></div>` : ''}
     `
     container.appendChild(div)
   })
@@ -725,6 +1271,10 @@ function renderEventList(){
 }
 
 function addAvailability(){
+  if(!isAdmin() && !isTeacher()){
+    denyUnauthorized('Solo administración o profesores pueden registrar disponibilidad.')
+    return
+  }
   const teacherId=document.getElementById('availabilityTeacher').value
   const teacher=getTeacherNameById(teacherId)||teacherId
   const day=document.getElementById('availabilityDay').value
@@ -733,40 +1283,56 @@ function addAvailability(){
   const modality=document.getElementById('availabilityModality').value
   const note=document.getElementById('availabilityNote').value.trim()
   if(!teacherId||!teacher||!day||!start||!end){alert('Profesor, día, inicio y fin son obligatorios.');return}
+  if(!canManageAvailabilityForTeacher(teacherId)){
+    denyUnauthorized('No tienes permiso para modificar la disponibilidad de este profesor.')
+    return
+  }
   if(!isActiveTeacherId(teacherId)){alert('Solo puedes registrar disponibilidad para profesores activos.');return}
   if(timeToMinutes(start)>=timeToMinutes(end)){alert('La hora de inicio debe ser menor que la hora final.');return}
-  availability.push({
+  const newAvailability={
     id:'AVL-'+Date.now(),
+    type:'Availability',
+    title:`Disponibilidad · ${teacher}`,
     teacher,teacherId,teacherCode:teacherId,day,start,end,modality,note,
     createdBy:currentUser.email||currentUser.name||currentUser.role||'',
     createdByRole:currentUser.role||'',
     createdAt:new Date().toISOString(),
     updatedAt:new Date().toISOString()
-  })
-  saveAvailability(availability)
+  }
+  createScheduleItem('Availability',AVAILABILITY_KEY,newAvailability)
+  availability=loadAvailability()
   document.getElementById('availabilityNote').value=''
   renderAll()
 }
 function deleteAvailability(index){
   const item=availability[index]
   if(!item)return
-  if(!isAdmin() && !eventBelongsToCurrentUser(normalizeTeacherRef(item))){
+  const normalizedItem=normalizeTeacherRef(item)
+  if(!canManageAvailabilityForTeacher(normalizedItem.teacherId || normalizedItem.teacherCode)){
     alert('No tienes permiso para borrar esta disponibilidad.')
     return
   }
   const ok=confirm('¿Borrar esta disponibilidad?')
   if(!ok)return
-  availability.splice(index,1)
-  saveAvailability(availability)
+  deleteScheduleItem('Availability',AVAILABILITY_KEY,item.id)
+  availability=loadAvailability()
   renderAll()
 }
 
 function openEventModal(){
+  if(!isAdmin()){
+    denyUnauthorized('Solo administración puede crear eventos manuales.')
+    return
+  }
   setupSelects()
   document.getElementById('eventModal').classList.add('active')
 }
 function closeEventModal(){document.getElementById('eventModal').classList.remove('active')}
 function addManualEvent(){
+  if(!isAdmin()){
+    denyUnauthorized('Solo administración puede crear eventos manuales.')
+    return
+  }
   const type=document.getElementById('manualType').value
   const title=document.getElementById('manualTitle').value.trim()
   const teacherId=document.getElementById('manualTeacher').value
@@ -786,14 +1352,18 @@ function addManualEvent(){
     createdAt:new Date().toISOString(),
     updatedAt:new Date().toISOString()
   }
+  let hasServiceConflict=false
+  if(typeof ScheduleService!=='undefined' && ScheduleService && typeof ScheduleService.hasConflict==='function'){
+    try{hasServiceConflict=Boolean(ScheduleService.hasConflict(newEvent))}catch(error){hasServiceConflict=false}
+  }
   const existing=[...getAllEvents(),newEvent]
   const teacherConflicts=findConflicts(existing).filter(c=>c.message.includes(teacher))
-  if(teacherConflicts.length){
+  if(hasServiceConflict || teacherConflicts.length){
     const ok=confirm('Hay posibles conflictos con este evento. ¿Deseas guardarlo de todas formas?')
     if(!ok)return
   }
-  manualEvents.push(newEvent)
-  saveManualEvents(manualEvents)
+  createScheduleItem('Manual',MANUAL_EVENTS_KEY,newEvent)
+  manualEvents=loadManualEvents()
   closeEventModal()
   ;['manualTitle','manualStart','manualEnd','manualLocation'].forEach(id=>document.getElementById(id).value='')
   renderAll()
@@ -807,10 +1377,127 @@ function deleteManualEvent(id){
   }
   const ok=confirm('¿Borrar este evento manual?')
   if(!ok)return
-  manualEvents=manualEvents.filter(e=>e.id!==id)
-  saveManualEvents(manualEvents)
+  deleteScheduleItem('Manual',MANUAL_EVENTS_KEY,id)
+  manualEvents=loadManualEvents()
   renderAll()
 }
+function formatBackupDate(){
+  return new Date().toISOString().slice(0,10)
+}
+
+function downloadJSONFile(filename,data){
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'})
+  const url=URL.createObjectURL(blob)
+  const link=document.createElement('a')
+  link.href=url
+  link.download=filename
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  URL.revokeObjectURL(url)
+}
+
+function readJSONFile(file,onSuccess){
+  if(!file)return
+  const reader=new FileReader()
+  reader.onload=function(){
+    try{
+      const parsed=JSON.parse(reader.result)
+      onSuccess(parsed)
+    }catch(error){
+      alert('El archivo no es un JSON válido.')
+    }
+  }
+  reader.readAsText(file)
+}
+
+function exportAvailabilityJSON(){
+  if(!isAdmin()){
+    denyUnauthorized('Solo administración puede exportar disponibilidad.')
+    return
+  }
+  downloadJSONFile(`wisdom-availability-backup-${formatBackupDate()}.json`,{
+    key:AVAILABILITY_KEY,
+    exportedAt:new Date().toISOString(),
+    count:Array.isArray(availability)?availability.length:0,
+    data:Array.isArray(availability)?availability:[]
+  })
+}
+
+function exportManualEventsJSON(){
+  if(!isAdmin()){
+    denyUnauthorized('Solo administración puede exportar eventos manuales.')
+    return
+  }
+  downloadJSONFile(`wisdom-manual-events-backup-${formatBackupDate()}.json`,{
+    key:MANUAL_EVENTS_KEY,
+    exportedAt:new Date().toISOString(),
+    count:Array.isArray(manualEvents)?manualEvents.length:0,
+    data:Array.isArray(manualEvents)?manualEvents:[]
+  })
+}
+
+function importAvailabilityJSON(event){
+  if(!isAdmin()){
+    denyUnauthorized('Solo administración puede importar disponibilidad.')
+    if(event?.target)event.target.value=''
+    return
+  }
+  const file=event.target.files && event.target.files[0]
+  readJSONFile(file,function(payload){
+    const incoming=Array.isArray(payload)?payload:payload.data
+    if(!Array.isArray(incoming)){
+      alert('El backup de disponibilidad debe contener un arreglo de registros.')
+      event.target.value=''
+      return
+    }
+
+    const ok=confirm(`Vas a reemplazar la disponibilidad actual (${availability.length} registros) por ${incoming.length} registro(s). Se creará un respaldo automático antes de importar. ¿Continuar?`)
+    if(!ok){event.target.value='';return}
+
+    WisdomStorage.set(`${AVAILABILITY_KEY}_auto_backup_${Date.now()}`,availability)
+    availability=incoming.map(item=>({
+      ...normalizeTeacherRef(item),
+      updatedAt:item.updatedAt||new Date().toISOString()
+    }))
+    saveAvailability(availability)
+    event.target.value=''
+    renderAll()
+    alert('Disponibilidad importada correctamente.')
+  })
+}
+
+function importManualEventsJSON(event){
+  if(!isAdmin()){
+    denyUnauthorized('Solo administración puede importar eventos manuales.')
+    if(event?.target)event.target.value=''
+    return
+  }
+  const file=event.target.files && event.target.files[0]
+  readJSONFile(file,function(payload){
+    const incoming=Array.isArray(payload)?payload:payload.data
+    if(!Array.isArray(incoming)){
+      alert('El backup de eventos manuales debe contener un arreglo de registros.')
+      event.target.value=''
+      return
+    }
+
+    const ok=confirm(`Vas a reemplazar los eventos manuales actuales (${manualEvents.length} registros) por ${incoming.length} evento(s). Se creará un respaldo automático antes de importar. ¿Continuar?`)
+    if(!ok){event.target.value='';return}
+
+    WisdomStorage.set(`${MANUAL_EVENTS_KEY}_auto_backup_${Date.now()}`,manualEvents)
+    manualEvents=incoming.map(item=>normalizeCalendarEvent({
+      ...normalizeTeacherRef(item),
+      source:'Manual',
+      updatedAt:item.updatedAt||new Date().toISOString()
+    }))
+    saveManualEvents(manualEvents)
+    event.target.value=''
+    renderAll()
+    alert('Eventos manuales importados correctamente.')
+  })
+}
+
 function renderAll(){
   setupSelects()
   renderCalendar()
@@ -818,8 +1505,179 @@ function renderAll(){
   renderConflicts()
   renderEventList()
 }
+
+/* FASE 13 — Domain Hardening: calendario */
+(function wisdomPhase13CalendarHardening(){
+  function safeArray(value){ return Array.isArray(value) ? value : []; }
+  function eventIdentity(item){
+    return [
+      item && (item.id || item.scheduleId || ''),
+      item && (item.source || item.type || ''),
+      item && (item.teacherId || item.teacherCode || item.teacher || ''),
+      item && (item.day || ''),
+      item && (item.start || item.startTime || ''),
+      item && (item.end || item.endTime || ''),
+      item && (item.title || '')
+    ].join('|').toLowerCase();
+  }
+  function dedupeEvents(items){
+    const seen = new Set();
+    return safeArray(items).filter(function(item){
+      const key = eventIdentity(item);
+      if(!key || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
+  if(typeof saveAvailability === 'function'){
+    const originalSaveAvailability = saveAvailability;
+    saveAvailability = function phase13SaveAvailability(items){
+      return originalSaveAvailability.call(this, dedupeEvents(items).map(function(item){
+        item.updatedAt = item.updatedAt || new Date().toISOString();
+        return item;
+      }));
+    };
+  }
+
+  if(typeof saveManualEvents === 'function'){
+    const originalSaveManualEvents = saveManualEvents;
+    saveManualEvents = function phase13SaveManualEvents(items){
+      return originalSaveManualEvents.call(this, dedupeEvents(items).map(function(item){
+        item.updatedAt = item.updatedAt || new Date().toISOString();
+        return item;
+      }));
+    };
+  }
+
+  if(typeof addAvailability === 'function'){
+    const originalAddAvailability = addAvailability;
+    addAvailability = function phase13AddAvailability(){
+      const teacherId = document.getElementById('availabilityTeacher') ? document.getElementById('availabilityTeacher').value : '';
+      const day = document.getElementById('availabilityDay') ? document.getElementById('availabilityDay').value : '';
+      const start = document.getElementById('availabilityStart') ? document.getElementById('availabilityStart').value : '';
+      const end = document.getElementById('availabilityEnd') ? document.getElementById('availabilityEnd').value : '';
+      const duplicate = safeArray(availability).some(function(item){
+        return String(item.teacherId || item.teacherCode || '') === String(teacherId) &&
+          String(item.day || '') === String(day) &&
+          String(item.start || '') === String(start) &&
+          String(item.end || '') === String(end);
+      });
+      if(duplicate){
+        alert('Esta disponibilidad ya existe para el profesor seleccionado.');
+        return;
+      }
+      return originalAddAvailability.apply(this, arguments);
+    };
+  }
+
+  (function wisdomPhase13RuntimeHardening(){
+  if(window.__wisdomPhase13RuntimeHardeningInstalled) return;
+  window.__wisdomPhase13RuntimeHardeningInstalled = true;
+
+  window.addEventListener('error', function(event){
+    try{
+      console.error('[Wisdom Fase 13] Runtime error:', event.error || event.message);
+    }catch(error){}
+  });
+
+  window.addEventListener('unhandledrejection', function(event){
+    try{
+      console.error('[Wisdom Fase 13] Unhandled promise rejection:', event.reason);
+    }catch(error){}
+  });
+
+  let storageReloadTimer = null;
+  window.addEventListener('storage', function(event){
+    try{
+      const watchedKeys = [
+        'wisdom_students_demo',
+        'wisdom_teachers_demo',
+        'wisdom_groups_demo',
+        'wisdom_private_demo',
+        'wisdom_schedules_demo',
+        'wisdom_teacher_availability',
+        'wisdom_calendar_manual_events',
+        'wisdom_attendance_demo',
+        'wisdom_notifications_demo',
+        'wisdom_requests_demo',
+        'wisdom_current_user'
+      ];
+      if(!event || !watchedKeys.includes(event.key)) return;
+      if(document.visibilityState !== 'visible') return;
+      clearTimeout(storageReloadTimer);
+      storageReloadTimer = setTimeout(function(){ window.location.reload(); }, 350);
+    }catch(error){}
+  });
+})();
+})();
+
 applyRoleAccess()
 renderAll()
 </script>
+
+<script>
+(function(){
+  function normalizeRoleForSidebar(role){
+    const raw=String(role||'').trim().toLowerCase();
+    const clean=raw.normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    if(['admin','administrador','administrativo','administrator'].includes(clean))return 'admin';
+    if(['teacher','profesor','docente','instructor'].includes(clean))return 'teacher';
+    if(['student','estudiante','alumno','learner'].includes(clean))return 'student';
+    return clean;
+  }
+  function getSidebarUser(){
+    try{
+      if(window.AuthService && typeof AuthService.getCurrentUser==='function'){
+        const user=AuthService.getCurrentUser();
+        if(user)return user;
+      }
+    }catch(error){}
+    try{
+      if(window.WisdomStorage && typeof WisdomStorage.get==='function'){
+        return WisdomStorage.get('wisdom_current_user',null) || {};
+      }
+    }catch(error){}
+    try{return JSON.parse(localStorage.getItem('wisdom_current_user')||'{}')}catch(error){return {}}
+  }
+  function roleLabel(role){
+    const normalized=normalizeRoleForSidebar(role);
+    return {admin:'Administrativo',teacher:'Profesor',student:'Estudiante'}[normalized] || role || 'Usuario';
+  }
+  window.wisdomSidebarLogout=function(){
+    try{
+      if(window.AuthService && typeof AuthService.logout==='function'){
+        AuthService.logout();
+      }else if(window.WisdomStorage && typeof WisdomStorage.remove==='function'){
+        WisdomStorage.remove('wisdom_current_user');
+      }else{
+        localStorage.removeItem('wisdom_current_user');
+      }
+    }catch(error){
+      try{localStorage.removeItem('wisdom_current_user')}catch(e){}
+    }
+    window.location.href='login.html';
+  };
+
+  const user=getSidebarUser() || {};
+  const role=normalizeRoleForSidebar(user.role || user.userRole || user.type || user.profile || user.access);
+  const userEl=document.getElementById('wisdomSidebarUser');
+  const roleEl=document.getElementById('wisdomSidebarRole');
+  if(userEl)userEl.textContent=user.name || user.email || 'Usuario';
+  if(roleEl)roleEl.textContent=roleLabel(role);
+
+  document.querySelectorAll('.wisdom-side-link[data-roles]').forEach(function(link){
+    const allowed=String(link.getAttribute('data-roles')||'').split(',').map(item=>item.trim());
+    if(role && allowed.length && !allowed.includes(role))link.style.display='none';
+  });
+
+  const current=(location.pathname.split('/').pop() || '').toLowerCase();
+  document.querySelectorAll('.wisdom-side-link[data-sidebar-link]').forEach(function(link){
+    const target=String(link.getAttribute('data-sidebar-link')||'').toLowerCase();
+    if(current===target)link.classList.add('active');
+  });
+})();
+</script>
+
 </body>
 </html>

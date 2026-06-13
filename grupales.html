@@ -192,10 +192,288 @@ table{width:100%;border-collapse:collapse}th{text-align:left;color:var(--gray);f
   font-weight:700;
 }
 
+
+/* FASE 13 — production simulation hardening: modal safety */
+.modal-box{
+  max-height:90vh;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+
+
+/* ===========================
+   FASE 16 — WISDOM GLOBAL SIDEBAR
+   UX/UI layer only. Existing logic untouched.
+=========================== */
+:root{
+  --sidebar-w:260px;
+  --premium-bg:#eef5f7;
+  --premium-surface:#ffffff;
+  --premium-ink:#0b2438;
+  --premium-muted:#68798d;
+  --premium-line:#d8e6ed;
+  --premium-blue:#123e68;
+  --premium-teal:#16aeb7;
+  --premium-teal-soft:#e6f7f8;
+  --premium-lime:#e6ff00;
+  --premium-shadow-soft:0 10px 24px rgba(13,43,69,.07);
+}
+body{
+  padding-left:var(--sidebar-w);
+  background:
+    radial-gradient(circle at top left, rgba(31,182,185,.11), transparent 34%),
+    linear-gradient(180deg,#f7fbfc 0%, var(--premium-bg) 100%)!important;
+}
+.wisdom-sidebar{
+  position:fixed;
+  inset:0 auto 0 0;
+  width:var(--sidebar-w);
+  background:rgba(255,255,255,.92);
+  backdrop-filter:blur(16px);
+  border-right:1px solid var(--premium-line);
+  box-shadow:12px 0 32px rgba(13,43,69,.045);
+  z-index:1000;
+  padding:22px 18px;
+  overflow-y:auto;
+}
+.wisdom-sidebar-logo{
+  display:flex;
+  align-items:center;
+  padding:8px 0 18px;
+  margin-bottom:18px;
+  border-bottom:1px solid var(--premium-line);
+  text-decoration:none;
+}
+.wisdom-sidebar-logo img{
+  width:145px;
+  max-width:100%;
+  height:auto;
+  object-fit:contain;
+  display:block;
+}
+.wisdom-sidebar-section{
+  margin-bottom:16px;
+}
+.wisdom-sidebar-title{
+  color:#8796a8;
+  font-size:.68rem;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  margin:0 0 8px 10px;
+}
+.wisdom-side-link{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:var(--premium-ink);
+  text-decoration:none;
+  padding:10px 12px;
+  border-radius:13px;
+  font-weight:850;
+  font-size:.88rem;
+  margin-bottom:5px;
+  border:1px solid transparent;
+  transition:.18s ease;
+}
+.wisdom-side-link:hover,
+.wisdom-side-link.active{
+  background:linear-gradient(135deg,var(--premium-teal-soft),#f7ffff);
+  border-color:#caeff2;
+  transform:translateX(2px);
+}
+.wisdom-side-dot{
+  width:8px;
+  height:8px;
+  border-radius:999px;
+  background:var(--premium-teal);
+  box-shadow:0 0 0 4px rgba(31,182,185,.12);
+  flex:0 0 auto;
+}
+.wisdom-sidebar-footer{
+  margin-top:22px;
+  padding:14px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#f7ffff,var(--premium-teal-soft));
+  border:1px solid var(--premium-line);
+  box-shadow:var(--premium-shadow-soft);
+}
+.wisdom-sidebar-footer strong{
+  display:block;
+  color:var(--premium-blue);
+  font-size:.86rem;
+}
+.wisdom-sidebar-footer small{
+  display:block;
+  color:var(--premium-muted);
+  font-weight:750;
+  line-height:1.35;
+  margin-top:3px;
+}
+.wisdom-sidebar-logout{
+  width:100%;
+  margin-top:12px;
+  padding:10px 12px;
+  border-radius:999px;
+  border:1px solid var(--premium-line);
+  background:#fff;
+  color:var(--premium-blue);
+  font-weight:900;
+  cursor:pointer;
+}
+.wisdom-sidebar-logout:hover{
+  background:var(--premium-lime);
+  color:#000;
+}
+.wisdom-breadcrumb{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:8px;
+  color:var(--premium-muted);
+  font-size:.78rem;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  margin-bottom:16px;
+}
+.wisdom-breadcrumb span:last-child{
+  color:var(--premium-blue);
+}
+.wisdom-ux-strip{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin:0 0 20px;
+}
+.wisdom-ux-chip{
+  background:rgba(255,255,255,.96);
+  border:1px solid var(--premium-line);
+  border-radius:18px;
+  padding:14px;
+  box-shadow:var(--premium-shadow-soft);
+}
+.wisdom-ux-chip small{
+  display:block;
+  color:var(--premium-muted);
+  font-size:.68rem;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  margin-bottom:4px;
+}
+.wisdom-ux-chip strong{
+  display:block;
+  color:var(--premium-blue);
+  font-size:.98rem;
+  line-height:1.2;
+}
+.card,.modal-box{
+  box-shadow:var(--premium-shadow-soft)!important;
+}
+@media(max-width:1050px){
+  body{padding-left:0;padding-top:82px}
+  .wisdom-sidebar{
+    width:100%;
+    height:82px;
+    right:0;
+    bottom:auto;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 14px;
+    overflow-x:auto;
+    overflow-y:hidden;
+  }
+  .wisdom-sidebar-logo{
+    border-bottom:0;
+    margin:0 10px 0 0;
+    padding:0;
+    flex:0 0 auto;
+  }
+  .wisdom-sidebar-logo img{width:110px}
+  .wisdom-sidebar-section{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    margin:0;
+    flex:0 0 auto;
+  }
+  .wisdom-sidebar-title{display:none}
+  .wisdom-side-link{
+    margin:0;
+    white-space:nowrap;
+    padding:9px 10px;
+    font-size:.78rem;
+  }
+  .wisdom-sidebar-footer{display:none}
+}
+@media(max-width:760px){
+  .wisdom-ux-strip{grid-template-columns:1fr 1fr}
+}
+@media(max-width:520px){
+  .wisdom-ux-strip{grid-template-columns:1fr}
+}
+
 </style>
 </head>
 <body>
+
+<aside class="wisdom-sidebar" id="wisdomSidebar">
+  <a class="wisdom-sidebar-logo" href="dashboard.html" aria-label="Ir al dashboard">
+    <img src="logo.jpg" alt="Wisdom Academy Logo">
+  </a>
+
+  <div class="wisdom-sidebar-section">
+    <div class="wisdom-sidebar-title">Panel</div>
+    <a class="wisdom-side-link" href="dashboard.html" data-sidebar-link="dashboard.html"><span class="wisdom-side-dot"></span>Dashboard</a>
+  </div>
+
+  <div class="wisdom-sidebar-section">
+    <div class="wisdom-sidebar-title">Personas</div>
+    <a class="wisdom-side-link" href="estudiantes.html" data-sidebar-link="estudiantes.html" data-roles="admin,teacher,student"><span class="wisdom-side-dot"></span>Estudiantes</a>
+    <a class="wisdom-side-link" href="profesores.html" data-sidebar-link="profesores.html" data-roles="admin"><span class="wisdom-side-dot"></span>Profesores</a>
+    <a class="wisdom-side-link" href="usuarios.html" data-sidebar-link="usuarios.html" data-roles="admin"><span class="wisdom-side-dot"></span>Usuarios</a>
+  </div>
+
+  <div class="wisdom-sidebar-section">
+    <div class="wisdom-sidebar-title">Académico</div>
+    <a class="wisdom-side-link" href="grupales.html" data-sidebar-link="grupales.html" data-roles="admin,teacher"><span class="wisdom-side-dot"></span>Grupales</a>
+    <a class="wisdom-side-link" href="privadas.html" data-sidebar-link="privadas.html" data-roles="admin,teacher,student"><span class="wisdom-side-dot"></span>Privadas / Semi</a>
+    <a class="wisdom-side-link" href="calendario.html" data-sidebar-link="calendario.html" data-roles="admin,teacher,student"><span class="wisdom-side-dot"></span>Calendario</a>
+  </div>
+
+  <div class="wisdom-sidebar-section">
+    <div class="wisdom-sidebar-title">Gestión</div>
+    <a class="wisdom-side-link" href="solicitudes.html" data-sidebar-link="solicitudes.html" data-roles="admin,teacher,student"><span class="wisdom-side-dot"></span>Solicitudes</a>
+    <a class="wisdom-side-link" href="reportes.html" data-sidebar-link="reportes.html" data-roles="admin,teacher,student"><span class="wisdom-side-dot"></span>Reportes</a>
+    <a class="wisdom-side-link" href="finanzas.html" data-sidebar-link="finanzas.html" data-roles="admin"><span class="wisdom-side-dot"></span>Finanzas</a>
+    <a class="wisdom-side-link" href="mensajes.html" data-sidebar-link="mensajes.html" data-roles="admin,teacher"><span class="wisdom-side-dot"></span>Mensajes</a>
+  </div>
+
+  <div class="wisdom-sidebar-section">
+    <div class="wisdom-sidebar-title">Evaluación</div>
+    <a class="wisdom-side-link" href="placement_portal_integrado.html" data-sidebar-link="placement_portal_integrado.html" data-roles="admin,teacher"><span class="wisdom-side-dot"></span>Diagnóstico</a>
+    <a class="wisdom-side-link" href="evaluaciones.html" data-sidebar-link="evaluaciones.html" data-roles="admin,teacher"><span class="wisdom-side-dot"></span>Evaluaciones</a>
+    <a class="wisdom-side-link" href="resultados.html" data-sidebar-link="resultados.html" data-roles="admin,teacher,student"><span class="wisdom-side-dot"></span>Resultados</a>
+  </div>
+
+  <div class="wisdom-sidebar-footer">
+    <strong id="wisdomSidebarUser">Usuario</strong>
+    <small id="wisdomSidebarRole">Rol activo</small>
+    <button class="wisdom-sidebar-logout" type="button" onclick="wisdomSidebarLogout()">Cerrar sesión</button>
+  </div>
+</aside>
+
 <div class="wrap">
+  <div class="wisdom-breadcrumb"><span>Dashboard</span><span>/</span><span>Clases grupales</span></div>
+  <div class="wisdom-ux-strip">
+    <div class="wisdom-ux-chip"><small>Estructura</small><strong>48 clases por módulo</strong></div>
+    <div class="wisdom-ux-chip"><small>Reportes</small><strong>Clases 15, 31 y 47</strong></div>
+    <div class="wisdom-ux-chip"><small>Operación</small><strong>Asistencia por clase</strong></div>
+    <div class="wisdom-ux-chip"><small>Regla</small><strong>Mínimo 5 estudiantes</strong></div>
+  </div>
+
 <section class="view active" id="groupsView">
 <div class="topbar">
 <div>
@@ -203,7 +481,11 @@ table{width:100%;border-collapse:collapse}th{text-align:left;color:var(--gray);f
 <div class="sub">Cada grupo corresponde a un módulo trimestral de 48 clases.</div>
 </div>
 <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-<button class="btn btn-secondary" onclick="window.location.href='dashboard.html'">Dashboard</button>
+<button class="btn btn-secondary admin-backup-only" onclick="exportGroupsJSON()">Exportar grupos JSON</button>
+<button class="btn btn-secondary admin-backup-only" onclick="exportGroupsCSV()">Exportar grupos CSV</button>
+<button class="btn btn-secondary admin-backup-only" onclick="exportAttendanceCSV()">Exportar asistencia CSV</button>
+<button class="btn btn-secondary admin-backup-only" onclick="document.getElementById('groupsImportFile').click()">Importar grupos JSON</button>
+<input id="groupsImportFile" type="file" accept="application/json,.json" style="display:none" onchange="importGroupsJSON(event)">
 <button class="btn btn-primary" id="createGroupBtn" onclick="openCreateGroupModal()">Crear grupo</button>
 </div>
 </div>
@@ -213,7 +495,6 @@ table{width:100%;border-collapse:collapse}th{text-align:left;color:var(--gray);f
 </section>
 <section class="view" id="groupDetailView">
 <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:12px;">
-<button class="btn btn-secondary" onclick="window.location.href='dashboard.html'">Dashboard</button>
 <button class="btn btn-secondary" onclick="showGroups()">← Volver a grupos</button>
 </div>
 <div class="topbar" style="margin-top:22px">
@@ -310,8 +591,75 @@ table{width:100%;border-collapse:collapse}th{text-align:left;color:var(--gray);f
 </div>
 </div>
 </div>
-<script src="storage.js"></script>
-<script src="schemaRegistry.js"></script>
+<script src="js/core/storage.js"></script>
+<script src="js/core/schemaRegistry.js"></script>
+<script src="js/core/demoSeed.js"></script>
+
+<script>
+(function(){
+  const originalAlert = window.alert;
+  window.__wisdomOriginalAlert = originalAlert;
+  window.alert = function(message){
+    const text = String(message || "").toLowerCase();
+    const isServiceLoadNotice =
+      text.includes("studentservice") ||
+      text.includes("teacherservice") ||
+      text.includes("groupservice") ||
+      text.includes("authservice") ||
+      text.includes("permissions") ||
+      (text.includes("service") && (text.includes("carg") || text.includes("load")));
+
+    if(isServiceLoadNotice) return;
+    return originalAlert.apply(window, arguments);
+  };
+})();
+</script>
+<script src="js/services/authService.js"></script>
+<script src="js/core/permissions.js"></script>
+
+<script src="js/services/studentService.js"></script>
+<script src="js/services/teacherService.js"></script>
+<script src="js/services/groupService.js"></script>
+<script src="js/services/scheduleService.js"></script>
+<script src="js/services/attendanceService.js"></script>
+<script src="js/services/reportService.js"></script>
+<script>
+(function(){
+  if(window.__wisdomOriginalAlert){
+    window.alert = window.__wisdomOriginalAlert;
+    delete window.__wisdomOriginalAlert;
+  }
+})();
+</script>
+<script>
+function hasReportServiceMethod(methodName){
+  return typeof ReportService !== 'undefined' && ReportService && typeof ReportService[methodName] === 'function';
+}
+function callReportServiceSafe(methodName,...args){
+  if(!hasReportServiceMethod(methodName)) return null;
+  try{
+    return ReportService[methodName](...args);
+  }catch(error){
+    console.warn(`ReportService.${methodName} falló. Se mantiene fallback local.`, error);
+    return null;
+  }
+}
+function getGroupSummarySafe(groupId){
+  return callReportServiceSafe('getGroupSummary', groupId);
+}
+function generateGroupReportSafe(groupId){
+  return callReportServiceSafe('generateGroupReport', groupId);
+}
+function getStudentSummarySafe(studentId){
+  return callReportServiceSafe('getStudentSummary', studentId);
+}
+function getAttendanceSummarySafe(studentId){
+  return callReportServiceSafe('getAttendanceSummary', studentId);
+}
+function canUnlockReportSafe(studentId){
+  return callReportServiceSafe('canUnlockReport', studentId);
+}
+</script>
 <script>
 const GROUPS_KEY='wisdom_groups_demo'
 const TEACHERS_KEY='wisdom_teachers_demo'
@@ -319,12 +667,149 @@ const STUDENTS_KEY='wisdom_students_demo'
 const PRIVATE_KEY='wisdom_private_demo'
 const CURRENT_USER_KEY='wisdom_current_user'
 const NOTIFICATIONS_KEY='wisdom_notifications_demo'
+const GROUP_SCHEDULE_SOURCE='Grupo'
+
+function hasScheduleServiceMethod(methodName){
+  return typeof ScheduleService !== 'undefined' && ScheduleService && typeof ScheduleService[methodName] === 'function'
+}
+function scheduleServiceGetByGroup(groupId){
+  if(!groupId)return []
+  if(hasScheduleServiceMethod('getByGroup')){
+    try{
+      const result=ScheduleService.getByGroup(groupId)
+      return Array.isArray(result)?result:(result?[result]:[])
+    }catch(error){console.warn('No se pudo consultar horario del grupo.',error)}
+  }
+  if(hasScheduleServiceMethod('getAll')){
+    try{
+      const all=ScheduleService.getAll()
+      return Array.isArray(all)?all.filter(item=>item.groupId===groupId || item.groupCode===groupId || item.sourceId===groupId):[]
+    }catch(error){console.warn('No se pudo consultar horarios.',error)}
+  }
+  return []
+}
+function scheduleServiceDeleteSafe(scheduleId){
+  if(!scheduleId || !hasScheduleServiceMethod('delete'))return false
+  try{return Boolean(ScheduleService.delete(scheduleId))}
+  catch(error){console.warn('No se pudo eliminar horario sincronizado.',error);return false}
+}
+function buildGroupScheduleId(group){
+  const id=group?.id || group?.code || ''
+  return id?`SCH-GROUP-${id}`:''
+}
+function buildSchedulePayloadFromGroup(group){
+  const normalized=normalizeGroup(group)
+  const scheduleId=normalized.scheduleId || buildGroupScheduleId(normalized)
+  return {
+    id:scheduleId,
+    scheduleId,
+    source:GROUP_SCHEDULE_SOURCE,
+    sourceType:'group',
+    sourceId:normalized.id||normalized.code||'',
+    groupId:normalized.id||normalized.code||'',
+    groupCode:normalized.code||normalized.id||'',
+    title:`${normalized.code||normalized.id||'Grupo'} · ${normalized.name||'Grupo'}`,
+    type:'Grupo',
+    teacher:normalized.teacher||getTeacherNameById(normalized.teacherId)||'Profesor asignado',
+    teacherId:normalized.teacherId||normalized.teacherCode||'',
+    teacherCode:normalized.teacherCode||normalized.teacherId||'',
+    teacherEmail:normalized.teacherEmail||'',
+    studentIds:(Array.isArray(normalized.students)?normalized.students:[]).map(student=>student.code||student.studentId||student.id).filter(Boolean),
+    students:Array.isArray(normalized.students)?normalized.students:[],
+    scheduleDays:Array.isArray(normalized.scheduleDays)?normalized.scheduleDays:[],
+    days:Array.isArray(normalized.scheduleDays)?normalized.scheduleDays:[],
+    startTime:normalized.startTime||'',
+    endTime:normalized.endTime||'',
+    start:normalized.startTime||'',
+    end:normalized.endTime||'',
+    startDate:normalized.start||'',
+    endDate:normalized.end||calculateGroupEndDate(normalized.start)||'',
+    modality:normalized.modality||'Presencial',
+    location:normalized.classroom||normalized.location||'',
+    classroom:normalized.classroom||'',
+    status:'Activo',
+    createdAt:normalized.createdAt||new Date().toISOString(),
+    updatedAt:new Date().toISOString()
+  }
+}
+function hasGroupScheduleConflict(group,excludeScheduleId=''){
+  if(!hasScheduleServiceMethod('hasConflict'))return false
+  try{
+    return Boolean(ScheduleService.hasConflict(buildSchedulePayloadFromGroup(group),excludeScheduleId||group.scheduleId||buildGroupScheduleId(group)))
+  }catch(error){
+    console.warn('No se pudo validar conflicto de horario. Se permitirá continuar para no romper el demo.',error)
+    return false
+  }
+}
+function upsertGroupSchedule(group){
+  if(!hasScheduleServiceMethod('create') && !hasScheduleServiceMethod('update'))return ''
+  const payload=buildSchedulePayloadFromGroup(group)
+  if(!payload.scheduleId)return ''
+  try{
+    const exists=hasScheduleServiceMethod('exists') ? Boolean(ScheduleService.exists(payload.scheduleId)) : scheduleServiceGetByGroup(payload.groupId).some(item=>item.id===payload.scheduleId || item.scheduleId===payload.scheduleId)
+    if(exists && hasScheduleServiceMethod('update')){
+      const updated=ScheduleService.update(payload.scheduleId,payload)
+      return updated?.id || updated?.scheduleId || payload.scheduleId
+    }
+    if(hasScheduleServiceMethod('create')){
+      const created=ScheduleService.create(payload)
+      return created?.id || created?.scheduleId || payload.scheduleId
+    }
+  }catch(error){
+    console.warn('No se pudo sincronizar el grupo con calendario central.',error)
+  }
+  return ''
+}
+function deleteGroupSchedules(group){
+  const normalized=normalizeGroup(group||{})
+  const ids=new Set()
+  if(normalized.scheduleId)ids.add(normalized.scheduleId)
+  const deterministic=buildGroupScheduleId(normalized)
+  if(deterministic)ids.add(deterministic)
+  scheduleServiceGetByGroup(normalized.id||normalized.code).forEach(item=>{
+    if(item.id)ids.add(item.id)
+    if(item.scheduleId)ids.add(item.scheduleId)
+  })
+  ids.forEach(id=>scheduleServiceDeleteSafe(id))
+}
 const defaultGroups=[
   {id:'G-001',name:'B1 Noche',level:'B1',teacher:'Laura Méndez',schedule:'Lun a Jue · 6:30 PM',start:'2026-04-01',end:'2026-06-30',currentClass:18,students:[{code:'WA-0001',name:'Juan Pérez'},{code:'WA-0004',name:'Camila Gómez'}],attendance:{}},
   {id:'G-002',name:'A2 Mañana',level:'A2',teacher:'Carlos Peña',schedule:'Lun a Jue · 8:00 AM',start:'2026-04-01',end:'2026-06-30',currentClass:9,students:[{code:'WA-0005',name:'Andrés Díaz'},{code:'WA-0006',name:'Sofía López'}],attendance:{}}
 ]
-const currentUser=WisdomStorage.get(CURRENT_USER_KEY,null)
-if(!currentUser || !currentUser.role){
+function resolveCurrentUser(){
+  if(typeof AuthService !== 'undefined' && AuthService){
+    try{
+      if(typeof AuthService.getCurrentUser === 'function'){
+        const user=AuthService.getCurrentUser()
+        if(user) return user
+      }
+      if(typeof AuthService.currentUser === 'function'){
+        const user=AuthService.currentUser()
+        if(user) return user
+      }
+    }catch(error){
+      console.warn('AuthService no pudo resolver el usuario actual. Usando WisdomStorage como respaldo.',error)
+    }
+  }
+  return WisdomStorage.get(CURRENT_USER_KEY,null)
+}
+
+const currentUser=resolveCurrentUser()
+const isAuthenticated=(()=>{
+  if(typeof AuthService !== 'undefined' && AuthService){
+    if(typeof AuthService.isAuthenticated === 'function'){
+      try{return Boolean(AuthService.isAuthenticated())}
+      catch(error){console.warn('AuthService.isAuthenticated() falló. Usando validación local.',error)}
+    }
+    if(typeof AuthService.isLoggedIn === 'function'){
+      try{return Boolean(AuthService.isLoggedIn())}
+      catch(error){console.warn('AuthService.isLoggedIn() falló. Usando validación local.',error)}
+    }
+  }
+  return Boolean(currentUser && currentUser.role)
+})()
+
+if(!isAuthenticated || !currentUser || !currentUser.role){
   window.location.href='login.html'
 }
 
@@ -333,8 +818,246 @@ let groups=loadGroups()
 let currentGroupId=null
 let selectedSession=null
 
-function isAdmin(){return currentUser.role==='admin'}
-function isTeacher(){return currentUser.role==='teacher'}
+function normalizeRoleValue(role){
+  const value=String(role||'').trim().toLowerCase()
+  if(['admin','administrator','administrador','administrativo','administración','administracion'].includes(value))return 'admin'
+  if(['teacher','profesor','docente'].includes(value))return 'teacher'
+  if(['student','estudiante','alumno'].includes(value))return 'student'
+  return value
+}
+function currentUserRole(){
+  return normalizeRoleValue(currentUser?.role || currentUser?.userRole || currentUser?.type || '')
+}
+function permissionCheck(methodName,fallbackRole){
+  const normalizedFallback=normalizeRoleValue(fallbackRole)
+  if(typeof WisdomPermissions !== 'undefined' && WisdomPermissions && typeof WisdomPermissions[methodName] === 'function'){
+    try{
+      if(Boolean(WisdomPermissions[methodName](currentUser)))return true
+    }
+    catch(error){
+      try{if(Boolean(WisdomPermissions[methodName]()))return true}
+      catch(innerError){console.warn(`WisdomPermissions.${methodName}() falló. Usando rol local.`,innerError)}
+    }
+  }
+  return currentUserRole()===normalizedFallback
+}
+
+function isAdmin(){return permissionCheck('isAdmin','admin')}
+function isTeacher(){return permissionCheck('isTeacher','teacher')}
+function isStudent(){return permissionCheck('isStudent','student')}
+
+function requireAdminAction(actionLabel='esta acción'){
+  if(isAdmin()) return true
+  alert(`No autorizado: solo administración puede ejecutar ${actionLabel}.`)
+  return false
+}
+function requireGroupWriteAccess(group,actionLabel='esta acción'){
+  if(isAdmin()) return true
+  if(isTeacher() && teacherMatchesCurrentUser(group)) return true
+  alert(`No autorizado: no tienes permiso para ejecutar ${actionLabel} en este grupo.`)
+  return false
+}
+function requireGroupWriteAccessSilent(group){
+  return isAdmin() || (isTeacher() && teacherMatchesCurrentUser(group))
+}
+function currentUserStudentCodes(){
+  return [currentUser.studentId,currentUser.studentCode,currentUser.code,currentUser.id]
+    .filter(Boolean)
+    .map(value=>String(value).trim())
+}
+function canAcceptReportForStudent(studentCode){
+  if(isAdmin()) return true
+  if(!isStudent()) return false
+  const codes=currentUserStudentCodes()
+  return codes.includes(String(studentCode||'').trim())
+}
+
+function hasGroupServiceMethod(methodName){
+  return typeof GroupService !== 'undefined' && GroupService && typeof GroupService[methodName] === 'function'
+}
+
+function groupServiceGetAll(){
+  if(hasGroupServiceMethod('getAll')){
+    try{
+      const result=GroupService.getAll()
+      if(Array.isArray(result)) return result
+    }catch(error){
+      console.warn('GroupService.getAll() falló. Usando WisdomStorage como respaldo.',error)
+    }
+  }
+  return null
+}
+
+function groupServiceGetById(id){
+  if(hasGroupServiceMethod('getById')){
+    try{
+      const group=GroupService.getById(id)
+      if(group) return group
+    }catch(error){
+      console.warn('GroupService.getById() falló. Usando colección local.',error)
+    }
+  }
+  return groups.find(group=>group.id===id || group.code===id) || null
+}
+
+function groupServiceExists(id){
+  if(hasGroupServiceMethod('exists')){
+    try{return Boolean(GroupService.exists(id))}
+    catch(error){console.warn('GroupService.exists() falló. Usando colección local.',error)}
+  }
+  return groups.some(group=>group.id===id || group.code===id)
+}
+
+function groupServiceCreate(group){
+  const normalized=normalizeGroup(group)
+  if(hasGroupServiceMethod('create')){
+    try{return GroupService.create(normalized)}
+    catch(error){console.warn('GroupService.create() falló. Usando persistencia local.',error)}
+  }
+  groups.push(normalized)
+  saveGroups()
+  return normalized
+}
+
+function groupServiceUpdate(id,updates){
+  const normalized=normalizeGroup({...updates,id:updates.id||id})
+  if(hasGroupServiceMethod('update')){
+    try{return GroupService.update(id,normalized)}
+    catch(error){console.warn('GroupService.update() falló. Usando persistencia local.',error)}
+  }
+  const index=groups.findIndex(group=>group.id===id || group.code===id)
+  if(index>=0){
+    groups[index]=normalized
+    saveGroups()
+  }
+  return normalized
+}
+
+function groupServiceDelete(id){
+  if(hasGroupServiceMethod('delete')){
+    try{return GroupService.delete(id)}
+    catch(error){console.warn('GroupService.delete() falló. Usando persistencia local.',error)}
+  }
+  groups=groups.filter(group=>group.id!==id && group.code!==id)
+  saveGroups()
+  return true
+}
+
+function hasAttendanceServiceMethod(methodName){
+  return typeof AttendanceService !== 'undefined' && AttendanceService && typeof AttendanceService[methodName] === 'function'
+}
+
+function buildGroupAttendanceRecordId(group,sessionNumber){
+  const groupId=group?.id || group?.code || currentGroupId || 'GROUP'
+  return `ATT-GROUP-${groupId}-CLASS-${sessionNumber}`
+}
+
+function attendanceServiceGetByGroupSafe(groupId){
+  if(!groupId)return []
+  if(hasAttendanceServiceMethod('getByGroup')){
+    try{
+      const result=AttendanceService.getByGroup(groupId)
+      return Array.isArray(result)?result:(result?[result]:[])
+    }catch(error){console.warn('AttendanceService.getByGroup() falló. Usando asistencia embebida como respaldo.',error)}
+  }
+  if(hasAttendanceServiceMethod('getAll')){
+    try{
+      const result=AttendanceService.getAll()
+      return Array.isArray(result)?result.filter(record=>record.groupId===groupId || record.groupCode===groupId || record.sourceId===groupId):[]
+    }catch(error){console.warn('AttendanceService.getAll() falló. Usando asistencia embebida como respaldo.',error)}
+  }
+  return []
+}
+
+function attendanceRecordSession(record){
+  return Number(record?.sessionNumber || record?.classNumber || record?.session || record?.classIndex || 0)
+}
+
+function attendanceStudentsMapFromRecord(record){
+  if(!record || typeof record !== 'object')return {}
+  if(record.students && !Array.isArray(record.students) && typeof record.students === 'object')return {...record.students}
+  if(record.studentStatuses && typeof record.studentStatuses === 'object')return {...record.studentStatuses}
+  if(Array.isArray(record.students)){
+    return record.students.reduce((map,item)=>{
+      const code=item.code || item.studentCode || item.studentId || item.id
+      if(code)map[code]=item.status || item.attendanceStatus || ''
+      return map
+    },{})
+  }
+  if(Array.isArray(record.records)){
+    return record.records.reduce((map,item)=>{
+      const code=item.code || item.studentCode || item.studentId || item.id
+      if(code)map[code]=item.status || item.attendanceStatus || ''
+      return map
+    },{})
+  }
+  return {}
+}
+
+function findAttendanceServiceRecord(group,sessionNumber){
+  const groupIds=[group?.id,group?.code].filter(Boolean)
+  for(const id of groupIds){
+    const match=attendanceServiceGetByGroupSafe(id).find(record=>attendanceRecordSession(record)===Number(sessionNumber))
+    if(match)return match
+  }
+  return null
+}
+
+function getAttendanceMapForSession(group,sessionNumber){
+  const serviceRecord=findAttendanceServiceRecord(group,sessionNumber)
+  const serviceMap=attendanceStudentsMapFromRecord(serviceRecord)
+  if(Object.keys(serviceMap).length)return serviceMap
+  return {...((group?.attendance||{})[sessionNumber]||{})}
+}
+
+function isAttendanceSessionDone(group,sessionNumber){
+  const map=getAttendanceMapForSession(group,sessionNumber)
+  return Object.keys(map).some(key=>/^WA-|^STU|^stu|^SIN-|^[A-Za-z0-9_-]+$/.test(String(key)) && key !== 'savedAt' && key !== 'updatedAt' && key !== 'date')
+}
+
+function syncAttendanceServiceRecord(group,sessionNumber,studentStatuses,savedAt){
+  if(!hasAttendanceServiceMethod('create') && !hasAttendanceServiceMethod('update'))return null
+  const normalized=normalizeGroup(group)
+  const existing=findAttendanceServiceRecord(normalized,sessionNumber)
+  const attendanceId=existing?.id || existing?.attendanceId || buildGroupAttendanceRecordId(normalized,sessionNumber)
+  const records=(Array.isArray(normalized.students)?normalized.students:[]).map(student=>({
+    studentId:student.studentId || student.code || student.id || '',
+    studentCode:student.code || student.studentId || student.id || '',
+    studentName:student.name || student.studentName || '',
+    status:studentStatuses[student.code || student.studentId || student.id] || ''
+  }))
+  const payload={
+    ...(existing||{}),
+    id:attendanceId,
+    attendanceId,
+    source:'Grupo',
+    sourceType:'group',
+    groupId:normalized.id || normalized.code || '',
+    groupCode:normalized.code || normalized.id || '',
+    scheduleId:normalized.scheduleId || '',
+    teacherId:normalized.teacherId || normalized.teacherCode || '',
+    teacherCode:normalized.teacherCode || normalized.teacherId || '',
+    teacherEmail:normalized.teacherEmail || '',
+    sessionNumber:Number(sessionNumber),
+    classNumber:Number(sessionNumber),
+    students:{...studentStatuses},
+    studentStatuses:{...studentStatuses},
+    records,
+    status:'completed',
+    date:savedAt,
+    savedAt,
+    updatedAt:new Date().toISOString(),
+    createdAt:existing?.createdAt || savedAt
+  }
+  try{
+    if(existing && hasAttendanceServiceMethod('update'))return AttendanceService.update(attendanceId,payload)
+    if(hasAttendanceServiceMethod('exists') && hasAttendanceServiceMethod('update') && AttendanceService.exists(attendanceId))return AttendanceService.update(attendanceId,payload)
+    if(hasAttendanceServiceMethod('create'))return AttendanceService.create(payload)
+  }catch(error){
+    console.warn('No se pudo sincronizar la asistencia con AttendanceService. Se conserva asistencia embebida del grupo.',error)
+  }
+  return null
+}
 
 function safeParse(value,fallback=[]){
   try{
@@ -344,12 +1067,26 @@ function safeParse(value,fallback=[]){
 }
 
 function loadTeachers(){
-  return WisdomStorage.get(TEACHERS_KEY,[]).map(teacher=>{
-    const id=teacher.id || teacher.teacherId || teacher.code || ''
+  let serviceTeachers=[]
+  if(typeof TeacherService !== 'undefined' && TeacherService && typeof TeacherService.getAll === 'function'){
+    try{
+      const result=TeacherService.getAll()
+      if(Array.isArray(result) && result.length) serviceTeachers=result
+    }catch(error){
+      console.warn('TeacherService.getAll() falló. Usando WisdomStorage como respaldo.',error)
+    }
+  }
+
+  const storageTeachers=WisdomStorage.get(TEACHERS_KEY,[])
+  const source=serviceTeachers.length ? serviceTeachers : (Array.isArray(storageTeachers)?storageTeachers:[])
+
+  return source.map(teacher=>{
+    const id=teacher.id || teacher.teacherId || teacher.code || teacher.teacherCode || ''
     return {
       ...teacher,
       id,
       teacherId:id,
+      teacherCode:teacher.teacherCode || id,
       code:id,
       status:teacher.status || 'Activo'
     }
@@ -459,7 +1196,19 @@ function normalizeStudentRecord(student){
   }
 }
 function getAllStudents(){
-  return WisdomStorage.get(STUDENTS_KEY,[]).map(normalizeStudentRecord).filter(student=>student.code)
+  let serviceStudents=[]
+  if(typeof StudentService !== 'undefined' && StudentService && typeof StudentService.getAll === 'function'){
+    try{
+      const result=StudentService.getAll()
+      if(Array.isArray(result) && result.length) serviceStudents=result
+    }catch(error){
+      console.warn('StudentService.getAll() falló. Usando WisdomStorage como respaldo.',error)
+    }
+  }
+
+  const storageStudents=WisdomStorage.get(STUDENTS_KEY,[])
+  const source=serviceStudents.length ? serviceStudents : (Array.isArray(storageStudents)?storageStudents:[])
+  return source.map(normalizeStudentRecord).filter(student=>student.code)
 }
 function normalizePrivatePackage(pkg){
   const status=String(pkg.status || pkg.state || '').toLowerCase()
@@ -555,7 +1304,7 @@ function renderGroupStudentsManager(group){
   `
 }
 function addStudentToCurrentGroup(){
-  if(!isAdmin())return
+  if(!requireAdminAction('agregar estudiantes a grupos')) return
   const code=document.getElementById('addStudentToGroupSelect')?.value
   if(!code){alert('No hay estudiante seleccionado.');return}
   const availability=studentAvailability(code,currentGroupId)
@@ -573,7 +1322,7 @@ function addStudentToCurrentGroup(){
   openGroup(currentGroupId)
 }
 function removeStudentFromCurrentGroup(code){
-  if(!isAdmin())return
+  if(!requireAdminAction('quitar estudiantes de grupos')) return
   const index=groups.findIndex(g=>g.id===currentGroupId)
   if(index<0)return
   const group=normalizeGroup(groups[index])
@@ -620,15 +1369,36 @@ function teacherMatchesCurrentUser(group){
   return idMatch || emailMatch || nameMatch
 }
 
+function studentMatchesCurrentUser(group){
+  if(!isStudent()) return true
+  const codes=currentUserStudentCodes()
+  const normalized=normalizeGroup(group||{})
+  return (Array.isArray(normalized.students)?normalized.students:[]).some(student=>{
+    const studentCodes=[student.code,student.studentId,student.id,student.studentCode]
+      .filter(Boolean)
+      .map(value=>String(value).trim())
+    return studentCodes.some(code=>codes.includes(code))
+  })
+}
+function canViewGroup(group){
+  if(isAdmin()) return true
+  if(isTeacher()) return teacherMatchesCurrentUser(group)
+  if(isStudent()) return studentMatchesCurrentUser(group)
+  return false
+}
 function visibleGroups(){
-  return groups.filter(group=>teacherMatchesCurrentUser(group))
+  return groups.filter(group=>canViewGroup(group))
 }
 
 function applyRoleControls(){
+  const admin=isAdmin()
   const createBtn=document.getElementById('createGroupBtn')
-  if(createBtn && !isAdmin()) createBtn.style.display='none'
+  if(createBtn) createBtn.style.display=admin?'inline-block':'none'
+  document.querySelectorAll('.admin-backup-only').forEach(el=>{
+    el.style.display=admin?'inline-block':'none'
+  })
   const adminPanel=document.getElementById('adminControlsPanel')
-  if(adminPanel && !isAdmin()) adminPanel.style.display='none'
+  if(adminPanel) adminPanel.style.display=admin?'block':'none'
 }
 
 function canManageGroupAttendance(group){
@@ -801,6 +1571,7 @@ function acceptGroupProgressReport(reportNumber){
   if(groupIndex<0)return
   const studentCode=document.getElementById('reportStudentSelect')?.value
   if(!studentCode)return
+  if(!canAcceptReportForStudent(studentCode)){alert('No autorizado: solo el estudiante correspondiente o administración puede aceptar este reporte.');return}
   const group=normalizeGroup(groups[groupIndex])
   const key=getReportKey(reportNumber)
   group.reports=group.reports||{}
@@ -819,7 +1590,11 @@ function printCurrentProgressReport(){
 }
 
 function loadGroups(){
-  const loaded=WisdomStorage.get(GROUPS_KEY,defaultGroups);
+  const serviceGroups=groupServiceGetAll()
+  const storageGroups=WisdomStorage.get(GROUPS_KEY,defaultGroups)
+  const loaded=Array.isArray(serviceGroups) && serviceGroups.length
+    ? serviceGroups
+    : (Array.isArray(storageGroups) && storageGroups.length ? storageGroups : defaultGroups)
 
   return loaded.map((group,index)=>{
     const baseGroup={
@@ -840,8 +1615,191 @@ function saveGroups(){
     ? SchemaRegistry.normalizeCollection(groups,'normalizeGroup')
     : groups.map(normalizeGroup)
 
+  if(hasGroupServiceMethod('replaceAll')){
+    try{
+      GroupService.replaceAll(normalized)
+      groups=normalized
+      return
+    }catch(error){console.warn('GroupService.replaceAll() falló. Intentando actualización individual.',error)}
+  }
+
+  if(hasGroupServiceMethod('saveAll')){
+    try{
+      GroupService.saveAll(normalized)
+      groups=normalized
+      return
+    }catch(error){console.warn('GroupService.saveAll() falló. Intentando actualización individual.',error)}
+  }
+
+  if(hasGroupServiceMethod('update') || hasGroupServiceMethod('create')){
+    try{
+      normalized.forEach(group=>{
+        const id=group.id||group.code
+        if(!id)return
+        if(groupServiceExists(id)) groupServiceUpdate(id,group)
+        else groupServiceCreate(group)
+      })
+      groups=normalized
+      return
+    }catch(error){
+      console.warn('No se pudo persistir con GroupService. Usando WisdomStorage como respaldo.',error)
+    }
+  }
+
   WisdomStorage.set(GROUPS_KEY,normalized)
+  groups=normalized
 }
+
+function backupTimestamp(){
+  return new Date().toISOString().replace(/[:.]/g,'-')
+}
+function downloadTextFile(filename,content,mimeType='application/json'){
+  const blob=new Blob([content],{type:mimeType})
+  const url=URL.createObjectURL(blob)
+  const link=document.createElement('a')
+  link.href=url
+  link.download=filename
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  URL.revokeObjectURL(url)
+}
+function csvEscape(value){
+  const text=String(value??'')
+  return /[",\n;]/.test(text)?`"${text.replace(/"/g,'""')}"`:text
+}
+function toCSV(rows){
+  if(!rows.length)return ''
+  const headers=Object.keys(rows[0])
+  return [headers.join(','),...rows.map(row=>headers.map(header=>csvEscape(row[header])).join(','))].join('\n')
+}
+function exportGroupsJSON(options={}){
+  if(!requireAdminAction('exportar grupos')) return;
+  const normalizedGroups=(Array.isArray(groups)?groups:[]).map(normalizeGroup)
+  const payload={
+    app:'Wisdom Academy',
+    module:'grupales',
+    key:GROUPS_KEY,
+    exportedAt:new Date().toISOString(),
+    count:normalizedGroups.length,
+    groups:normalizedGroups
+  }
+  const prefix=options.auto?'wisdom-grupales-autobackup':'wisdom-grupales-backup'
+  downloadTextFile(`${prefix}-${backupTimestamp()}.json`,JSON.stringify(payload,null,2),'application/json')
+}
+function exportGroupsCSV(){
+  if(!requireAdminAction('exportar grupos CSV')) return;
+  const rows=(Array.isArray(groups)?groups:[]).map(raw=>{
+    const group=normalizeGroup(raw)
+    return {
+      id:group.id||'',
+      code:group.code||group.id||'',
+      name:group.name||'',
+      level:group.level||'',
+      teacherId:group.teacherId||group.teacherCode||'',
+      teacher:group.teacher||getTeacherNameById(group.teacherId)||'',
+      teacherEmail:group.teacherEmail||'',
+      scheduleId:group.scheduleId||'',
+      schedule:displayGroupSchedule(group),
+      scheduleDays:Array.isArray(group.scheduleDays)?group.scheduleDays.join('|'):'',
+      startTime:group.startTime||'',
+      endTime:group.endTime||'',
+      modality:group.modality||'',
+      classroom:group.classroom||'',
+      start:group.start||'',
+      end:group.end||'',
+      currentClass:getGroupCurrentClass(group),
+      studentsCount:Array.isArray(group.students)?group.students.length:0,
+      students:Array.isArray(group.students)?group.students.map(student=>`${student.code||''} ${student.name||''}`.trim()).join(' | '):'',
+      attendanceSessions:Object.keys(group.attendance||{}).filter(key=>/^\d+$/.test(String(key))).length,
+      reportsCount:countGroupReports(group),
+      createdAt:group.createdAt||'',
+      updatedAt:group.updatedAt||''
+    }
+  })
+  downloadTextFile(`wisdom-grupales-${backupTimestamp()}.csv`,toCSV(rows),'text/csv;charset=utf-8')
+}
+function exportAttendanceCSV(){
+  if(!requireAdminAction('exportar asistencia')) return;
+  const rows=[]
+  ;(Array.isArray(groups)?groups:[]).map(normalizeGroup).forEach(group=>{
+    const attendance=group.attendance||{}
+    const serviceRecords=attendanceServiceGetByGroupSafe(group.id || group.code)
+    serviceRecords.forEach(record=>{
+      const session=attendanceRecordSession(record)
+      if(session && !attendance[session])attendance[session]=attendanceStudentsMapFromRecord(record)
+      if(session && attendance[session] && record.savedAt)attendance[session].savedAt=attendance[session].savedAt || record.savedAt
+    })
+    Object.keys(attendance).filter(key=>/^\d+$/.test(String(key))).sort((a,b)=>Number(a)-Number(b)).forEach(session=>{
+      const record=attendance[session]||{}
+      ;(Array.isArray(group.students)?group.students:[]).forEach(student=>{
+        rows.push({
+          groupId:group.id||'',
+          groupCode:group.code||group.id||'',
+          groupName:group.name||'',
+          teacherId:group.teacherId||group.teacherCode||'',
+          teacher:group.teacher||'',
+          session:Number(session),
+          studentCode:student.code||'',
+          studentName:student.name||'',
+          status:record[student.code]||'',
+          savedAt:record.savedAt||record.updatedAt||record.date||''
+        })
+      })
+    })
+  })
+  if(!rows.length){
+    alert('No hay asistencia registrada para exportar todavía.')
+    return
+  }
+  downloadTextFile(`wisdom-grupales-asistencia-${backupTimestamp()}.csv`,toCSV(rows),'text/csv;charset=utf-8')
+}
+function countGroupReports(group){
+  const reports=group.reports||{}
+  return Object.values(reports).reduce((total,studentReports)=>{
+    if(!studentReports || typeof studentReports!=='object')return total
+    return total+Object.values(studentReports).filter(Boolean).length
+  },0)
+}
+function importGroupsJSON(event){
+  if(!requireAdminAction('importar grupos')){ if(event?.target)event.target.value=''; return }
+  const file=event.target.files&&event.target.files[0]
+  event.target.value=''
+  if(!file)return
+
+  const reader=new FileReader()
+  reader.onload=function(){
+    try{
+      const parsed=JSON.parse(reader.result)
+      const imported=Array.isArray(parsed)?parsed:(Array.isArray(parsed.groups)?parsed.groups:null)
+      if(!Array.isArray(imported)){
+        alert('El archivo no contiene una lista válida de grupos.')
+        return
+      }
+      const confirmed=confirm(`Vas a importar ${imported.length} grupo(s). Antes de reemplazar la información actual se descargará un backup automático. ¿Continuar?`)
+      if(!confirmed)return
+      exportGroupsJSON({auto:true})
+      groups=imported.map((group,index)=>normalizeGroup({
+        ...group,
+        id:group.id||group.code||`GR-${String(index+1).padStart(4,'0')}`,
+        code:group.code||group.id||`GR-${String(index+1).padStart(4,'0')}`,
+        importedAt:new Date().toISOString(),
+        updatedAt:new Date().toISOString()
+      }))
+      saveGroups()
+      currentGroupId=null
+      selectedSession=null
+      showGroups()
+      refreshAttendanceNotifications()
+      alert('Grupos importados correctamente.')
+    }catch(error){
+      console.error(error)
+      alert('No se pudo importar el archivo. Revisa que sea un JSON válido.')
+    }
+  }
+  reader.readAsText(file)
+}
+
 
 function normalizeGroup(group={}){
   if(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeGroup){
@@ -863,6 +1821,7 @@ function normalizeGroup(group={}){
     normalized.schedule=normalized.schedule||buildScheduleLabel(normalized.scheduleDays,normalized.startTime,normalized.endTime,normalized.modality,normalized.classroom)
     normalized.teacherId=normalized.teacherId || normalized.teacherCode || ''
     normalized.teacherCode=normalized.teacherCode || normalized.teacherId || ''
+    normalized.scheduleId=normalized.scheduleId || buildGroupScheduleId(normalized)
 
     if(normalized.teacherId && !normalized.teacher){
       normalized.teacher=getTeacherNameById(normalized.teacherId) || normalized.teacher || 'Profesor asignado'
@@ -888,6 +1847,7 @@ function normalizeGroup(group={}){
   normalized.schedule=normalized.schedule||buildScheduleLabel(normalized.scheduleDays,normalized.startTime,normalized.endTime,normalized.modality,normalized.classroom);
   normalized.teacherId=normalized.teacherId || normalized.teacherCode || '';
   normalized.teacherCode=normalized.teacherCode || normalized.teacherId || '';
+  normalized.scheduleId=normalized.scheduleId || buildGroupScheduleId(normalized);
   if(normalized.teacherId && !normalized.teacher){
     normalized.teacher=getTeacherNameById(normalized.teacherId) || normalized.teacher || 'Profesor asignado';
   }
@@ -1017,7 +1977,7 @@ function addAdminNote(group,message){
   group.adminNotes.push({date:new Date().toLocaleString('es-CO'),message});
 }
 function adminUpdateCurrentClass(){
-  if(!isAdmin()) return;
+  if(!requireAdminAction('corregir clase actual')) return;
   const groupIndex=groups.findIndex(g=>g.id===currentGroupId);
   if(groupIndex<0)return;
   const group=normalizeGroup(groups[groupIndex]);
@@ -1042,7 +2002,7 @@ function adminUpdateCurrentClass(){
   openGroup(currentGroupId);
 }
 function adminSetReportOverride(reportNumber,status){
-  if(!isAdmin()) return;
+  if(!requireAdminAction('modificar ventanas de reporte')) return;
   const groupIndex=groups.findIndex(g=>g.id===currentGroupId);
   if(groupIndex<0)return;
   const group=normalizeGroup(groups[groupIndex]);
@@ -1171,6 +2131,7 @@ function renderProgressReports(){
   [1,2,3].forEach(reportNumber=>{
     const reportWindow=getReportWindow(reportNumber);
     const unlocked=isReportAvailable(normalized,reportNumber,current);
+    const canWriteReport=requireGroupWriteAccessSilent(normalized);
     const notOpenYet=current<reportWindow.start;
     const report=getStudentReport(normalized, student.code, reportNumber);
     const scores=calculateReportScores(report);
@@ -1217,12 +2178,12 @@ function renderProgressReports(){
         <div class="final-score">Promedio final: ${scores.finalScore.toFixed(1)}%</div>
         <div class="sub">${report.savedAt?'Última actualización: '+report.savedAt:'Sin guardar todavía'}</div>
         <div class="report-acceptance">
-          <label><input type="checkbox" ${report.accepted?'checked':''} onchange="acceptGroupProgressReport(${reportNumber})"> Acepto que he revisado este reporte de progreso.</label>
+          <label><input type="checkbox" ${report.accepted?'checked':''} ${canAcceptReportForStudent(student.code)?'':'disabled'} onchange="acceptGroupProgressReport(${reportNumber})"> Acepto que he revisado este reporte de progreso.</label>
           <small>${report.accepted ? 'Aceptado por '+(report.acceptedBy||'usuario')+' · '+(report.acceptedAt?new Date(report.acceptedAt).toLocaleString('es-CO'):'') : 'Pendiente de aceptación del estudiante.'}</small>
         </div>
 
         <div class="report-actions">
-          <button class="btn btn-primary" onclick="saveProgressReport(${reportNumber})">Guardar reporte</button>
+          ${canWriteReport?`<button class="btn btn-primary" onclick="saveProgressReport(${reportNumber})">Guardar reporte</button>`:''}
           <button class="btn btn-secondary" onclick="previewProgressReport(${reportNumber})">Ver resumen</button>
           <button class="btn btn-secondary" onclick="printCurrentProgressReport()">Imprimir / PDF</button>
         </div>
@@ -1257,6 +2218,7 @@ function saveProgressReport(reportNumber){
   const groupIndex=groups.findIndex(g=>g.id===currentGroupId);
   if(groupIndex<0)return;
   const group=normalizeGroup(groups[groupIndex]);
+  if(!requireGroupWriteAccess(group,'guardar reportes de progreso')) return;
   const current=getGroupCurrentClass(group);
   const reportWindow=getReportWindow(reportNumber);
   if(!isReportAvailable(group,reportNumber,current)){
@@ -1347,7 +2309,6 @@ function renderGroups(){
     `;
     grid.appendChild(card)
   });
-  saveGroups();
 }
 function searchGroups(){const input=document.getElementById('groupSearch').value.toLowerCase();document.querySelectorAll('#groupsGrid .card').forEach(card=>{card.style.display=card.innerText.toLowerCase().includes(input)?'':'none'})}
 function generateGroupCode(){
@@ -1394,6 +2355,7 @@ function openCreateGroupModal(){
 }
 function closeCreateGroupModal(){document.getElementById('createGroupModal').classList.remove('active')}
 function createGroup(){
+  if(!requireAdminAction('crear grupos')) return;
   const code=document.getElementById('groupCode').value.trim() || generateGroupCode();
   const name=document.getElementById('groupName').value.trim();
   const level=document.getElementById('groupLevel').value;
@@ -1423,18 +2385,25 @@ function createGroup(){
     return;
   }
 
-  groups.push({id:code,code,name,level,teacher,teacherId,teacherCode:teacherId,teacherEmail:selectedTeacher?.email||'',schedule,scheduleDays:structuredSchedule.scheduleDays,startTime:structuredSchedule.startTime,endTime:structuredSchedule.endTime,modality:structuredSchedule.modality,classroom:structuredSchedule.classroom,start,end,currentClass:0,students,attendance:{},reports:{},reportOverrides:{},adminNotes:[],createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()});
-  saveGroups();
+  const newGroup={id:code,code,name,level,teacher,teacherId,teacherCode:teacherId,teacherEmail:selectedTeacher?.email||'',schedule,scheduleDays:structuredSchedule.scheduleDays,startTime:structuredSchedule.startTime,endTime:structuredSchedule.endTime,modality:structuredSchedule.modality,classroom:structuredSchedule.classroom,start,end,currentClass:0,students,attendance:{},reports:{},reportOverrides:{},adminNotes:[],createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};
+  if(hasGroupScheduleConflict(newGroup)){
+    alert('No se puede crear el grupo porque el profesor ya tiene otro evento en ese horario. Revisa calendario o cambia días/hora/profesor.');
+    return;
+  }
+  const scheduleId=upsertGroupSchedule(newGroup);
+  if(scheduleId)newGroup.scheduleId=scheduleId;
+  groupServiceCreate(newGroup);
+  groups=loadGroups();
   renderGroups();
   closeCreateGroupModal();
   ['groupCode','groupName','groupSchedule','groupStart','groupEnd','groupClassroom'].forEach(id=>document.getElementById(id).value=''); document.getElementById('groupStartTime').value='18:30'; document.getElementById('groupEndTime').value='19:45'; document.getElementById('groupModality').value='Presencial'; setScheduleDays(['monday','tuesday','wednesday','thursday']); document.getElementById('groupTeacher').innerHTML=''; renderCreateStudentPicker()
 }
 function openGroup(id){
   currentGroupId=id;
-  let group=groups.find(g=>g.id===id);
+  let group=groupServiceGetById(id);
   if(!group)return;
   group=normalizeGroup(group);
-  if(!teacherMatchesCurrentUser(group)){
+  if(!canViewGroup(group)){
     alert('No tienes permiso para abrir este grupo.');
     showGroups();
     return;
@@ -1463,7 +2432,7 @@ function renderSessions(group){
   for(let i=1;i<=48;i++){
     const btn=document.createElement('div');
     const blocked=isSessionVisuallyBlocked(group,i);
-    btn.className='session'+(group.attendance[i]?' done':'')+(blocked?' blocked':'');
+    btn.className='session'+(isAttendanceSessionDone(group,i)?' done':'')+(blocked?' blocked':'');
     btn.innerText=i;
     btn.title=blocked?'Bloqueada: completa el reporte pendiente antes de avanzar.':'Abrir asistencia';
     btn.onclick=()=>openAttendance(i);
@@ -1484,7 +2453,8 @@ function openAttendance(sessionNumber){
   const tbody=document.getElementById('attendanceTable');
   tbody.innerHTML='';
   group.students.forEach(student=>{
-    const current=group.attendance[sessionNumber]?.[student.code]||'';
+    const attendanceMap=getAttendanceMapForSession(group,sessionNumber);
+    const current=attendanceMap[student.code]||'';
     const row=document.createElement('tr');
     row.innerHTML=`<td>${student.code}</td><td>${student.name}</td><td><button class="attendance-btn ${current==='present'?'present':''}" onclick="markAttendance('${student.code}','present',this)">✓</button></td><td><button class="attendance-btn ${current==='absent'?'absent':''}" onclick="markAttendance('${student.code}','absent',this)">×</button></td>`;
     tbody.appendChild(row);
@@ -1511,13 +2481,19 @@ function saveAttendance(){
     return;
   }
 
-  if(!group.attendance[selectedSession])group.attendance[selectedSession]={};
+  const savedAt=new Date().toISOString();
+  const studentStatuses={};
   rows.forEach(row=>{
-    group.attendance[selectedSession][row.dataset.code]=row.dataset.status;
+    studentStatuses[row.dataset.code]=row.dataset.status;
   });
 
-  group.attendance[selectedSession].savedAt=new Date().toISOString();
-  const completedSessions=Object.keys(group.attendance).filter(key=>/^\d+$/.test(String(key))).length;
+  if(!group.attendance[selectedSession])group.attendance[selectedSession]={};
+  group.attendance[selectedSession]={...studentStatuses,savedAt};
+  syncAttendanceServiceRecord(group,selectedSession,studentStatuses,savedAt);
+
+  const serviceCompletedSessions=attendanceServiceGetByGroupSafe(group.id || group.code).filter(record=>attendanceRecordSession(record)>0).length;
+  const embeddedCompletedSessions=Object.keys(group.attendance).filter(key=>/^\d+$/.test(String(key))).length;
+  const completedSessions=Math.max(serviceCompletedSessions,embeddedCompletedSessions);
   group.currentClass=Math.min(48,Math.max(Number(group.currentClass)||0,completedSessions,Number(selectedSession)||0));
   group.updatedAt=new Date().toISOString();
   saveGroups();
@@ -1525,7 +2501,7 @@ function saveAttendance(){
   openGroup(currentGroupId);
 }
 function deleteGroup(id){
-  if(!isAdmin()) return;
+  if(!requireAdminAction('borrar grupos')) return;
   const group = groups.find(g => g.id === id);
   if(!group) return;
 
@@ -1538,8 +2514,9 @@ function deleteGroup(id){
   const confirmed = confirm(`¿Seguro que quieres borrar el módulo ${group.code || group.id} · ${group.name}? Esta acción no se puede deshacer.`);
   if(!confirmed) return;
 
-  groups = groups.filter(g => g.id !== id);
-  saveGroups();
+  deleteGroupSchedules(group);
+  groupServiceDelete(id);
+  groups=loadGroups();
 
   if(currentGroupId === id){
     currentGroupId = null;
@@ -1549,10 +2526,188 @@ function deleteGroup(id){
   }
 }
 
+
+/* FASE 13 — Domain Hardening: grupales */
+(function wisdomPhase13GroupsHardening(){
+  const GROUP_MIN_STUDENTS = 5;
+  const GROUP_MAX_CLASSES = 48;
+
+  function safeArray(value){ return Array.isArray(value) ? value : []; }
+  function safeStudentCode(student){
+    return String((student && (student.code || student.studentCode || student.studentId || student.id)) || '').trim();
+  }
+  function dedupeStudents(students){
+    const seen = new Set();
+    return safeArray(students).filter(function(student){
+      const key = safeStudentCode(student) || String((student && student.name) || '').trim().toLowerCase();
+      if(!key || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+  function normalizeGroupForProduction(group){
+    const normalized = (typeof normalizeGroup === 'function') ? normalizeGroup(group || {}) : Object.assign({}, group || {});
+    normalized.id = normalized.id || normalized.code || '';
+    normalized.code = normalized.code || normalized.id || '';
+    normalized.students = dedupeStudents(normalized.students);
+    normalized.attendance = normalized.attendance && typeof normalized.attendance === 'object' ? normalized.attendance : {};
+    normalized.reports = normalized.reports && typeof normalized.reports === 'object' ? normalized.reports : {};
+    normalized.reportOverrides = normalized.reportOverrides && typeof normalized.reportOverrides === 'object' ? normalized.reportOverrides : {};
+    normalized.currentClass = Math.max(0, Math.min(GROUP_MAX_CLASSES, Number(normalized.currentClass) || Object.keys(normalized.attendance || {}).filter(function(key){ return /^\d+$/.test(String(key)); }).length || 0));
+    normalized.updatedAt = new Date().toISOString();
+    return normalized;
+  }
+
+  if(typeof saveGroups === 'function'){
+    const originalSaveGroups = saveGroups;
+    saveGroups = function phase13SaveGroups(){
+      if(Array.isArray(groups)){
+        groups = groups.map(normalizeGroupForProduction);
+      }
+      return originalSaveGroups.apply(this, arguments);
+    };
+  }
+
+  if(typeof createGroup === 'function'){
+    const originalCreateGroup = createGroup;
+    createGroup = function phase13CreateGroup(){
+      try{
+        const selected = (typeof selectedStudentsForNewGroup === 'function') ? selectedStudentsForNewGroup() : [];
+        if(!Array.isArray(selected) || selected.length < GROUP_MIN_STUDENTS){
+          alert('Un grupo debe iniciar con mínimo 5 estudiantes activos. Selecciona al menos 5 estudiantes para crear el grupo.');
+          return;
+        }
+      }catch(error){
+        console.warn('[Wisdom Fase 13] No se pudo validar mínimo de estudiantes antes de crear grupo.', error);
+      }
+      return originalCreateGroup.apply(this, arguments);
+    };
+  }
+
+  if(typeof saveAttendance === 'function'){
+    const originalSaveAttendance = saveAttendance;
+    saveAttendance = function phase13SaveAttendance(){
+      const group = Array.isArray(groups) ? groups.find(function(item){ return item.id === currentGroupId || item.code === currentGroupId; }) : null;
+      if(group){
+        group.students = dedupeStudents(group.students);
+        if(!group.students.length){
+          alert('No se puede guardar asistencia en un grupo sin estudiantes vinculados.');
+          return;
+        }
+      }
+      return originalSaveAttendance.apply(this, arguments);
+    };
+  }
+
+  (function wisdomPhase13RuntimeHardening(){
+  if(window.__wisdomPhase13RuntimeHardeningInstalled) return;
+  window.__wisdomPhase13RuntimeHardeningInstalled = true;
+
+  window.addEventListener('error', function(event){
+    try{
+      console.error('[Wisdom Fase 13] Runtime error:', event.error || event.message);
+    }catch(error){}
+  });
+
+  window.addEventListener('unhandledrejection', function(event){
+    try{
+      console.error('[Wisdom Fase 13] Unhandled promise rejection:', event.reason);
+    }catch(error){}
+  });
+
+  let storageReloadTimer = null;
+  window.addEventListener('storage', function(event){
+    try{
+      const watchedKeys = [
+        'wisdom_students_demo',
+        'wisdom_teachers_demo',
+        'wisdom_groups_demo',
+        'wisdom_private_demo',
+        'wisdom_schedules_demo',
+        'wisdom_teacher_availability',
+        'wisdom_calendar_manual_events',
+        'wisdom_attendance_demo',
+        'wisdom_notifications_demo',
+        'wisdom_requests_demo',
+        'wisdom_current_user'
+      ];
+      if(!event || !watchedKeys.includes(event.key)) return;
+      if(document.visibilityState !== 'visible') return;
+      clearTimeout(storageReloadTimer);
+      storageReloadTimer = setTimeout(function(){ window.location.reload(); }, 350);
+    }catch(error){}
+  });
+})();
+})();
+
 applyRoleControls()
 renderRoleNotice()
 bindGroupDateCalculation()
 renderGroups()
 </script>
+
+<script>
+(function(){
+  function normalizeRoleForSidebar(role){
+    const raw=String(role||'').trim().toLowerCase();
+    const clean=raw.normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    if(['admin','administrador','administrativo','administrator'].includes(clean))return 'admin';
+    if(['teacher','profesor','docente','instructor'].includes(clean))return 'teacher';
+    if(['student','estudiante','alumno','learner'].includes(clean))return 'student';
+    return clean;
+  }
+  function getSidebarUser(){
+    try{
+      if(window.AuthService && typeof AuthService.getCurrentUser==='function'){
+        const user=AuthService.getCurrentUser();
+        if(user)return user;
+      }
+    }catch(error){}
+    try{
+      if(window.WisdomStorage && typeof WisdomStorage.get==='function'){
+        return WisdomStorage.get('wisdom_current_user',null) || {};
+      }
+    }catch(error){}
+    try{return JSON.parse(localStorage.getItem('wisdom_current_user')||'{}')}catch(error){return {}}
+  }
+  function roleLabel(role){
+    const normalized=normalizeRoleForSidebar(role);
+    return {admin:'Administrativo',teacher:'Profesor',student:'Estudiante'}[normalized] || role || 'Usuario';
+  }
+  window.wisdomSidebarLogout=function(){
+    try{
+      if(window.AuthService && typeof AuthService.logout==='function'){
+        AuthService.logout();
+      }else if(window.WisdomStorage && typeof WisdomStorage.remove==='function'){
+        WisdomStorage.remove('wisdom_current_user');
+      }else{
+        localStorage.removeItem('wisdom_current_user');
+      }
+    }catch(error){
+      try{localStorage.removeItem('wisdom_current_user')}catch(e){}
+    }
+    window.location.href='login.html';
+  };
+
+  const user=getSidebarUser() || {};
+  const role=normalizeRoleForSidebar(user.role || user.userRole || user.type || user.profile || user.access);
+  const userEl=document.getElementById('wisdomSidebarUser');
+  const roleEl=document.getElementById('wisdomSidebarRole');
+  if(userEl)userEl.textContent=user.name || user.email || 'Usuario';
+  if(roleEl)roleEl.textContent=roleLabel(role);
+
+  document.querySelectorAll('.wisdom-side-link[data-roles]').forEach(function(link){
+    const allowed=String(link.getAttribute('data-roles')||'').split(',').map(item=>item.trim());
+    if(role && allowed.length && !allowed.includes(role))link.style.display='none';
+  });
+
+  const current=(location.pathname.split('/').pop() || '').toLowerCase();
+  document.querySelectorAll('.wisdom-side-link[data-sidebar-link]').forEach(function(link){
+    const target=String(link.getAttribute('data-sidebar-link')||'').toLowerCase();
+    if(current===target)link.classList.add('active');
+  });
+})();
+</script>
+
 </body>
 </html>

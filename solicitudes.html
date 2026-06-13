@@ -39,6 +39,16 @@ body{font-family:Inter,Arial,sans-serif;background:var(--light);color:var(--text
   line-height:1.35;
   font-weight:700;
 }
+
+
+/* FASE 13 — Production Simulation hardening: safe modal scroll and mobile resilience */
+.modal-box{max-height:90vh;overflow:auto}
+.table-wrap,.message-list{overscroll-behavior:contain}
+
+
+.breadcrumb{display:flex;gap:8px;align-items:center;color:var(--gray);font-size:.82rem;font-weight:900;margin-bottom:12px}.breadcrumb a{color:var(--accent);text-decoration:none}.breadcrumb a:hover{text-decoration:underline}
+.priority-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}.priority-card{border:1px solid var(--border);border-radius:18px;padding:14px;background:white}.priority-card strong{display:block;color:var(--primary);margin-bottom:4px}.priority-card small{color:var(--gray);font-weight:800}.sla-badge{display:inline-block;margin-top:6px;padding:4px 8px;border-radius:999px;background:#eef2f5;color:var(--gray);font-size:.7rem;font-weight:900}.sla-badge.warning{background:var(--warning-bg);color:var(--warning)}.sla-badge.danger{background:var(--danger-bg);color:var(--danger)}
+@media(max-width:900px){.priority-strip{grid-template-columns:1fr}}
 </style></head><body><div class="app">
 <aside class="sidebar">
   <div class="logo">WISDOM</div>
@@ -46,13 +56,28 @@ body{font-family:Inter,Arial,sans-serif;background:var(--light);color:var(--text
   <div class="menu-group"><div class="menu-title">Personas ▾</div><div class="menu-items"><a class="side-link" data-roles="admin" href="estudiantes.html"><span class="dot"></span> Estudiantes</a><a class="side-link" data-roles="admin" href="profesores.html"><span class="dot"></span> Profesores</a><a class="side-link" data-roles="admin" href="usuarios.html"><span class="dot"></span> Usuarios</a></div></div>
   <div class="menu-group"><div class="menu-title">Servicios ▾</div><div class="menu-items"><a class="side-link" data-roles="admin,teacher" href="grupales.html"><span class="dot"></span> Grupales</a><a class="side-link" data-roles="admin,teacher" href="privadas.html"><span class="dot"></span> Privadas / Semi</a></div></div>
   <div class="menu-group active"><div class="menu-title">Gestión ▾</div><div class="menu-items"><a class="side-link" data-roles="admin,teacher,student" href="calendario.html"><span class="dot"></span> Calendario</a><a class="side-link" data-roles="admin" href="finanzas.html"><span class="dot"></span> Finanzas</a><a class="side-link active" data-roles="admin,teacher,student" href="solicitudes.html"><span class="dot"></span> Solicitudes</a><a class="side-link " data-roles="admin,teacher,student" href="reportes.html"><span class="dot"></span> Reportes</a><a class="side-link" data-roles="admin,teacher" href="mensajes.html"><span class="dot"></span> Mensajes</a></div></div>
-  <div class="menu-group"><div class="menu-title">Práctica y exámenes ▾</div><div class="menu-items"><a class="side-link" data-roles="admin,teacher,student" href="Grammar_portal.html"><span class="dot"></span> Grammar</a><a class="side-link" data-roles="admin,teacher,student" href="Listening_portal.html"><span class="dot"></span> Listening</a><a class="side-link" data-roles="admin,teacher,student" href="Speaking_portal.html"><span class="dot"></span> Speaking</a><a class="side-link" data-roles="admin,teacher" href="evaluaciones.html"><span class="dot"></span> Evaluaciones</a><a class="side-link" data-roles="admin,teacher,student" href="resultados.html"><span class="dot"></span> Resultados</a></div></div>
+  
+  <div class="menu-group">
+    <div class="menu-title">Diagnóstico ▾</div>
+    <div class="menu-items">
+      <a class="side-link" data-roles="admin,teacher" href="placement_portal_integrado.html"><span class="dot"></span> Placement</a>
+      <a class="side-link" data-roles="admin,teacher" href="diagnostico_resultados.html"><span class="dot"></span> Resultados diagnóstico</a>
+    </div>
+  </div>
+
+<div class="menu-group"><div class="menu-title">Práctica y exámenes ▾</div><div class="menu-items"><a class="side-link" data-roles="admin,teacher,student" href="Grammar_portal.html"><span class="dot"></span> Grammar</a><a class="side-link" data-roles="admin,teacher,student" href="Listening_portal.html"><span class="dot"></span> Listening</a><a class="side-link" data-roles="admin,teacher,student" href="Speaking_portal.html"><span class="dot"></span> Speaking</a><a class="side-link" data-roles="admin,teacher" href="evaluaciones.html"><span class="dot"></span> Evaluaciones</a><a class="side-link" data-roles="admin,teacher,student" href="resultados.html"><span class="dot"></span> Resultados</a></div></div>
   <div class="user-box"><strong id="sidebarUserName">Usuario</strong><small id="sidebarUserRole">Rol</small><small id="sidebarUserEmail">correo</small><button class="logout-btn" onclick="logout()">Cerrar sesión</button></div>
 </aside>
-<main class="main"><div class="topbar"><div><h1>Solicitudes <span id="rolePill" class="role-pill">Rol</span></h1><div class="sub">Reprogramaciones, cambios de horario y certificados.</div></div><div class="actions"><button class="btn btn-secondary" onclick="window.location.href='dashboard.html'">Dashboard</button><button class="btn btn-primary" id="newRequestTopBtn" onclick="openRequestModal()">Nueva solicitud</button></div></div><div class="notice" id="noticeBox"></div><section class="metrics"><div class="metric"><span>Total</span><strong id="totalCount">0</strong><small>Según permisos</small></div><div class="metric"><span>Nuevas</span><strong id="newCount">0</strong><small>Sin gestionar</small></div><div class="metric"><span>En revisión</span><strong id="reviewCount">0</strong><small>Proceso activo</small></div><div class="metric"><span>Cerradas</span><strong id="closedCount">0</strong><small>Aprobadas/rechazadas</small></div></section><section class="panel"><h2 style="color:var(--primary);margin-bottom:14px">Filtros</h2><div class="filters"><div class="field"><label>Buscar</label><input id="searchInput" placeholder="Estudiante, tipo, código..." oninput="renderRequests()"></div><div class="field"><label>Estado</label><select id="statusFilter" onchange="renderRequests()"><option value="">Todos</option><option>Nueva</option><option>En revisión</option><option>Aprobada</option><option>Rechazada</option></select></div><div class="field"><label>Tipo</label><select id="typeFilter" onchange="renderRequests()"><option value="">Todos</option><option>Reprogramación</option><option>Cambio de horario</option><option>Certificado de estudio</option><option>Solicitud por WhatsApp</option></select></div><div class="field"><label>Acción</label><button class="btn btn-secondary" onclick="resetFilters()">Limpiar filtros</button></div></div></section><section class="panel"><div id="emptyState" class="empty" style="display:none">No hay solicitudes para mostrar.</div><div class="table-wrap" id="tableWrap"><table><thead><tr><th>Creada</th><th>Estudiante</th><th>Tipo</th><th>Fecha solicitada</th><th>Estado</th><th>Notas</th><th>Acciones</th></tr></thead><tbody id="requestsTable"></tbody></table></div></section></main></div><div class="modal" id="requestModal"><div class="modal-box"><h2>Nueva solicitud</h2><div class="form-grid"><div class="field full"><label>Estudiante</label><select id="studentSelect"></select></div><div class="field full"><label>Tipo</label><select id="requestType" onchange="handleRequestTypeChange()"><option value="Reprogramación">Reprogramación de clase</option><option value="Cambio de horario">Cambio de horario</option><option value="Certificado de estudio">Certificado de estudio</option></select></div><div class="field" id="requestDateField"><label>Fecha solicitada</label><input id="requestDate" type="date"></div><div class="field" id="requestTimeField"><label>Hora solicitada</label><input id="requestTime" type="time"></div><div class="field full"><label>Motivo / detalle</label><textarea id="requestReason" placeholder="Describe la solicitud con suficiente contexto."></textarea></div></div><div class="modal-actions"><button class="btn btn-secondary" onclick="closeRequestModal()">Cancelar</button><button class="btn btn-primary" onclick="createRequest()">Enviar</button></div></div></div><div class="modal" id="reviewModal"><div class="modal-box"><h2>Revisar solicitud</h2><input type="hidden" id="reviewId"><div class="form-grid"><div class="field full"><label>Solicitud</label><input id="reviewSummary" readonly></div><div class="field"><label>Estado</label><select id="reviewStatus"><option>Nueva</option><option>En revisión</option><option>Aprobada</option><option>Rechazada</option></select></div><div class="field full"><label>Nota administrativa</label><textarea id="reviewAdminNote"></textarea></div><div class="field full"><label>Nota profesor</label><textarea id="reviewTeacherNote"></textarea></div></div><div class="modal-actions"><button class="btn btn-secondary" onclick="closeReviewModal()">Cancelar</button><button class="btn btn-primary" onclick="saveReview()">Guardar</button></div></div></div><script src="storage.js"></script>
-<script src="schemaRegistry.js"></script>
+<main class="main"><div class="breadcrumb"><a href="dashboard.html">Dashboard</a><span>/</span><strong>Solicitudes</strong></div><div class="topbar"><div><h1>Solicitudes <span id="rolePill" class="role-pill">Rol</span></h1><div class="sub">Reprogramaciones, cambios de horario y certificados.</div></div><div class="actions"><button class="btn btn-secondary" data-roles="admin" onclick="exportRequestsJSON()">Exportar JSON</button><button class="btn btn-secondary" data-roles="admin" onclick="exportRequestsCSV()">Exportar CSV</button><button class="btn btn-secondary" data-roles="admin" onclick="exportWhatsappRequestsCSV()">WhatsApp CSV</button><button class="btn btn-secondary" data-roles="admin" onclick="importRequestsJSON()">Importar JSON</button><button class="btn btn-primary" id="newRequestTopBtn" onclick="openRequestModal()">Nueva solicitud</button></div></div><div class="notice" id="noticeBox"></div><section class="metrics"><div class="metric"><span>Total</span><strong id="totalCount">0</strong><small>Según permisos</small></div><div class="metric"><span>Nuevas</span><strong id="newCount">0</strong><small>Sin gestionar</small></div><div class="metric"><span>En revisión</span><strong id="reviewCount">0</strong><small>Proceso activo</small></div><div class="metric"><span>Cerradas</span><strong id="closedCount">0</strong><small>Aprobadas/rechazadas</small></div></section><section class="priority-strip"><div class="priority-card"><strong>Urgentes</strong><small>Reprogramaciones o solicitudes abiertas por más de 3 días.</small></div><div class="priority-card"><strong>Hoy</strong><small>Solicitudes creadas hoy que necesitan primera revisión.</small></div><div class="priority-card"><strong>WhatsApp</strong><small>Solicitudes originadas desde mensajes entrantes.</small></div></section><section class="panel"><h2 style="color:var(--primary);margin-bottom:14px">Filtros</h2><div class="filters"><div class="field"><label>Buscar</label><input id="searchInput" placeholder="Estudiante, tipo, código..." oninput="renderRequests()"></div><div class="field"><label>Estado</label><select id="statusFilter" onchange="renderRequests()"><option value="">Todos</option><option>Nueva</option><option>En revisión</option><option>Aprobada</option><option>Rechazada</option></select></div><div class="field"><label>Tipo</label><select id="typeFilter" onchange="renderRequests()"><option value="">Todos</option><option>Reprogramación</option><option>Cambio de horario</option><option>Certificado de estudio</option><option>Solicitud por WhatsApp</option></select></div><div class="field"><label>Acción</label><button class="btn btn-secondary" onclick="resetFilters()">Limpiar filtros</button></div></div></section><section class="panel"><div id="emptyState" class="empty" style="display:none">No hay solicitudes para mostrar.</div><div class="table-wrap" id="tableWrap"><table><thead><tr><th>Creada</th><th>Estudiante</th><th>Tipo</th><th>Fecha solicitada</th><th>Prioridad / SLA</th><th>Estado</th><th>Notas</th><th>Acciones</th></tr></thead><tbody id="requestsTable"></tbody></table></div></section></main></div><div class="modal" id="requestModal"><div class="modal-box"><h2>Nueva solicitud</h2><div class="form-grid"><div class="field full"><label>Estudiante</label><select id="studentSelect"></select></div><div class="field full"><label>Tipo</label><select id="requestType" onchange="handleRequestTypeChange()"><option value="Reprogramación">Reprogramación de clase</option><option value="Cambio de horario">Cambio de horario</option><option value="Certificado de estudio">Certificado de estudio</option></select></div><div class="field" id="requestDateField"><label>Fecha solicitada</label><input id="requestDate" type="date"></div><div class="field" id="requestTimeField"><label>Hora solicitada</label><input id="requestTime" type="time"></div><div class="field full"><label>Motivo / detalle</label><textarea id="requestReason" placeholder="Describe la solicitud con suficiente contexto."></textarea></div></div><div class="modal-actions"><button class="btn btn-secondary" onclick="closeRequestModal()">Cancelar</button><button class="btn btn-primary" onclick="createRequest()">Enviar</button></div></div></div><div class="modal" id="reviewModal"><div class="modal-box"><h2>Revisar solicitud</h2><input type="hidden" id="reviewId"><div class="form-grid"><div class="field full"><label>Solicitud</label><input id="reviewSummary" readonly></div><div class="field"><label>Estado</label><select id="reviewStatus"><option>Nueva</option><option>En revisión</option><option>Aprobada</option><option>Rechazada</option></select></div><div class="field full"><label>Nota administrativa</label><textarea id="reviewAdminNote"></textarea></div><div class="field full"><label>Nota profesor</label><textarea id="reviewTeacherNote"></textarea></div></div><div class="modal-actions"><button class="btn btn-secondary" onclick="closeReviewModal()">Cancelar</button><button class="btn btn-primary" onclick="saveReview()">Guardar</button></div></div></div><script src="js/core/storage.js"></script>
+<script src="js/core/schemaRegistry.js"></script>
+<script src="js/core/demoSeed.js"></script>
+<script src="js/services/authService.js"></script>
+<script src="js/core/permissions.js"></script>
+<script src="js/services/scheduleService.js"></script>
+
+
 <script>
-const CURRENT_USER_KEY='wisdom_current_user', STUDENTS_KEY='wisdom_students_demo', REQUESTS_KEY='wisdom_requests_demo', MESSAGES_KEY='wisdom_messages', EXAM_RESULTS_KEY='wisdom_exam_results', ASSESSMENT_RESULTS_KEY='wisdom_assessment_results', INTERVENTIONS_KEY='wisdom_interventions';
+const CURRENT_USER_KEY='wisdom_current_user', STUDENTS_KEY='wisdom_students_demo', REQUESTS_KEY='wisdom_requests_demo', MESSAGES_KEY='wisdom_messages', EXAM_RESULTS_KEY='wisdom_exam_results', ASSESSMENT_RESULTS_KEY='wisdom_assessment_results', INTERVENTIONS_KEY='wisdom_interventions', SCHEDULES_KEY='wisdom_schedules_demo';
 
 const Store = window.WisdomStorage || {
   get(key, fallback=null){
@@ -64,24 +89,201 @@ const Store = window.WisdomStorage || {
   exists(key){ return localStorage.getItem(key)!==null; }
 };
 
-const currentUser=Store.get(CURRENT_USER_KEY,null);
-if(!currentUser||!currentUser.role){window.location.href='login.html'}
+function normalizeRole(role){
+  const raw=String(role||'').trim().toLowerCase();
+  const clean=raw.normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  if(['admin','administrador','administrativo','administrator'].includes(clean))return 'admin';
+  if(['teacher','profesor','docente','instructor'].includes(clean))return 'teacher';
+  if(['student','estudiante','alumno','learner'].includes(clean))return 'student';
+  return clean;
+}
+function getCurrentUserSafe(){
+  if(typeof AuthService!=='undefined' && AuthService && typeof AuthService.getCurrentUser==='function'){
+    try{
+      const user=AuthService.getCurrentUser();
+      if(user)return user;
+    }catch(error){}
+  }
+  return Store.get(CURRENT_USER_KEY,null);
+}
+function isAuthenticatedSafe(){
+  if(typeof AuthService!=='undefined' && AuthService && typeof AuthService.isAuthenticated==='function'){
+    try{return AuthService.isAuthenticated();}catch(error){}
+  }
+  return Boolean(Store.get(CURRENT_USER_KEY,null));
+}
+const currentUser=getCurrentUserSafe();
+if(!isAuthenticatedSafe()||!currentUser||!currentUser.role){window.location.href='login.html'}
+if(currentUser&&currentUser.role){currentUser.role=normalizeRole(currentUser.role)}
 
 function safeParse(key){
   const data=Store.get(key,[]);
   return Array.isArray(data)?data:[];
 }
 function saveArray(key,data){Store.set(key,Array.isArray(data)?data:[])}
-function logout(){Store.remove(CURRENT_USER_KEY);window.location.href='login.html'}
-function roleLabel(r){return ({admin:'Administrativo',teacher:'Profesor',student:'Estudiante'}[r]||r||'Usuario')}
+function backupTimestamp(){
+  const d=new Date();
+  const pad=n=>String(n).padStart(2,'0');
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}_${pad(d.getHours())}-${pad(d.getMinutes())}`;
+}
+function downloadTextFile(filename,content,type='application/json'){
+  const blob=new Blob([content],{type:type+';charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+function csvEscape(value){
+  const text=String(value??'');
+  if(/[",\n\r;]/.test(text)) return '"'+text.replace(/"/g,'""')+'"';
+  return text;
+}
+function rowsToCSV(headers,rows){
+  return [headers.map(csvEscape).join(','),...rows.map(row=>headers.map(header=>csvEscape(row[header])).join(','))].join('\n');
+}
+function ensureAdminBackupAccess(){
+  if(!isAdmin()){
+    alert('Solo administración puede exportar o importar respaldos de solicitudes.');
+    return false;
+  }
+  return true;
+}
+function exportRequestsJSON(){
+  if(!ensureAdminBackupAccess())return;
+  const payload={
+    app:'Wisdom Academy',
+    module:'requests',
+    key:REQUESTS_KEY,
+    exportedAt:new Date().toISOString(),
+    version:'1.0',
+    data:getRequests()
+  };
+  downloadTextFile(`wisdom-requests-backup-${backupTimestamp()}.json`,JSON.stringify(payload,null,2));
+}
+function requestRows(items){
+  return items.map(r=>({
+    'Request ID':r.id||r.requestId||'',
+    'Student Code':r.studentCode||r.studentId||'',
+    'Student Name':r.studentName||'',
+    'Student Email':r.studentEmail||'',
+    'Student Phone':requestPhone(r)||r.studentPhone||'',
+    'Type':r.type||'',
+    'Status':r.status||'Nueva',
+    'Requested Date':r.requestedDate||'',
+    'Requested Time':r.requestedTime||'',
+    'Teacher':r.teacher||'',
+    'Teacher ID':r.teacherId||r.teacherCode||'',
+    'Reason':r.reason||'',
+    'Admin Note':r.adminNote||'',
+    'Teacher Note':r.teacherNote||'',
+    'Source':requestSourceLabel(r),
+    'Source Message ID':r.sourceMessageId||'',
+    'Created By Role':r.createdByRole||'',
+    'Created By Email':r.createdByEmail||'',
+    'Created At':r.createdAt||'',
+    'Updated At':r.updatedAt||''
+  }));
+}
+function exportRequestsCSV(){
+  if(!ensureAdminBackupAccess())return;
+  const headers=['Request ID','Student Code','Student Name','Student Email','Student Phone','Type','Status','Requested Date','Requested Time','Teacher','Teacher ID','Reason','Admin Note','Teacher Note','Source','Source Message ID','Created By Role','Created By Email','Created At','Updated At'];
+  const csv=rowsToCSV(headers,requestRows(getRequests()));
+  downloadTextFile(`wisdom-requests-${backupTimestamp()}.csv`,csv,'text/csv');
+}
+function exportWhatsappRequestsCSV(){
+  if(!ensureAdminBackupAccess())return;
+  const whatsapp=getRequests().filter(r=>r.source==='whatsapp'||r.sourceMessageId);
+  const headers=['Request ID','Student Code','Student Name','Student Email','Student Phone','Type','Status','Requested Date','Requested Time','Teacher','Teacher ID','Reason','Admin Note','Teacher Note','Source','Source Message ID','Created By Role','Created By Email','Created At','Updated At'];
+  const csv=rowsToCSV(headers,requestRows(whatsapp));
+  downloadTextFile(`wisdom-requests-whatsapp-${backupTimestamp()}.csv`,csv,'text/csv');
+}
+function importRequestsJSON(){
+  if(!ensureAdminBackupAccess())return;
+  const input=document.createElement('input');
+  input.type='file';
+  input.accept='.json,application/json';
+  input.onchange=()=>{
+    const file=input.files&&input.files[0];
+    if(!file)return;
+    const reader=new FileReader();
+    reader.onload=()=>{
+      try{
+        const parsed=JSON.parse(String(reader.result||''));
+        const incoming=Array.isArray(parsed)?parsed:(Array.isArray(parsed.data)?parsed.data:null);
+        if(!Array.isArray(incoming)){
+          alert('El archivo no contiene una lista válida de solicitudes.');
+          return;
+        }
+        const ok=confirm(`Vas a importar ${incoming.length} solicitud(es). Se descargará un backup automático antes de reemplazar la información actual. ¿Continuar?`);
+        if(!ok)return;
+        const currentPayload={app:'Wisdom Academy',module:'requests',key:REQUESTS_KEY,exportedAt:new Date().toISOString(),version:'auto-before-import',data:getRequests()};
+        downloadTextFile(`wisdom-requests-auto-backup-before-import-${backupTimestamp()}.json`,JSON.stringify(currentPayload,null,2));
+        const normalized=(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeCollection)
+          ? SchemaRegistry.normalizeCollection(incoming,'normalizeRequest').map(normalizeRequest)
+          : incoming.map(normalizeRequest);
+        saveArray(REQUESTS_KEY,normalized);
+        renderRequests();
+        alert('Solicitudes importadas correctamente.');
+      }catch(error){
+        alert('No se pudo importar el archivo JSON. Revisa que el archivo sea válido.');
+      }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
+function logout(){
+  if(typeof AuthService!=='undefined' && AuthService && typeof AuthService.logout==='function'){
+    try{AuthService.logout();}catch(error){Store.remove(CURRENT_USER_KEY)}
+  }else{Store.remove(CURRENT_USER_KEY)}
+  window.location.href='login.html'
+}
+function roleLabel(r){return ({admin:'Administrativo',teacher:'Profesor',student:'Estudiante'}[normalizeRole(r)]||r||'Usuario')}
+function isAdmin(){
+  if(typeof WisdomPermissions!=='undefined' && WisdomPermissions && typeof WisdomPermissions.isAdmin==='function'){try{return WisdomPermissions.isAdmin()}catch(error){}}
+  return userRole()==='admin';
+}
+function isTeacher(){
+  if(typeof WisdomPermissions!=='undefined' && WisdomPermissions && typeof WisdomPermissions.isTeacher==='function'){try{return WisdomPermissions.isTeacher()}catch(error){}}
+  return userRole()==='teacher';
+}
+function isStudent(){
+  if(typeof WisdomPermissions!=='undefined' && WisdomPermissions && typeof WisdomPermissions.isStudent==='function'){try{return WisdomPermissions.isStudent()}catch(error){}}
+  return userRole()==='student';
+}
+function userRole(){return normalizeRole(currentUser.role)}
 function renderSession(){document.getElementById('sidebarUserName').innerText=currentUser.name||'Usuario Wisdom';document.getElementById('sidebarUserRole').innerText=roleLabel(currentUser.role);document.getElementById('sidebarUserEmail').innerText=currentUser.email||'';document.getElementById('rolePill').innerText=roleLabel(currentUser.role)}
-function canRoleAccess(roles){if(!roles)return true;return roles.split(',').map(r=>r.trim()).includes(currentUser.role)}
+function canRoleAccess(roles){if(!roles)return true;return roles.split(',').map(r=>normalizeRole(r.trim())).includes(userRole())}
 function applyRoleVisibility(){document.querySelectorAll('[data-roles]').forEach(el=>{if(!canRoleAccess(el.getAttribute('data-roles')))el.classList.add('role-hidden')})}
 function teacherId(){return currentUser.teacherId||currentUser.teacherCode||currentUser.id||''}
 function normalizeText(value){return String(value||'').trim()}
 function normalizeEmail(value){return normalizeText(value).toLowerCase()}
+function escapeHTML(value){return String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]))}
+function canCreateRequestForSelectedStudent(studentCode){
+  if(isTeacher())return false;
+  const student=getStudents().find(s=>(s.code||s.studentId||s.id)===studentCode);
+  return Boolean(student && studentVisible(student));
+}
+function canReviewRequest(request){
+  if(!request || isStudent())return false;
+  if(isAdmin())return true;
+  return isTeacher() && requestVisible(request);
+}
 function getStudents(){
-  return safeParse(STUDENTS_KEY).map(s=>{
+  let source=null;
+  if(false){
+    try{
+      const serviceStudents=StudentService.getAll();
+      if(Array.isArray(serviceStudents))source=serviceStudents;
+    }catch(error){}
+  }
+  const students=Array.isArray(source)?source:safeParse(STUDENTS_KEY);
+  return students.map(s=>{
     const base=(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeStudent)
       ? SchemaRegistry.normalizeStudent(s)
       : {...s}
@@ -128,15 +330,128 @@ function requestSourceText(r){const msg=getMessageById(r.sourceMessageId);if(msg
 function openMessageSource(rid){
   const r=getRequests().find(x=>x.id===rid);
   if(!r)return;
+  if(!canReviewRequest(r)){alert('No tienes permiso para ver el mensaje origen de esta solicitud.');return}
   const student=r.studentCode||r.studentId||'';
   window.location.href='mensajes.html'+(student?'?student='+encodeURIComponent(student):'');
 }
 function studentVisible(s){
-  if(currentUser.role==='admin')return true;
-  if(currentUser.role==='student')return s.code===currentUser.studentId||s.studentId===currentUser.studentId||(s.email&&currentUser.email&&normalizeEmail(s.email)===normalizeEmail(currentUser.email));
-  if(currentUser.role==='teacher')return (teacherId()&&(s.teacherId===teacherId()||s.teacherCode===teacherId()))||s.teacher===currentUser.name;
+  if(isAdmin())return true;
+  if(isStudent())return s.code===currentUser.studentId||s.studentId===currentUser.studentId||(s.email&&currentUser.email&&normalizeEmail(s.email)===normalizeEmail(currentUser.email));
+  if(isTeacher())return (teacherId()&&(s.teacherId===teacherId()||s.teacherCode===teacherId()))||s.teacher===currentUser.name;
   return false;
 }
+
+function hasScheduleService(method){
+  return typeof ScheduleService!=='undefined' && ScheduleService && typeof ScheduleService[method]==='function';
+}
+function getSchedulesSafe(){
+  if(hasScheduleService('getAll')){
+    try{
+      const items=ScheduleService.getAll();
+      if(Array.isArray(items))return items;
+    }catch(error){console.warn('ScheduleService.getAll() falló. Usando respaldo local.',error)}
+  }
+  return safeParse(SCHEDULES_KEY);
+}
+function findScheduleForRequest(request){
+  const schedules=getSchedulesSafe();
+  if(request.scheduleId){
+    const byId=schedules.find(item=>item.id===request.scheduleId||item.scheduleId===request.scheduleId);
+    if(byId)return byId;
+  }
+  const studentCode=request.studentCode||request.studentId||'';
+  const teacher=request.teacherId||request.teacherCode||'';
+  return schedules.find(item=>{
+    const studentIds=Array.isArray(item.studentIds)?item.studentIds.map(String):[];
+    const matchesStudent=studentCode && (studentIds.includes(String(studentCode)) || item.studentId===studentCode || item.studentCode===studentCode);
+    const matchesTeacher=teacher && (item.teacherId===teacher || item.teacherCode===teacher);
+    return matchesStudent || matchesTeacher;
+  }) || null;
+}
+function requestNeedsScheduleReview(request){
+  return ['Reprogramación','Cambio de horario'].includes(request.type||'');
+}
+function buildScheduleUpdateFromRequest(request,existingSchedule={}){
+  const requestedDate=request.requestedDate||'';
+  const requestedTime=request.requestedTime||'';
+  const durationMinutes=Number(existingSchedule.durationMinutes)||75;
+  const start=requestedTime||existingSchedule.startTime||existingSchedule.start||'';
+  const end=existingSchedule.endTime||existingSchedule.end||'';
+  function addMinutes(time,minutes){
+    if(!time)return '';
+    const parts=String(time).split(':').map(Number);
+    if(parts.length<2||Number.isNaN(parts[0])||Number.isNaN(parts[1]))return '';
+    const total=parts[0]*60+parts[1]+minutes;
+    return `${String(Math.floor(total/60)%24).padStart(2,'0')}:${String(total%60).padStart(2,'0')}`;
+  }
+  return {
+    ...existingSchedule,
+    date:requestedDate||existingSchedule.date||'',
+    classDate:requestedDate||existingSchedule.classDate||'',
+    requestedDate,
+    startTime:start,
+    start:start,
+    endTime:end||addMinutes(start,durationMinutes),
+    end:end||addMinutes(start,durationMinutes),
+    teacherId:request.teacherId||request.teacherCode||existingSchedule.teacherId||existingSchedule.teacherCode||'',
+    teacherCode:request.teacherCode||request.teacherId||existingSchedule.teacherCode||existingSchedule.teacherId||'',
+    studentIds:existingSchedule.studentIds||[request.studentCode||request.studentId].filter(Boolean),
+    source:'Solicitud',
+    requestId:request.id||request.requestId||'',
+    updatedAt:new Date().toISOString()
+  };
+}
+function hasScheduleConflictForRequest(request,existingSchedule){
+  if(!requestNeedsScheduleReview(request))return false;
+  if(!request.requestedDate && !request.requestedTime)return false;
+  if(!hasScheduleService('hasConflict'))return false;
+  try{
+    const candidate=buildScheduleUpdateFromRequest(request,existingSchedule||{});
+    const excludeId=(existingSchedule&&(existingSchedule.id||existingSchedule.scheduleId))||request.scheduleId||'';
+    return Boolean(ScheduleService.hasConflict(candidate,excludeId));
+  }catch(error){
+    console.warn('No se pudo validar conflicto de agenda para la solicitud.',error);
+    return false;
+  }
+}
+function syncApprovedRequestSchedule(request){
+  if(!requestNeedsScheduleReview(request) || request.status!=='Aprobada')return request;
+  const existing=findScheduleForRequest(request);
+  const candidate=buildScheduleUpdateFromRequest(request,existing||{});
+
+  if(hasScheduleConflictForRequest(request,existing)){
+    alert('No se puede aprobar todavía: existe un conflicto de horario en la agenda. Revisa calendario antes de guardar.');
+    return null;
+  }
+
+  let savedSchedule=existing||null;
+  try{
+    if(existing && (existing.id||existing.scheduleId) && hasScheduleService('update')){
+      savedSchedule=ScheduleService.update(existing.id||existing.scheduleId,candidate)||candidate;
+    }else if(hasScheduleService('create')){
+      savedSchedule=ScheduleService.create({
+        ...candidate,
+        id:candidate.id||`REQ-SCH-${Date.now()}`,
+        title:candidate.title||`${request.type} · ${request.studentName||request.studentCode||'Estudiante'}`,
+        type:'Solicitud aprobada',
+        status:'Aprobada'
+      })||candidate;
+    }
+  }catch(error){
+    console.warn('No se pudo sincronizar la solicitud aprobada con ScheduleService.',error);
+  }
+
+  const scheduleId=(savedSchedule&&(savedSchedule.id||savedSchedule.scheduleId))||(existing&&(existing.id||existing.scheduleId))||request.scheduleId||'';
+  return {
+    ...request,
+    scheduleId,
+    affectedEntityId:request.affectedEntityId||scheduleId,
+    affectedEntityType:request.affectedEntityType||'schedule',
+    scheduleSyncedAt:scheduleId?new Date().toISOString():(request.scheduleSyncedAt||''),
+    updatedAt:new Date().toISOString()
+  };
+}
+
 function normalizeRequest(r={}){
   const base=(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeRequest)
     ? SchemaRegistry.normalizeRequest(r)
@@ -151,6 +466,10 @@ function normalizeRequest(r={}){
     requestId:base.requestId||base.id||'',
     source:base.source||(base.sourceMessageId?'whatsapp':'portal'),
     sourceMessageId:base.sourceMessageId||'',
+    scheduleId:base.scheduleId||base.classId||base.eventId||'',
+    affectedEntityId:base.affectedEntityId||base.packageId||base.groupId||'',
+    affectedEntityType:base.affectedEntityType||'',
+    scheduleSyncedAt:base.scheduleSyncedAt||'',
     studentCode,
     studentId:base.studentId||studentCode,
     studentName:base.studentName||base.name||'Estudiante',
@@ -182,9 +501,9 @@ function getRequests(){
   return requests.map(normalizeRequest)
 }
 function requestVisible(r){
-  if(currentUser.role==='admin')return true;
-  if(currentUser.role==='student')return r.studentCode===currentUser.studentId||r.studentId===currentUser.studentId||r.studentName===currentUser.name||normalizeEmail(r.createdByEmail)===normalizeEmail(currentUser.email);
-  if(currentUser.role==='teacher')return r.teacherId===teacherId()||r.teacherCode===teacherId()||r.teacher===currentUser.name;
+  if(isAdmin())return true;
+  if(isStudent())return r.studentCode===currentUser.studentId||r.studentId===currentUser.studentId||r.studentName===currentUser.name||normalizeEmail(r.createdByEmail)===normalizeEmail(currentUser.email);
+  if(isTeacher())return r.teacherId===teacherId()||r.teacherCode===teacherId()||r.teacher===currentUser.name;
   return false;
 }
 function normalizeResult(raw={}){
@@ -213,7 +532,7 @@ function normalizeResult(raw={}){
   }
 }
 function getResults(){const merged=[...safeParse(EXAM_RESULTS_KEY),...safeParse(ASSESSMENT_RESULTS_KEY)].map(normalizeResult);const seen=new Set();return merged.filter(r=>{const k=r.evaluationId||r.id||`${r.studentId}-${r.type}-${r.level}-${r.unit}-${r.date}-${r.score}`;if(seen.has(k))return false;seen.add(k);return true})}
-function resultVisible(r){if(currentUser.role==='admin')return true;if(currentUser.role==='student')return r.studentId===currentUser.studentId||r.studentName===currentUser.name||normalizeEmail(r.studentEmail)===normalizeEmail(currentUser.email);if(currentUser.role==='teacher')return r.teacherId===teacherId()||getStudents().filter(studentVisible).some(s=>s.code===r.studentId||s.name===r.studentName);return false}
+function resultVisible(r){if(isAdmin())return true;if(isStudent())return r.studentId===currentUser.studentId||r.studentName===currentUser.name||normalizeEmail(r.studentEmail)===normalizeEmail(currentUser.email);if(isTeacher())return r.teacherId===teacherId()||getStudents().filter(studentVisible).some(s=>s.code===r.studentId||s.name===r.studentName);return false}
 function normalizeIntervention(i={}){
   const base=(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeIntervention)
     ? SchemaRegistry.normalizeIntervention(i)
@@ -240,14 +559,14 @@ function normalizeIntervention(i={}){
   }
 }
 function getInterventions(){return safeParse(INTERVENTIONS_KEY).map(normalizeIntervention)}
-function interventionVisible(i){if(currentUser.role==='admin')return true;if(currentUser.role==='student')return i.studentId===currentUser.studentId||i.studentName===currentUser.name||normalizeEmail(i.studentEmail)===normalizeEmail(currentUser.email);if(currentUser.role==='teacher')return i.teacherId===teacherId()||getStudents().filter(studentVisible).some(s=>s.code===i.studentId||s.name===i.studentName);return false}
+function interventionVisible(i){if(isAdmin())return true;if(isStudent())return i.studentId===currentUser.studentId||i.studentName===currentUser.name||normalizeEmail(i.studentEmail)===normalizeEmail(currentUser.email);if(isTeacher())return i.teacherId===teacherId()||getStudents().filter(studentVisible).some(s=>s.code===i.studentId||s.name===i.studentName);return false}
 function formatDate(v){const d=new Date(v);return Number.isNaN(d.getTime())?(v||'-'):d.toLocaleString('es-CO',{year:'numeric',month:'short',day:'2-digit',hour:'2-digit',minute:'2-digit'})}
 function requestStatusClass(s){if(s==='Aprobada')return 'success';if(s==='Rechazada')return 'danger';if(s==='En revisión')return 'warning';return 'gray'}
 function visibleRequests(){return getRequests().filter(requestVisible).sort((a,b)=>String(b.createdAt||'').localeCompare(String(a.createdAt||'')))}
 function generateRequestCode(){const rs=getRequests();const nums=rs.map(r=>r.id).filter(id=>/^REQ-\d+$/.test(id||'')).map(id=>parseInt(id.replace('REQ-',''),10));const next=nums.length?Math.max(...nums)+1:1;return `REQ-${String(next).padStart(4,'0')}`}
-function populateStudentSelect(){const sel=document.getElementById('studentSelect');sel.innerHTML='';const students=getStudents().filter(studentVisible);if(!students.length){sel.innerHTML='<option value="">No hay estudiantes disponibles</option>';return}students.forEach(s=>{const o=document.createElement('option');o.value=s.code||s.studentId||s.id;o.textContent=`${s.code||'SIN-COD'} · ${s.name||'Sin nombre'}`;o.dataset.name=s.name||'';o.dataset.email=s.email||'';o.dataset.teacher=s.teacher||'';o.dataset.teacherId=s.teacherId||s.teacherCode||'';o.dataset.phone=s.phone||s.whatsapp||'';sel.appendChild(o)});if(currentUser.role==='student')sel.disabled=true}
+function populateStudentSelect(){const sel=document.getElementById('studentSelect');sel.innerHTML='';const students=getStudents().filter(studentVisible);if(!students.length){sel.innerHTML='<option value="">No hay estudiantes disponibles</option>';return}students.forEach(s=>{const o=document.createElement('option');o.value=s.code||s.studentId||s.id;o.textContent=`${s.code||'SIN-COD'} · ${s.name||'Sin nombre'}`;o.dataset.name=s.name||'';o.dataset.email=s.email||'';o.dataset.teacher=s.teacher||'';o.dataset.teacherId=s.teacherId||s.teacherCode||'';o.dataset.phone=s.phone||s.whatsapp||'';sel.appendChild(o)});if(isStudent())sel.disabled=true}
 function handleRequestTypeChange(){const type=document.getElementById('requestType').value;const needs=type==='Reprogramación'||type==='Cambio de horario';document.getElementById('requestDateField').style.display=needs?'flex':'none';document.getElementById('requestTimeField').style.display=needs?'flex':'none'}
-function openRequestModal(){if(currentUser.role==='teacher'){alert('El profesor puede observar solicitudes, pero no crearlas por el estudiante.');return}populateStudentSelect();handleRequestTypeChange();document.getElementById('requestReason').value='';document.getElementById('requestDate').value='';document.getElementById('requestTime').value='';document.getElementById('requestModal').classList.add('active')}
+function openRequestModal(){if(isTeacher()){alert('El profesor puede observar solicitudes, pero no crearlas por el estudiante.');return}populateStudentSelect();handleRequestTypeChange();document.getElementById('requestReason').value='';document.getElementById('requestDate').value='';document.getElementById('requestTime').value='';document.getElementById('requestModal').classList.add('active')}
 function closeRequestModal(){document.getElementById('requestModal').classList.remove('active')}
 function isDuplicateOpenRequest(payload){
   return getRequests().some(r=>
@@ -259,13 +578,15 @@ function isDuplicateOpenRequest(payload){
   );
 }
 function createRequest(){
+  if(isTeacher()){alert('El profesor puede observar solicitudes, pero no crearlas por el estudiante.');return}
   const sel=document.getElementById('studentSelect');const code=sel.value;if(!code){alert('Selecciona un estudiante.');return}
+  if(!canCreateRequestForSelectedStudent(code)){alert('No tienes permiso para crear solicitudes para este estudiante.');return}
   const type=document.getElementById('requestType').value;const requestedDate=document.getElementById('requestDate').value;const requestedTime=document.getElementById('requestTime').value;const reason=document.getElementById('requestReason').value.trim();
   if(!reason){alert('El motivo es obligatorio.');return}
   if((type==='Reprogramación'||type==='Cambio de horario')&&!requestedDate){alert('Debes indicar fecha solicitada.');return}
   const opt=sel.selectedOptions[0];
   const now=new Date().toISOString();
-  const rawRequest={id:generateRequestCode(),requestId:generateRequestCode(),source:'portal',studentCode:code,studentId:code,studentName:opt.dataset.name||'',studentEmail:opt.dataset.email||'',studentPhone:opt.dataset.phone||'',teacher:opt.dataset.teacher||'',teacherId:opt.dataset.teacherId||'',teacherCode:opt.dataset.teacherId||'',type,reason,requestedDate,requestedTime,status:'Nueva',adminNote:'',teacherNote:'',createdByRole:currentUser.role,createdByEmail:currentUser.email||'',createdAt:now,updatedAt:now};
+  const rawRequest={id:generateRequestCode(),requestId:generateRequestCode(),source:'portal',studentCode:code,studentId:code,studentName:opt.dataset.name||'',studentEmail:opt.dataset.email||'',studentPhone:opt.dataset.phone||'',teacher:opt.dataset.teacher||'',teacherId:opt.dataset.teacherId||'',teacherCode:opt.dataset.teacherId||'',type,reason,requestedDate,requestedTime,scheduleId:'',affectedEntityId:'',affectedEntityType:'',scheduleSyncedAt:'',status:'Nueva',adminNote:'',teacherNote:'',createdByRole:currentUser.role,createdByEmail:currentUser.email||'',createdAt:now,updatedAt:now};
 
   const req=(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeRequest)
     ? normalizeRequest(SchemaRegistry.normalizeRequest(rawRequest))
@@ -274,16 +595,22 @@ function createRequest(){
   const rs=getRequests();rs.push(req);saveArray(REQUESTS_KEY,rs);closeRequestModal();renderRequests();
 }
 function openReviewModal(id){
-  const r=getRequests().find(x=>x.id===id);if(!r)return;if(currentUser.role==='student'){alert('No tienes permiso para revisar solicitudes.');return}
-  if(currentUser.role==='teacher'&&!requestVisible(r)){alert('No tienes permiso para revisar esta solicitud.');return}
-  document.getElementById('reviewId').value=r.id;document.getElementById('reviewSummary').value=`${r.id} · ${r.studentName||r.studentCode} · ${r.type}`;document.getElementById('reviewStatus').value=r.status||'Nueva';document.getElementById('reviewAdminNote').value=r.adminNote||'';document.getElementById('reviewTeacherNote').value=r.teacherNote||'';document.getElementById('reviewStatus').disabled=currentUser.role!=='admin';document.getElementById('reviewAdminNote').disabled=currentUser.role!=='admin';document.getElementById('reviewModal').classList.add('active')
+  const r=getRequests().find(x=>x.id===id);if(!r)return;if(!canReviewRequest(r)){alert('No tienes permiso para revisar esta solicitud.');return}
+  document.getElementById('reviewId').value=r.id;document.getElementById('reviewSummary').value=`${r.id} · ${r.studentName||r.studentCode} · ${r.type}`;document.getElementById('reviewStatus').value=r.status||'Nueva';document.getElementById('reviewAdminNote').value=r.adminNote||'';document.getElementById('reviewTeacherNote').value=r.teacherNote||'';document.getElementById('reviewStatus').disabled=!isAdmin();document.getElementById('reviewAdminNote').disabled=!isAdmin();document.getElementById('reviewModal').classList.add('active')
 }
 function closeReviewModal(){document.getElementById('reviewModal').classList.remove('active')}
 function saveReview(){
   const id=document.getElementById('reviewId').value;const rs=getRequests();const i=rs.findIndex(r=>r.id===id);if(i<0)return;
-  if(currentUser.role==='admin'){rs[i].status=document.getElementById('reviewStatus').value;rs[i].adminNote=document.getElementById('reviewAdminNote').value.trim();rs[i].reviewedBy=currentUser.email||currentUser.name||'';rs[i].reviewedAt=new Date().toISOString()}
-  if(currentUser.role==='teacher'||currentUser.role==='admin'){rs[i].teacherNote=document.getElementById('reviewTeacherNote').value.trim();rs[i].teacherReviewedBy=currentUser.email||currentUser.name||'';rs[i].teacherReviewedAt=new Date().toISOString()}
+  if(!canReviewRequest(rs[i])){alert('No tienes permiso para revisar esta solicitud.');return}
+  if(isAdmin()){rs[i].status=document.getElementById('reviewStatus').value;rs[i].adminNote=document.getElementById('reviewAdminNote').value.trim();rs[i].reviewedBy=currentUser.email||currentUser.name||'';rs[i].reviewedAt=new Date().toISOString()}
+  if(isTeacher()||isAdmin()){rs[i].teacherNote=document.getElementById('reviewTeacherNote').value.trim();rs[i].teacherReviewedBy=currentUser.email||currentUser.name||'';rs[i].teacherReviewedAt=new Date().toISOString()}
   rs[i].updatedAt=new Date().toISOString();
+
+  if(isAdmin()){
+    const scheduleSyncedRequest=syncApprovedRequestSchedule(normalizeRequest(rs[i]));
+    if(scheduleSyncedRequest===null)return;
+    rs[i]={...rs[i],...scheduleSyncedRequest};
+  }
 
   const normalized=(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeCollection)
     ? SchemaRegistry.normalizeCollection(rs,'normalizeRequest').map(normalizeRequest)
@@ -293,37 +620,210 @@ function saveReview(){
   closeReviewModal();
   renderRequests();
 }
+
+function requestAgeDays(request){
+  const created=new Date(request.createdAt||request.updatedAt||Date.now());
+  if(Number.isNaN(created.getTime()))return 0;
+  return Math.max(0,Math.floor((Date.now()-created.getTime())/86400000));
+}
+function requestPriorityInfo(request){
+  const status=request.status||'Nueva';
+  const age=requestAgeDays(request);
+  const type=String(request.type||'');
+  const open=!['Aprobada','Rechazada'].includes(status);
+  if(open && (age>=3 || type.includes('Reprogramación') || type.includes('Cambio de horario')))return ['Urgente','danger'];
+  if(open && age>=1)return ['Normal','warning'];
+  return ['Baja','success'];
+}
+function requestSlaHTML(request){
+  const age=requestAgeDays(request);
+  const cls=age>=3?'danger':(age>=1?'warning':'');
+  const label=age===0?'Hoy':(age===1?'1 día':`${age} días`);
+  return `<span class="sla-badge ${cls}">${label}</span>`;
+}
 function resetFilters(){document.getElementById('searchInput').value='';document.getElementById('statusFilter').value='';document.getElementById('typeFilter').value='';renderRequests()}
 function renderMetrics(rs){document.getElementById('totalCount').innerText=rs.length;document.getElementById('newCount').innerText=rs.filter(r=>(r.status||'Nueva')==='Nueva').length;document.getElementById('reviewCount').innerText=rs.filter(r=>(r.status||'')==='En revisión').length;document.getElementById('closedCount').innerText=rs.filter(r=>['Aprobada','Rechazada'].includes(r.status||'')).length}
 function renderRequests(){
   const search=document.getElementById('searchInput').value.trim().toLowerCase();const status=document.getElementById('statusFilter').value;const type=document.getElementById('typeFilter').value;
   const rs=visibleRequests().filter(r=>{const hay=[r.id,r.studentName,r.studentCode,r.type,r.reason,r.status,requestSourceLabel(r),r.sourceMessageId,requestPhone(r)].join(' ').toLowerCase();if(search&&!hay.includes(search))return false;if(status&&(r.status||'Nueva')!==status)return false;if(type&&r.type!==type)return false;return true});
   renderMetrics(rs);const table=document.getElementById('requestsTable'),empty=document.getElementById('emptyState'),wrap=document.getElementById('tableWrap');table.innerHTML='';if(!rs.length){empty.style.display='block';wrap.style.display='none';return}empty.style.display='none';wrap.style.display='block';
-  rs.forEach(r=>{const row=document.createElement('tr');row.innerHTML=`
+  rs.forEach(r=>{const row=document.createElement('tr');const safeStudentName=escapeHTML(r.studentName||r.studentCode||'Estudiante');const safeStudentCode=escapeHTML(r.studentCode||'');const safeType=escapeHTML(r.type||'Solicitud');const safeReason=escapeHTML(r.reason||'');const safeTeacherNote=escapeHTML(r.teacherNote||'');const safeAdminNote=escapeHTML(r.adminNote||'');const safeSourceMessageId=escapeHTML(r.sourceMessageId||'');const safeScheduleId=escapeHTML(r.scheduleId||'');row.innerHTML=`
   <td>${formatDate(r.createdAt)}</td>
   <td>
-    <strong>${r.studentName||r.studentCode||'Estudiante'}</strong><br>
-    <small>${r.studentCode||''}</small>
-    ${requestPhone(r)?`<div class="source-detail">Tel: ${requestPhone(r)}</div>`:''}
+    <strong>${safeStudentName}</strong><br>
+    <small>${safeStudentCode}</small>
+    ${requestPhone(r)?`<div class="source-detail">Tel: ${escapeHTML(requestPhone(r))}</div>`:''}
   </td>
   <td>
-    ${r.type||'Solicitud'}
+    ${safeType}
     ${requestSourceLabel(r)==='WhatsApp'?'<span class="whatsapp-origin">WhatsApp</span>':''}
-    <br><small>${r.reason||''}</small>
-    ${r.sourceMessageId?`<div class="source-detail">Mensaje origen: ${r.sourceMessageId}</div>`:''}
+    <br><small>${safeReason}</small>
+    ${r.sourceMessageId?`<div class="source-detail">Mensaje origen: ${safeSourceMessageId}</div>`:''}
   </td>
-  <td>${r.requestedDate||'-'} ${r.requestedTime||''}</td>
+  <td>${escapeHTML(r.requestedDate||'-')} ${escapeHTML(r.requestedTime||'')}${r.scheduleId?`<div class="source-detail">Agenda: ${safeScheduleId}</div>`:''}${r.scheduleSyncedAt?`<div class="source-detail">Sincronizada: ${formatDate(r.scheduleSyncedAt)}</div>`:''}</td>
+  <td><span class="pill ${requestPriorityInfo(r)[1]}">${requestPriorityInfo(r)[0]}</span><br>${requestSlaHTML(r)}</td>
   <td><span class="pill ${requestStatusClass(r.status||'Nueva')}">${r.status||'Nueva'}</span></td>
-  <td><small>${r.teacherNote?'<strong>Profesor:</strong> '+r.teacherNote+'<br>':''}${r.adminNote?'<strong>Admin:</strong> '+r.adminNote:''}</small></td>
+  <td><small>${r.teacherNote?'<strong>Profesor:</strong> '+safeTeacherNote+'<br>':''}${r.adminNote?'<strong>Admin:</strong> '+safeAdminNote:''}</small></td>
   <td>
-    ${currentUser.role==='student'?'':'<button class="btn btn-secondary" onclick="openReviewModal(\''+r.id+'\')">Revisar</button>'}
-    ${r.sourceMessageId && currentUser.role!=='student'?'<button class="btn btn-secondary" style="margin-top:6px" onclick="openMessageSource(\''+r.id+'\')">Ver mensaje</button>':''}
+    ${isStudent()?'':'<button class="btn btn-secondary" onclick="openReviewModal(\''+r.id+'\')">Revisar</button>'}
+    ${r.sourceMessageId && !isStudent()?'<button class="btn btn-secondary" style="margin-top:6px" onclick="openMessageSource(\''+r.id+'\')">Ver mensaje</button>':''}
     <button class="btn btn-secondary" style="margin-top:6px" onclick="window.location.href='dossier.html?code=${encodeURIComponent(r.studentCode||r.studentId||'')}'">Dossier</button>
   </td>
 `;table.appendChild(row)})
 }
 
 document.querySelectorAll('.menu-title').forEach(t=>t.addEventListener('click',()=>t.parentElement.classList.toggle('active')));renderSession();applyRoleVisibility();
-document.getElementById('noticeBox').innerText=currentUser.role==='admin'?'Vista administrativa: puedes revisar, aprobar o rechazar solicitudes. Las solicitudes originadas por WhatsApp aparecen marcadas con su mensaje fuente.':currentUser.role==='teacher'?'Vista profesor: puedes ver solicitudes de tus estudiantes y dejar observaciones.':'Vista estudiante: puedes crear solicitudes y consultar su estado.';renderRequests();
+document.getElementById('noticeBox').innerText=isAdmin()?'Vista administrativa: puedes revisar, aprobar o rechazar solicitudes. Las solicitudes originadas por WhatsApp aparecen marcadas con su mensaje fuente.':isTeacher()?'Vista profesor: puedes ver solicitudes de tus estudiantes y dejar observaciones.':'Vista estudiante: puedes crear solicitudes y consultar su estado.';renderRequests();
 
-</script></body></html>
+</script>
+<script>
+/* Wisdom Academy — FASE 13 Domain Hardening Patch */
+(function(){
+  'use strict';
+  if(window.__wisdomPhase13HardeningApplied) return;
+  window.__wisdomPhase13HardeningApplied = true;
+
+  const PHASE13_VERSION = '13.0.0';
+  const MODULE_NAME = document.title || location.pathname.split('/').pop() || 'Wisdom Module';
+
+  function phase13Log(level, message, detail){
+    try{
+      const payload = {module: MODULE_NAME, phase: 'FASE 13', version: PHASE13_VERSION, message, detail: detail || '', at: new Date().toISOString()};
+      if(level === 'error') console.error('[Wisdom Phase13]', payload);
+      else if(level === 'warn') console.warn('[Wisdom Phase13]', payload);
+      else console.info('[Wisdom Phase13]', payload);
+    }catch(error){}
+  }
+
+  function readJSON(key, fallback){
+    try{
+      if(window.WisdomStorage && typeof WisdomStorage.get === 'function'){
+        const value = WisdomStorage.get(key, fallback);
+        return value === undefined || value === null ? fallback : value;
+      }
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
+    }catch(error){
+      phase13Log('warn', 'No se pudo leer storage de forma segura.', {key, error:String(error)});
+      return fallback;
+    }
+  }
+
+  function writeJSON(key, value){
+    try{
+      if(window.WisdomStorage && typeof WisdomStorage.set === 'function'){
+        WisdomStorage.set(key, value);
+      }else{
+        localStorage.setItem(key, JSON.stringify(value));
+      }
+      return true;
+    }catch(error){
+      phase13Log('error', 'No se pudo guardar storage de forma segura.', {key, error:String(error)});
+      return false;
+    }
+  }
+
+  function stableKey(item, fields){
+    const source = item || {};
+    const values = fields.map(field => String(source[field] || '').trim().toLowerCase()).filter(Boolean);
+    return values.length ? values.join('::') : '';
+  }
+
+  function dedupeArray(items, fields){
+    const seen = new Set();
+    return (Array.isArray(items) ? items : []).filter(item => {
+      const direct = String((item && (item.id || item.requestId || item.messageId || item.financeId || item.code)) || '').trim();
+      const key = direct || stableKey(item, fields);
+      if(!key) return true;
+      if(seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
+  window.WisdomPhase13 = Object.assign(window.WisdomPhase13 || {}, {
+    version: PHASE13_VERSION,
+    log: phase13Log,
+    readJSON,
+    writeJSON,
+    dedupeArray,
+    normalizeNumber(value, fallback){
+      const n = Number(value);
+      return Number.isFinite(n) ? n : (fallback || 0);
+    },
+    clamp(value, min, max){
+      const n = Number(value);
+      if(!Number.isFinite(n)) return min;
+      return Math.min(max, Math.max(min, n));
+    }
+  });
+
+  window.addEventListener('error', function(event){
+    phase13Log('error', 'Error runtime capturado.', {message:event.message, file:event.filename, line:event.lineno});
+  });
+
+  window.addEventListener('unhandledrejection', function(event){
+    phase13Log('error', 'Promesa rechazada capturada.', {reason:String(event.reason || '')});
+  });
+
+  window.addEventListener('storage', function(event){
+    const watched = ['wisdom_finance_demo','wisdom_requests_demo','wisdom_messages','wisdom_students_demo','wisdom_groups_demo','wisdom_private_demo','wisdom_schedules_demo'];
+    if(!event || !watched.includes(event.key)) return;
+    if(document.visibilityState !== 'visible') return;
+    try{
+      if(typeof renderAll === 'function') renderAll();
+      else if(typeof renderRequests === 'function') renderRequests();
+      else if(typeof renderMessages === 'function') renderMessages();
+    }catch(error){
+      phase13Log('warn', 'No se pudo refrescar la vista tras cambio de storage.', String(error));
+    }
+  });
+})();
+</script>
+
+<script>
+/* FASE 13 — Solicitudes: workflow and dedupe guards */
+(function(){
+  'use strict';
+  function cleanText(value){return String(value || '').trim();}
+  function dedupeRequests(records){
+    const seen = new Set();
+    return (Array.isArray(records) ? records : []).filter(request => {
+      if(!request) return false;
+      const sourceKey = String(request.sourceMessageId || '').trim();
+      const openKey = [request.studentCode || request.studentId, request.type, cleanText(request.reason).toLowerCase(), request.status || 'Nueva'].join('::');
+      const key = sourceKey || request.id || request.requestId || openKey;
+      if(seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+  const originalSaveArray = window.saveArray;
+  if(typeof originalSaveArray === 'function'){
+    window.saveArray = function(key, data){
+      if(key === 'wisdom_requests_demo') return originalSaveArray.call(this, key, dedupeRequests(data));
+      return originalSaveArray.apply(this, arguments);
+    };
+  }
+  const originalCreateRequest = window.createRequest;
+  if(typeof originalCreateRequest === 'function'){
+    window.createRequest = function(){
+      const reason = document.getElementById('requestReason');
+      if(reason) reason.value = cleanText(reason.value);
+      return originalCreateRequest.apply(this, arguments);
+    };
+  }
+  const originalSaveReview = window.saveReview;
+  if(typeof originalSaveReview === 'function'){
+    window.saveReview = function(){
+      const adminNote = document.getElementById('reviewAdminNote');
+      const teacherNote = document.getElementById('reviewTeacherNote');
+      if(adminNote) adminNote.value = cleanText(adminNote.value);
+      if(teacherNote) teacherNote.value = cleanText(teacherNote.value);
+      return originalSaveReview.apply(this, arguments);
+    };
+  }
+})();
+</script>
+
+</body></html>

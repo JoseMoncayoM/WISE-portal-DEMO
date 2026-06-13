@@ -674,10 +674,169 @@ th{
   .message-summary{grid-template-columns:1fr}
 }
 
+
+/* FASE 16 — Dossier ERP Sidebar + Executive UX */
+.app{min-height:100vh;display:grid;grid-template-columns:260px 1fr}.main{padding:30px}.breadcrumb{color:var(--premium-muted,#68798d);font-size:.78rem;font-weight:900;text-transform:uppercase;letter-spacing:.12em;margin-bottom:14px}.dossier-executive{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:18px 0 10px}.dossier-kpi{background:#fff;border:1px solid var(--premium-line,#d8e6ed);border-radius:18px;padding:14px;box-shadow:0 8px 18px rgba(13,43,69,.04)}.dossier-kpi small{display:block;color:var(--premium-muted,#68798d);font-weight:900;text-transform:uppercase;letter-spacing:.06em;font-size:.68rem;margin-bottom:6px}.dossier-kpi strong{display:block;color:var(--premium-blue,#123e68);font-size:1.35rem;line-height:1}.timeline-list{display:grid;gap:10px}.timeline-item{border-left:4px solid var(--premium-teal,#16aeb7);background:#fbfdff;border-radius:14px;padding:12px;border-top:1px solid var(--premium-line,#d8e6ed);border-right:1px solid var(--premium-line,#d8e6ed);border-bottom:1px solid var(--premium-line,#d8e6ed)}.timeline-item strong{display:block;color:var(--premium-blue,#123e68);margin-bottom:4px}.timeline-item small{display:block;color:var(--gray,#6b7c93);font-weight:700;line-height:1.35}@media(max-width:1100px){.app{grid-template-columns:1fr}.sidebar{position:relative!important;height:auto!important}.dossier-executive{grid-template-columns:repeat(2,1fr)}}@media(max-width:620px){.main{padding:18px}.dossier-executive{grid-template-columns:1fr}}@media print{.sidebar,.breadcrumb{display:none!important}.app{display:block!important}.main{padding:0!important}}
+
+
+
+/* FASE 16 — Sidebar fix: align Dossier with ERP global navigation */
+.app{
+  min-height:100vh!important;
+  display:grid!important;
+  grid-template-columns:260px 1fr!important;
+}
+.sidebar{
+  background:rgba(255,255,255,.88)!important;
+  border-right:1px solid var(--premium-line,#d8e6ed)!important;
+  padding:28px 22px!important;
+  position:sticky!important;
+  top:0!important;
+  height:100vh!important;
+  backdrop-filter:blur(16px)!important;
+  box-shadow:12px 0 32px rgba(13,43,69,.045)!important;
+}
+.logo{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  padding:10px 0 18px!important;
+  margin-bottom:24px!important;
+  border-bottom:1px solid var(--premium-line,#d8e6ed)!important;
+  letter-spacing:normal!important;
+}
+.logo img{
+  width:145px!important;
+  max-width:100%!important;
+  height:auto!important;
+  object-fit:contain!important;
+  display:block!important;
+}
+.menu-title{
+  color:#8796a8!important;
+  font-size:.7rem!important;
+  font-weight:900!important;
+  letter-spacing:.12em!important;
+  margin-bottom:8px!important;
+}
+.side-link{
+  display:flex!important;
+  align-items:center!important;
+  gap:10px!important;
+  color:var(--text,#1f2d3d)!important;
+  text-decoration:none!important;
+  padding:10px 12px!important;
+  border-radius:12px!important;
+  font-weight:800!important;
+  font-size:.9rem!important;
+  margin-bottom:6px!important;
+  border:1px solid transparent!important;
+  transition:.18s ease!important;
+}
+.side-link:hover,.side-link.active{
+  background:linear-gradient(135deg,var(--premium-teal-soft,#e6f7f8),#f7ffff)!important;
+  border-color:#caeff2!important;
+  transform:translateX(2px)!important;
+}
+.dot{
+  width:8px!important;
+  height:8px!important;
+  border-radius:50%!important;
+  background:var(--accent,#1fb6b9)!important;
+  box-shadow:0 0 0 4px rgba(31,182,185,.12)!important;
+  flex:0 0 auto!important;
+}
+.main{
+  padding:30px!important;
+  min-width:0!important;
+}
+.container{
+  max-width:1120px!important;
+  margin:0!important;
+  padding:0!important;
+}
+@media(max-width:1050px){
+  .app{grid-template-columns:1fr!important;}
+  .sidebar{position:relative!important;height:auto!important;}
+  .main{padding:18px!important;}
+}
+@media print{
+  .sidebar,.breadcrumb{display:none!important;}
+  .app{display:block!important;}
+  .main{padding:0!important;}
+  .container{max-width:none!important;}
+}
 </style>
 </head>
 
 <body>
+<div class="app">
+<aside class="sidebar">
+  <div class="logo"><img src="logo.jpg" alt="Wisdom Academy Logo"></div>
+
+  <div class="menu-group active">
+    <div class="menu-title">Panel ▾</div>
+    <div class="menu-items">
+      <a class="side-link" href="dashboard.html"><span class="dot"></span> Dashboard</a>
+    </div>
+  </div>
+
+  <div class="menu-group active">
+    <div class="menu-title">Personas ▾</div>
+    <div class="menu-items">
+      <a class="side-link" data-roles="admin,teacher" href="estudiantes.html"><span class="dot"></span> Estudiantes</a>
+      <a class="side-link" data-roles="admin" href="profesores.html"><span class="dot"></span> Profesores</a>
+      <a class="side-link" data-roles="admin" href="usuarios.html"><span class="dot"></span> Usuarios</a>
+    </div>
+  </div>
+
+  <div class="menu-group">
+    <div class="menu-title">Servicios ▾</div>
+    <div class="menu-items">
+      <a class="side-link" data-roles="admin,teacher" href="grupales.html"><span class="dot"></span> Grupales</a>
+      <a class="side-link" data-roles="admin,teacher" href="privadas.html"><span class="dot"></span> Privadas / Semi</a>
+    </div>
+  </div>
+
+  <div class="menu-group">
+    <div class="menu-title">Gestión ▾</div>
+    <div class="menu-items">
+      <a class="side-link" data-roles="admin,teacher,student" href="calendario.html"><span class="dot"></span> Calendario</a>
+      <a class="side-link" data-roles="admin" href="finanzas.html"><span class="dot"></span> Finanzas</a>
+      <a class="side-link" data-roles="admin,teacher,student" href="solicitudes.html"><span class="dot"></span> Solicitudes</a>
+      <a class="side-link" data-roles="admin,teacher,student" href="reportes.html"><span class="dot"></span> Reportes</a>
+      <a class="side-link" data-roles="admin,teacher" href="mensajes.html"><span class="dot"></span> Mensajes</a>
+    </div>
+  </div>
+
+  <div class="menu-group active">
+    <div class="menu-title">Diagnóstico ▾</div>
+    <div class="menu-items">
+      <a class="side-link" data-roles="admin,teacher" href="placement_portal_integrado.html"><span class="dot"></span> Placement</a>
+      <a class="side-link" data-roles="admin,teacher" href="diagnostico_resultados.html"><span class="dot"></span> Resultados diagnóstico</a>
+    </div>
+  </div>
+
+  <div class="menu-group active">
+    <div class="menu-title">Práctica y exámenes ▾</div>
+    <div class="menu-items">
+      <a class="side-link" data-roles="admin,teacher,student" href="Grammar_portal.html"><span class="dot"></span> Grammar</a>
+      <a class="side-link" data-roles="admin,teacher,student" href="Listening_portal.html"><span class="dot"></span> Listening</a>
+      <a class="side-link" data-roles="admin,teacher,student" href="Speaking_portal.html"><span class="dot"></span> Speaking</a>
+      <a class="side-link" data-roles="admin,teacher" href="evaluaciones.html"><span class="dot"></span> Evaluaciones</a>
+      <a class="side-link" data-roles="admin,teacher,student" href="resultados.html"><span class="dot"></span> Resultados</a>
+    </div>
+  </div>
+
+  <div class="user-box">
+    <strong id="sidebarUserName">Usuario</strong>
+    <small id="sidebarUserRole">Rol</small>
+    <small id="sidebarUserEmail">correo</small>
+    <button class="logout-btn" onclick="logout()">Cerrar sesión</button>
+  </div>
+</aside>
+<main class="main">
+  <div class="breadcrumb">Dashboard / Estudiantes / Dossier académico</div>
 
 <div class="container">
 
@@ -690,6 +849,16 @@ th{
 
   <h1 id="studentName" style="margin-top:24px;">Estudiante</h1>
   <div class="sub" id="studentMeta">Código · Servicio · Nivel</div>
+
+
+  <section class="dossier-executive" id="dossierExecutiveSummary" aria-label="Resumen ejecutivo del estudiante">
+    <div class="dossier-kpi"><small>Progreso</small><strong id="uxDossierProgress">--</strong></div>
+    <div class="dossier-kpi"><small>Asistencia</small><strong id="uxDossierAttendance">--</strong></div>
+    <div class="dossier-kpi"><small>Promedio</small><strong id="uxDossierAverage">--</strong></div>
+    <div class="dossier-kpi"><small>Intervenciones</small><strong id="uxDossierInterventions">--</strong></div>
+    <div class="dossier-kpi"><small>Solicitudes</small><strong id="uxDossierRequests">--</strong></div>
+    <div class="dossier-kpi"><small>Mensajes</small><strong id="uxDossierMessages">--</strong></div>
+  </section>
 
   <div class="pdf-actions">
     <button class="btn" onclick="downloadDossierPDF()">Descargar reporte PDF</button>
@@ -706,6 +875,13 @@ th{
     </div>
   </div>
 
+
+  <div class="card">
+    <h3>Asistencia</h3>
+    <div class="sub">Resumen calculado desde AttendanceService con respaldo temporal desde grupales.</div>
+    <div id="attendanceSummary"></div>
+  </div>
+
   <div class="card">
     <h3>Información académica</h3>
     <table>
@@ -715,6 +891,12 @@ th{
       <tr><th>Teléfono / WhatsApp</th><td id="studentPhone"></td></tr>
       <tr><th>Estado</th><td id="status"></td></tr>
     </table>
+  </div>
+
+  <div class="card">
+    <h3>Agenda académica</h3>
+    <div class="sub">Próximas clases y solicitudes de horario asociadas al estudiante.</div>
+    <div id="studentScheduleInfo"></div>
   </div>
 
   <div class="card">
@@ -784,6 +966,12 @@ th{
   </div>
 
 
+  <div class="card" id="academicTimelineCard">
+    <h3>Actividad reciente</h3>
+    <div class="sub">Eventos académicos, solicitudes, mensajes e intervenciones relevantes ordenados para revisión rápida.</div>
+    <div id="academicTimeline" class="timeline-list"></div>
+  </div>
+
   <div class="card">
     <div style="display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap">
       <div>
@@ -796,6 +984,8 @@ th{
     <div id="messagesList"></div>
   </div>
 
+</div>
+</main>
 </div>
 
 
@@ -834,8 +1024,37 @@ th{
 </div>
 
 
-<script src="storage.js"></script>
-<script src="schemaRegistry.js"></script>
+<script src="js/core/storage.js"></script>
+<script src="js/core/schemaRegistry.js"></script>
+<script src="js/core/demoSeed.js"></script>
+
+<script>
+(function(){
+  const originalAlert = window.alert;
+  window.__wisdomOriginalAlert = originalAlert;
+  window.alert = function(message){
+    const text = String(message || "");
+    const normalized = text
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g,'');
+
+    const isServiceLoadNotice =
+      /(?:studentservice|teacherservice|groupservice|scheduleservice|attendanceservice|reportservice|authservice|permissions|wisdompermissions)/i.test(text) &&
+      /(?:carg|load|loaded|inicializ|init|ready|correctamente|ok)/i.test(normalized);
+
+    if(isServiceLoadNotice) return;
+    return originalAlert.apply(window, arguments);
+  };
+})();
+</script>
+<script src="js/services/authService.js"></script>
+<script src="js/core/permissions.js"></script>
+<script src="js/services/studentService.js"></script>
+<script src="js/services/teacherService.js"></script>
+<script src="js/services/groupService.js"></script>
+<script src="js/services/scheduleService.js"></script>
+<script src="js/services/attendanceService.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -852,6 +1071,7 @@ const ASSESSMENT_RESULTS_KEY = 'wisdom_assessment_results'
 const EVALUATIONS_KEY = 'wisdom_evaluations'
 const INTERVENTIONS_KEY = 'wisdom_interventions'
 const MESSAGES_KEY = 'wisdom_messages'
+const SCHEDULES_KEY = 'wisdom_schedules_demo'
 
 function safeParse(value,fallback=[]){
   try{
@@ -903,18 +1123,154 @@ function removeItem(key){
 function normalizeEmail(value){
   return String(value || '').trim().toLowerCase()
 }
+function escapeHTML(value){
+  return String(value ?? '').replace(/[&<>'"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]))
+}
+
+/* FASE 17 — Resilient student matching
+   Permite que el dossier encuentre datos históricos aunque hayan sido guardados
+   con id, code, studentId, studentCode, correo o teléfono en fases anteriores. */
+function normalizeMatchValue(value){
+  return String(value ?? '').trim().toLowerCase()
+}
+
+function addIdentityValue(set,value){
+  const normalized = normalizeMatchValue(value)
+  if(normalized) set.add(normalized)
+}
+
+function studentIdentity(student={}){
+  const ids = new Set()
+  const emails = new Set()
+  const phones = new Set()
+  const names = new Set()
+
+  ;['id','studentId','studentCode','code'].forEach(key=>addIdentityValue(ids,student[key]))
+  ;['email','studentEmail'].forEach(key=>addIdentityValue(emails,student[key]))
+  ;['phone','whatsapp','studentPhone'].forEach(key=>addIdentityValue(phones,student[key]))
+  ;['name','fullName','studentName'].forEach(key=>addIdentityValue(names,student[key]))
+
+  return {ids,emails,phones,names}
+}
+
+function entityStudentIdentity(entity={}){
+  const ids = new Set()
+  const emails = new Set()
+  const phones = new Set()
+  const names = new Set()
+
+  ;['studentId','studentCode','code','id','student','linkedStudentId','createdByStudentId'].forEach(key=>addIdentityValue(ids,entity[key]))
+  ;['studentEmail','email','createdByEmail'].forEach(key=>addIdentityValue(emails,entity[key]))
+  ;['studentPhone','phone','whatsapp'].forEach(key=>addIdentityValue(phones,entity[key]))
+  ;['studentName','name','fullName'].forEach(key=>addIdentityValue(names,entity[key]))
+
+  return {ids,emails,phones,names}
+}
+
+function setsIntersect(a,b){
+  for(const value of a){
+    if(b.has(value)) return true
+  }
+  return false
+}
+
+function hasAnyIdentity(identity){
+  return Boolean(identity.ids.size || identity.emails.size || identity.phones.size)
+}
+
+function entityBelongsToStudent(entity,student,{allowNameFallback=true}={}){
+  if(!entity || !student) return false
+
+  const studentRef = studentIdentity(student)
+  const entityRef = entityStudentIdentity(entity)
+
+  if(studentRef.ids.size && entityRef.ids.size && setsIntersect(studentRef.ids,entityRef.ids)) return true
+  if(studentRef.emails.size && entityRef.emails.size && setsIntersect(studentRef.emails,entityRef.emails)) return true
+  if(studentRef.phones.size && entityRef.phones.size && setsIntersect(studentRef.phones,entityRef.phones)) return true
+
+  // Fallback conservador: usar nombre solo si el registro antiguo no trae id/correo/teléfono.
+  if(allowNameFallback && !hasAnyIdentity(entityRef) && studentRef.names.size && entityRef.names.size && setsIntersect(studentRef.names,entityRef.names)) return true
+
+  return false
+}
+
+function assertCanManageCurrentStudent(action='realizar esta acción'){
+  if(isAdminUser()) return true
+  if(isTeacherUser() && currentStudent && teacherOwnsStudent(currentStudent)) return true
+  alert(`No tienes permiso para ${action} en este dossier.`)
+  return false
+}
+
+function requestBelongsToCurrentStudent(request){
+  return entityBelongsToStudent(request,currentStudent)
+}
+
+function interventionBelongsToCurrentStudent(item){
+  return entityBelongsToStudent(item,currentStudent)
+}
+
+
+function getCurrentUserSafe(){
+  if(typeof AuthService !== 'undefined' && AuthService){
+    try{
+      if(typeof AuthService.getCurrentUser === 'function'){
+        const user = AuthService.getCurrentUser()
+        if(user && typeof user === 'object') return user
+      }
+    }catch(error){
+      console.warn('AuthService.getCurrentUser falló. Dossier usará sesión local como respaldo.', error)
+    }
+  }
+  return loadObject(CURRENT_USER_KEY, null)
+}
+
+function isAuthenticatedSafe(){
+  if(typeof AuthService !== 'undefined' && AuthService && typeof AuthService.isAuthenticated === 'function'){
+    try{
+      return AuthService.isAuthenticated()
+    }catch(error){
+      console.warn('AuthService.isAuthenticated falló. Dossier validará sesión local.', error)
+    }
+  }
+  return Boolean(currentUser && currentUser.role)
+}
 
 const users = loadArray(USERS_KEY)
-const currentUser = loadObject(CURRENT_USER_KEY, null)
+const currentUser = getCurrentUserSafe()
 
-if (!users.length || !currentUser || !currentUser.role) {
+if (!currentUser || !currentUser.role || !isAuthenticatedSafe()) {
   window.location.href = 'login.html'
+}
+
+function isAdminUser(){
+  if(typeof WisdomPermissions !== 'undefined' && WisdomPermissions && typeof WisdomPermissions.isAdmin === 'function'){
+    try{return WisdomPermissions.isAdmin()}catch(error){return currentUser.role === 'admin'}
+  }
+  return currentUser.role === 'admin'
+}
+
+function isTeacherUser(){
+  if(typeof WisdomPermissions !== 'undefined' && WisdomPermissions && typeof WisdomPermissions.isTeacher === 'function'){
+    try{return WisdomPermissions.isTeacher()}catch(error){return currentUser.role === 'teacher'}
+  }
+  return currentUser.role === 'teacher'
+}
+
+function isStudentUser(){
+  if(typeof WisdomPermissions !== 'undefined' && WisdomPermissions && typeof WisdomPermissions.isStudent === 'function'){
+    try{return WisdomPermissions.isStudent()}catch(error){return currentUser.role === 'student'}
+  }
+  return currentUser.role === 'student'
 }
 
 let currentStudent = null
 
 function logout(){
-  removeItem(CURRENT_USER_KEY)
+  if(typeof AuthService !== 'undefined' && AuthService && typeof AuthService.logout === 'function'){
+    try{AuthService.logout()}catch(error){removeItem(CURRENT_USER_KEY)}
+  }else{
+    removeItem(CURRENT_USER_KEY)
+  }
   window.location.href = 'login.html'
 }
 
@@ -928,10 +1284,10 @@ function roleLabel(role){
 function renderSession(){
   const box = document.getElementById('sessionUser')
   if(!box || !currentUser) return
-  box.innerHTML = `<strong>${currentUser.name || 'Usuario'}</strong><br>${currentUser.email || ''} · ${roleLabel(currentUser.role)}`
+  box.innerHTML = `<strong>${escapeHTML(currentUser.name || 'Usuario')}</strong><br>${escapeHTML(currentUser.email || '')} · ${escapeHTML(roleLabel(currentUser.role))}`
 
   const backButton = document.getElementById('backButton')
-  if(currentUser.role === 'student'){
+  if(isStudentUser()){
     backButton.style.display = 'none'
   }
 }
@@ -1030,6 +1386,156 @@ function loadMessages(){
   })
 }
 
+
+function normalizeScheduleItem(item={}){
+  const normalized = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeCalendarEvent)
+    ? SchemaRegistry.normalizeCalendarEvent(item)
+    : {...item}
+
+  return {
+    ...normalized,
+    id:normalized.id||normalized.scheduleId||'',
+    scheduleId:normalized.scheduleId||normalized.id||'',
+    title:normalized.title||normalized.name||normalized.groupName||normalized.packageCode||'Clase programada',
+    type:normalized.type||normalized.serviceType||'Clase',
+    source:normalized.source||'ScheduleService',
+    studentIds:Array.isArray(normalized.studentIds)?normalized.studentIds.map(String):[],
+    studentId:normalized.studentId||normalized.studentCode||'',
+    teacherId:normalized.teacherId||normalized.teacherCode||'',
+    teacher:normalized.teacher||normalized.teacherName||'',
+    date:normalized.date||normalized.classDate||normalized.startDate||'',
+    day:normalized.day||normalized.scheduleDay||'',
+    startTime:normalized.startTime||normalized.start||normalized.hour||'',
+    endTime:normalized.endTime||normalized.end||'',
+    status:normalized.status||'Activo'
+  }
+}
+
+function loadSchedules(){
+  if(typeof ScheduleService !== 'undefined' && ScheduleService){
+    try{
+      if(typeof ScheduleService.getByStudent === 'function' && currentStudent){
+        const studentCode=currentStudent.code||currentStudent.studentId||currentStudent.id||''
+        const byStudent=ScheduleService.getByStudent(studentCode)
+        if(Array.isArray(byStudent))return byStudent.map(normalizeScheduleItem)
+      }
+      if(typeof ScheduleService.getAll === 'function'){
+        const all=ScheduleService.getAll()
+        if(Array.isArray(all))return all.map(normalizeScheduleItem)
+      }
+    }catch(error){
+      console.warn('ScheduleService no pudo entregar agenda del dossier. Se usará fallback local.',error)
+    }
+  }
+  return loadArray(SCHEDULES_KEY).map(normalizeScheduleItem)
+}
+
+function scheduleBelongsToStudent(schedule,student){
+  if(!student || !schedule) return false
+  if(entityBelongsToStudent(schedule,student)) return true
+
+  const identity = studentIdentity(student)
+  if(Array.isArray(schedule.studentIds)){
+    const scheduleIds = new Set(schedule.studentIds.map(normalizeMatchValue).filter(Boolean))
+    if(setsIntersect(identity.ids,scheduleIds)) return true
+  }
+
+  return false
+}
+
+function formatScheduleWhen(schedule){
+  const date=schedule.date||schedule.day||'Sin fecha'
+  const start=schedule.startTime||schedule.start||''
+  const end=schedule.endTime||schedule.end||''
+  return `${date}${start?' · '+start:''}${end?' - '+end:''}`
+}
+
+function getStudentSchedules(student){
+  return loadSchedules()
+    .filter(schedule=>scheduleBelongsToStudent(schedule,student))
+    .sort((a,b)=>String(a.date||a.day||'').localeCompare(String(b.date||b.day||'')) || String(a.startTime||'').localeCompare(String(b.startTime||'')))
+}
+
+function renderStudentSchedule(){
+  const container=document.getElementById('studentScheduleInfo')
+  if(!container || !currentStudent)return
+  const schedules=getStudentSchedules(currentStudent).filter(item=>String(item.status||'Activo').toLowerCase()!=='cancelado')
+  const scheduleRequests=visibleRequests().filter(request=>['Reprogramación','Cambio de horario','Solicitud por WhatsApp'].includes(request.type||'') && ['Nueva','En revisión'].includes(request.status||'Nueva'))
+
+  const scheduleHTML=schedules.slice(0,5).map(item=>`
+    <div class="request-card">
+      <span class="pill ok">${item.type||'Clase'}</span>
+      <strong>${item.title||'Clase programada'}</strong>
+      <small>${formatScheduleWhen(item)}</small>
+      ${item.teacher?`<small>Profesor: ${item.teacher}</small>`:''}
+    </div>
+  `).join('')
+
+  const requestsHTML=scheduleRequests.slice(0,5).map(request=>`
+    <div class="request-card">
+      <span class="pill ${requestStatusClass(request.status)}">${request.status||'Nueva'}</span>
+      <strong>${request.type}</strong>
+      <small>${request.requestedDate||'Sin fecha'}${request.requestedTime?' · '+request.requestedTime:''}</small>
+      <small>${request.reason||''}</small>
+    </div>
+  `).join('')
+
+  container.innerHTML=`
+    ${scheduleHTML || '<div class="empty">No hay próximas clases registradas para este estudiante.</div>'}
+    ${scheduleRequests.length?`<div class="eval-alert warning">${scheduleRequests.length} solicitud(es) de horario abiertas.</div>${requestsHTML}`:''}
+  `
+}
+
+function syncApprovedRequestWithSchedule(request){
+  if(!isAdminUser()) return request
+  if(!request || !['Reprogramación','Cambio de horario'].includes(request.type||'') || request.status!=='Aprobada')return request
+  if(!request.requestedDate)return request
+  if(typeof ScheduleService === 'undefined' || !ScheduleService)return request
+
+  try{
+    const schedulePayload={
+      id:request.scheduleId||request.affectedEntityId||undefined,
+      scheduleId:request.scheduleId||'',
+      title:`${request.type} · ${request.studentName||request.studentCode||'Estudiante'}`,
+      type:'Solicitud aprobada',
+      source:'Dossier',
+      studentId:request.studentId||request.studentCode||'',
+      studentIds:[request.studentId||request.studentCode||''].filter(Boolean),
+      studentName:request.studentName||'',
+      teacherId:request.teacherId||request.teacherCode||'',
+      teacher:request.teacher||'',
+      date:request.requestedDate,
+      startTime:request.requestedTime||'',
+      status:'Activo',
+      requestId:request.id||request.requestId||''
+    }
+
+    if(typeof ScheduleService.hasConflict === 'function'){
+      const conflict=ScheduleService.hasConflict(schedulePayload,request.scheduleId||'')
+      if(conflict){
+        alert('Existe un conflicto de agenda para la fecha u hora aprobada. Revisa calendario antes de confirmar.')
+        return null
+      }
+    }
+
+    let saved=null
+    if(request.scheduleId && typeof ScheduleService.update === 'function')saved=ScheduleService.update(request.scheduleId,schedulePayload)
+    else if(typeof ScheduleService.create === 'function')saved=ScheduleService.create(schedulePayload)
+
+    const savedId=saved?.id||saved?.scheduleId||request.scheduleId||''
+    return {
+      ...request,
+      scheduleId:savedId,
+      affectedEntityId:savedId,
+      affectedEntityType:'schedule',
+      scheduleSyncedAt:new Date().toISOString()
+    }
+  }catch(error){
+    console.warn('No se pudo sincronizar la solicitud aprobada con ScheduleService.',error)
+    return request
+  }
+}
+
 function saveMessages(items){
   const normalized = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeMessage)
     ? (Array.isArray(items)?items:[]).map(item=>SchemaRegistry.normalizeMessage(item))
@@ -1039,16 +1545,7 @@ function saveMessages(items){
 }
 
 function messageBelongsToStudent(message, student){
-  const studentCode = student.code || student.studentId || student.id || ''
-  const messageStudentId = message.studentId || message.studentCode || ''
-  const codeMatch = Boolean(studentCode && messageStudentId && messageStudentId === studentCode)
-  const emailMatch = Boolean(message.studentEmail && student.email && normalizeEmail(message.studentEmail) === normalizeEmail(student.email))
-  const phoneMatch = Boolean(message.phone && (student.phone || student.whatsapp) && String(message.phone).trim() === String(student.phone || student.whatsapp).trim())
-
-  if(codeMatch || emailMatch || phoneMatch) return true
-
-  // Fallback conservador: solo usar nombre si no hay identificadores mejores.
-  return Boolean(!messageStudentId && !message.studentEmail && message.studentName && student.name && message.studentName === student.name)
+  return entityBelongsToStudent(message,student)
 }
 
 function getStudentMessages(student){
@@ -1091,7 +1588,8 @@ function openStudentInbox(){
 }
 
 function updateMessageStatusFromDossier(id,status){
-  if(currentUser.role !== 'admin' && currentUser.role !== 'teacher'){
+  if(!assertCanManageCurrentStudent('gestionar mensajes')) return
+  if(!isAdminUser() && !isTeacherUser()){
     alert('No tienes permiso para gestionar mensajes.')
     return
   }
@@ -1123,7 +1621,8 @@ function nextRequestIdFromMessages(requests){
 }
 
 function createRequestFromDossierMessage(id){
-  if(currentUser.role !== 'admin' && currentUser.role !== 'teacher'){
+  if(!assertCanManageCurrentStudent('convertir mensajes en solicitudes')) return
+  if(!isAdminUser() && !isTeacherUser()){
     alert('No tienes permiso para convertir mensajes en solicitudes.')
     return
   }
@@ -1180,7 +1679,7 @@ function createRequestFromDossierMessage(id){
   saveMessages(messages)
   renderMessagesForStudent()
   renderRequests()
-  renderEvaluationHistory(student)
+  renderEvaluationHistory(currentStudent)
   renderInterventions()
   renderMessagesForStudent()
 }
@@ -1192,7 +1691,7 @@ function renderMessagesForStudent(){
   if(!summary || !container || !currentStudent) return
 
   if(inboxBtn){
-    inboxBtn.style.display = currentUser.role === 'admin' || currentUser.role === 'teacher' ? 'inline-block' : 'none'
+    inboxBtn.style.display = isAdminUser() || isTeacherUser() ? 'inline-block' : 'none'
   }
 
   const messages = getStudentMessages(currentStudent)
@@ -1235,7 +1734,7 @@ function renderMessagesForStudent(){
       <small>${message.text || 'Sin contenido.'}</small>
       ${message.internalNote ? `<small><strong>Nota interna:</strong> ${message.internalNote}</small>` : ''}
       ${message.linkedRequestId ? `<small><strong>Solicitud vinculada:</strong> ${message.linkedRequestId}</small>` : ''}
-      ${(currentUser.role === 'admin' || currentUser.role === 'teacher') ? `
+      ${(isAdminUser() || isTeacherUser()) ? `
         <div class="message-actions">
           <button class="btn btn-secondary" onclick="updateMessageStatusFromDossier('${message.id}','read')">Marcar leído</button>
           <button class="btn btn-secondary" onclick="updateMessageStatusFromDossier('${message.id}','follow_up')">Seguimiento</button>
@@ -1279,7 +1778,7 @@ function normalizeTeacherRef(item){
 }
 
 function teacherOwnsStudent(student){
-  if(currentUser.role !== 'teacher') return true
+  if(!isTeacherUser()) return true
   const teacherId = getCurrentTeacherId()
 
   if((student.teacherId && student.teacherId === teacherId) || (student.teacherCode && student.teacherCode === teacherId)) return true
@@ -1288,22 +1787,20 @@ function teacherOwnsStudent(student){
   const groups = loadGroups().filter(group => (teacherId && group.teacherId === teacherId) || group.teacher === currentUser.name)
   const packages = loadPackages().filter(pkg => (teacherId && pkg.teacherId === teacherId) || pkg.teacher === currentUser.name)
 
-  const inGroup = groups.some(group => (group.students || []).some(item => item.code === student.code || item.name === student.name))
-  const inPackage = packages.some(pkg => (pkg.students || []).some(item => item.code === student.code || item.name === student.name))
+  const inGroup = groups.some(group => (group.students || []).some(item => entityBelongsToStudent(item, student)))
+  const inPackage = packages.some(pkg => (pkg.students || []).some(item => entityBelongsToStudent(item, student)))
 
   return inGroup || inPackage
 }
 
 function canViewStudent(student){
-  if(currentUser.role === 'admin') return true
+  if(isAdminUser()) return true
 
-  if(currentUser.role === 'student'){
-    const codeMatch = currentUser.studentId && (currentUser.studentId === student.code || currentUser.studentId === student.id)
-    const emailMatch = currentUser.email && student.email && currentUser.email.toLowerCase() === student.email.toLowerCase()
-    return Boolean(codeMatch || emailMatch)
+  if(isStudentUser()){
+    return entityBelongsToStudent(currentUser, student)
   }
 
-  if(currentUser.role === 'teacher'){
+  if(isTeacherUser()){
     return teacherOwnsStudent(student)
   }
 
@@ -1334,7 +1831,7 @@ function calculatePercent(value){
 }
 
 function deny(message){
-  document.body.innerHTML = `<h2 style="padding:40px;font-family:Arial;color:#0d2b45">${message}</h2>`
+  document.body.innerHTML = `<h2 style="padding:40px;font-family:Arial;color:#0d2b45">${escapeHTML(message)}</h2>`
 }
 
 
@@ -1382,17 +1879,13 @@ function saveInterventions(items){
 
 function getStudentInterventions(student){
   return loadInterventions()
-    .filter(item =>
-      item.studentId === student.code ||
-      item.studentId === student.studentId ||
-      item.studentName === student.name ||
-      item.studentEmail === student.email
-    )
+    .filter(item => entityBelongsToStudent(item, student))
     .sort((a,b)=>new Date(b.createdAt||0)-new Date(a.createdAt||0))
 }
 
 function closeIntervention(id){
-  if(currentUser.role !== 'admin' && currentUser.role !== 'teacher'){
+  if(!assertCanManageCurrentStudent('cerrar intervenciones')) return
+  if(!isAdminUser() && !isTeacherUser()){
     alert('No tienes permiso para cerrar intervenciones.')
     return
   }
@@ -1400,6 +1893,7 @@ function closeIntervention(id){
   const items = loadInterventions()
   const index = items.findIndex(item => item.id === id)
   if(index < 0) return
+  if(!interventionBelongsToCurrentStudent(items[index])){alert('Esta intervención no pertenece al dossier actual.');return}
 
   const note = prompt('Nota de cierre de la intervención:')
   if(note === null) return
@@ -1464,7 +1958,8 @@ function ensurePlanProgress(plan){
 }
 
 function updatePlanProgress(id,key,value){
-  if(currentUser.role !== 'admin' && currentUser.role !== 'teacher'){
+  if(!assertCanManageCurrentStudent('actualizar el plan de refuerzo')) return
+  if(!isAdminUser() && !isTeacherUser()){
     alert('No tienes permiso para actualizar el plan de refuerzo.')
     return
   }
@@ -1472,6 +1967,7 @@ function updatePlanProgress(id,key,value){
   const items = loadInterventions()
   const index = items.findIndex(item => item.id === id)
   if(index < 0) return
+  if(!interventionBelongsToCurrentStudent(items[index])){alert('Este plan no pertenece al dossier actual.');return}
 
   const item = items[index]
   item.plan = getInterventionPlan(item)
@@ -1543,7 +2039,7 @@ function renderInterventions(){
       <small>${item.recommendation}</small>
       ${(()=>{
         const plan = ensurePlanProgress(getInterventionPlan(item))
-        const canManage = currentUser.role === 'admin' || currentUser.role === 'teacher'
+        const canManage = isAdminUser() || isTeacherUser()
         return `<div class="plan-box">
           <strong>Plan de refuerzo automático</strong>
           <ul>${plan.actions.map(action=>`<li>${action}</li>`).join('')}</ul>
@@ -1573,7 +2069,7 @@ function renderInterventions(){
       })()}
       <small>Creada: ${item.createdAt ? new Date(item.createdAt).toLocaleString('es-CO') : '-'}</small>
       ${item.notes ? `<small><strong>Nota:</strong> ${item.notes}</small>` : ''}
-      ${(currentUser.role === 'admin' || currentUser.role === 'teacher') && !isClosed ? `<div class="intervention-actions"><button class="btn btn-secondary" onclick="closeIntervention('${item.id}')">Cerrar intervención</button></div>` : ''}
+      ${(isAdminUser() || isTeacherUser()) && !isClosed ? `<div class="intervention-actions"><button class="btn btn-secondary" onclick="closeIntervention('${item.id}')">Cerrar intervención</button></div>` : ''}
     `
     container.appendChild(card)
   })
@@ -1641,11 +2137,7 @@ function resultStatus(result){
 }
 
 function resultBelongsToStudent(result, student){
-  const codeMatch = result.studentId && student.code && result.studentId === student.code
-  const idMatch = result.studentId && student.studentId && result.studentId === student.studentId
-  const emailMatch = result.studentEmail && student.email && String(result.studentEmail).toLowerCase() === String(student.email).toLowerCase()
-  const nameMatch = result.studentName && student.name && result.studentName === student.name
-  return Boolean(codeMatch || idMatch || emailMatch || nameMatch)
+  return entityBelongsToStudent(result, student)
 }
 
 function getStudentResults(student){
@@ -1729,10 +2221,193 @@ function renderEvaluationHistory(student){
   })
 }
 
+
+function serviceHas(serviceName, methodName){
+  const service = window[serviceName]
+  return typeof service !== 'undefined' && service && typeof service[methodName] === 'function'
+}
+
+function normalizeStudentCodeForAttendance(student={}){
+  return String(student.studentId || student.studentCode || student.code || student.id || '').trim()
+}
+
+function normalizeAttendancePercentValue(value){
+  if(value === null || value === undefined || value === '') return null
+
+  if(typeof value === 'number'){
+    return Number.isFinite(value) ? Math.round(value) : null
+  }
+
+  if(typeof value === 'string'){
+    const parsed = parseFloat(value.replace('%','').trim())
+    return Number.isNaN(parsed) ? null : Math.round(parsed)
+  }
+
+  if(typeof value === 'object'){
+    const candidates = [
+      value.percent,
+      value.percentage,
+      value.attendancePercent,
+      value.rate,
+      value.value
+    ]
+
+    for(const candidate of candidates){
+      const normalized = normalizeAttendancePercentValue(candidate)
+      if(normalized !== null) return normalized
+    }
+
+    const present = Number(value.present ?? value.presentCount ?? value.attended ?? 0)
+    const total = Number(value.total ?? value.totalClasses ?? value.count ?? 0)
+    if(total > 0) return Math.round((present / total) * 100)
+  }
+
+  return null
+}
+
+function attendanceRecordsByStudentSafe(student){
+  const studentCode = normalizeStudentCodeForAttendance(student)
+  if(!studentCode) return []
+
+  if(serviceHas('AttendanceService','getByStudent')){
+    try{
+      const records = AttendanceService.getByStudent(studentCode)
+      return Array.isArray(records) ? records : (records ? [records] : [])
+    }catch(error){
+      console.warn('AttendanceService.getByStudent() falló. Usando grupales como respaldo.', error)
+    }
+  }
+
+  return []
+}
+
+function calculateAttendanceFromRecords(records=[], studentCode=''){
+  const cleanCode = String(studentCode || '').trim()
+  const statuses = []
+
+  records.forEach(record=>{
+    if(!record) return
+
+    if(record.students && typeof record.students === 'object' && cleanCode){
+      const status = record.students[cleanCode] || record.students[String(cleanCode)]
+      if(status) statuses.push(String(status).toLowerCase())
+      return
+    }
+
+    const status = record.status || record.attendanceStatus || record.studentStatus || ''
+    if(status) statuses.push(String(status).toLowerCase())
+  })
+
+  const relevant = statuses.filter(status=>['present','absent','late','excused'].includes(status))
+  if(!relevant.length) return null
+
+  const present = relevant.filter(status=>status === 'present').length
+  const late = relevant.filter(status=>status === 'late').length
+  const excused = relevant.filter(status=>status === 'excused').length
+  const absent = relevant.filter(status=>status === 'absent').length
+  const attended = present + late + excused
+  const percent = Math.round((attended / relevant.length) * 100)
+
+  return {percent,total:relevant.length,present,late,excused,absent}
+}
+
+function calculateAttendanceFromGroups(student){
+  const studentCode = normalizeStudentCodeForAttendance(student)
+  if(!studentCode) return null
+
+  const statuses = []
+  loadGroups().forEach(group=>{
+    const belongs = (Array.isArray(group.students) ? group.students : []).some(item=>entityBelongsToStudent(item, student))
+
+    if(!belongs) return
+
+    const identityKeys = Array.from(studentIdentity(student).ids)
+    Object.keys(group.attendance || {})
+      .filter(key=>/^\d+$/.test(String(key)))
+      .forEach(session=>{
+        const record = group.attendance[session] || {}
+        const matchedKey = identityKeys.find(key=>record[key] || record[String(key)])
+        const status = matchedKey ? (record[matchedKey] || record[String(matchedKey)]) : record[studentCode]
+        if(status) statuses.push(String(status).toLowerCase())
+      })
+  })
+
+  if(!statuses.length) return null
+
+  const present = statuses.filter(status=>status === 'present').length
+  const late = statuses.filter(status=>status === 'late').length
+  const excused = statuses.filter(status=>status === 'excused').length
+  const absent = statuses.filter(status=>status === 'absent').length
+  const attended = present + late + excused
+  const percent = Math.round((attended / statuses.length) * 100)
+
+  return {percent,total:statuses.length,present,late,excused,absent}
+}
+
+function getStudentAttendanceSummary(student){
+  const studentCode = normalizeStudentCodeForAttendance(student)
+
+  if(studentCode && serviceHas('AttendanceService','calculateStudentAttendance')){
+    try{
+      const serviceValue = AttendanceService.calculateStudentAttendance(studentCode)
+      const percent = normalizeAttendancePercentValue(serviceValue)
+      if(percent !== null){
+        const fromRecords = calculateAttendanceFromRecords(attendanceRecordsByStudentSafe(student), studentCode)
+        return fromRecords ? {...fromRecords,percent,source:'AttendanceService'} : {percent,total:null,present:null,late:null,excused:null,absent:null,source:'AttendanceService'}
+      }
+    }catch(error){
+      console.warn('AttendanceService.calculateStudentAttendance() falló. Usando respaldo local.', error)
+    }
+  }
+
+  const fromRecords = calculateAttendanceFromRecords(attendanceRecordsByStudentSafe(student), studentCode)
+  if(fromRecords) return {...fromRecords,source:'AttendanceService'}
+
+  const fromGroups = calculateAttendanceFromGroups(student)
+  if(fromGroups) return {...fromGroups,source:'grupales'}
+
+  return null
+}
+
+function attendanceStatusClass(percent){
+  if(percent === null || percent === undefined) return 'gray'
+  if(percent < 70) return 'danger'
+  if(percent < 85) return 'warning'
+  return 'ok'
+}
+
+function renderAttendanceSummary(student){
+  const container = document.getElementById('attendanceSummary')
+  if(!container) return
+
+  const summary = getStudentAttendanceSummary(student)
+  if(!summary){
+    container.innerHTML = '<div class="empty">No hay asistencia registrada para este estudiante todavía.</div>'
+    return
+  }
+
+  const statusClass = attendanceStatusClass(summary.percent)
+  const sourceLabel = summary.source === 'AttendanceService' ? 'AttendanceService' : 'respaldo de grupales'
+
+  container.innerHTML = `
+    <div class="eval-metrics">
+      <div class="eval-metric"><small>Asistencia</small><strong>${summary.percent}%</strong></div>
+      <div class="eval-metric"><small>Registros</small><strong>${summary.total ?? '--'}</strong></div>
+      <div class="eval-metric"><small>Ausencias</small><strong>${summary.absent ?? '--'}</strong></div>
+      <div class="eval-metric"><small>Tardanzas / excusas</small><strong>${(summary.late ?? 0) + (summary.excused ?? 0)}</strong></div>
+    </div>
+    <div class="eval-alert ${statusClass}">
+      Fuente: ${sourceLabel}. ${summary.percent < 70 ? 'Asistencia crítica: requiere intervención.' : summary.percent < 85 ? 'Asistencia en observación.' : 'Asistencia estable.'}
+    </div>
+  `
+}
+
+
 function renderDossier(){
   const code = getStudentFromURL()
   const students = loadStudents()
-  const student = students.find(s => s.code === code || s.id === code)
+  const lookup = {id:code, code, studentId:code, studentCode:code, studentEmail:code, email:code}
+  const student = students.find(item => entityBelongsToStudent(lookup, item, {allowNameFallback:false}))
 
   if(!student){
     deny('Estudiante no encontrado.')
@@ -1761,6 +2436,8 @@ function renderDossier(){
 
   document.getElementById('progressBar').style.width = calculatePercent(student.trackingValue) + '%'
 
+  renderAttendanceSummary(student)
+
   const history = document.getElementById('historyTable')
   history.innerHTML = `
     <tr>
@@ -1774,16 +2451,15 @@ function renderDossier(){
   `
 
   renderRequests()
+  renderStudentSchedule()
+  renderEvaluationHistory(student)
+  renderInterventions()
+  renderMessagesForStudent()
 }
 
 function visibleRequests(){
   if(!currentStudent) return []
-  const code = currentStudent.code || currentStudent.studentId || currentStudent.id || ''
-  return loadRequests().filter(request =>
-    request.studentCode === code ||
-    request.studentId === code ||
-    (request.studentEmail && currentStudent.email && normalizeEmail(request.studentEmail) === normalizeEmail(currentStudent.email))
-  )
+  return loadRequests().filter(request => entityBelongsToStudent(request,currentStudent))
 }
 
 function renderRequests(){
@@ -1792,7 +2468,7 @@ function renderRequests(){
   if(!container || !currentStudent) return
 
   if(btn){
-    btn.style.display = currentUser.role === 'student' || currentUser.role === 'admin' ? 'inline-block' : 'none'
+    btn.style.display = isStudentUser() || isAdminUser() ? 'inline-block' : 'none'
   }
 
   const requests = visibleRequests()
@@ -1811,10 +2487,11 @@ function renderRequests(){
       <strong>${request.id} · ${request.type}</strong>
       <small>${request.reason || 'Sin detalle.'}</small>
       ${request.requestedDate ? `<small>Fecha solicitada: ${request.requestedDate}${request.requestedTime ? ' · '+request.requestedTime : ''}</small>` : ''}
+      ${request.scheduleId ? `<small>Agenda sincronizada: ${request.scheduleId}</small>` : ''}
       <small>Creada: ${request.createdAt ? new Date(request.createdAt).toLocaleString('es-CO') : '-'}</small>
       ${request.teacherNote ? `<small><strong>Nota profesor:</strong> ${request.teacherNote}</small>` : ''}
       ${request.adminNote ? `<small><strong>Respuesta administración:</strong> ${request.adminNote}</small>` : ''}
-      ${(currentUser.role === 'admin' || currentUser.role === 'teacher') ? `<div class="request-actions"><button class="btn btn-secondary" onclick="openReviewRequestModal('${request.id}')">Revisar</button></div>` : ''}
+      ${(isAdminUser() || isTeacherUser()) ? `<div class="request-actions"><button class="btn btn-secondary" onclick="openReviewRequestModal('${request.id}')">Revisar</button></div>` : ''}
     `
     container.appendChild(card)
   })
@@ -1822,7 +2499,7 @@ function renderRequests(){
 
 function openRequestModal(){
   if(!currentStudent) return
-  if(currentUser.role === 'teacher'){
+  if(isTeacherUser()){
     alert('El profesor puede observar solicitudes, pero no crearlas por el estudiante.')
     return
   }
@@ -1853,6 +2530,8 @@ function handleRequestTypeChange(){
 
 function createRequest(){
   if(!currentStudent) return
+  if(isTeacherUser()){alert('El profesor puede observar solicitudes, pero no crearlas por el estudiante.');return}
+  if(!canViewStudent(currentStudent)){alert('No tienes permiso para crear solicitudes para este estudiante.');return}
 
   const type = document.getElementById('requestType').value
   const requestedDate = document.getElementById('requestDate').value
@@ -1879,6 +2558,10 @@ function createRequest(){
     teacher: currentStudent.teacher || '',
     teacherId: currentStudent.teacherId || currentStudent.teacherCode || getTeacherIdByName(currentStudent.teacher) || '',
     service: currentStudent.service || '',
+    scheduleId: '',
+    affectedEntityId: '',
+    affectedEntityType: '',
+    scheduleSyncedAt: '',
     type,
     reason,
     requestedDate,
@@ -1897,18 +2580,20 @@ function createRequest(){
   saveRequests(requests)
   closeRequestModal()
   renderRequests()
+  renderStudentSchedule()
 }
 
 function openReviewRequestModal(requestId){
   const request = loadRequests().find(item => item.id === requestId)
   if(!request) return
+  if(!requestBelongsToCurrentStudent(request)){alert('Esta solicitud no pertenece al dossier actual.');return}
 
-  if(currentUser.role !== 'admin' && currentUser.role !== 'teacher'){
+  if(!isAdminUser() && !isTeacherUser()){
     alert('No tienes permiso para revisar solicitudes.')
     return
   }
 
-  if(currentUser.role === 'teacher' && !teacherOwnsStudent(currentStudent)){
+  if(isTeacherUser() && !teacherOwnsStudent(currentStudent)){
     alert('No tienes permiso para revisar esta solicitud.')
     return
   }
@@ -1919,8 +2604,8 @@ function openReviewRequestModal(requestId){
   document.getElementById('reviewAdminNote').value = request.adminNote || ''
   document.getElementById('reviewTeacherNote').value = request.teacherNote || ''
 
-  document.querySelectorAll('.admin-review-only').forEach(el => { el.style.display = currentUser.role === 'admin' ? 'flex' : 'none' })
-  document.querySelectorAll('.teacher-review-only').forEach(el => { el.style.display = currentUser.role === 'teacher' || currentUser.role === 'admin' ? 'flex' : 'none' })
+  document.querySelectorAll('.admin-review-only').forEach(el => { el.style.display = isAdminUser() ? 'flex' : 'none' })
+  document.querySelectorAll('.teacher-review-only').forEach(el => { el.style.display = isTeacherUser() || isAdminUser() ? 'flex' : 'none' })
 
   document.getElementById('reviewRequestModal').classList.add('active')
 }
@@ -1930,29 +2615,38 @@ function closeReviewRequestModal(){
 }
 
 function saveRequestReview(){
+  if(!assertCanManageCurrentStudent('revisar solicitudes')) return
   const requestId = document.getElementById('reviewRequestId').value
   const requests = loadRequests()
   const index = requests.findIndex(item => item.id === requestId)
   if(index < 0) return
+  if(!requestBelongsToCurrentStudent(requests[index])){alert('Esta solicitud no pertenece al dossier actual.');return}
 
-  if(currentUser.role === 'admin'){
+  if(isAdminUser()){
     requests[index].status = document.getElementById('reviewStatus').value
     requests[index].adminNote = document.getElementById('reviewAdminNote').value.trim()
   }
 
-  if(currentUser.role === 'teacher' || currentUser.role === 'admin'){
+  if(isTeacherUser() || isAdminUser()){
     requests[index].teacherNote = document.getElementById('reviewTeacherNote').value.trim()
   }
 
   requests[index].reviewedBy = currentUser.name || currentUser.email || currentUser.role || 'Usuario'
   requests[index].updatedAt = new Date().toISOString()
+
+  const syncedRequest = syncApprovedRequestWithSchedule(requests[index])
+  if(syncedRequest === null) return
+  requests[index] = syncedRequest
+
   saveRequests(requests)
   closeReviewRequestModal()
   renderRequests()
+  renderStudentSchedule()
 }
 
 
 async function downloadDossierPDF(){
+  if(currentStudent && !canViewStudent(currentStudent)){alert('No tienes permiso para descargar este dossier.');return}
   if(!window.html2canvas || !window.jspdf){
     alert('No se pudo cargar la herramienta de PDF. Revisa tu conexión a internet o usa Imprimir / guardar como PDF.')
     return
@@ -2024,5 +2718,86 @@ renderSession()
 renderDossier()
 </script>
 
+
+<script>
+/* Wisdom Academy FASE 13 Closure Hardening */
+(function(){
+ if(window.__wisdomPhase13Closure) return;
+ window.__wisdomPhase13Closure=true;
+
+ window.addEventListener('error', e=>console.error('FASE13',e.error||e.message));
+ window.addEventListener('unhandledrejection', e=>console.error('FASE13 Promise',e.reason));
+
+ window.addEventListener('storage', function(ev){
+   const watched=[
+     'wisdom_placement_results',
+     'wisdom_last_placement_result',
+     'wisdom_exam_results',
+     'wisdom_assessment_results',
+     'wisdom_students_demo'
+   ];
+   if(watched.includes(ev.key) && document.visibilityState==='visible'){
+      location.reload();
+   }
+ });
+
+ if(window.WisdomStorage && WisdomStorage.get && WisdomStorage.set){
+   try{
+     const placements = WisdomStorage.get('wisdom_placement_results',[]);
+     if(Array.isArray(placements)){
+       const seen=new Map();
+       placements.forEach(p=>{
+         const k=(p.placementId||p.resultId||p.id||JSON.stringify(p)).toString();
+         seen.set(k,p);
+       });
+       WisdomStorage.set('wisdom_placement_results', Array.from(seen.values()));
+     }
+   }catch(e){}
+ }
+})();
+</script>
+
+<script>
+/* FASE 16 — Dossier executive summary and timeline. Logic additive only. */
+(function(){
+  function text(id){return (document.getElementById(id)?.innerText||'').trim()}
+  function set(id,value){const el=document.getElementById(id); if(el) el.textContent=value||'--'}
+  function countCards(selector){return document.querySelectorAll(selector).length}
+  function updateSidebarActive(){
+    document.querySelectorAll('.side-link').forEach(a=>a.classList.remove('active'));
+    const link=[...document.querySelectorAll('.side-link')].find(a=>a.getAttribute('href')==='estudiantes.html');
+    if(link) link.classList.add('active');
+    const name=text('sessionUser').replace('Usuario activo','').trim();
+    set('sidebarUserName', name || 'Usuario Wisdom');
+    set('sidebarUserRole', 'Dossier');
+    set('sidebarUserEmail', text('studentMeta'));
+  }
+  function updateExecutive(){
+    const progress=(document.getElementById('progressBar')?.style.width||'').trim() || text('trackingText').match(/\d+%/)?.[0] || '--';
+    const attendance=text('attendanceSummary').match(/\d+%/)?.[0] || '--';
+    const scores=[...document.querySelectorAll('#evaluationHistoryTable .score-strong, #evaluationHistoryTable td')].map(el=>parseFloat((el.textContent||'').replace('%',''))).filter(n=>!Number.isNaN(n)&&n>=0&&n<=100);
+    const avg=scores.length?Math.round(scores.reduce((a,b)=>a+b,0)/scores.length)+'%':'--';
+    const interventions=countCards('.intervention-card:not(.closed)');
+    const requests=countCards('.request-card');
+    const messages=countCards('.message-card');
+    set('uxDossierProgress',progress); set('uxDossierAttendance',attendance); set('uxDossierAverage',avg);
+    set('uxDossierInterventions',String(interventions)); set('uxDossierRequests',String(requests)); set('uxDossierMessages',String(messages));
+  }
+  function updateTimeline(){
+    const host=document.getElementById('academicTimeline'); if(!host) return;
+    const items=[];
+    document.querySelectorAll('#evaluationHistoryTable tr').forEach(row=>{const t=row.innerText.trim(); if(t) items.push({title:'Evaluación registrada', detail:t});});
+    document.querySelectorAll('.intervention-card').forEach(card=>items.push({title:'Intervención académica', detail:card.innerText.trim()}));
+    document.querySelectorAll('.request-card').forEach(card=>items.push({title:'Solicitud', detail:card.innerText.trim()}));
+    document.querySelectorAll('.message-card').forEach(card=>items.push({title:'Mensaje WhatsApp', detail:card.innerText.trim()}));
+    host.innerHTML=(items.slice(0,6).map(item=>`<div class="timeline-item"><strong>${item.title}</strong><small>${item.detail.slice(0,180)}</small></div>`).join('')) || '<div class="empty">Sin actividad reciente para mostrar.</div>';
+  }
+  function refresh(){updateSidebarActive(); updateExecutive(); updateTimeline();}
+  window.addEventListener('load',()=>setTimeout(refresh,250));
+  setTimeout(refresh,700);
+})();
+</script>
+
 </body>
+
 </html>

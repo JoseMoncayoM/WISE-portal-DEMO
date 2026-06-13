@@ -13,7 +13,7 @@ body{font-family:Inter,Arial,sans-serif;background:var(--light);color:var(--text
 .btn{padding:10px 16px;border-radius:999px;font-weight:900;border:none;cursor:pointer;text-decoration:none;display:inline-block;font-size:.9rem}.btn-primary{background:var(--accent);color:white}.btn-secondary{background:white;color:var(--primary);border:1px solid var(--border)}.btn-danger{background:var(--danger-bg);color:var(--danger);border:1px solid #ffd1d1}.btn:hover{background:var(--hover);color:black}
 .actions{display:flex;gap:10px;flex-wrap:wrap}.role-pill{display:inline-block;margin-left:10px;background:var(--soft-accent);color:var(--accent);font-size:.75rem;font-weight:900;padding:5px 10px;border-radius:999px;vertical-align:middle}
 .panel{background:white;border:1px solid var(--border);border-radius:20px;padding:20px;margin-bottom:20px}
-.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:22px}.metric{background:white;border:1px solid var(--border);border-radius:20px;padding:18px;min-height:92px}.metric span{display:block;color:var(--gray);font-weight:900;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}.metric strong{display:block;color:var(--primary);font-size:2rem;line-height:1}.metric small{display:block;color:var(--gray);margin-top:8px;font-weight:700}
+.metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;margin-bottom:22px}.metric{background:white;border:1px solid var(--border);border-radius:20px;padding:18px;min-height:92px}.metric span{display:block;color:var(--gray);font-weight:900;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}.metric strong{display:block;color:var(--primary);font-size:2rem;line-height:1}.metric small{display:block;color:var(--gray);margin-top:8px;font-weight:700}
 .filters{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;align-items:end}.field{display:flex;flex-direction:column;gap:6px}.field label{font-size:.78rem;font-weight:900;color:var(--primary)}.field input,.field select,.field textarea{min-height:42px;border-radius:12px;border:1px solid var(--border);padding:0 12px;font:inherit;background:#fbfdff}.field textarea{padding:12px;min-height:84px;resize:vertical}
 .table-wrap{width:100%;overflow:auto}table{width:100%;border-collapse:collapse;min-width:980px}th{text-align:left;color:var(--gray);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;padding:12px 10px;border-bottom:1px solid var(--border)}td{padding:13px 10px;border-bottom:1px solid var(--border);font-weight:650;vertical-align:top}
 .pill{display:inline-block;padding:5px 10px;border-radius:999px;font-size:.72rem;font-weight:900;background:var(--soft-accent);color:var(--accent);white-space:nowrap}.pill.success{background:var(--success-bg);color:var(--success)}.pill.warning{background:var(--warning-bg);color:var(--warning)}.pill.danger{background:var(--danger-bg);color:var(--danger)}.pill.gray{background:#eef2f5;color:var(--gray)}
@@ -21,36 +21,179 @@ body{font-family:Inter,Arial,sans-serif;background:var(--light);color:var(--text
 .modal{position:fixed;inset:0;background:rgba(13,43,69,.35);display:none;align-items:center;justify-content:center;padding:20px;z-index:20}.modal.active{display:flex}.modal-box{width:100%;max-width:650px;background:white;border:1px solid var(--border);border-radius:22px;padding:24px;box-shadow:0 20px 50px rgba(13,43,69,.18)}.modal-box h2{color:var(--primary);margin-bottom:16px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.full{grid-column:1/-1}.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
 .report-card{border:1px solid var(--border);border-radius:16px;padding:14px;background:#fbfdff;margin-top:12px}.report-card strong{display:block;color:var(--primary);margin-bottom:5px}.report-card small{display:block;color:var(--gray);line-height:1.35}
 @media(max-width:1050px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.metrics{grid-template-columns:repeat(2,1fr)}.filters{grid-template-columns:repeat(2,1fr)}}@media(max-width:650px){.main{padding:18px}.metrics,.filters,.form-grid{grid-template-columns:1fr}table{min-width:850px}}
-</style></head><body><div class="app">
+</style>
+<style>
+/* Wisdom Academy — FASE 13 Modal Safety Patch */
+.modal-box{
+  max-height:calc(100vh - 48px)!important;
+  overflow:auto!important;
+}
+.table-wrap{
+  max-width:100%;
+}
+</style>
+
+
+<style>
+/* ===========================
+   WISDOM FASE 16 — Academic UX Intelligence Layer
+   UX-only. Logic, storage keys and services untouched.
+=========================== */
+.ux-breadcrumb{display:flex;gap:8px;align-items:center;color:#68798d;font-size:.78rem;font-weight:900;letter-spacing:.05em;text-transform:uppercase;margin-bottom:12px;flex-wrap:wrap}
+.ux-breadcrumb a{color:#123e68;text-decoration:none}.ux-breadcrumb a:hover{text-decoration:underline}.ux-breadcrumb span{color:#9aacba}
+.ux-priority-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}.ux-priority-card{background:rgba(255,255,255,.96);border:1px solid #d8e6ed;border-radius:22px;padding:16px;box-shadow:0 10px 24px rgba(13,43,69,.07);position:relative;overflow:hidden}.ux-priority-card:before{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,#16aeb7,#e6ff00)}.ux-priority-card.warning:before{background:#f6df94}.ux-priority-card.danger:before{background:#ffd0d8}.ux-priority-card.success:before{background:#c9ebd3}.ux-priority-card small{display:block;color:#68798d;font-weight:900;text-transform:uppercase;letter-spacing:.08em;font-size:.68rem;margin-bottom:8px}.ux-priority-card strong{display:block;color:#123e68;font-size:1.8rem;line-height:1}.ux-priority-card p{margin-top:8px;color:#68798d;font-size:.84rem;font-weight:700;line-height:1.3}.ux-panel{background:rgba(255,255,255,.96);border:1px solid #d8e6ed;border-radius:24px;padding:18px;margin-bottom:20px;box-shadow:0 10px 24px rgba(13,43,69,.07)}.ux-panel h2,.ux-panel h3{color:#123e68!important;margin-bottom:8px}.ux-panel .subline{color:#68798d;font-weight:750;line-height:1.4;margin-bottom:12px}.ux-action-strip{display:flex;gap:10px;flex-wrap:wrap}.ux-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border-radius:999px;background:#e6f7f8;color:#123e68;font-weight:900;font-size:.74rem}.ux-chip.danger{background:#fff0f2;color:#b00020}.ux-chip.warning{background:#fff8dd;color:#8a6100}.ux-chip.success{background:#edf9f0;color:#146c2e}.ux-chip.gray{background:#eef2f5;color:#68798d}.ux-wizard-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0 0 16px}.ux-step{border:1px solid #d8e6ed;border-radius:16px;padding:12px;background:#fbfdff;color:#123e68;font-weight:900}.ux-step small{display:block;color:#68798d;font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}.ux-risk-list{display:grid;gap:10px}.ux-risk-item{border:1px solid #d8e6ed;border-radius:16px;padding:12px;background:#fbfdff}.ux-risk-item strong{display:block;color:#123e68;margin-bottom:4px}.ux-risk-item small{display:block;color:#68798d;line-height:1.35;font-weight:700}
+@media(max-width:1050px){.ux-priority-grid,.ux-wizard-steps{grid-template-columns:repeat(2,1fr)}}@media(max-width:650px){.ux-priority-grid,.ux-wizard-steps{grid-template-columns:1fr}}
+@media print{.ux-breadcrumb,.ux-action-strip{display:none!important}.ux-panel,.ux-priority-card{box-shadow:none!important}}
+</style>
+
+</head>
+<body><div class="app">
 <aside class="sidebar">
   <div class="logo">WISDOM</div>
   <div class="menu-group active"><div class="menu-title">Panel ▾</div><div class="menu-items"><a class="side-link" href="dashboard.html"><span class="dot"></span> Dashboard</a></div></div>
   <div class="menu-group"><div class="menu-title">Personas ▾</div><div class="menu-items"><a class="side-link" data-roles="admin" href="estudiantes.html"><span class="dot"></span> Estudiantes</a><a class="side-link" data-roles="admin" href="profesores.html"><span class="dot"></span> Profesores</a><a class="side-link" data-roles="admin" href="usuarios.html"><span class="dot"></span> Usuarios</a></div></div>
   <div class="menu-group"><div class="menu-title">Servicios ▾</div><div class="menu-items"><a class="side-link" data-roles="admin,teacher" href="grupales.html"><span class="dot"></span> Grupales</a><a class="side-link" data-roles="admin,teacher" href="privadas.html"><span class="dot"></span> Privadas / Semi</a></div></div>
   <div class="menu-group active"><div class="menu-title">Gestión ▾</div><div class="menu-items"><a class="side-link" data-roles="admin,teacher,student" href="calendario.html"><span class="dot"></span> Calendario</a><a class="side-link" data-roles="admin" href="finanzas.html"><span class="dot"></span> Finanzas</a><a class="side-link " data-roles="admin,teacher,student" href="solicitudes.html"><span class="dot"></span> Solicitudes</a><a class="side-link active" data-roles="admin,teacher,student" href="reportes.html"><span class="dot"></span> Reportes</a></div></div>
-  <div class="menu-group"><div class="menu-title">Práctica y exámenes ▾</div><div class="menu-items"><a class="side-link" data-roles="admin,teacher,student" href="Grammar_portal.html"><span class="dot"></span> Grammar</a><a class="side-link" data-roles="admin,teacher,student" href="Listening_portal.html"><span class="dot"></span> Listening</a><a class="side-link" data-roles="admin,teacher,student" href="Speaking_portal.html"><span class="dot"></span> Speaking</a><a class="side-link" data-roles="admin,teacher" href="evaluaciones.html"><span class="dot"></span> Evaluaciones</a><a class="side-link" data-roles="admin,teacher,student" href="resultados.html"><span class="dot"></span> Resultados</a></div></div>
+  
+  <div class="menu-group">
+    <div class="menu-title">Diagnóstico ▾</div>
+    <div class="menu-items">
+      <a class="side-link" data-roles="admin,teacher" href="placement_portal_integrado.html"><span class="dot"></span> Placement</a>
+      <a class="side-link" data-roles="admin,teacher" href="diagnostico_resultados.html"><span class="dot"></span> Resultados diagnóstico</a>
+    </div>
+  </div>
+
+<div class="menu-group"><div class="menu-title">Práctica y exámenes ▾</div><div class="menu-items"><a class="side-link" data-roles="admin,teacher,student" href="Grammar_portal.html"><span class="dot"></span> Grammar</a><a class="side-link" data-roles="admin,teacher,student" href="Listening_portal.html"><span class="dot"></span> Listening</a><a class="side-link" data-roles="admin,teacher,student" href="Speaking_portal.html"><span class="dot"></span> Speaking</a><a class="side-link" data-roles="admin,teacher" href="evaluaciones.html"><span class="dot"></span> Evaluaciones</a><a class="side-link" data-roles="admin,teacher,student" href="resultados.html"><span class="dot"></span> Resultados</a></div></div>
   <div class="user-box"><strong id="sidebarUserName">Usuario</strong><small id="sidebarUserRole">Rol</small><small id="sidebarUserEmail">correo</small><button class="logout-btn" onclick="logout()">Cerrar sesión</button></div>
 </aside>
-<main class="main"><div class="topbar"><div><h1>Reportes <span id="rolePill" class="role-pill">Rol</span></h1><div class="sub">Resumen académico desde evaluaciones, resultados e intervenciones.</div></div><div class="actions"><button class="btn btn-secondary" onclick="window.location.href='dashboard.html'">Dashboard</button><button class="btn btn-primary" onclick="window.print()">Imprimir / PDF</button></div></div><div class="notice">Reporte académico general según permisos del usuario.</div><section class="metrics"><div class="metric"><span>Estudiantes</span><strong id="studentsCount">0</strong><small>Visibles</small></div><div class="metric"><span>Promedio exámenes</span><strong id="avgScore">--</strong><small>Grammar/Listening/Speaking</small></div><div class="metric"><span>En riesgo</span><strong id="riskCount">0</strong><small>60–74%</small></div><div class="metric"><span>Intervenciones</span><strong id="interventionCount">0</strong><small>Abiertas</small></div></section><section class="panel"><h2 style="color:var(--primary);margin-bottom:14px">Filtros</h2><div class="filters"><div class="field"><label>Buscar</label><input id="searchInput" placeholder="Estudiante, tipo, unidad..." oninput="renderReports()"></div><div class="field"><label>Tipo</label><select id="typeFilter" onchange="renderReports()"><option value="">Todos</option><option>Grammar</option><option>Listening</option><option>Speaking</option></select></div><div class="field"><label>Estado</label><select id="statusFilter" onchange="renderReports()"><option value="">Todos</option><option value="critical">Intervención</option><option value="risk">En riesgo</option><option value="ok">Aprobado</option></select></div><div class="field"><label>Acción</label><button class="btn btn-secondary" onclick="resetFilters()">Limpiar</button></div></div></section><section class="panel"><h2 style="color:var(--primary)">Estudiantes que requieren atención</h2><div id="attentionList"></div></section><section class="panel"><h2 style="color:var(--primary)">Historial de resultados</h2><div id="emptyState" class="empty" style="display:none">No hay resultados para mostrar.</div><div class="table-wrap" id="tableWrap"><table><thead><tr><th>Fecha</th><th>Estudiante</th><th>Tipo</th><th>Nivel / Unidad</th><th>Puntaje</th><th>Estado</th><th>Acción</th></tr></thead><tbody id="resultsTable"></tbody></table></div></section></main></div><script src="storage.js"></script><script src="schemaRegistry.js"></script><script>
-const CURRENT_USER_KEY='wisdom_current_user', STUDENTS_KEY='wisdom_students_demo', REQUESTS_KEY='wisdom_requests_demo', EXAM_RESULTS_KEY='wisdom_exam_results', ASSESSMENT_RESULTS_KEY='wisdom_assessment_results', INTERVENTIONS_KEY='wisdom_interventions';
-const currentUser=WisdomStorage.get(CURRENT_USER_KEY,null); if(!currentUser||!currentUser.role){window.location.href='login.html'}
-function safeParse(key){const data=WisdomStorage.get(key,[]);return Array.isArray(data)?data:[]}
-function saveArray(key,data){WisdomStorage.set(key,Array.isArray(data)?data:[])}
-function logout(){WisdomStorage.remove(CURRENT_USER_KEY);window.location.href='login.html'}
-function roleLabel(r){return ({admin:'Administrativo',teacher:'Profesor',student:'Estudiante'}[r]||r||'Usuario')}
-function renderSession(){document.getElementById('sidebarUserName').innerText=currentUser.name||'Usuario Wisdom';document.getElementById('sidebarUserRole').innerText=roleLabel(currentUser.role);document.getElementById('sidebarUserEmail').innerText=currentUser.email||'';document.getElementById('rolePill').innerText=roleLabel(currentUser.role)}
-function canRoleAccess(roles){if(!roles)return true;return roles.split(',').map(r=>r.trim()).includes(currentUser.role)}
-function applyRoleVisibility(){document.querySelectorAll('[data-roles]').forEach(el=>{if(!canRoleAccess(el.getAttribute('data-roles')))el.classList.add('role-hidden')})}
-function teacherId(){return currentUser.teacherId||currentUser.teacherCode||currentUser.id||''}
-function getStudents(){
-  const students = safeParse(STUDENTS_KEY);
-  if(typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeStudent){
-    return students.map(student=>SchemaRegistry.normalizeStudent(student));
+<main class="main"><nav class="ux-breadcrumb"><a href="dashboard.html">Dashboard</a><span>/</span><strong>Reportes</strong></nav><div class="topbar"><div><h1>Reportes <span id="rolePill" class="role-pill">Rol</span></h1><div class="sub">Resumen académico desde evaluaciones, resultados e intervenciones.</div></div><div class="actions"><button class="btn btn-secondary" onclick="window.location.href='dashboard.html'">Dashboard</button><button class="btn btn-secondary" data-roles="admin" onclick="exportReportsJSON()">Exportar JSON</button><button class="btn btn-secondary" data-roles="admin" onclick="exportResultsCSV()">Resultados CSV</button><button class="btn btn-secondary" data-roles="admin" onclick="exportInterventionsCSV()">Intervenciones CSV</button><button class="btn btn-secondary" data-roles="admin" onclick="exportAttendanceCSV()">Asistencia CSV</button><button class="btn btn-secondary" data-roles="admin" onclick="document.getElementById('importReportsFile').click()">Importar JSON</button><input id="importReportsFile" type="file" accept="application/json,.json" style="display:none" onchange="importReportsJSON(event)"><button class="btn btn-primary" onclick="window.print()">Imprimir / PDF</button></div></div><div class="notice">Reporte académico general según permisos del usuario.</div>
+<section class="ux-panel" aria-label="Atención prioritaria">
+  <h2>Atención académica prioritaria</h2>
+  <div class="subline">Primero mira riesgos e intervenciones. La tabla histórica queda para consulta, no para decidir prioridades.</div>
+  <div class="ux-priority-grid">
+    <div class="ux-priority-card success"><small>Estudiantes sanos</small><strong id="uxHealthyStudents">0</strong><p>Sin riesgo visible.</p></div>
+    <div class="ux-priority-card warning"><small>En riesgo</small><strong id="uxAcademicRisk">0</strong><p>Requieren seguimiento docente.</p></div>
+    <div class="ux-priority-card danger"><small>Intervenciones abiertas</small><strong id="uxOpenInterventions">0</strong><p>Acción académica pendiente.</p></div>
+    <div class="ux-priority-card warning"><small>Riesgo 7+ días</small><strong id="uxOldRisk">0</strong><p>Casos que no deberían seguir abiertos.</p></div>
+  </div>
+  <div id="uxPriorityAttentionList" class="ux-risk-list"></div>
+</section>
+<section class="metrics"><div class="metric"><span>Estudiantes</span><strong id="studentsCount">0</strong><small>Visibles</small></div><div class="metric"><span>Promedio exámenes</span><strong id="avgScore">--</strong><small>Grammar/Listening/Speaking</small></div><div class="metric"><span>En riesgo</span><strong id="riskCount">0</strong><small>60–74%</small></div><div class="metric"><span>Intervenciones</span><strong id="interventionCount">0</strong><small>Abiertas</small></div><div class="metric"><span>Asistencia promedio</span><strong id="avgAttendance">--</strong><small>AttendanceService</small></div></section><section class="panel"><h2 style="color:var(--primary);margin-bottom:14px">Filtros</h2><div class="filters"><div class="field"><label>Buscar</label><input id="searchInput" placeholder="Estudiante, tipo, unidad..." oninput="renderReports()"></div><div class="field"><label>Tipo</label><select id="typeFilter" onchange="renderReports()"><option value="">Todos</option><option>Grammar</option><option>Listening</option><option>Speaking</option></select></div><div class="field"><label>Estado</label><select id="statusFilter" onchange="renderReports()"><option value="">Todos</option><option value="critical">Intervención</option><option value="risk">En riesgo</option><option value="ok">Aprobado</option></select></div><div class="field"><label>Acción</label><button class="btn btn-secondary" onclick="resetFilters()">Limpiar</button></div></div></section><section class="panel"><h2 style="color:var(--primary)">Estudiantes que requieren atención</h2><div id="attentionList"></div></section><section class="panel"><h2 style="color:var(--primary)">Riesgos de agenda</h2><div id="scheduleRiskList"></div></section><section class="panel"><h2 style="color:var(--primary)">Historial de resultados</h2><div id="emptyState" class="empty" style="display:none">No hay resultados para mostrar.</div><div class="table-wrap" id="tableWrap"><table><thead><tr><th>Fecha</th><th>Estudiante</th><th>Tipo</th><th>Nivel / Unidad</th><th>Puntaje</th><th>Estado</th><th>Acción</th></tr></thead><tbody id="resultsTable"></tbody></table></div></section></main></div><script src="js/core/storage.js"></script>
+<script src="js/core/schemaRegistry.js"></script>
+<script src="js/core/demoSeed.js"></script>
+<script>
+(function(){
+  const originalAlert=window.alert;
+  window.__wisdomOriginalAlert=originalAlert;
+  window.alert=function(message){
+    const text=String(message||'').toLowerCase();
+    const isServiceLoadNotice=
+      text.includes('studentservice')||
+      text.includes('teacherservice')||
+      text.includes('groupservice')||
+      text.includes('scheduleservice')||
+      text.includes('attendanceservice')||
+      text.includes('authservice')||
+      text.includes('permissions')||
+      (text.includes('service')&&(text.includes('carg')||text.includes('load')));
+    if(isServiceLoadNotice)return;
+    return originalAlert.apply(window,arguments);
+  };
+})();
+</script>
+<script src="js/services/authService.js"></script>
+<script src="js/core/permissions.js"></script>
+<script src="js/services/studentService.js"></script>
+<script src="js/services/teacherService.js"></script>
+<script src="js/services/groupService.js"></script>
+<script src="js/services/scheduleService.js"></script>
+<script src="js/services/attendanceService.js"></script>
+<script>
+(function(){
+  if(window.__wisdomOriginalAlert){
+    window.alert=window.__wisdomOriginalAlert;
+    delete window.__wisdomOriginalAlert;
   }
-  return students;
+})();
+</script>
+
+<script>
+const CURRENT_USER_KEY='wisdom_current_user', STUDENTS_KEY='wisdom_students_demo', REQUESTS_KEY='wisdom_requests_demo', EXAM_RESULTS_KEY='wisdom_exam_results', ASSESSMENT_RESULTS_KEY='wisdom_assessment_results', INTERVENTIONS_KEY='wisdom_interventions', PRIVATE_KEY='wisdom_private_demo', SCHEDULES_KEY='wisdom_schedules_demo', GROUPS_KEY='wisdom_groups_demo';
+
+function normalizeRole(role){
+  const raw=String(role||'').trim().toLowerCase();
+  const clean=raw.normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  if(['admin','administrador','administrativo','administrator'].includes(clean))return 'admin';
+  if(['teacher','profesor','docente','instructor'].includes(clean))return 'teacher';
+  if(['student','estudiante','alumno','learner'].includes(clean))return 'student';
+  return clean;
 }
-function studentVisible(s){if(currentUser.role==='admin')return true;if(currentUser.role==='student')return s.code===currentUser.studentId||s.studentId===currentUser.studentId||(s.email&&currentUser.email&&s.email.toLowerCase()===currentUser.email.toLowerCase());if(currentUser.role==='teacher')return (teacherId()&&(s.teacherId===teacherId()||s.teacherCode===teacherId()))||s.teacher===currentUser.name;return false}
-function requestVisible(r){if(currentUser.role==='admin')return true;if(currentUser.role==='student')return r.studentCode===currentUser.studentId||r.studentId===currentUser.studentId||r.studentName===currentUser.name||r.createdByEmail===currentUser.email;if(currentUser.role==='teacher')return r.teacherId===teacherId()||r.teacher===currentUser.name;return false}
+function storageGet(key,fallback=[]){
+  if(typeof WisdomStorage!=='undefined'&&WisdomStorage&&typeof WisdomStorage.get==='function')return WisdomStorage.get(key,fallback);
+  try{const value=localStorage.getItem(key);return value?JSON.parse(value):fallback}catch(error){return fallback}
+}
+function storageSet(key,value){
+  if(typeof WisdomStorage!=='undefined'&&WisdomStorage&&typeof WisdomStorage.set==='function'){WisdomStorage.set(key,value);return}
+  localStorage.setItem(key,JSON.stringify(value));
+}
+function storageRemove(key){
+  if(typeof WisdomStorage!=='undefined'&&WisdomStorage&&typeof WisdomStorage.remove==='function'){WisdomStorage.remove(key);return}
+  localStorage.removeItem(key);
+}
+function getCurrentUserSafe(){
+  if(typeof AuthService!=='undefined'&&AuthService&&typeof AuthService.getCurrentUser==='function'){
+    try{const user=AuthService.getCurrentUser();if(user)return user}catch(error){}
+  }
+  return storageGet(CURRENT_USER_KEY,null);
+}
+function isAuthenticatedSafe(){
+  if(typeof AuthService!=='undefined'&&AuthService&&typeof AuthService.isAuthenticated==='function'){
+    try{return Boolean(AuthService.isAuthenticated())}catch(error){}
+  }
+  return Boolean(currentUser&&currentUser.role);
+}
+const currentUser=getCurrentUserSafe();
+if(!currentUser||!currentUser.role||!isAuthenticatedSafe()){window.location.href='login.html'}
+if(currentUser)currentUser.role=normalizeRole(currentUser.role||currentUser.userRole||currentUser.type||currentUser.profile||currentUser.access);
+function safeParse(key){const data=storageGet(key,[]);return Array.isArray(data)?data:[]}
+function saveArray(key,data){storageSet(key,Array.isArray(data)?data:[])}
+
+
+function escapeHTML(value){
+  return String(value ?? '').replace(/[&<>'"]/g, function(char){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char];
+  });
+}
+
+function logout(){storageRemove(CURRENT_USER_KEY);window.location.href='login.html'}
+function permissionCheck(method,role){
+  if(typeof WisdomPermissions!=='undefined'&&WisdomPermissions&&typeof WisdomPermissions[method]==='function'){
+    try{return Boolean(WisdomPermissions[method]())}catch(error){}
+  }
+  return currentUser&&currentUser.role===role;
+}
+function isAdmin(){return permissionCheck('isAdmin','admin')}
+function isTeacher(){return permissionCheck('isTeacher','teacher')}
+function isStudent(){return permissionCheck('isStudent','student')}
+function roleLabel(r){return ({admin:'Administrativo',teacher:'Profesor',student:'Estudiante'}[normalizeRole(r)]||r||'Usuario')}
+function renderSession(){document.getElementById('sidebarUserName').innerText=currentUser.name||'Usuario Wisdom';document.getElementById('sidebarUserRole').innerText=roleLabel(currentUser.role);document.getElementById('sidebarUserEmail').innerText=currentUser.email||'';document.getElementById('rolePill').innerText=roleLabel(currentUser.role)}
+function canRoleAccess(roles){if(!roles)return true;return roles.split(',').map(r=>normalizeRole(r.trim())).includes(currentUser.role)}
+function applyRoleVisibility(){document.querySelectorAll('[data-roles]').forEach(el=>{el.classList.remove('role-hidden');if(!canRoleAccess(el.getAttribute('data-roles')))el.classList.add('role-hidden')})}
+function teacherId(){return currentUser.teacherId||currentUser.teacherCode||currentUser.id||''}
+function normalizeStudentReport(student={}){
+  if(typeof SchemaRegistry!=='undefined'&&SchemaRegistry&&typeof SchemaRegistry.normalizeStudent==='function')return SchemaRegistry.normalizeStudent(student);
+  return {...student,code:student.code||student.studentId||student.id||'',studentId:student.studentId||student.code||student.id||''};
+}
+function getStudents(){
+  let serviceStudents=null;
+  if(typeof StudentService!=='undefined'&&StudentService&&typeof StudentService.getAll==='function'){
+    try{serviceStudents=StudentService.getAll()}catch(error){serviceStudents=null}
+  }
+  const source=Array.isArray(serviceStudents)?serviceStudents:safeParse(STUDENTS_KEY);
+  return source.map(normalizeStudentReport);
+}
+function studentVisible(s){if(isAdmin())return true;if(isStudent())return s.code===currentUser.studentId||s.studentId===currentUser.studentId||(s.email&&currentUser.email&&s.email.toLowerCase()===currentUser.email.toLowerCase());if(isTeacher())return (teacherId()&&(s.teacherId===teacherId()||s.teacherCode===teacherId()))||s.teacher===currentUser.name;return false}
+function requestVisible(r){if(isAdmin())return true;if(isStudent())return r.studentCode===currentUser.studentId||r.studentId===currentUser.studentId||r.studentName===currentUser.name||r.createdByEmail===currentUser.email;if(isTeacher())return r.teacherId===teacherId()||r.teacher===currentUser.name;return false}
 function normalizeResult(raw={}){
   const base = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeResult)
     ? SchemaRegistry.normalizeResult(raw)
@@ -93,8 +236,77 @@ function normalizeResult(raw={}){
     details:base.details || {}
   };
 }
+
+function normalizePrivatePackageForReports(pkg={}){
+  return {
+    ...pkg,
+    id:pkg.id||pkg.code||'',
+    code:pkg.code||pkg.id||'',
+    teacherId:pkg.teacherId||pkg.teacherCode||'',
+    teacherCode:pkg.teacherCode||pkg.teacherId||'',
+    teacher:pkg.teacher||pkg.teacherName||'',
+    students:Array.isArray(pkg.students)?pkg.students:[],
+    sessions:Array.isArray(pkg.sessions)?pkg.sessions:[],
+    reports:pkg.reports && typeof pkg.reports==='object'?pkg.reports:{}
+  };
+}
+function privateReportProgressValue(pkg){
+  const normalized=normalizePrivatePackageForReports(pkg);
+  const hours=normalized.sessions.reduce((sum,session)=>sum+(Number(session.hours)||0),0);
+  return Math.max(hours,normalized.sessions.length||0);
+}
+function findPrivateReportForStudent(pkg,studentCode){
+  const reports=pkg?.reports&&typeof pkg.reports==='object'?pkg.reports:{};
+  const studentReports=reports[studentCode]||{};
+  return studentReports.report1||studentReports.privateReport||studentReports.progressReport||studentReports.progress_report_private||null;
+}
+function normalizePrivateProgressReportResult(pkg,student,report){
+  const scoreValue=report?.finalScore??report?.percentage??report?.total??report?.scores?.finalScore??null;
+  const score=scoreValue===null||scoreValue===undefined||scoreValue===''?null:Number(String(scoreValue).replace('%','').trim());
+  const studentId=student.code||student.studentId||student.studentCode||'';
+  return normalizeResult({
+    id:`PVT-REPORT-${pkg.id||pkg.code||'PK'}-${studentId}`,
+    resultId:`PVT-REPORT-${pkg.id||pkg.code||'PK'}-${studentId}`,
+    evaluationId:'',
+    studentId,
+    studentCode:studentId,
+    studentName:student.name||student.studentName||'Estudiante',
+    studentEmail:student.email||'',
+    teacherId:pkg.teacherId||pkg.teacherCode||'',
+    teacherCode:pkg.teacherCode||pkg.teacherId||'',
+    type:'Reporte privado',
+    mode:'progress_report',
+    level:pkg.level||'',
+    unit:'Final',
+    unitTitle:`${pkg.code||pkg.id||'Paquete'} · sesión ${privateReportProgressValue(pkg)}`,
+    score:Number.isNaN(score)?null:score,
+    percentage:Number.isNaN(score)?null:score,
+    finalScore:Number.isNaN(score)?null:score,
+    status:report?.accepted?'Aceptado':'Pendiente de aceptación',
+    date:report?.savedAt||report?.updatedAt||pkg.updatedAt||'',
+    submittedAt:report?.savedAt||report?.updatedAt||pkg.updatedAt||'',
+    createdAt:report?.savedAt||pkg.updatedAt||'',
+    updatedAt:report?.savedAt||pkg.updatedAt||'',
+    details:{source:'private_progress_report',packageId:pkg.id||'',packageCode:pkg.code||pkg.id||'',accepted:Boolean(report?.accepted)}
+  });
+}
+function getPrivateProgressReportResults(){
+  const packages=safeParse(PRIVATE_KEY).map(normalizePrivatePackageForReports);
+  const results=[];
+  packages.forEach(pkg=>{
+    if(privateReportProgressValue(pkg)<18)return;
+    (pkg.students||[]).forEach(student=>{
+      const studentId=student.code||student.studentId||student.studentCode||'';
+      if(!studentId)return;
+      const report=findPrivateReportForStudent(pkg,studentId);
+      if(!report || !report.savedAt)return;
+      results.push(normalizePrivateProgressReportResult(pkg,student,report));
+    });
+  });
+  return results;
+}
 function getResults(){
-  const rawMerged = [...safeParse(EXAM_RESULTS_KEY), ...safeParse(ASSESSMENT_RESULTS_KEY)];
+  const rawMerged = [...safeParse(EXAM_RESULTS_KEY), ...safeParse(ASSESSMENT_RESULTS_KEY), ...getPrivateProgressReportResults()];
 
   const merged = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeCollection)
     ? SchemaRegistry.normalizeCollection(rawMerged,'normalizeResult').map(normalizeResult)
@@ -110,7 +322,7 @@ function getResults(){
     return true;
   });
 }
-function resultVisible(r){if(currentUser.role==='admin')return true;if(currentUser.role==='student')return r.studentId===currentUser.studentId||r.studentName===currentUser.name||r.studentEmail===currentUser.email;if(currentUser.role==='teacher')return r.teacherId===teacherId()||getStudents().filter(studentVisible).some(s=>s.code===r.studentId||s.name===r.studentName);return false}
+function resultVisible(r){if(isAdmin())return true;if(isStudent())return r.studentId===currentUser.studentId||r.studentName===currentUser.name||r.studentEmail===currentUser.email;if(isTeacher())return r.teacherId===teacherId()||getStudents().filter(studentVisible).some(s=>s.code===r.studentId||s.name===r.studentName);return false}
 function normalizeIntervention(i={}){
   const base = (typeof SchemaRegistry !== 'undefined' && SchemaRegistry.normalizeIntervention)
     ? SchemaRegistry.normalizeIntervention(i)
@@ -154,15 +366,586 @@ function getInterventions(){
 
   return rawInterventions.map(normalizeIntervention);
 }
-function interventionVisible(i){if(currentUser.role==='admin')return true;if(currentUser.role==='student')return i.studentId===currentUser.studentId||i.studentName===currentUser.name||i.studentEmail===currentUser.email;if(currentUser.role==='teacher')return i.teacherId===teacherId()||getStudents().filter(studentVisible).some(s=>s.code===i.studentId||s.name===i.studentName);return false}
+function interventionVisible(i){if(isAdmin())return true;if(isStudent())return i.studentId===currentUser.studentId||i.studentName===currentUser.name||i.studentEmail===currentUser.email;if(isTeacher())return i.teacherId===teacherId()||getStudents().filter(studentVisible).some(s=>s.code===i.studentId||s.name===i.studentName);return false}
 function formatDate(v){const d=new Date(v);return Number.isNaN(d.getTime())?(v||'-'):d.toLocaleString('es-CO',{year:'numeric',month:'short',day:'2-digit',hour:'2-digit',minute:'2-digit'})}
 document.querySelectorAll('.menu-title').forEach(t=>t.addEventListener('click',()=>t.parentElement.classList.toggle('active')));renderSession();applyRoleVisibility();
 
+
+function downloadTextFile(filename, content, mime='application/json'){
+  const blob=new Blob([content],{type:mime+';charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+function timestampForFile(){return new Date().toISOString().replace(/[:.]/g,'-')}
+function csvEscape(value){
+  const text=String(value??'');
+  return /[",\n;]/.test(text)?'"'+text.replace(/"/g,'""')+'"':text;
+}
+function arrayToCSV(rows,headers){
+  const lines=[headers.map(csvEscape).join(',')];
+  rows.forEach(row=>lines.push(headers.map(header=>csvEscape(row[header])).join(',')));
+  return lines.join('\n');
+}
+function exportReportsJSON(){
+  if(!isAdmin()){alert('Solo administración puede exportar backups completos.');return}
+  const payload={
+    module:'reportes',
+    exportedAt:new Date().toISOString(),
+    version:'1.0.0',
+    keys:{
+      examResults:EXAM_RESULTS_KEY,
+      assessmentResults:ASSESSMENT_RESULTS_KEY,
+      interventions:INTERVENTIONS_KEY,
+      privatePackages:PRIVATE_KEY
+    },
+    data:{
+      examResults:safeParse(EXAM_RESULTS_KEY),
+      assessmentResults:safeParse(ASSESSMENT_RESULTS_KEY),
+      interventions:safeParse(INTERVENTIONS_KEY),
+      privatePackages:safeParse(PRIVATE_KEY),
+      privateProgressReports:getPrivateProgressReportResults()
+    }
+  };
+  downloadTextFile(`wisdom-reports-backup-${timestampForFile()}.json`,JSON.stringify(payload,null,2));
+}
+function exportResultsCSV(){
+  if(!isAdmin()){alert('Solo administración puede exportar resultados.');return}
+  const rows=getResults().map(result=>{
+    const state=scoreState(result.score);
+    return {
+      'Date':result.date||result.submittedAt||'',
+      'Student ID':result.studentId||result.studentCode||'',
+      'Student Name':result.studentName||'',
+      'Type':result.type||'',
+      'Level':result.level||'',
+      'Unit':result.unit||'',
+      'Unit Title':result.unitTitle||'',
+      'Score':result.score===null||result.score===undefined?'':result.score,
+      'Status':state.label||result.status||'',
+      'Mode':result.mode||'',
+      'Teacher ID':result.teacherId||result.teacherCode||'',
+      'Evaluation ID':result.evaluationId||'',
+      'Result ID':result.resultId||result.id||''
+    };
+  });
+  const headers=['Date','Student ID','Student Name','Type','Level','Unit','Unit Title','Score','Status','Mode','Teacher ID','Evaluation ID','Result ID'];
+  downloadTextFile(`wisdom-results-${timestampForFile()}.csv`,arrayToCSV(rows,headers),'text/csv');
+}
+function exportInterventionsCSV(){
+  if(!isAdmin()){alert('Solo administración puede exportar intervenciones.');return}
+  const rows=getInterventions().map(item=>({
+    'Intervention ID':item.interventionId||item.id||'',
+    'Evaluation ID':item.evaluationId||'',
+    'Student ID':item.studentId||item.studentCode||'',
+    'Student Name':item.studentName||'',
+    'Type':item.type||'',
+    'Level':item.level||'',
+    'Unit':item.unit||'',
+    'Score':item.score===null||item.score===undefined?'':item.score,
+    'Severity':item.severity||'',
+    'Recommendation':item.recommendation||'',
+    'Status':item.status||'',
+    'Teacher ID':item.teacherId||item.teacherCode||'',
+    'Created At':item.createdAt||'',
+    'Updated At':item.updatedAt||''
+  }));
+  const headers=['Intervention ID','Evaluation ID','Student ID','Student Name','Type','Level','Unit','Score','Severity','Recommendation','Status','Teacher ID','Created At','Updated At'];
+  downloadTextFile(`wisdom-interventions-${timestampForFile()}.csv`,arrayToCSV(rows,headers),'text/csv');
+}
+function normalizeImportedArray(value){return Array.isArray(value)?value:[]}
+function importReportsJSON(event){
+  if(!isAdmin()){alert('Solo administración puede importar backups.');return}
+  const file=event?.target?.files&&event.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(){
+    try{
+      const parsed=JSON.parse(reader.result);
+      const data=parsed.data||parsed;
+      const examResults=normalizeImportedArray(data.examResults||data.exam_results||data[EXAM_RESULTS_KEY]);
+      const assessmentResults=normalizeImportedArray(data.assessmentResults||data.assessment_results||data[ASSESSMENT_RESULTS_KEY]);
+      const interventions=normalizeImportedArray(data.interventions||data[INTERVENTIONS_KEY]);
+      if(!examResults.length&&!assessmentResults.length&&!interventions.length){
+        alert('El archivo no contiene resultados ni intervenciones válidas.');
+        return;
+      }
+      const ok=confirm('Esto reemplazará resultados e intervenciones del módulo Reportes. Se descargará un backup automático antes de importar. ¿Continuar?');
+      if(!ok)return;
+      const backup={
+        module:'reportes-auto-backup-before-import',
+        exportedAt:new Date().toISOString(),
+        data:{
+          examResults:safeParse(EXAM_RESULTS_KEY),
+          assessmentResults:safeParse(ASSESSMENT_RESULTS_KEY),
+          interventions:safeParse(INTERVENTIONS_KEY)
+        }
+      };
+      downloadTextFile(`wisdom-reports-auto-backup-before-import-${timestampForFile()}.json`,JSON.stringify(backup,null,2));
+      saveArray(EXAM_RESULTS_KEY,examResults);
+      saveArray(ASSESSMENT_RESULTS_KEY,assessmentResults);
+      saveArray(INTERVENTIONS_KEY,interventions);
+      alert('Reportes importados correctamente.');
+      renderReports();
+    }catch(error){
+      alert('No se pudo importar el archivo JSON. Revisa que sea un backup válido.');
+    }finally{
+      event.target.value='';
+    }
+  };
+  reader.readAsText(file);
+}
+
 function scoreState(score){if(score===null||score===undefined)return {key:'pending',label:'Sin nota',cls:'gray'};if(score<60)return {key:'critical',label:'Intervención',cls:'danger'};if(score<75)return {key:'risk',label:'En riesgo',cls:'warning'};return {key:'ok',label:'Aprobado',cls:'success'}}
-function visibleResults(){return getResults().filter(resultVisible).filter(r=>r.mode==='exam').sort((a,b)=>new Date(b.date||0)-new Date(a.date||0))}
+
+function normalizeScheduleForReports(item={}){
+  return {
+    ...item,
+    id:item.id||item.scheduleId||'',
+    scheduleId:item.scheduleId||item.id||'',
+    title:item.title||item.name||item.groupName||item.packageCode||'Clase programada',
+    studentId:item.studentId||item.studentCode||'',
+    studentIds:Array.isArray(item.studentIds)?item.studentIds.map(String):[],
+    teacherId:item.teacherId||item.teacherCode||'',
+    date:item.date||item.classDate||item.startDate||'',
+    day:item.day||item.scheduleDay||'',
+    startTime:item.startTime||item.start||'',
+    endTime:item.endTime||item.end||'',
+    status:item.status||'Activo'
+  };
+}
+function getSchedulesForReports(){
+  if(typeof ScheduleService!=='undefined'&&ScheduleService){
+    try{
+      if(typeof ScheduleService.getAll==='function'){
+        const all=ScheduleService.getAll();
+        if(Array.isArray(all))return all.map(normalizeScheduleForReports);
+      }
+    }catch(error){console.warn('ScheduleService.getAll falló en reportes. Usando fallback local.',error)}
+  }
+  return safeParse(SCHEDULES_KEY).map(normalizeScheduleForReports);
+}
+function scheduleBelongsToStudentReport(schedule,student){
+  const code=String(student.code||student.studentId||student.id||'');
+  if(code && (String(schedule.studentId||'')===code || String(schedule.studentCode||'')===code))return true;
+  if(code && Array.isArray(schedule.studentIds)&&schedule.studentIds.map(String).includes(code))return true;
+  return false;
+}
+function hasFutureScheduleForStudent(student,schedules){
+  const today=new Date().toISOString().slice(0,10);
+  return schedules.some(schedule=>{
+    if(String(schedule.status||'Activo').toLowerCase()==='cancelado')return false;
+    if(!scheduleBelongsToStudentReport(schedule,student))return false;
+    if(!schedule.date)return true;
+    return String(schedule.date)>=today;
+  });
+}
+function renderScheduleRisks(){
+  const container=document.getElementById('scheduleRiskList');
+  if(!container)return;
+  const students=getStudents().filter(studentVisible);
+  const schedules=getSchedulesForReports();
+  const requests=safeParse(REQUESTS_KEY).filter(requestVisible).filter(r=>['Reprogramación','Cambio de horario','Solicitud por WhatsApp'].includes(r.type||'')&&['Nueva','En revisión'].includes(r.status||'Nueva'));
+  const studentsWithoutSchedule=students.filter(student=>!hasFutureScheduleForStudent(student,schedules));
+  const items=[];
+  studentsWithoutSchedule.slice(0,8).forEach(student=>items.push({
+    level:'warning',
+    title:'Sin próxima clase registrada',
+    name:student.name||student.code||'Estudiante',
+    detail:'No se encontró agenda futura para este estudiante en ScheduleService.',
+    link:`dossier.html?code=${encodeURIComponent(student.code||student.studentId||'')}`
+  }));
+  requests.slice(0,8).forEach(request=>items.push({
+    level:'danger',
+    title:'Solicitud de horario abierta',
+    name:request.studentName||request.studentCode||'Estudiante',
+    detail:`${request.type} · ${request.requestedDate||'sin fecha'} ${request.requestedTime||''}`,
+    link:`dossier.html?code=${encodeURIComponent(request.studentCode||request.studentId||'')}`
+  }));
+  container.innerHTML='';
+  if(!items.length){container.innerHTML='<div class="empty">No se detectan riesgos de agenda con la información actual.</div>';return}
+  items.slice(0,12).forEach(item=>{
+    const div=document.createElement('div');
+    div.className='report-card';
+    div.innerHTML=`<span class="pill ${item.level}">${item.title}</span><strong>${item.name}</strong><small>${item.detail}</small><div class="actions"><button class="btn btn-primary" onclick="window.location.href='${item.link}'">Abrir dossier</button></div>`;
+    container.appendChild(div);
+  });
+}
+function visibleResults(){return getResults().filter(resultVisible).filter(r=>r.mode==='exam'||r.mode==='progress_report').sort((a,b)=>new Date(b.date||0)-new Date(a.date||0))}
+function hasAttendanceServiceMethod(methodName){return typeof AttendanceService!=='undefined'&&AttendanceService&&typeof AttendanceService[methodName]==='function'}
+function normalizeAttendanceSummaryResult(result){
+  if(!result||typeof result!=='object')return null;
+  const present=Number(result.present??result.presentCount??result.attended??result.completed??0)||0;
+  const absent=Number(result.absent??result.absentCount??result.absences??0)||0;
+  const late=Number(result.late??result.lateCount??result.lateArrivals??0)||0;
+  const excused=Number(result.excused??result.excusedCount??result.excusedAbsences??0)||0;
+  const total=Number(result.total??result.totalClasses??result.count??(present+absent+late+excused))||0;
+  const percentValue=result.percent??result.percentage??result.attendancePercent;
+  const percent=percentValue!==undefined&&percentValue!==null&&percentValue!==''?Math.round(Number(String(percentValue).replace('%',''))):(total?Math.round(((present+late+excused)/total)*100):null);
+  return {present,absent,late,excused,total,percent,source:'AttendanceService'};
+}
+function embeddedAttendanceSummaryForStudent(student){
+  const code=student.code||student.studentId||student.id||'';
+  if(!code)return null;
+  const groups=safeParse(GROUPS_KEY);
+  let present=0,absent=0,late=0,excused=0,total=0;
+  groups.forEach(group=>{
+    const students=Array.isArray(group.students)?group.students:[];
+    if(!students.some(item=>item.code===code||item.studentId===code||item.id===code))return;
+    Object.keys(group.attendance||{}).filter(key=>/^\d+$/.test(String(key))).forEach(session=>{
+      const status=String((group.attendance[session]||{})[code]||'').toLowerCase();
+      if(!status)return;
+      total++;
+      if(status==='present')present++;
+      else if(status==='absent')absent++;
+      else if(status==='late')late++;
+      else if(status==='excused')excused++;
+    });
+  });
+  if(!total)return null;
+  return {present,absent,late,excused,total,percent:Math.round(((present+late+excused)/total)*100),source:'group.attendance'};
+}
+function attendanceSummaryForStudent(student){
+  const code=student.code||student.studentId||student.id||'';
+  if(!code)return embeddedAttendanceSummaryForStudent(student);
+  if(hasAttendanceServiceMethod('calculateStudentAttendance')){
+    try{const summary=normalizeAttendanceSummaryResult(AttendanceService.calculateStudentAttendance(code));if(summary&&summary.total)return summary}catch(error){console.warn('AttendanceService.calculateStudentAttendance() falló en reportes.',error)}
+  }
+  if(hasAttendanceServiceMethod('getByStudent')){
+    try{
+      const records=AttendanceService.getByStudent(code);
+      if(Array.isArray(records)&&records.length){
+        let present=0,absent=0,late=0,excused=0,total=0;
+        records.forEach(record=>{
+          const status=String(record.status||record.attendanceStatus||record.value||record.students?.[code]||'').toLowerCase();
+          if(!status)return;
+          total++;
+          if(status==='present'||status==='completed')present++;
+          else if(status==='absent')absent++;
+          else if(status==='late')late++;
+          else if(status==='excused')excused++;
+        });
+        if(total)return {present,absent,late,excused,total,percent:Math.round(((present+late+excused)/total)*100),source:'AttendanceService'};
+      }
+    }catch(error){console.warn('AttendanceService.getByStudent() falló en reportes.',error)}
+  }
+  return embeddedAttendanceSummaryForStudent(student);
+}
+function visibleAttendanceSummaries(){
+  return getStudents().filter(studentVisible).map(student=>({student,summary:attendanceSummaryForStudent(student)})).filter(item=>item.summary&&item.summary.total);
+}
+function exportAttendanceCSV(){
+  if(!isAdmin()){alert('Solo administración puede exportar asistencia.');return}
+  const rows=visibleAttendanceSummaries().map(item=>({
+    'Student ID':item.student.code||item.studentId||'',
+    'Student Name':item.student.name||'',
+    'Present':item.summary.present||0,
+    'Absent':item.summary.absent||0,
+    'Late':item.summary.late||0,
+    'Excused':item.summary.excused||0,
+    'Total':item.summary.total||0,
+    'Attendance %':item.summary.percent===null||item.summary.percent===undefined?'':item.summary.percent,
+    'Source':item.summary.source||''
+  }));
+  const headers=['Student ID','Student Name','Present','Absent','Late','Excused','Total','Attendance %','Source'];
+  downloadTextFile(`wisdom-attendance-${timestampForFile()}.csv`,arrayToCSV(rows,headers),'text/csv');
+}
+
 function resetFilters(){document.getElementById('searchInput').value='';document.getElementById('typeFilter').value='';document.getElementById('statusFilter').value='';renderReports()}
-function renderMetrics(results){const students=getStudents().filter(studentVisible);const scored=results.filter(r=>r.score!==null&&r.score!==undefined);const avg=scored.length?Math.round(scored.reduce((s,r)=>s+r.score,0)/scored.length):null;const risk=results.filter(r=>r.score>=60&&r.score<75).length;const interventions=getInterventions().filter(interventionVisible).filter(i=>i.status!=='closed');document.getElementById('studentsCount').innerText=students.length;document.getElementById('avgScore').innerText=avg===null?'--':avg+'%';document.getElementById('riskCount').innerText=risk;document.getElementById('interventionCount').innerText=interventions.length}
-function renderAttention(results){const container=document.getElementById('attentionList');const interventions=getInterventions().filter(interventionVisible).filter(i=>i.status!=='closed');const low=results.filter(r=>r.score!==null&&r.score<75);const items=[...interventions.map(i=>({name:i.studentName,title:i.severity==='critical'?'Intervención crítica':'Intervención pendiente',detail:`${i.type} · ${i.level} Unidad ${i.unit} · ${i.score}% · ${i.recommendation}`,level:i.severity==='critical'?'danger':'warning',link:`dossier.html?code=${encodeURIComponent(i.studentId)}`})),...low.slice(0,8).map(r=>({name:r.studentName,title:r.score<60?'Resultado crítico':'Resultado en riesgo',detail:`${r.type} · ${r.level} Unidad ${r.unit} · ${r.score}%`,level:r.score<60?'danger':'warning',link:`dossier.html?code=${encodeURIComponent(r.studentId)}`}))];container.innerHTML='';if(!items.length){container.innerHTML='<div class="empty">No hay estudiantes en atención prioritaria.</div>';return}items.slice(0,12).forEach(item=>{const div=document.createElement('div');div.className='report-card';div.innerHTML=`<span class="pill ${item.level}">${item.title}</span><strong>${item.name}</strong><small>${item.detail}</small><div class="actions"><button class="btn btn-primary" onclick="window.location.href='${item.link}'">Abrir dossier</button></div>`;container.appendChild(div)})}
-function renderReports(){const search=document.getElementById('searchInput').value.trim().toLowerCase();const type=document.getElementById('typeFilter').value;const status=document.getElementById('statusFilter').value;const all=visibleResults();const results=all.filter(r=>{const state=scoreState(r.score);const hay=[r.studentName,r.studentId,r.type,r.level,r.unit,r.score,state.label].join(' ').toLowerCase();if(search&&!hay.includes(search))return false;if(type&&r.type!==type)return false;if(status&&state.key!==status)return false;return true});renderMetrics(all);renderAttention(all);const table=document.getElementById('resultsTable'),empty=document.getElementById('emptyState'),wrap=document.getElementById('tableWrap');table.innerHTML='';if(!results.length){empty.style.display='block';wrap.style.display='none';return}empty.style.display='none';wrap.style.display='block';results.forEach(r=>{const state=scoreState(r.score);const row=document.createElement('tr');row.innerHTML=`<td>${formatDate(r.date)}</td><td><strong>${r.studentName}</strong><br><small>${r.studentId||''}</small></td><td>${r.type}</td><td>${r.level||'--'} · Unit ${r.unit||'--'}</td><td><strong>${r.score===null?'--':r.score+'%'}</strong></td><td><span class="pill ${state.cls}">${state.label}</span></td><td><button class="btn btn-secondary" onclick="window.location.href='dossier.html?code=${encodeURIComponent(r.studentId)}'">Dossier</button></td>`;table.appendChild(row)})}
+function renderMetrics(results){const students=getStudents().filter(studentVisible);const scored=results.filter(r=>r.score!==null&&r.score!==undefined);const avg=scored.length?Math.round(scored.reduce((s,r)=>s+r.score,0)/scored.length):null;const risk=results.filter(r=>r.score>=60&&r.score<75).length;const interventions=getInterventions().filter(interventionVisible).filter(i=>i.status!=='closed');const attendanceItems=visibleAttendanceSummaries();const attendanceAvg=attendanceItems.length?Math.round(attendanceItems.reduce((sum,item)=>sum+(Number(item.summary.percent)||0),0)/attendanceItems.length):null;document.getElementById('studentsCount').innerText=students.length;document.getElementById('avgScore').innerText=avg===null?'--':avg+'%';document.getElementById('riskCount').innerText=risk;document.getElementById('interventionCount').innerText=interventions.length;const avgAttendance=document.getElementById('avgAttendance');if(avgAttendance)avgAttendance.innerText=attendanceAvg===null?'--':attendanceAvg+'%'}
+function renderAttention(results){const container=document.getElementById('attentionList');const interventions=getInterventions().filter(interventionVisible).filter(i=>i.status!=='closed');const low=results.filter(r=>r.score!==null&&r.score<75);const attendanceRisk=visibleAttendanceSummaries().filter(item=>Number(item.summary.percent)<70);const items=[...interventions.map(i=>({name:i.studentName,title:i.severity==='critical'?'Intervención crítica':'Intervención pendiente',detail:`${i.type} · ${i.level} Unidad ${i.unit} · ${i.score}% · ${i.recommendation}`,level:i.severity==='critical'?'danger':'warning',link:`dossier.html?code=${encodeURIComponent(i.studentId)}`})),...attendanceRisk.slice(0,8).map(item=>({name:item.student.name||item.student.code,title:'Asistencia menor al 70%',detail:`${item.summary.percent}% · presentes ${item.summary.present} · ausencias ${item.summary.absent} · fuente ${item.summary.source}`,level:'danger',link:`dossier.html?code=${encodeURIComponent(item.student.code||item.student.studentId||'')}`})),...low.slice(0,8).map(r=>({name:r.studentName,title:r.score<60?'Resultado crítico':'Resultado en riesgo',detail:`${r.type} · ${r.level} Unidad ${r.unit} · ${r.score}%`,level:r.score<60?'danger':'warning',link:`dossier.html?code=${encodeURIComponent(r.studentId)}`}))];container.innerHTML='';if(!items.length){container.innerHTML='<div class="empty">No hay estudiantes en atención prioritaria.</div>';return}items.slice(0,12).forEach(item=>{const div=document.createElement('div');div.className='report-card';div.innerHTML=`<span class="pill ${item.level}">${item.title}</span><strong>${item.name}</strong><small>${item.detail}</small><div class="actions"><button class="btn btn-primary" onclick="window.location.href='${item.link}'">Abrir dossier</button></div>`;container.appendChild(div)})}
+function renderReports(){const search=document.getElementById('searchInput').value.trim().toLowerCase();const type=document.getElementById('typeFilter').value;const status=document.getElementById('statusFilter').value;const all=visibleResults();const results=all.filter(r=>{const state=scoreState(r.score);const hay=[r.studentName,r.studentId,r.type,r.level,r.unit,r.score,state.label].join(' ').toLowerCase();if(search&&!hay.includes(search))return false;if(type&&r.type!==type)return false;if(status&&state.key!==status)return false;return true});renderMetrics(all);renderAttention(all);renderScheduleRisks();const table=document.getElementById('resultsTable'),empty=document.getElementById('emptyState'),wrap=document.getElementById('tableWrap');table.innerHTML='';if(!results.length){empty.style.display='block';wrap.style.display='none';return}empty.style.display='none';wrap.style.display='block';results.forEach(r=>{const state=scoreState(r.score);const row=document.createElement('tr');row.innerHTML=`<td>${formatDate(r.date)}</td><td><strong>${r.studentName}</strong><br><small>${r.studentId||''}</small></td><td>${r.type}</td><td>${r.level||'--'} · Unit ${r.unit||'--'}</td><td><strong>${r.score===null?'--':r.score+'%'}</strong></td><td><span class="pill ${state.cls}">${escapeHTML(state.label)}</span></td><td><button class="btn btn-secondary" onclick="window.location.href='dossier.html?code=${encodeURIComponent(r.studentId)}'">Dossier</button></td>`;table.appendChild(row)})}
 renderReports();
-</script></body></html>
+</script>
+<script>
+(function(){
+  function loadReportServiceSafely(){
+    if(window.ReportService)return;
+    var script=document.createElement('script');
+    script.src='js/services/reportService.js';
+    script.defer=true;
+    script.onload=function(){console.info('ReportService disponible para reportes.html');};
+    script.onerror=function(){console.warn('No se pudo cargar js/services/reportService.js. reportes.html conserva su funcionamiento original.');};
+    document.body.appendChild(script);
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',loadReportServiceSafely);
+  else loadReportServiceSafely();
+})();
+</script>
+
+<script>
+/* Wisdom Academy — FASE 13 Academic Traceability Hardening
+   Module: reportes
+   Conservative patch: does not rename public functions, IDs, keys, or visual structure.
+*/
+(function(){
+  if (window.__wisdomPhase13AcademicHardening) return;
+  window.__wisdomPhase13AcademicHardening = true;
+
+  const MODULE_NAME = "reportes";
+  const CURRENT_USER_KEY = window.CURRENT_USER_KEY || "wisdom_current_user";
+  const EVALUATIONS_KEY = window.EVALUATIONS_KEY || "wisdom_evaluations";
+  const EXAM_RESULTS_KEY = window.EXAM_RESULTS_KEY || "wisdom_exam_results";
+  const ASSESSMENT_RESULTS_KEY = window.ASSESSMENT_RESULTS_KEY || "wisdom_assessment_results";
+  const INTERVENTIONS_KEY = window.INTERVENTIONS_KEY || "wisdom_interventions";
+
+  function getStore(){
+    return (typeof WisdomStorage !== "undefined" && WisdomStorage && typeof WisdomStorage.get === "function" && typeof WisdomStorage.set === "function")
+      ? WisdomStorage
+      : {
+          get(key, fallback) {
+            try {
+              const raw = localStorage.getItem(key);
+              return raw ? JSON.parse(raw) : fallback;
+            } catch(error) {
+              console.warn("FASE 13: storage get fallback failed", key, error);
+              return fallback;
+            }
+          },
+          set(key, value) {
+            localStorage.setItem(key, JSON.stringify(value));
+          }
+        };
+  }
+
+  function asArray(value){
+    return Array.isArray(value) ? value : [];
+  }
+
+  function cleanText(value){
+    return String(value ?? "").trim();
+  }
+
+  function safeNumber(value, fallback = null){
+    if (value === null || value === undefined || value === "") return fallback;
+    const parsed = Number(String(value).replace("%","").trim());
+    return Number.isFinite(parsed) ? parsed : fallback;
+  }
+
+  function clampScore(value){
+    const score = safeNumber(value, null);
+    if (score === null) return null;
+    return Math.max(0, Math.min(100, Math.round(score * 10) / 10));
+  }
+
+  function normalizeEvaluationPhase13(item = {}){
+    const base = (typeof SchemaRegistry !== "undefined" && SchemaRegistry && typeof SchemaRegistry.normalizeEvaluation === "function")
+      ? SchemaRegistry.normalizeEvaluation(item)
+      : {...item};
+
+    const studentId = cleanText(base.studentId || base.studentCode || item.studentId || item.studentCode || "");
+    const type = cleanText(base.type || item.type || "Evaluación");
+    const level = cleanText(base.level || item.level || "");
+    const unit = cleanText(base.unit || item.unit || "");
+    const evaluationId = cleanText(base.evaluationId || base.id || item.evaluationId || item.id || [
+      "EVAL", studentId, type, level, unit, cleanText(base.dueDate || item.dueDate || "")
+    ].join("-").replace(/\s+/g,"-"));
+
+    return {
+      ...item,
+      ...base,
+      id: cleanText(base.id || evaluationId),
+      evaluationId,
+      studentId,
+      studentCode: cleanText(base.studentCode || studentId),
+      studentName: cleanText(base.studentName || item.studentName || item.name || "Estudiante"),
+      studentEmail: cleanText(base.studentEmail || item.studentEmail || item.email || ""),
+      teacherId: cleanText(base.teacherId || base.teacherCode || item.teacherId || item.teacherCode || ""),
+      teacherCode: cleanText(base.teacherCode || base.teacherId || item.teacherCode || item.teacherId || ""),
+      type,
+      level,
+      unit,
+      unitTitle: cleanText(base.unitTitle || item.unitTitle || ""),
+      dueDate: cleanText(base.dueDate || item.dueDate || ""),
+      status: cleanText(base.status || item.status || "pending"),
+      attemptsAllowed: Math.max(1, Math.min(3, safeNumber(base.attemptsAllowed || item.attemptsAllowed || item.attempts || 1, 1))),
+      createdAt: cleanText(base.createdAt || item.createdAt || new Date().toISOString()),
+      updatedAt: cleanText(base.updatedAt || item.updatedAt || new Date().toISOString())
+    };
+  }
+
+  function normalizeResultPhase13(item = {}){
+    const base = (typeof SchemaRegistry !== "undefined" && SchemaRegistry && typeof SchemaRegistry.normalizeResult === "function")
+      ? SchemaRegistry.normalizeResult(item)
+      : {...item};
+
+    const score = clampScore(base.score ?? base.finalScore ?? base.percentage ?? item.score ?? item.finalScore ?? item.percentage);
+    const studentId = cleanText(base.studentId || base.studentCode || item.studentId || item.studentCode || "");
+    const evaluationId = cleanText(base.evaluationId || base.evalId || base.assessmentId || base.assignmentId || item.evaluationId || "");
+    const submittedAt = cleanText(base.submittedAt || item.submittedAt || base.date || item.date || base.createdAt || item.createdAt || new Date().toISOString());
+    const id = cleanText(base.id || base.resultId || item.id || item.resultId || [
+      "RES", evaluationId || studentId, cleanText(base.type || item.type || "Evaluación"), submittedAt
+    ].join("-").replace(/\s+/g,"-"));
+
+    return {
+      ...item,
+      ...base,
+      id,
+      resultId: cleanText(base.resultId || id),
+      evaluationId,
+      studentId,
+      studentCode: cleanText(base.studentCode || studentId),
+      studentName: cleanText(base.studentName || item.studentName || item.name || "Estudiante"),
+      studentEmail: cleanText(base.studentEmail || item.studentEmail || item.email || ""),
+      teacherId: cleanText(base.teacherId || base.teacherCode || item.teacherId || item.teacherCode || ""),
+      teacherCode: cleanText(base.teacherCode || base.teacherId || item.teacherCode || item.teacherId || ""),
+      type: cleanText(base.type || base.skill || item.type || "Evaluación"),
+      mode: cleanText(base.mode || item.mode || "practice").toLowerCase(),
+      level: cleanText(base.level || item.level || ""),
+      unit: cleanText(base.unit || item.unit || ""),
+      unitTitle: cleanText(base.unitTitle || item.unitTitle || ""),
+      score,
+      percentage: score,
+      finalScore: score,
+      submittedAt,
+      createdAt: cleanText(base.createdAt || item.createdAt || submittedAt),
+      updatedAt: cleanText(base.updatedAt || item.updatedAt || submittedAt)
+    };
+  }
+
+  function signatureEvaluation(item){
+    const n = normalizeEvaluationPhase13(item);
+    return n.evaluationId || [n.studentId, n.type, n.level, n.unit, n.dueDate].join("|").toLowerCase();
+  }
+
+  function signatureResult(item){
+    const n = normalizeResultPhase13(item);
+    return n.evaluationId || n.id || [n.studentId, n.type, n.level, n.unit, n.submittedAt, n.score].join("|").toLowerCase();
+  }
+
+  function dedupe(items, signatureFn){
+    const map = new Map();
+    asArray(items).forEach(item => {
+      const key = signatureFn(item);
+      if (!key) return;
+      const previous = map.get(key);
+      if (!previous) {
+        map.set(key, item);
+        return;
+      }
+      const prevUpdated = Date.parse(previous.updatedAt || previous.submittedAt || previous.createdAt || 0) || 0;
+      const nextUpdated = Date.parse(item.updatedAt || item.submittedAt || item.createdAt || 0) || 0;
+      if (nextUpdated >= prevUpdated) map.set(key, item);
+    });
+    return Array.from(map.values());
+  }
+
+  function reconcileEvaluationStatuses(evaluations, results){
+    const resultByEvaluation = new Set(
+      asArray(results).map(normalizeResultPhase13).filter(r => r.evaluationId).map(r => r.evaluationId)
+    );
+    const today = new Date().toISOString().slice(0,10);
+
+    return asArray(evaluations).map(raw => {
+      const evaluation = normalizeEvaluationPhase13(raw);
+      const hasResult = evaluation.resultId || resultByEvaluation.has(evaluation.evaluationId);
+      if (hasResult && evaluation.status !== "cancelled") {
+        return {...evaluation, status:"submitted", updatedAt:evaluation.updatedAt || new Date().toISOString()};
+      }
+      if (evaluation.dueDate && evaluation.dueDate < today && evaluation.status === "pending") {
+        return {...evaluation, status:"overdue", updatedAt:evaluation.updatedAt || new Date().toISOString()};
+      }
+      return evaluation;
+    });
+  }
+
+  function runAcademicIntegritySweep(reason = "manual"){
+    const Store = getStore();
+
+    const evaluations = dedupe(asArray(Store.get(EVALUATIONS_KEY, [])), signatureEvaluation).map(normalizeEvaluationPhase13);
+    const examResults = dedupe(asArray(Store.get(EXAM_RESULTS_KEY, [])), signatureResult).map(normalizeResultPhase13);
+    const assessmentResults = dedupe(asArray(Store.get(ASSESSMENT_RESULTS_KEY, [])), signatureResult).map(normalizeResultPhase13);
+    const allResults = [...examResults, ...assessmentResults];
+    const reconciledEvaluations = reconcileEvaluationStatuses(evaluations, allResults);
+
+    Store.set(EVALUATIONS_KEY, reconciledEvaluations);
+    Store.set(EXAM_RESULTS_KEY, examResults);
+    Store.set(ASSESSMENT_RESULTS_KEY, assessmentResults);
+
+    const interventions = asArray(Store.get(INTERVENTIONS_KEY, []));
+    if (interventions.length) {
+      const cleanInterventions = dedupe(interventions, item => {
+        const id = cleanText(item.id || item.interventionId);
+        return id || [item.evaluationId, item.studentId || item.studentCode, item.type, item.createdAt].join("|").toLowerCase();
+      });
+      Store.set(INTERVENTIONS_KEY, cleanInterventions);
+    }
+
+    console.info("FASE 13 Academic Integrity Sweep", {
+      module: MODULE_NAME,
+      reason,
+      evaluations: reconciledEvaluations.length,
+      examResults: examResults.length,
+      assessmentResults: assessmentResults.length
+    });
+
+    return {
+      evaluations: reconciledEvaluations,
+      examResults,
+      assessmentResults
+    };
+  }
+
+  window.WisdomPhase13AcademicHardening = {
+    runAcademicIntegritySweep,
+    normalizeEvaluationPhase13,
+    normalizeResultPhase13,
+    dedupeEvaluations(items) { return dedupe(items, signatureEvaluation).map(normalizeEvaluationPhase13); },
+    dedupeResults(items) { return dedupe(items, signatureResult).map(normalizeResultPhase13); }
+  };
+
+  window.addEventListener("error", function(event){
+    console.error("FASE 13 runtime error", MODULE_NAME, event.error || event.message);
+  });
+
+  window.addEventListener("unhandledrejection", function(event){
+    console.error("FASE 13 unhandled promise rejection", MODULE_NAME, event.reason);
+  });
+
+  window.addEventListener("storage", function(event){
+    const watched = [EVALUATIONS_KEY, EXAM_RESULTS_KEY, ASSESSMENT_RESULTS_KEY, INTERVENTIONS_KEY, CURRENT_USER_KEY];
+    if (watched.includes(event.key) && document.visibilityState === "visible") {
+      console.info("FASE 13 storage sync refresh", MODULE_NAME, event.key);
+      window.location.reload();
+    }
+  });
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => runAcademicIntegritySweep("DOMContentLoaded"));
+  } else {
+    runAcademicIntegritySweep("immediate");
+  }
+})();
+</script>
+
+<script>
+(function(){
+  function read(key){try{const raw=localStorage.getItem(key);return raw?JSON.parse(raw):[]}catch(e){return []}}
+  function set(id,val){const el=document.getElementById(id);if(el)el.textContent=val}
+  function scoreOf(r){const v=r.score??r.finalScore??r.percentage;const n=Number(String(v??'').replace('%',''));return Number.isFinite(n)?n:null}
+  function daysOld(value){const d=new Date(value||'');if(Number.isNaN(d.getTime()))return 0;return Math.floor((Date.now()-d.getTime())/(1000*60*60*24))}
+  function update(){
+    const students=read('wisdom_students_demo');const results=[...read('wisdom_exam_results'),...read('wisdom_assessment_results')];const interventions=read('wisdom_interventions');
+    const riskyCodes=new Set();results.forEach(r=>{const s=scoreOf(r);if(s!==null&&s<75)riskyCodes.add(r.studentCode||r.studentId||r.code||r.email||r.studentName)});
+    const open=interventions.filter(i=>!String(i.status||'').toLowerCase().includes('cerr')&&!String(i.status||'').toLowerCase().includes('closed'));
+    const old=open.filter(i=>daysOld(i.createdAt||i.date||i.updatedAt)>=7).length;
+    const healthy=Math.max(0,(Array.isArray(students)?students.length:0)-riskyCodes.size-open.length);
+    set('uxHealthyStudents',healthy);set('uxAcademicRisk',riskyCodes.size);set('uxOpenInterventions',open.length);set('uxOldRisk',old);
+    const box=document.getElementById('uxPriorityAttentionList');
+    if(box){
+      const items=open.slice(0,3).map(i=>`<div class="ux-risk-item"><strong>${i.studentName||i.name||i.studentCode||'Estudiante en seguimiento'}</strong><small>${i.reason||i.note||i.description||'Intervención académica abierta'} · ${daysOld(i.createdAt||i.date||i.updatedAt)} día(s)</small></div>`).join('');
+      box.innerHTML=items||'<div class="ux-risk-item"><strong>Sin intervenciones críticas visibles</strong><small>Continúa monitoreando resultados, asistencia y solicitudes.</small></div>';
+    }
+  }
+  window.addEventListener('load',()=>setTimeout(update,200));
+  ['input','change','click'].forEach(evt=>document.addEventListener(evt,()=>setTimeout(update,150),true));
+})();
+</script>
+
+</body>
+</html>

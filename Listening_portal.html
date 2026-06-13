@@ -558,6 +558,67 @@
   color:#000;
 }
 
+
+    /* Phase 16 UX correction: visible session progress + academic guidance */
+    .session-progress-panel{
+      display:none;
+      gap:12px;
+      padding:16px;
+      border:1px solid #cfe0f1;
+      border-radius:20px;
+      background:#f8fcff;
+    }
+    .session-progress-panel.is-visible{display:grid;}
+    .session-progress__top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .session-progress__label{
+      color:var(--wise-blue-dark,#234874);
+      font-weight:900;
+    }
+    .session-progress__percent{
+      min-height:34px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:999px;
+      padding:0 12px;
+      background:var(--wise-teal-soft,#d8f1f3);
+      color:var(--wise-blue-dark,#234874);
+      font-weight:900;
+    }
+    .session-progress__track{
+      height:12px;
+      background:#e9f1f6;
+      border-radius:999px;
+      overflow:hidden;
+      border:1px solid #d5e1e8;
+    }
+    .session-progress__fill{
+      width:0%;
+      height:100%;
+      border-radius:999px;
+      background:linear-gradient(90deg,#E6FF00,var(--wise-teal,#49b9c7));
+      transition:width .22s ease;
+    }
+    .academic-message{
+      padding:12px 14px;
+      border-radius:16px;
+      background:#eef7ff;
+      color:var(--wise-blue-dark,#234874);
+      border:1px solid #cfe0f1;
+      font-weight:800;
+      line-height:1.45;
+    }
+    @media (max-width:760px){
+      .session-progress__top{display:grid;}
+      .session-progress__percent{width:100%;}
+    }
+
 </style>
 </head>
 <body>
@@ -665,6 +726,7 @@
       <div class="actions">
         <button class="btn btn--primary" id="startBtn" type="button">Start listening</button>
         <button class="btn btn--secondary" id="checkBtn" type="button">Check answer</button>
+        <button class="btn btn--secondary" id="prevBtn" type="button">Previous unanswered</button>
         <button class="btn btn--secondary" id="nextBtn" type="button">Next question</button>
         <button class="btn btn--ghost" id="toggleAnswersBtn" type="button">Mostrar respuestas</button>
         <button class="btn btn--ghost" id="resetBtn" type="button">Reset</button>
@@ -684,6 +746,23 @@
       </div>
 
       <p id="liveRegion" class="sr-only" aria-live="polite" aria-atomic="true"></p>
+
+      <div id="sessionProgressPanel" class="session-progress-panel" aria-live="polite">
+        <div class="session-progress__top">
+          <div>
+            <div id="questionCounter" class="session-progress__label">Pregunta 0 de 0</div>
+            <div id="progressContext" style="color:var(--wise-muted,#65758a);font-weight:800;margin-top:4px;">Inicia una sesión para ver el avance.</div>
+          </div>
+          <div id="progressPercent" class="session-progress__percent">0%</div>
+        </div>
+        <div class="session-progress__track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Progreso de la sesión">
+          <div id="progressFill" class="session-progress__fill"></div>
+        </div>
+        <div id="academicMessage" class="academic-message">
+          Esta actividad forma parte de tu seguimiento académico. Responde con calma; en Exam el resultado queda registrado para revisión del profesor y administración.
+        </div>
+      </div>
+
       <div id="questionHost"><div class="empty">Choose your configuration and press Start.</div></div>
     </section>
 
@@ -6459,6 +6538,7 @@
       examNote: document.getElementById('examNote'),
       startBtn: document.getElementById('startBtn'),
       checkBtn: document.getElementById('checkBtn'),
+      prevBtn: document.getElementById('prevBtn'),
       nextBtn: document.getElementById('nextBtn'),
       toggleAnswersBtn: document.getElementById('toggleAnswersBtn'),
       resetBtn: document.getElementById('resetBtn'),
@@ -6469,7 +6549,13 @@
       resultsPanel: document.getElementById('resultsPanel'),
       resultsSummary: document.getElementById('resultsSummary'),
       resultList: document.getElementById('resultList'),
-      liveRegion: document.getElementById('liveRegion')
+      liveRegion: document.getElementById('liveRegion'),
+      sessionProgressPanel: document.getElementById('sessionProgressPanel'),
+      questionCounter: document.getElementById('questionCounter'),
+      progressContext: document.getElementById('progressContext'),
+      progressPercent: document.getElementById('progressPercent'),
+      progressFill: document.getElementById('progressFill'),
+      academicMessage: document.getElementById('academicMessage')
     };
 
     portalApplyAssessmentIdentity(ui.studentName, ui.teacherEmail);
@@ -6615,6 +6701,30 @@
       ui.quizSizeSelect.disabled = mode === 'exam';
     }
 
+
+    function getAnsweredCount() {
+      return state.userAnswers.filter(answer => Number.isInteger(answer)).length;
+    }
+
+    function updateSessionProgress() {
+      const total = state.sessionQuestions.length;
+      const current = state.started && total ? Math.min(state.currentIndex + 1, total) : 0;
+      const answered = getAnsweredCount();
+      const percent = total ? Math.round((answered / total) * 100) : 0;
+      if(ui.sessionProgressPanel) ui.sessionProgressPanel.classList.toggle('is-visible', state.started && !state.finished && total > 0);
+      if(ui.questionCounter) ui.questionCounter.textContent = total ? `Pregunta ${current} de ${total}` : 'Pregunta 0 de 0';
+      if(ui.progressContext) ui.progressContext.textContent = total ? `${answered} de ${total} respuestas registradas · ${state.mode === 'exam' ? 'Exam formal' : 'Practice'}` : 'Inicia una sesión para ver el avance.';
+      if(ui.progressPercent) ui.progressPercent.textContent = `${percent}%`;
+      if(ui.progressFill) {
+        ui.progressFill.style.width = `${percent}%`;
+        const track = ui.progressFill.parentElement;
+        if(track) track.setAttribute('aria-valuenow', String(percent));
+      }
+      if(ui.academicMessage) ui.academicMessage.textContent = state.mode === 'exam'
+        ? 'Estás en Exam. Este resultado formal quedará guardado en el portal y podrá ser revisado por tu profesor y administración.'
+        : 'Estás en Practice. Usa esta sesión para entrenar, revisar errores y reforzar antes de presentar una evaluación formal.';
+    }
+
     function portalApplyForcedEvaluationToUI(){
       if(!portalHasForcedEvaluation()) return;
       if(portalForcedEvaluation.level && ui.levelSelect.value !== portalForcedEvaluation.level){
@@ -6653,7 +6763,9 @@
 
       const size = getRequestedSize(pool.length);
       state.sessionQuestions = shuffle(pool).slice(0, size);
+      state.userAnswers = new Array(state.sessionQuestions.length).fill(null);
       ui.scorePill.textContent = `${state.mode === 'exam' ? 'Exam' : 'Practice'} · ${state.sessionQuestions.length} questions`;
+      updateSessionProgress();
       ui.resultsPanel.classList.remove('is-visible');
       ui.resultList.innerHTML = '';
       ui.resultsSummary.innerHTML = '';
@@ -6685,11 +6797,38 @@
       if (state.mode !== 'exam') ui.timerPill.style.display = 'none';
     }
 
-    function saveCurrentAnswer() {
+    function getCurrentSelectedAnswer() {
       const checked = document.querySelector('input[name="currentQuestion"]:checked');
-      const answer = checked ? Number(checked.value) : null;
+      return checked ? Number(checked.value) : null;
+    }
+
+    function saveCurrentAnswer() {
+      const answer = getCurrentSelectedAnswer();
       state.userAnswers[state.currentIndex] = answer;
       return answer;
+    }
+
+    function isAnswerEmpty(answer) {
+      return answer === null || answer === undefined || Number.isNaN(answer);
+    }
+
+    function hasUnansweredBeforeCurrent() {
+      if (state.mode === 'exam' || !state.started || state.finished || state.currentIndex <= 0) return false;
+      for (let index = state.currentIndex - 1; index >= 0; index -= 1) {
+        if (isAnswerEmpty(state.userAnswers[index])) return true;
+      }
+      return false;
+    }
+
+    function findPreviousUnansweredIndex() {
+      for (let index = state.currentIndex - 1; index >= 0; index -= 1) {
+        if (isAnswerEmpty(state.userAnswers[index])) return index;
+      }
+      return -1;
+    }
+
+    function findFirstUnansweredIndex() {
+      return state.userAnswers.findIndex(answer => isAnswerEmpty(answer));
     }
 
     function renderCurrentQuestion() {
@@ -6739,12 +6878,14 @@
         </article>
       `;
 
+      updateSessionProgress();
       updateButtonState();
     }
 
     function updateButtonState() {
       const hasStarted = state.started && !state.finished;
       ui.checkBtn.disabled = !hasStarted || state.mode === 'exam';
+      if (ui.prevBtn) ui.prevBtn.disabled = !hasStarted || state.mode === 'exam' || !hasUnansweredBeforeCurrent();
       ui.nextBtn.disabled = !hasStarted;
       ui.toggleAnswersBtn.disabled = !hasStarted || state.mode === 'exam';
     }
@@ -6754,6 +6895,7 @@
       const question = state.sessionQuestions[state.currentIndex];
       const feedback = document.querySelector('.feedback');
       const selected = saveCurrentAnswer();
+      updateSessionProgress();
 
       if (selected === null || Number.isNaN(selected)) {
         feedback.textContent = 'Please select an answer first.';
@@ -6774,12 +6916,41 @@
     function nextQuestion() {
       if (!state.started || state.finished) return;
       saveCurrentAnswer();
+      updateSessionProgress();
+
       if (state.currentIndex >= state.sessionQuestions.length - 1) {
+        if (state.mode === 'practice') {
+          const firstUnanswered = findFirstUnansweredIndex();
+          if (firstUnanswered >= 0) {
+            state.currentIndex = firstUnanswered;
+            renderCurrentQuestion();
+            if (ui.liveRegion) ui.liveRegion.textContent = 'Hay una pregunta sin responder. Vuelve a completarla antes de cerrar la práctica.';
+            return;
+          }
+        }
         finishSession(false);
         return;
       }
+
       state.currentIndex += 1;
       renderCurrentQuestion();
+    }
+
+    function previousQuestion() {
+      if (!state.started || state.finished || state.mode === 'exam') return;
+
+      saveCurrentAnswer();
+
+      const previousUnanswered = findPreviousUnansweredIndex();
+      if (previousUnanswered < 0) {
+        if (ui.liveRegion) ui.liveRegion.textContent = 'No hay preguntas anteriores sin responder.';
+        updateButtonState();
+        return;
+      }
+
+      state.currentIndex = previousUnanswered;
+      renderCurrentQuestion();
+      if (ui.liveRegion) ui.liveRegion.textContent = 'Volviste a una pregunta que estaba sin responder.';
     }
 
     function toggleAnswers() {
@@ -6795,6 +6966,7 @@
       stopTimer();
       if (state.mode === 'exam') ui.timerPill.style.display = 'none';
       updateButtonState();
+      if(ui.sessionProgressPanel) ui.sessionProgressPanel.classList.remove('is-visible');
       renderResults(byTimeout);
     }
 
@@ -6861,6 +7033,11 @@
       state.checkedQuestions = new Set();
       ui.questionHost.innerHTML = '<div class="empty">Choose your configuration and press Start.</div>';
       ui.scorePill.textContent = 'Not started';
+      if(ui.sessionProgressPanel) ui.sessionProgressPanel.classList.remove('is-visible');
+      if(ui.questionCounter) ui.questionCounter.textContent = 'Pregunta 0 de 0';
+      if(ui.progressContext) ui.progressContext.textContent = 'Inicia una sesión para ver el avance.';
+      if(ui.progressPercent) ui.progressPercent.textContent = '0%';
+      if(ui.progressFill) ui.progressFill.style.width = '0%';
       ui.toggleAnswersBtn.textContent = 'Mostrar respuestas';
       ui.resultsPanel.classList.remove('is-visible');
       ui.resultList.innerHTML = '';
@@ -6881,6 +7058,7 @@
       ui.modeSelect.addEventListener('change', resetSession);
       ui.startBtn.addEventListener('click', startSession);
       ui.checkBtn.addEventListener('click', checkAnswer);
+      if (ui.prevBtn) ui.prevBtn.addEventListener('click', previousQuestion);
       ui.nextBtn.addEventListener('click', nextQuestion);
       ui.toggleAnswersBtn.addEventListener('click', toggleAnswers);
       ui.resetBtn.addEventListener('click', resetSession);

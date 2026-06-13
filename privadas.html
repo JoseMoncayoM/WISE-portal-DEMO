@@ -17,11 +17,371 @@ h1{color:var(--primary);font-size:1.9rem;font-weight:900}.sub{color:var(--gray);
 table{width:100%;border-collapse:collapse}td,th{padding:10px;border-top:1px solid var(--border);text-align:left}.pill{background:var(--soft);padding:5px 10px;border-radius:999px;font-weight:900;color:var(--accent);font-size:.75rem}.pill.warning{background:var(--warning);color:#8a6d00}.pill.done{background:#eef7ee;color:#257a36}
 .modal{position:fixed;inset:0;background:rgba(13,43,69,.35);display:none;align-items:center;justify-content:center;padding:20px;z-index:20}.modal.active{display:flex}.modal-box{width:100%;max-width:620px;background:white;border:1px solid var(--border);border-radius:22px;padding:24px;box-shadow:0 20px 50px rgba(13,43,69,.18)}.modal-box h2{color:var(--primary);margin-bottom:16px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:6px}.field label{font-size:.8rem;font-weight:900;color:var(--primary)}.field input,.field select{padding:11px;border-radius:12px;border:1px solid var(--border);font:inherit}.modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
 .empty{color:var(--gray);padding:24px;text-align:center}
+
+
+.package-schedule-days{
+  grid-column:1/-1;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+}
+.package-schedule-day{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:10px;
+  background:#fbfdff;
+  font-weight:800;
+  color:var(--primary);
+}
+.package-schedule-help{
+  grid-column:1/-1;
+  color:var(--gray);
+  font-size:.86rem;
+  font-weight:700;
+  line-height:1.35;
+}
+.package-operational-summary{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-top:12px;
+}
+.package-operational-box{
+  background:#fbfdff;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:12px;
+}
+.package-operational-box small{
+  display:block;
+  color:var(--gray);
+  font-weight:900;
+  text-transform:uppercase;
+  font-size:.7rem;
+  margin-bottom:5px;
+}
+.package-operational-box strong{
+  display:block;
+  color:var(--primary);
+  font-size:1.05rem;
+}
+.package-operational-box.warning{background:#fff8d6;border-color:#f4df8a}
+.package-operational-box.danger{background:#ffefef;border-color:#ffd1d1}
+.package-operational-box.ok{background:#eef7ee;border-color:#c7f0d6}
+.package-operational-note{
+  margin-top:10px;
+  color:var(--gray);
+  font-size:.9rem;
+  line-height:1.4;
+  font-weight:700;
+}
+@media(max-width:900px){.package-operational-summary{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.package-schedule-days{grid-template-columns:1fr 1fr}.package-operational-summary{grid-template-columns:1fr}}
+
 @media(max-width:900px){.grid,.form-grid{grid-template-columns:1fr}.topbar{flex-direction:column;align-items:flex-start}}
+
+
+.report-card{border:1px solid var(--border);border-radius:18px;padding:16px;margin-top:14px;background:#fbfeff}
+.report-card.locked{opacity:.65;background:#f7fafc}
+.report-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.report-badge{background:var(--soft);color:var(--accent);padding:5px 10px;border-radius:999px;font-size:.75rem;font-weight:900}
+.report-badge.locked{background:#f2f2f2;color:var(--gray)}
+.score-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:10px 0 16px}
+.score-grid .field select{background:white}
+.skill-result{font-weight:900;color:var(--primary);margin:8px 0}
+.final-score{font-size:1.25rem;font-weight:900;color:var(--accent);margin-top:10px}
+.report-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.report-acceptance{margin-top:14px;padding:12px;border:1px solid var(--border);border-radius:14px;background:#fbfdff}
+.report-acceptance label{display:flex;gap:8px;align-items:flex-start;font-weight:800;color:var(--primary)}
+.report-acceptance small{display:block;margin-top:6px;color:var(--gray);font-weight:700}
+@media(max-width:900px){.score-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.score-grid{grid-template-columns:1fr}}
+
+
+/* FASE 13 — production simulation hardening: modal safety */
+.modal-box{
+  max-height:90vh;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+
+
+/* ===========================
+   FASE 16 — WISDOM GLOBAL SIDEBAR
+   UX/UI layer only. Existing logic untouched.
+=========================== */
+:root{
+  --sidebar-w:260px;
+  --premium-bg:#eef5f7;
+  --premium-surface:#ffffff;
+  --premium-ink:#0b2438;
+  --premium-muted:#68798d;
+  --premium-line:#d8e6ed;
+  --premium-blue:#123e68;
+  --premium-teal:#16aeb7;
+  --premium-teal-soft:#e6f7f8;
+  --premium-lime:#e6ff00;
+  --premium-shadow-soft:0 10px 24px rgba(13,43,69,.07);
+}
+body{
+  padding-left:var(--sidebar-w);
+  background:
+    radial-gradient(circle at top left, rgba(31,182,185,.11), transparent 34%),
+    linear-gradient(180deg,#f7fbfc 0%, var(--premium-bg) 100%)!important;
+}
+.wisdom-sidebar{
+  position:fixed;
+  inset:0 auto 0 0;
+  width:var(--sidebar-w);
+  background:rgba(255,255,255,.92);
+  backdrop-filter:blur(16px);
+  border-right:1px solid var(--premium-line);
+  box-shadow:12px 0 32px rgba(13,43,69,.045);
+  z-index:1000;
+  padding:22px 18px;
+  overflow-y:auto;
+}
+.wisdom-sidebar-logo{
+  display:flex;
+  align-items:center;
+  padding:8px 0 18px;
+  margin-bottom:18px;
+  border-bottom:1px solid var(--premium-line);
+  text-decoration:none;
+}
+.wisdom-sidebar-logo img{
+  width:145px;
+  max-width:100%;
+  height:auto;
+  object-fit:contain;
+  display:block;
+}
+.wisdom-sidebar-section{
+  margin-bottom:16px;
+}
+.wisdom-sidebar-title{
+  color:#8796a8;
+  font-size:.68rem;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+  margin:0 0 8px 10px;
+}
+.wisdom-side-link{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:var(--premium-ink);
+  text-decoration:none;
+  padding:10px 12px;
+  border-radius:13px;
+  font-weight:850;
+  font-size:.88rem;
+  margin-bottom:5px;
+  border:1px solid transparent;
+  transition:.18s ease;
+}
+.wisdom-side-link:hover,
+.wisdom-side-link.active{
+  background:linear-gradient(135deg,var(--premium-teal-soft),#f7ffff);
+  border-color:#caeff2;
+  transform:translateX(2px);
+}
+.wisdom-side-dot{
+  width:8px;
+  height:8px;
+  border-radius:999px;
+  background:var(--premium-teal);
+  box-shadow:0 0 0 4px rgba(31,182,185,.12);
+  flex:0 0 auto;
+}
+.wisdom-sidebar-footer{
+  margin-top:22px;
+  padding:14px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#f7ffff,var(--premium-teal-soft));
+  border:1px solid var(--premium-line);
+  box-shadow:var(--premium-shadow-soft);
+}
+.wisdom-sidebar-footer strong{
+  display:block;
+  color:var(--premium-blue);
+  font-size:.86rem;
+}
+.wisdom-sidebar-footer small{
+  display:block;
+  color:var(--premium-muted);
+  font-weight:750;
+  line-height:1.35;
+  margin-top:3px;
+}
+.wisdom-sidebar-logout{
+  width:100%;
+  margin-top:12px;
+  padding:10px 12px;
+  border-radius:999px;
+  border:1px solid var(--premium-line);
+  background:#fff;
+  color:var(--premium-blue);
+  font-weight:900;
+  cursor:pointer;
+}
+.wisdom-sidebar-logout:hover{
+  background:var(--premium-lime);
+  color:#000;
+}
+.wisdom-breadcrumb{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:8px;
+  color:var(--premium-muted);
+  font-size:.78rem;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  margin-bottom:16px;
+}
+.wisdom-breadcrumb span:last-child{
+  color:var(--premium-blue);
+}
+.wisdom-ux-strip{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin:0 0 20px;
+}
+.wisdom-ux-chip{
+  background:rgba(255,255,255,.96);
+  border:1px solid var(--premium-line);
+  border-radius:18px;
+  padding:14px;
+  box-shadow:var(--premium-shadow-soft);
+}
+.wisdom-ux-chip small{
+  display:block;
+  color:var(--premium-muted);
+  font-size:.68rem;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  margin-bottom:4px;
+}
+.wisdom-ux-chip strong{
+  display:block;
+  color:var(--premium-blue);
+  font-size:.98rem;
+  line-height:1.2;
+}
+.card,.modal-box{
+  box-shadow:var(--premium-shadow-soft)!important;
+}
+@media(max-width:1050px){
+  body{padding-left:0;padding-top:82px}
+  .wisdom-sidebar{
+    width:100%;
+    height:82px;
+    right:0;
+    bottom:auto;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 14px;
+    overflow-x:auto;
+    overflow-y:hidden;
+  }
+  .wisdom-sidebar-logo{
+    border-bottom:0;
+    margin:0 10px 0 0;
+    padding:0;
+    flex:0 0 auto;
+  }
+  .wisdom-sidebar-logo img{width:110px}
+  .wisdom-sidebar-section{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    margin:0;
+    flex:0 0 auto;
+  }
+  .wisdom-sidebar-title{display:none}
+  .wisdom-side-link{
+    margin:0;
+    white-space:nowrap;
+    padding:9px 10px;
+    font-size:.78rem;
+  }
+  .wisdom-sidebar-footer{display:none}
+}
+@media(max-width:760px){
+  .wisdom-ux-strip{grid-template-columns:1fr 1fr}
+}
+@media(max-width:520px){
+  .wisdom-ux-strip{grid-template-columns:1fr}
+}
+
 </style>
 </head>
 <body>
+
+<aside class="wisdom-sidebar" id="wisdomSidebar">
+  <a class="wisdom-sidebar-logo" href="dashboard.html" aria-label="Ir al dashboard">
+    <img src="logo.jpg" alt="Wisdom Academy Logo">
+  </a>
+
+  <div class="wisdom-sidebar-section">
+    <div class="wisdom-sidebar-title">Panel</div>
+    <a class="wisdom-side-link" href="dashboard.html" data-sidebar-link="dashboard.html"><span class="wisdom-side-dot"></span>Dashboard</a>
+  </div>
+
+  <div class="wisdom-sidebar-section">
+    <div class="wisdom-sidebar-title">Personas</div>
+    <a class="wisdom-side-link" href="estudiantes.html" data-sidebar-link="estudiantes.html" data-roles="admin,teacher,student"><span class="wisdom-side-dot"></span>Estudiantes</a>
+    <a class="wisdom-side-link" href="profesores.html" data-sidebar-link="profesores.html" data-roles="admin"><span class="wisdom-side-dot"></span>Profesores</a>
+    <a class="wisdom-side-link" href="usuarios.html" data-sidebar-link="usuarios.html" data-roles="admin"><span class="wisdom-side-dot"></span>Usuarios</a>
+  </div>
+
+  <div class="wisdom-sidebar-section">
+    <div class="wisdom-sidebar-title">Académico</div>
+    <a class="wisdom-side-link" href="grupales.html" data-sidebar-link="grupales.html" data-roles="admin,teacher"><span class="wisdom-side-dot"></span>Grupales</a>
+    <a class="wisdom-side-link" href="privadas.html" data-sidebar-link="privadas.html" data-roles="admin,teacher,student"><span class="wisdom-side-dot"></span>Privadas / Semi</a>
+    <a class="wisdom-side-link" href="calendario.html" data-sidebar-link="calendario.html" data-roles="admin,teacher,student"><span class="wisdom-side-dot"></span>Calendario</a>
+  </div>
+
+  <div class="wisdom-sidebar-section">
+    <div class="wisdom-sidebar-title">Gestión</div>
+    <a class="wisdom-side-link" href="solicitudes.html" data-sidebar-link="solicitudes.html" data-roles="admin,teacher,student"><span class="wisdom-side-dot"></span>Solicitudes</a>
+    <a class="wisdom-side-link" href="reportes.html" data-sidebar-link="reportes.html" data-roles="admin,teacher,student"><span class="wisdom-side-dot"></span>Reportes</a>
+    <a class="wisdom-side-link" href="finanzas.html" data-sidebar-link="finanzas.html" data-roles="admin"><span class="wisdom-side-dot"></span>Finanzas</a>
+    <a class="wisdom-side-link" href="mensajes.html" data-sidebar-link="mensajes.html" data-roles="admin,teacher"><span class="wisdom-side-dot"></span>Mensajes</a>
+  </div>
+
+  <div class="wisdom-sidebar-section">
+    <div class="wisdom-sidebar-title">Evaluación</div>
+    <a class="wisdom-side-link" href="placement_portal_integrado.html" data-sidebar-link="placement_portal_integrado.html" data-roles="admin,teacher"><span class="wisdom-side-dot"></span>Diagnóstico</a>
+    <a class="wisdom-side-link" href="evaluaciones.html" data-sidebar-link="evaluaciones.html" data-roles="admin,teacher"><span class="wisdom-side-dot"></span>Evaluaciones</a>
+    <a class="wisdom-side-link" href="resultados.html" data-sidebar-link="resultados.html" data-roles="admin,teacher,student"><span class="wisdom-side-dot"></span>Resultados</a>
+  </div>
+
+  <div class="wisdom-sidebar-footer">
+    <strong id="wisdomSidebarUser">Usuario</strong>
+    <small id="wisdomSidebarRole">Rol activo</small>
+    <button class="wisdom-sidebar-logout" type="button" onclick="wisdomSidebarLogout()">Cerrar sesión</button>
+  </div>
+</aside>
+
 <div class="wrap">
+  <div class="wisdom-breadcrumb"><span>Dashboard</span><span>/</span><span>Privadas / Semiprivadas</span></div>
+  <div class="wisdom-ux-strip">
+    <div class="wisdom-ux-chip"><small>Paquete</small><strong>Horas contratadas</strong></div>
+    <div class="wisdom-ux-chip"><small>Control</small><strong>Sesiones e historial</strong></div>
+    <div class="wisdom-ux-chip"><small>Reporte</small><strong>Desde sesión 18</strong></div>
+    <div class="wisdom-ux-chip"><small>Rol</small><strong>Vista filtrada</strong></div>
+  </div>
+
 
 <section id="privateView" class="view active">
   <div class="topbar">
@@ -31,7 +391,11 @@ table{width:100%;border-collapse:collapse}td,th{padding:10px;border-top:1px soli
     </div>
 
     <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-      <button class="btn btn-secondary" onclick="window.location.href='dashboard.html'">Dashboard</button>
+      <button class="btn btn-secondary" onclick="exportPrivateJSON()">Exportar JSON</button>
+      <button class="btn btn-secondary" onclick="exportPrivateCSV()">Exportar CSV</button>
+      <button class="btn btn-secondary" onclick="exportPrivateSessionsCSV()">Sesiones CSV</button>
+      <button class="btn btn-secondary" onclick="document.getElementById('privateImportFile').click()">Importar JSON</button>
+      <input id="privateImportFile" type="file" accept="application/json,.json" style="display:none" onchange="importPrivateJSON(event)">
       <button class="btn btn-primary" onclick="openCreatePackage()">Crear paquete</button>
     </div>
   </div>
@@ -40,8 +404,8 @@ table{width:100%;border-collapse:collapse}td,th{padding:10px;border-top:1px soli
 
 <section id="privateDetail" class="view">
   <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:12px;">
-    <button class="btn btn-secondary" onclick="window.location.href='dashboard.html'">Dashboard</button>
     <button class="btn btn-secondary" onclick="backPrivate()">← Volver</button>
+    <button class="btn btn-primary admin-only" onclick="openEditPackage(currentPackageId)">Editar paquete</button>
   </div>
   <div class="topbar" style="margin-top:22px">
     <div><h1 id="privateName"></h1><div class="sub" id="privateMeta"></div></div>
@@ -64,11 +428,18 @@ table{width:100%;border-collapse:collapse}td,th{padding:10px;border-top:1px soli
   </div>
 
   <div class="card">
+    <h3>Control operativo del paquete</h3><br>
+    <div id="privateOperationalInfo"></div>
+  </div>
+
+  <div class="card">
     <h3>Registrar sesión</h3><br>
     <div class="form-grid">
       <div class="field"><label>Fecha</label><input id="sessionDate" type="date"></div>
       <div class="field"><label>Duración</label><select id="sessionHours"><option value="1">1 hora</option><option value="1.5">1.5 horas</option><option value="2">2 horas</option></select></div>
-      <div class="field"><label>Profesor</label><input id="sessionTeacher" placeholder="Profesor que dictó la clase"></div>
+      <div class="field"><label>Hora inicio</label><input id="sessionStartTime" type="time"></div>
+      <div class="field"><label>Hora fin</label><input id="sessionEndTime" type="time"></div>
+      <div class="field"><label>Profesor</label><input id="sessionTeacher" list="teacherOptionsList" placeholder="Profesor que dictó la clase"></div>
       <div class="field"><label>Estudiante trabajado</label><select id="sessionStudent"></select></div>
       <div class="field"><label>Nota pedagógica / administrativa</label><input id="sessionNote" placeholder="Ej: speaking, fluidez, tarea, observación..."></div>
     </div>
@@ -78,9 +449,24 @@ table{width:100%;border-collapse:collapse}td,th{padding:10px;border-top:1px soli
   <div class="card">
     <h3>Historial de sesiones</h3><br>
     <table>
-      <thead><tr><th>Fecha</th><th>Estudiante</th><th>Horas</th><th>Profesor</th><th>Nota</th><th>Acciones</th></tr></thead>
+      <thead><tr><th>Fecha</th><th>Horario</th><th>Estudiante</th><th>Horas</th><th>Profesor</th><th>Nota</th><th>Acciones</th></tr></thead>
       <tbody id="sessionTable"></tbody>
     </table>
+  </div>
+
+  <div class="card" id="privateProgressReportPanel" style="margin-top:20px">
+    <div class="topbar" style="margin-bottom:10px">
+      <div>
+        <h3>Reporte de progreso privado / semiprivado</h3>
+        <div class="sub">Se habilita desde la sesión 18. Cada estudiante del paquete puede tener reporte individual.</div>
+      </div>
+      <button class="btn btn-secondary" onclick="printCurrentPrivateProgressReport()">Imprimir / PDF</button>
+    </div>
+    <div class="field" style="max-width:420px">
+      <label>Estudiante</label>
+      <select id="privateReportStudentSelect" onchange="renderPrivateProgressReports()"></select>
+    </div>
+    <div id="privateReportsContainer"></div>
   </div>
 </section>
 
@@ -88,26 +474,119 @@ table{width:100%;border-collapse:collapse}td,th{padding:10px;border-top:1px soli
 
 <div class="modal" id="createPackageModal">
   <div class="modal-box">
-    <h2>Crear paquete privado / semiprivado</h2>
+    <h2 id="packageModalTitle">Crear paquete privado / semiprivado</h2>
     <div class="form-grid">
       <div class="field"><label>Código del paquete</label><input id="packageCode" placeholder="PK-0001" readonly></div>
       <div class="field"><label>Estudiante principal</label><select id="packageStudent"></select></div>
       <div class="field"><label>Tipo</label><select id="packageType"><option>Privada</option><option>Semiprivada</option></select></div>
       <div class="field"><label>Horas contratadas</label><select id="packageTotal"><option value="10">10 horas</option><option value="20" selected>20 horas</option><option value="30">30 horas</option></select></div>
-      <div class="field"><label>Profesor</label><input id="packageTeacher" placeholder="Profesor asignado"></div>
+      <div class="field"><label>Fecha de inicio</label><input id="packageStartDate" type="date"></div>
+      <div class="field"><label>Sesiones por semana</label><select id="packageWeeklySessions"><option value="3" selected>3 sesiones / semana</option><option value="4">4 sesiones / semana</option><option value="5">5 sesiones / semana</option><option value="6">6 sesiones / semana</option></select></div>
+      <div class="field"><label>Duración estimada por sesión</label><select id="packageSessionDuration"><option value="1" selected>1 hora</option><option value="1.5">1.5 horas</option><option value="2">2 horas</option></select></div>
+      <div class="field"><label>Hora inicio</label><input id="packageStartTime" type="time" value="18:00"></div>
+      <div class="field"><label>Hora final</label><input id="packageEndTime" type="time" value="19:00"></div>
+      <div class="field"><label>Fecha estimada de terminación</label><input id="packageEstimatedEndDate" type="date" readonly></div>
+      <div class="package-schedule-days" id="packageScheduleDays">
+        <label class="package-schedule-day"><input type="checkbox" value="monday" checked> Lunes</label>
+        <label class="package-schedule-day"><input type="checkbox" value="tuesday" checked> Martes</label>
+        <label class="package-schedule-day"><input type="checkbox" value="wednesday" checked> Miércoles</label>
+        <label class="package-schedule-day"><input type="checkbox" value="thursday"> Jueves</label>
+        <label class="package-schedule-day"><input type="checkbox" value="friday"> Viernes</label>
+        <label class="package-schedule-day"><input type="checkbox" value="saturday"> Sábado</label>
+      </div>
+      <div class="package-schedule-help">Selecciona mínimo 3 días por semana. Estos datos calculan la fecha estimada de terminación, alimentan calendario y permiten alertas si el paquete queda congelado.</div>
+      <div class="field"><label>Profesor</label><input id="packageTeacher" list="teacherOptionsList" placeholder="Profesor asignado"></div>
       <div class="field"><label>Estudiante adicional solo semi</label><select id="packageStudent2"></select></div>
+      <div class="field"><label>Estado administrativo</label><select id="packageOperationalStatus"><option value="Activo">Activo</option><option value="Pausado">Pausado</option><option value="Finalizado">Finalizado</option></select></div>
+      <div class="field"><label>Motivo de pausa / ajuste</label><input id="packagePauseReason" placeholder="Ej: viaje, vacaciones, cambio de horario..."></div>
     </div>
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="closeCreatePackage()">Cancelar</button>
-      <button class="btn btn-primary" onclick="createPackage()">Guardar paquete</button>
+      <button class="btn btn-primary" id="packageModalSaveBtn" onclick="savePackageFromModal()">Guardar paquete</button>
     </div>
   </div>
 </div>
+<datalist id="teacherOptionsList"></datalist>
 
+
+<script src="js/core/storage.js"></script>
+<script src="js/core/schemaRegistry.js"></script>
+<script src="js/core/demoSeed.js"></script>
+<script>
+(function(){
+  const originalAlert = window.alert;
+  window.__wisdomOriginalAlert = originalAlert;
+  window.alert = function(message){
+    const text = String(message || "").toLowerCase();
+    const isServiceLoadNotice =
+      text.includes("studentservice") ||
+      text.includes("teacherservice") ||
+      text.includes("groupservice") ||
+      text.includes("scheduleservice") ||
+      text.includes("attendanceservice") ||
+      text.includes("reportservice") ||
+      text.includes("authservice") ||
+      text.includes("permissions") ||
+      (text.includes("service") && (text.includes("carg") || text.includes("load")));
+
+    if(isServiceLoadNotice) return;
+    return originalAlert.apply(window, arguments);
+  };
+})();
+</script>
+<script src="js/services/authService.js"></script>
+<script src="js/core/permissions.js"></script>
+<script src="js/services/studentService.js"></script>
+<script src="js/services/teacherService.js"></script>
+<script src="js/services/groupService.js"></script>
+<script src="js/services/scheduleService.js"></script>
+<script src="js/services/attendanceService.js"></script>
+<script src="js/services/reportService.js"></script>
+<script src="js/services/privatePackageService.js"></script>
+<script>
+(function(){
+  if(window.__wisdomOriginalAlert){
+    window.alert = window.__wisdomOriginalAlert;
+    delete window.__wisdomOriginalAlert;
+  }
+})();
+</script>
+<script>
+function hasReportServiceMethod(methodName){
+  return typeof ReportService !== 'undefined' && ReportService && typeof ReportService[methodName] === 'function';
+}
+function callReportServiceSafe(methodName,...args){
+  if(!hasReportServiceMethod(methodName)) return null;
+  try{
+    return ReportService[methodName](...args);
+  }catch(error){
+    console.warn(`ReportService.${methodName} falló. Se mantiene fallback local.`, error);
+    return null;
+  }
+}
+function getStudentSummarySafe(studentId){
+  return callReportServiceSafe('getStudentSummary', studentId);
+}
+function generateStudentReportSafe(studentId){
+  return callReportServiceSafe('generateStudentReport', studentId);
+}
+function getAttendanceSummarySafe(studentId){
+  return callReportServiceSafe('getAttendanceSummary', studentId);
+}
+function getAcademicProgressSafe(studentId){
+  return callReportServiceSafe('getAcademicProgress', studentId);
+}
+function canUnlockReportSafe(studentId){
+  return callReportServiceSafe('canUnlockReport', studentId);
+}
+</script>
 <script>
 const PRIVATE_KEY='wisdom_private_demo'
 const STUDENTS_KEY='wisdom_students_demo'
+const NOTIFICATIONS_KEY='wisdom_notifications_demo'
+const CURRENT_USER_KEY='wisdom_current_user'
 let currentPackageId=null
+let editingPackageId=null
 
 const fallbackStudents=[
   {code:'WA-0001',name:'Juan Pérez',email:'juan@email.com'},
@@ -115,16 +594,560 @@ const fallbackStudents=[
   {code:'WA-0003',name:'Ana Torres',email:'ana@email.com'}
 ]
 
+
+function hasWisdomStorage(){
+  return typeof WisdomStorage !== 'undefined' && WisdomStorage && typeof WisdomStorage.get === 'function' && typeof WisdomStorage.set === 'function'
+}
+function storageGet(key,fallback=[]){
+  if(hasWisdomStorage()) return WisdomStorage.get(key,fallback)
+  return safeJsonParse(localStorage.getItem(key),fallback)
+}
+function storageSet(key,value){
+  if(hasWisdomStorage()){
+    WisdomStorage.set(key,value)
+    return
+  }
+  localStorage.setItem(key,JSON.stringify(value))
+}
+
+function getCurrentWisdomUserSafe(){
+  try{
+    if(typeof AuthService !== 'undefined' && AuthService && typeof AuthService.getCurrentUser === 'function'){
+      const authUser=AuthService.getCurrentUser()
+      if(authUser && typeof authUser==='object') return authUser
+    }
+    const user=storageGet(CURRENT_USER_KEY,null)
+    return user && typeof user==='object' ? user : {}
+  }catch(error){return {}}
+}
+
+const currentUser=getCurrentWisdomUserSafe()
+if(!currentUser || !currentUser.role){
+  window.location.href='login.html'
+}
+
+function isAdmin(){
+  if(typeof WisdomPermissions !== 'undefined' && WisdomPermissions && typeof WisdomPermissions.isAdmin === 'function'){
+    return WisdomPermissions.isAdmin()
+  }
+  return currentUser.role==='admin'
+}
+function isTeacher(){
+  if(typeof WisdomPermissions !== 'undefined' && WisdomPermissions && typeof WisdomPermissions.isTeacher === 'function'){
+    return WisdomPermissions.isTeacher()
+  }
+  return currentUser.role==='teacher'
+}
+function isStudent(){
+  if(typeof WisdomPermissions !== 'undefined' && WisdomPermissions && typeof WisdomPermissions.isStudent === 'function'){
+    return WisdomPermissions.isStudent()
+  }
+  return currentUser.role==='student'
+}
+
+
+function wisdomNormalizeRoleValue(value){
+  return String(value || '')
+    .trim()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g,'')
+}
+
+function currentRoleSafe(){
+  return wisdomNormalizeRoleValue(currentUser && (currentUser.role || currentUser.userRole || currentUser.type || currentUser.profile || currentUser.access))
+}
+
+function isAdminSafe(){
+  const role=currentRoleSafe()
+  if(['admin','administrador','administrativo','administrator'].includes(role))return true
+  try{return typeof WisdomPermissions !== 'undefined' && WisdomPermissions && typeof WisdomPermissions.isAdmin === 'function' && Boolean(WisdomPermissions.isAdmin())}catch(error){return false}
+}
+
+function isTeacherSafe(){
+  const role=currentRoleSafe()
+  if(['teacher','profesor','docente','instructor'].includes(role))return true
+  try{return typeof WisdomPermissions !== 'undefined' && WisdomPermissions && typeof WisdomPermissions.isTeacher === 'function' && Boolean(WisdomPermissions.isTeacher())}catch(error){return false}
+}
+
+function isStudentSafe(){
+  const role=currentRoleSafe()
+  if(['student','estudiante','alumno','learner'].includes(role))return true
+  try{return typeof WisdomPermissions !== 'undefined' && WisdomPermissions && typeof WisdomPermissions.isStudent === 'function' && Boolean(WisdomPermissions.isStudent())}catch(error){return false}
+}
+
+function accessText(value){
+  return String(value || '').trim().toLowerCase()
+}
+
+function currentUserRefsSafe(){
+  const user=currentUser || {}
+  return [user.id,user.userId,user.code,user.email,user.name,user.teacherId,user.teacherCode,user.studentId,user.studentCode]
+    .map(accessText)
+    .filter(Boolean)
+}
+
+function packageTeacherRefsSafe(pkg){
+  const normalized=normalizePackage(pkg || {})
+  return [normalized.teacher,normalized.teacherId,normalized.teacherCode,normalized.teacherEmail]
+    .map(accessText)
+    .filter(Boolean)
+}
+
+function packageStudentRefsSafe(pkg){
+  const normalized=normalizePackage(pkg || {})
+  return (normalized.students || []).flatMap(student=>[
+    student.id,student.code,student.studentId,student.studentCode,student.email,student.name
+  ]).map(accessText).filter(Boolean)
+}
+
+function refsOverlapSafe(a,b){
+  return a.some(item=>b.includes(item))
+}
+
+function canViewPrivatePackageSafe(pkg){
+  if(isAdminSafe())return true
+  if(isTeacherSafe())return refsOverlapSafe(currentUserRefsSafe(),packageTeacherRefsSafe(pkg))
+  if(isStudentSafe())return refsOverlapSafe(currentUserRefsSafe(),packageStudentRefsSafe(pkg))
+  return false
+}
+
+function canManagePrivatePackageSafe(pkg){
+  if(isAdminSafe())return true
+  if(isTeacherSafe())return refsOverlapSafe(currentUserRefsSafe(),packageTeacherRefsSafe(pkg))
+  return false
+}
+
+function requireAdminActionSafe(message='Solo administración puede realizar esta acción.'){
+  if(isAdminSafe())return true
+  alert(message)
+  return false
+}
+
+function requirePackageManagementSafe(pkg,message='No autorizado para modificar este paquete.'){
+  if(canManagePrivatePackageSafe(pkg))return true
+  alert(message)
+  return false
+}
+
+function applyPrivateSecurityUI(){
+  if(isAdminSafe())return
+  document.querySelectorAll('button[onclick="exportPrivateJSON()"],button[onclick="exportPrivateCSV()"],button[onclick="exportPrivateSessionsCSV()"],button[onclick="document.getElementById(\'privateImportFile\').click()"],button[onclick="openCreatePackage()"]')
+    .forEach(button=>button.style.display='none')
+}
+
+function normalizeStudentSafe(student={}){
+  if(typeof SchemaRegistry !== 'undefined' && SchemaRegistry && typeof SchemaRegistry.normalizeStudent === 'function'){
+    const normalized=SchemaRegistry.normalizeStudent(student)
+    const code=normalized.code || normalized.studentCode || normalized.studentId || normalized.id || student.code || student.studentId || student.id || ''
+    return {...student,...normalized,code,studentId:code,status:normalized.status || student.status || 'Activo'}
+  }
+  const code=student.code || student.studentId || student.id || student.studentCode || ''
+  return {...student,code,studentId:code,name:student.name || student.studentName || 'Estudiante sin nombre',email:student.email || '',status:student.status || 'Activo'}
+}
+function loadStudentsSafe(){
+  try{
+    if(typeof StudentService !== 'undefined' && StudentService && typeof StudentService.getAll === 'function'){
+      const serviceStudents=StudentService.getAll()
+      if(Array.isArray(serviceStudents) && serviceStudents.length){
+        return serviceStudents.map(normalizeStudentSafe).filter(student=>student.code)
+      }
+    }
+  }catch(error){
+    // Silencioso: se usa respaldo local para no exponer detalles técnicos en la UI.
+  }
+  const students=storageGet(STUDENTS_KEY,fallbackStudents)
+  return Array.isArray(students) ? students.map(normalizeStudentSafe).filter(student=>student.code) : fallbackStudents.map(normalizeStudentSafe)
+}
+function saveStudentsSafe(students){
+  storageSet(STUDENTS_KEY,Array.isArray(students)?students.map(normalizeStudentSafe):[])
+}
+function normalizePackageSafe(pkg={}){
+  if(typeof SchemaRegistry !== 'undefined' && SchemaRegistry && typeof SchemaRegistry.normalizePrivatePackage === 'function'){
+    const normalized=SchemaRegistry.normalizePrivatePackage(pkg)
+    return normalizePackage({...pkg,...normalized})
+  }
+  return normalizePackage(pkg)
+}
+function downloadTextFile(filename,content,mime='application/json;charset=utf-8'){
+  const blob=new Blob([content],{type:mime})
+  const url=URL.createObjectURL(blob)
+  const link=document.createElement('a')
+  link.href=url
+  link.download=filename
+  document.body.appendChild(link)
+  link.click()
+  link.remove()
+  URL.revokeObjectURL(url)
+}
+function timestampForFile(){
+  return new Date().toISOString().slice(0,19).replace(/[:T]/g,'-')
+}
+function csvEscape(value){
+  const text=String(value ?? '')
+  return /[",\n;]/.test(text) ? '"'+text.replace(/"/g,'""')+'"' : text
+}
+function arrayToCSV(headers,rows){
+  return [headers.join(','),...rows.map(row=>headers.map(header=>csvEscape(row[header])).join(','))].join('\n')
+}
+function exportPrivateJSON(){
+  if(!requireAdminActionSafe('Solo administración puede exportar paquetes privados.'))return
+  const normalized=(Array.isArray(packages)?packages:[]).map(normalizePackageSafe)
+  const payload={
+    app:'Wisdom Academy',
+    module:'private_packages',
+    key:PRIVATE_KEY,
+    exportedAt:new Date().toISOString(),
+    count:normalized.length,
+    data:normalized
+  }
+  downloadTextFile(`wisdom-private-backup-${timestampForFile()}.json`,JSON.stringify(payload,null,2))
+}
+function exportPrivateCSV(){
+  if(!requireAdminActionSafe('Solo administración puede exportar paquetes privados.'))return
+  const normalized=(Array.isArray(packages)?packages:[]).map(normalizePackageSafe)
+  const headers=['code','id','type','teacher','totalHours','usedHours','remainingHours','status','students','studentCodes','sessionsCount','createdAt','updatedAt']
+  const rows=normalized.map(pkg=>({
+    code:pkg.code||pkg.id||'',
+    id:pkg.id||'',
+    type:pkg.type||'',
+    teacher:pkg.teacher||'',
+    totalHours:Number(pkg.total)||0,
+    usedHours:usedHours(pkg),
+    remainingHours:remainingHours(pkg),
+    status:packageStatus(pkg),
+    students:(pkg.students||[]).map(student=>student.name).join(' + '),
+    studentCodes:(pkg.students||[]).map(student=>student.code).join(' + '),
+    sessionsCount:(pkg.sessions||[]).length,
+    createdAt:pkg.createdAt||'',
+    updatedAt:pkg.updatedAt||''
+  }))
+  downloadTextFile(`wisdom-private-packages-${timestampForFile()}.csv`,arrayToCSV(headers,rows),'text/csv;charset=utf-8')
+}
+function exportPrivateSessionsCSV(){
+  if(!requireAdminActionSafe('Solo administración puede exportar sesiones privadas.'))return
+  const headers=['packageCode','packageId','packageType','packageTeacher','scheduleId','attendanceId','studentCode','studentName','date','hours','sessionTeacher','note']
+  const rows=[]
+  ;(Array.isArray(packages)?packages:[]).map(normalizePackageSafe).forEach(pkg=>{
+    ;(pkg.sessions||[]).forEach(session=>{
+      rows.push({
+        packageCode:pkg.code||pkg.id||'',
+        packageId:pkg.id||'',
+        packageType:pkg.type||'',
+        packageTeacher:pkg.teacher||'',
+        scheduleId:session.scheduleId||'',
+        attendanceId:session.attendanceId||'',
+        studentCode:session.studentCode||'',
+        studentName:session.studentName||'',
+        date:session.date||'',
+        hours:Number(session.hours)||0,
+        sessionTeacher:session.teacher||'',
+        note:session.note||''
+      })
+    })
+  })
+  downloadTextFile(`wisdom-private-sessions-${timestampForFile()}.csv`,arrayToCSV(headers,rows),'text/csv;charset=utf-8')
+}
+function importPrivateJSON(event){
+  if(!requireAdminActionSafe('Solo administración puede importar paquetes privados.')){if(event && event.target)event.target.value='';return}
+  const file=event?.target?.files?.[0]
+  if(!file)return
+  const reader=new FileReader()
+  reader.onload=function(){
+    try{
+      const parsed=JSON.parse(reader.result)
+      const incoming=Array.isArray(parsed)?parsed:(Array.isArray(parsed.data)?parsed.data:null)
+      if(!incoming){alert('El archivo no contiene una lista válida de paquetes privados.');return}
+      const confirmed=confirm(`Vas a importar ${incoming.length} paquete(s). Antes se descargará un backup automático de tus datos actuales. ¿Continuar?`)
+      if(!confirmed)return
+      exportPrivateJSON()
+      packages=incoming.map(normalizePackageSafe)
+      storageSet(PRIVATE_KEY,packages)
+      currentPackageId=null
+      document.getElementById('privateDetail').classList.remove('active')
+      document.getElementById('privateView').classList.add('active')
+      renderPrivate()
+      alert('Paquetes importados correctamente.')
+    }catch(error){
+      alert('No se pudo importar el archivo JSON. Revisa que sea un backup válido.')
+      console.error(error)
+    }finally{
+      if(event.target)event.target.value=''
+    }
+  }
+  reader.readAsText(file)
+}
+
+function normalizeTeacherSafe(teacher={}){
+  const id=teacher.id || teacher.teacherId || teacher.teacherCode || teacher.code || ''
+  return {
+    ...teacher,
+    id,
+    teacherId:id,
+    teacherCode:id,
+    code:id,
+    name:teacher.name || teacher.fullName || teacher.email || id || 'Profesor por asignar',
+    status:teacher.status || 'Activo'
+  }
+}
+function getActiveTeachersSafe(){
+  try{
+    if(typeof TeacherService !== 'undefined' && TeacherService && typeof TeacherService.getAll === 'function'){
+      const items=TeacherService.getAll()
+      if(Array.isArray(items))return items.map(normalizeTeacherSafe).filter(teacher=>(teacher.status||'Activo')==='Activo')
+    }
+  }catch(error){
+    // Silencioso: se usa respaldo local para no exponer detalles técnicos en la UI.
+  }
+  return storageGet('wisdom_teachers_demo',[]).map(normalizeTeacherSafe).filter(teacher=>(teacher.status||'Activo')==='Activo')
+}
+function findTeacherByText(value=''){
+  const clean=String(value||'').trim().toLowerCase()
+  if(!clean)return null
+  return getActiveTeachersSafe().find(teacher=>{
+    return [teacher.name,teacher.email,teacher.code,teacher.id,teacher.teacherId,teacher.teacherCode]
+      .filter(Boolean)
+      .some(candidate=>String(candidate).trim().toLowerCase()===clean)
+  }) || null
+}
+function teacherRefFromInput(value=''){
+  const raw=String(value||'').trim()
+  const teacher=findTeacherByText(raw)
+  if(teacher){
+    return {
+      teacher:teacher.name || raw,
+      teacherId:teacher.teacherId || teacher.id || teacher.code || '',
+      teacherCode:teacher.teacherCode || teacher.teacherId || teacher.id || teacher.code || '',
+      teacherEmail:teacher.email || ''
+    }
+  }
+  return {teacher:raw,teacherId:'',teacherCode:'',teacherEmail:''}
+}
+function addHoursToTime(time,hours){
+  const [h,m]=String(time||'').split(':').map(Number)
+  if(Number.isNaN(h)||Number.isNaN(m))return ''
+  const total=Math.round(h*60+m+(Number(hours)||0)*60)
+  const normalized=((total%(24*60))+(24*60))%(24*60)
+  return `${String(Math.floor(normalized/60)).padStart(2,'0')}:${String(normalized%60).padStart(2,'0')}`
+}
+function timeToMinutesSafe(time){
+  const [h,m]=String(time||'').split(':').map(Number)
+  if(Number.isNaN(h)||Number.isNaN(m))return null
+  return h*60+m
+}
+function isValidTimeRange(startTime,endTime){
+  const start=timeToMinutesSafe(startTime)
+  const end=timeToMinutesSafe(endTime)
+  return start!==null && end!==null && start<end
+}
+function hasScheduleService(){
+  return typeof ScheduleService !== 'undefined' && ScheduleService && typeof ScheduleService.create === 'function'
+}
+function buildPrivateScheduleData(pkg,session){
+  const normalized=normalizePackage(pkg)
+  const studentIds=(normalized.students||[]).map(student=>student.code).filter(Boolean)
+  return {
+    source:'Privadas',
+    type:normalized.type || 'Privada',
+    title:`${normalized.code||normalized.id} · ${session.studentName||packageStudentNames(normalized)}`,
+    packageId:normalized.id||'',
+    privatePackageId:normalized.id||'',
+    packageCode:normalized.code||normalized.id||'',
+    teacher:session.teacher || normalized.teacher || '',
+    teacherName:session.teacher || normalized.teacher || '',
+    teacherId:session.teacherId || normalized.teacherId || normalized.teacherCode || '',
+    teacherCode:session.teacherCode || session.teacherId || normalized.teacherCode || normalized.teacherId || '',
+    teacherEmail:session.teacherEmail || normalized.teacherEmail || '',
+    studentId:session.studentCode && session.studentCode !== 'ALL' ? session.studentCode : '',
+    studentCode:session.studentCode && session.studentCode !== 'ALL' ? session.studentCode : '',
+    studentIds:session.studentCode && session.studentCode !== 'ALL' ? [session.studentCode] : studentIds,
+    date:session.date,
+    classDate:session.date,
+    startTime:session.startTime,
+    endTime:session.endTime,
+    start:session.startTime,
+    end:session.endTime,
+    durationHours:Number(session.hours)||0,
+    hours:Number(session.hours)||0,
+    modality:normalized.modality || 'Presencial',
+    location:normalized.location || 'Por definir',
+    status:'scheduled',
+    createdAt:session.createdAt || new Date().toISOString(),
+    updatedAt:new Date().toISOString()
+  }
+}
+function scheduleHasConflict(scheduleData,excludeId=''){
+  if(typeof ScheduleService === 'undefined' || !ScheduleService || typeof ScheduleService.hasConflict !== 'function')return false
+  try{return Boolean(ScheduleService.hasConflict(scheduleData,excludeId))}
+  catch(error){
+    // Silencioso: si la validación central falla, se conserva el flujo demo.
+    return false
+  }
+}
+function createScheduleForPrivateSession(pkg,session){
+  if(!hasScheduleService())return ''
+  const scheduleData=buildPrivateScheduleData(pkg,session)
+  try{
+    const created=ScheduleService.create(scheduleData)
+    return created?.id || created?.scheduleId || created || ''
+  }catch(error){
+    // Silencioso: la sesión se conserva en el paquete aunque no se sincronice agenda.
+    return ''
+  }
+}
+function updateScheduleForPrivateSession(pkg,session){
+  if(!session.scheduleId || typeof ScheduleService === 'undefined' || !ScheduleService || typeof ScheduleService.update !== 'function')return ''
+  try{
+    const updated=ScheduleService.update(session.scheduleId,buildPrivateScheduleData(pkg,session))
+    return updated?.id || updated?.scheduleId || session.scheduleId
+  }catch(error){
+    // Silencioso: se conserva la sesión local.
+    return session.scheduleId
+  }
+}
+function deleteScheduleForPrivateSession(session){
+  if(!session?.scheduleId || typeof ScheduleService === 'undefined' || !ScheduleService || typeof ScheduleService.delete !== 'function')return
+  try{ScheduleService.delete(session.scheduleId)}
+  catch(error){/* Silencioso: se borra la sesión local aunque falle la sincronización de agenda. */}
+}
+
+
+function hasAttendanceServiceMethod(methodName){
+  return typeof AttendanceService !== 'undefined' && AttendanceService && typeof AttendanceService[methodName] === 'function'
+}
+function normalizeAttendanceServiceResult(result){
+  if(!result)return null
+  if(typeof result === 'string')return {id:result,attendanceId:result}
+  if(typeof result === 'object')return result
+  return null
+}
+function privateAttendanceStudentMap(pkg,session){
+  const normalized=normalizePackage(pkg)
+  const students={}
+  if(session.studentCode && session.studentCode !== 'ALL'){
+    students[session.studentCode]='present'
+    return students
+  }
+  ;(normalized.students||[]).forEach(student=>{
+    if(student.code)students[student.code]='present'
+  })
+  return students
+}
+function buildPrivateAttendancePayload(pkg,session){
+  const normalized=normalizePackage(pkg)
+  const studentMap=privateAttendanceStudentMap(normalized,session)
+  const studentIds=Object.keys(studentMap)
+  return {
+    id:session.attendanceId || '',
+    attendanceId:session.attendanceId || '',
+    source:'Privadas',
+    sourceType:'private',
+    type:'private_session',
+    status:'completed',
+    packageId:normalized.id || '',
+    privatePackageId:normalized.id || '',
+    packageCode:normalized.code || normalized.id || '',
+    scheduleId:session.scheduleId || '',
+    sessionId:session.sessionId || session.id || '',
+    date:session.date || '',
+    classDate:session.date || '',
+    startTime:session.startTime || '',
+    endTime:session.endTime || '',
+    durationHours:Number(session.hours)||0,
+    hours:Number(session.hours)||0,
+    teacher:session.teacher || normalized.teacher || '',
+    teacherName:session.teacher || normalized.teacher || '',
+    teacherId:session.teacherId || normalized.teacherId || normalized.teacherCode || '',
+    teacherCode:session.teacherCode || session.teacherId || normalized.teacherCode || normalized.teacherId || '',
+    teacherEmail:session.teacherEmail || normalized.teacherEmail || '',
+    studentId:studentIds.length===1 ? studentIds[0] : '',
+    studentCode:studentIds.length===1 ? studentIds[0] : '',
+    studentIds,
+    students:studentMap,
+    note:session.note || '',
+    createdAt:session.createdAt || new Date().toISOString(),
+    updatedAt:new Date().toISOString()
+  }
+}
+function findPrivateAttendanceRecord(pkg,session){
+  if(session.attendanceId && hasAttendanceServiceMethod('getById')){
+    try{
+      const found=AttendanceService.getById(session.attendanceId)
+      if(found)return found
+    }catch(error){/* se continúa con búsqueda por respaldo */}
+  }
+  if(session.scheduleId && hasAttendanceServiceMethod('getBySchedule')){
+    try{
+      const result=AttendanceService.getBySchedule(session.scheduleId)
+      const list=Array.isArray(result)?result:(result?[result]:[])
+      const found=list.find(item=>item.privatePackageId===pkg.id || item.packageId===pkg.id || item.scheduleId===session.scheduleId)
+      if(found)return found
+    }catch(error){/* se continúa con búsqueda por respaldo */}
+  }
+  if(hasAttendanceServiceMethod('getAll')){
+    try{
+      const all=AttendanceService.getAll()
+      if(Array.isArray(all)){
+        return all.find(item=>{
+          const samePackage=item.privatePackageId===pkg.id || item.packageId===pkg.id
+          const sameSchedule=session.scheduleId && item.scheduleId===session.scheduleId
+          const sameDate=item.date===session.date || item.classDate===session.date
+          const sameStart=(item.startTime||item.start||'')===(session.startTime||'')
+          return samePackage && (sameSchedule || (sameDate && sameStart))
+        }) || null
+      }
+    }catch(error){/* no bloquea el demo */}
+  }
+  return null
+}
+function syncPrivateSessionAttendance(pkg,session){
+  if(!hasAttendanceServiceMethod('create') && !hasAttendanceServiceMethod('update'))return ''
+  const normalized=normalizePackage(pkg)
+  const payload=buildPrivateAttendancePayload(normalized,session)
+  try{
+    const existing=findPrivateAttendanceRecord(normalized,session)
+    const existingId=existing?.id || existing?.attendanceId || session.attendanceId || ''
+    if(existingId && hasAttendanceServiceMethod('update')){
+      const updated=normalizeAttendanceServiceResult(AttendanceService.update(existingId,{...payload,id:existingId,attendanceId:existingId}))
+      return updated?.id || updated?.attendanceId || existingId
+    }
+    if(hasAttendanceServiceMethod('create')){
+      const created=normalizeAttendanceServiceResult(AttendanceService.create(payload))
+      return created?.id || created?.attendanceId || ''
+    }
+  }catch(error){
+    console.warn('No se pudo sincronizar la sesión privada con AttendanceService. La sesión local se conserva.',error)
+  }
+  return session.attendanceId || ''
+}
+function deletePrivateSessionAttendance(pkg,session){
+  const normalized=normalizePackage(pkg||{})
+  const found=findPrivateAttendanceRecord(normalized,session||{})
+  const id=found?.id || found?.attendanceId || session?.attendanceId || ''
+  if(!id || !hasAttendanceServiceMethod('delete'))return false
+  try{return Boolean(AttendanceService.delete(id))}
+  catch(error){
+    console.warn('No se pudo eliminar la asistencia sincronizada de la sesión privada.',error)
+    return false
+  }
+}
+
+function loadActiveTeachersSafe(){
+  return getActiveTeachersSafe()
+}
+
 function safeJsonParse(value, fallback){
   try{return value ? JSON.parse(value) : fallback}catch(error){return fallback}
 }
 
 function loadStudents(){
-  const students=safeJsonParse(localStorage.getItem(STUDENTS_KEY), fallbackStudents)
-  return Array.isArray(students) ? students : fallbackStudents
+  return loadStudentsSafe()
 }
-function saveStudents(students){localStorage.setItem(STUDENTS_KEY,JSON.stringify(students))}
-function savePackages(){localStorage.setItem(PRIVATE_KEY,JSON.stringify(packages))}
+function saveStudents(students){saveStudentsSafe(students)}
+function savePackages(){
+  packages=(Array.isArray(packages)?packages:[]).map(normalizePackageSafe)
+  storageSet(PRIVATE_KEY,packages)
+}
 
 function normalizePackage(rawPackage){
   const normalized={...rawPackage}
@@ -133,8 +1156,26 @@ function normalizePackage(rawPackage){
   normalized.code=normalized.code||(/^PK-\d+$/.test(normalized.id||'') ? normalized.id : normalized.id)
   normalized.type=normalized.type||'Privada'
   normalized.total=Number(normalized.total)||20
-  normalized.teacher=normalized.teacher||'Por asignar'
+  const teacherRef=teacherRefFromInput(normalized.teacher||normalized.teacherName||'')
+  normalized.teacher=normalized.teacher||teacherRef.teacher||'Por asignar'
+  normalized.teacherId=normalized.teacherId||normalized.teacherCode||teacherRef.teacherId||''
+  normalized.teacherCode=normalized.teacherCode||normalized.teacherId||teacherRef.teacherCode||''
+  normalized.teacherEmail=normalized.teacherEmail||teacherRef.teacherEmail||''
   normalized.sessions=Array.isArray(normalized.sessions)?normalized.sessions:[]
+  normalized.reports=normalized.reports && typeof normalized.reports==='object' ? normalized.reports : {}
+  normalized.startDate=normalized.startDate||normalized.start||''
+  normalized.start=normalized.start||normalized.startDate||''
+  normalized.weeklySessions=Math.max(3,Number(normalized.weeklySessions)||3)
+  normalized.sessionDuration=Number(normalized.sessionDuration)||1
+  normalized.scheduleDays=Array.isArray(normalized.scheduleDays)?normalized.scheduleDays:(Array.isArray(normalized.days)?normalized.days:[])
+  normalized.days=normalized.days||normalized.scheduleDays
+  normalized.startTime=normalized.startTime||normalized.classStart||''
+  normalized.endTime=normalized.endTime||normalized.classEnd||''
+  normalized.estimatedEndDate=normalized.estimatedEndDate||normalized.endDate||normalized.end||calculatePrivateEstimatedEndDate(normalized.startDate,normalized.total,normalized.weeklySessions,normalized.sessionDuration,normalized.scheduleDays)
+  normalized.operationalStatus=normalized.operationalStatus||normalized.adminStatus||normalized.statusManual||'Activo'
+  normalized.pauseReason=normalized.pauseReason||normalized.freezeReason||normalized.statusReason||''
+  normalized.endDate=normalized.endDate||normalized.estimatedEndDate||''
+  normalized.end=normalized.end||normalized.estimatedEndDate||''
 
   if(!Array.isArray(normalized.students)){
     const code=normalized.studentCode||normalized.code||'SIN-CODIGO'
@@ -156,22 +1197,32 @@ function normalizePackage(rawPackage){
   }
 
   normalized.sessions=normalized.sessions.map(session=>({
+    ...session,
     date:session.date||'Sin fecha',
     hours:Number(session.hours)||0,
     teacher:session.teacher||normalized.teacher,
+    teacherId:session.teacherId||session.teacherCode||normalized.teacherId||'',
+    teacherCode:session.teacherCode||session.teacherId||normalized.teacherCode||normalized.teacherId||'',
+    teacherEmail:session.teacherEmail||normalized.teacherEmail||'',
     note:session.note||'',
     studentCode:session.studentCode||'ALL',
-    studentName:session.studentName||'Todos'
+    studentName:session.studentName||'Todos',
+    startTime:session.startTime||session.start||'',
+    endTime:session.endTime||session.end||'',
+    scheduleId:session.scheduleId||session.classId||'',
+    attendanceId:session.attendanceId||'',
+    createdAt:session.createdAt||'',
+    updatedAt:session.updatedAt||''
   }))
 
   return normalized
 }
 
 function loadPackages(){
-  const saved=safeJsonParse(localStorage.getItem(PRIVATE_KEY), [])
+  const saved=storageGet(PRIVATE_KEY,[])
   if(!Array.isArray(saved)) return []
-  const normalized=saved.map(normalizePackage)
-  localStorage.setItem(PRIVATE_KEY,JSON.stringify(normalized))
+  const normalized=saved.map(normalizePackageSafe)
+  if(normalized.length) storageSet(PRIVATE_KEY,normalized)
   return normalized
 }
 
@@ -190,8 +1241,12 @@ function renderPrivate(){
   packages=packages.map(normalizePackage)
   savePackages()
 
-  packages.forEach(p=>{
+  const visiblePackages=isAdminSafe()?packages:packages.filter(pkg=>canViewPrivatePackageSafe(pkg))
+  if(visiblePackages.length===0){container.innerHTML='<div class="card empty">No hay paquetes disponibles para este usuario.</div>';return}
+
+  visiblePackages.forEach(p=>{
     const normalized=normalizePackage(p)
+    syncPrivateStaleNotification(normalized)
     const used=usedHours(normalized)
     const remaining=remainingHours(normalized)
     const percent=Math.min(100,(used/Number(normalized.total))*100)
@@ -202,11 +1257,12 @@ function renderPrivate(){
       <span class="pill">${normalized.code || normalized.id}</span>
       <span class="pill ${status==='Por agotarse'?'warning':status==='Completado'?'done':''}">${status}</span>
       <h3>${packageStudentNames(normalized)}</h3>
-      <div class="sub">${normalized.type} · ${normalized.teacher}</div><br>
+      <div class="sub">${normalized.type} · ${normalized.teacher}<br>Inicio: ${normalized.startDate||'Sin fecha'} · Final estimado: ${normalized.estimatedEndDate||'Sin fecha'}<br>Estado operativo: ${getPrivateOperationalStatus(normalized).status}</div><br>
       <div><strong>${used} / ${normalized.total} horas usadas</strong></div>
       <div class="progress"><span style="width:${percent}%"></span></div>
       <div class="sub">Restantes: ${remaining} horas</div><br>
       <button class="btn btn-secondary" onclick="openPackage('${normalized.id}')">Ver paquete</button>
+      ${isAdminSafe()?`<button class="btn btn-primary" onclick="openEditPackage('${normalized.id}')">Editar paquete</button>`:''}
       ${used >= normalized.total ? `<button class="btn btn-danger" onclick="deletePackage('${normalized.id}')">Borrar paquete</button>` : `<button class="btn btn-secondary" disabled title="Solo se puede borrar al completar las horas contratadas">Bloqueado</button>`}
     `
     container.appendChild(card)
@@ -236,23 +1292,223 @@ function generatePackageCode(){
   return `PK-${String(nextNumber).padStart(4, '0')}`;
 }
 
-function openCreatePackage(){
+function fillTeacherOptions(){
+  const list=document.getElementById('teacherOptionsList')
+  if(!list)return
+  const teachers=loadActiveTeachersSafe().map(normalizeTeacherSafe)
+  list.innerHTML=teachers.map(teacher=>`<option value="${(teacher.name||teacher.email||teacher.code||teacher.id||'').replace(/"/g,'&quot;')}">${teacher.code||teacher.teacherId||teacher.id||''} ${teacher.email||''}</option>`).join('')
+}
+
+
+function privateDateToISO(date){
+  if(!date || Number.isNaN(date.getTime())) return '';
+  return date.toISOString().slice(0,10);
+}
+function selectedPackageDaysFromForm(){
+  return Array.from(document.querySelectorAll('#packageScheduleDays input[type="checkbox"]:checked')).map(input=>input.value);
+}
+function calculatePrivateEstimatedEndDate(startDate,totalHours,weeklySessions,sessionDuration,daysList){
+  if(!startDate) return '';
+  const total=Number(totalHours)||20;
+  const weekly=Math.max(3,Number(weeklySessions)||3);
+  const duration=Math.max(0.5,Number(sessionDuration)||1);
+  const selectedDays=(Array.isArray(daysList)&&daysList.length?daysList:['monday','tuesday','wednesday']).slice(0,Math.max(weekly,3));
+  const neededSessions=Math.ceil(total/duration);
+  const dayMap={sunday:0,monday:1,tuesday:2,wednesday:3,thursday:4,friday:5,saturday:6};
+  const allowed=new Set(selectedDays.map(day=>dayMap[day]).filter(day=>day!==undefined));
+  const current=new Date(startDate+'T00:00:00');
+  if(Number.isNaN(current.getTime())||!allowed.size) return '';
+  let completed=0;
+  let guard=0;
+  while(completed<neededSessions && guard<370){
+    if(allowed.has(current.getDay())) completed++;
+    if(completed>=neededSessions) break;
+    current.setDate(current.getDate()+1);
+    guard++;
+  }
+  return privateDateToISO(current);
+}
+function refreshPackageEstimatedEndDate(){
+  const start=document.getElementById('packageStartDate')?.value||'';
+  const total=document.getElementById('packageTotal')?.value||20;
+  const weekly=document.getElementById('packageWeeklySessions')?.value||3;
+  const duration=document.getElementById('packageSessionDuration')?.value||1;
+  const days=selectedPackageDaysFromForm();
+  const target=document.getElementById('packageEstimatedEndDate');
+  if(target) target.value=calculatePrivateEstimatedEndDate(start,total,weekly,duration,days);
+}
+function bindPrivatePackageDateCalculation(){
+  ['packageStartDate','packageTotal','packageWeeklySessions','packageSessionDuration'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el && !el.dataset.privateDateBound){
+      el.addEventListener('change',refreshPackageEstimatedEndDate);
+      el.dataset.privateDateBound='true';
+    }
+  });
+  document.querySelectorAll('#packageScheduleDays input[type="checkbox"]').forEach(input=>{
+    if(!input.dataset.privateDateBound){
+      input.addEventListener('change',refreshPackageEstimatedEndDate);
+      input.dataset.privateDateBound='true';
+    }
+  });
+}
+function getPrivatePackageScheduleFromForm(){
+  const scheduleDays=selectedPackageDaysFromForm();
+  const startDate=document.getElementById('packageStartDate')?.value||'';
+  const weeklySessions=Math.max(3,Number(document.getElementById('packageWeeklySessions')?.value)||3);
+  const sessionDuration=Number(document.getElementById('packageSessionDuration')?.value)||1;
+  const startTime=document.getElementById('packageStartTime')?.value||'';
+  const endTime=document.getElementById('packageEndTime')?.value||'';
+  const estimatedEndDate=document.getElementById('packageEstimatedEndDate')?.value||calculatePrivateEstimatedEndDate(startDate,document.getElementById('packageTotal')?.value,weeklySessions,sessionDuration,scheduleDays);
+  return {scheduleDays,startDate,weeklySessions,sessionDuration,startTime,endTime,estimatedEndDate};
+}
+function privateDaysSince(value){
+  if(!value) return null;
+  const date=new Date(value);
+  if(Number.isNaN(date.getTime())) return null;
+  const today=new Date();today.setHours(0,0,0,0);date.setHours(0,0,0,0);
+  return Math.floor((today-date)/(1000*60*60*24));
+}
+function lastPrivateSessionDate(pkg){
+  const sessions=normalizePackage(pkg).sessions||[];
+  const dates=sessions.map(session=>session.date||session.updatedAt||session.createdAt||'').filter(Boolean).map(value=>new Date(value)).filter(date=>!Number.isNaN(date.getTime()));
+  if(dates.length) return privateDateToISO(dates.sort((a,b)=>b-a)[0]);
+  return pkg.startDate||pkg.start||pkg.createdAt||'';
+}
+function getPrivateOperationalStatus(pkg){
+  const normalized=normalizePackage(pkg);
+  const startDate=normalized.startDate||normalized.start||'';
+  const estimatedEndDate=normalized.estimatedEndDate||normalized.endDate||normalized.end||calculatePrivateEstimatedEndDate(startDate,normalized.total,normalized.weeklySessions||3,normalized.sessionDuration||1,normalized.scheduleDays||normalized.days||[]);
+  const lastDate=lastPrivateSessionDate(normalized);
+  const daysIdle=privateDaysSince(lastDate);
+  const used=usedHours(normalized);
+  const remaining=remainingHours(normalized);
+  let status='Activo',level='ok',note='El paquete tiene estructura operativa suficiente para seguimiento de calendario y avance.';
+  const manualStatus=normalized.operationalStatus||'Activo';
+  const pauseReason=normalized.pauseReason||'';
+  if(manualStatus==='Finalizado'){status='Finalizado';level='ok';note='El paquete fue cerrado administrativamente. No modifica el historial de sesiones.';}
+  else if(manualStatus==='Pausado'){status='Pausado';level='warning';note=pauseReason?`Pausado administrativamente: ${pauseReason}`:'Pausado administrativamente. Debe revisarse continuidad antes de reactivar.';}
+  else if(!startDate){status='Sin fecha de inicio';level='warning';note='Agrega fecha de inicio para calcular final estimado y congelamiento.';}
+  else if(used>=normalized.total){status='Completado';level='ok';note='El paquete completó las horas contratadas. Requiere cierre o renovación.';}
+  else if(daysIdle===null){status='Sin actividad medible';level='warning';note='No hay sesiones ni fecha válida para medir congelamiento.';}
+  else if(daysIdle>=14){status='Congelado';level='danger';note=`El paquete lleva ${daysIdle} días sin sesiones registradas. Debe gestionarse antes de perder continuidad académica.`;}
+  else if(daysIdle>=7){status='En pausa';level='warning';note=`El paquete lleva ${daysIdle} días sin sesiones registradas. Conviene confirmar continuidad.`;}
+  else if(remaining<=3){status='Por renovar';level='warning';note='Quedan 3 horas o menos. Debe prepararse renovación.';}
+  return {status,level,note,startDate,estimatedEndDate,lastDate,daysIdle,weeklySessions:normalized.weeklySessions||3,sessionDuration:normalized.sessionDuration||1,used,remaining,manualStatus:normalized.operationalStatus||'Activo',pauseReason:normalized.pauseReason||''};
+}
+function renderPrivateOperationalInfo(pkg){
+  const container=document.getElementById('privateOperationalInfo');
+  if(!container)return;
+  const status=getPrivateOperationalStatus(pkg);
+  container.innerHTML=`
+    <div class="package-operational-summary">
+      <div class="package-operational-box ${status.level}"><small>Estado</small><strong>${status.status}</strong></div>
+      <div class="package-operational-box"><small>Inicio</small><strong>${status.startDate||'Sin fecha'}</strong></div>
+      <div class="package-operational-box"><small>Final estimado</small><strong>${status.estimatedEndDate||'Sin fecha'}</strong></div>
+      <div class="package-operational-box"><small>Intensidad</small><strong>${status.weeklySessions}/semana</strong></div>
+      <div class="package-operational-box"><small>Duración sesión</small><strong>${status.sessionDuration} h</strong></div>
+      <div class="package-operational-box"><small>Última sesión</small><strong>${status.lastDate||'Sin sesiones'}</strong></div>
+      <div class="package-operational-box ${status.daysIdle>=7?'warning':'ok'}"><small>Días sin sesión</small><strong>${status.daysIdle===null?'-':status.daysIdle}</strong></div>
+      <div class="package-operational-box"><small>Restantes</small><strong>${status.remaining} h</strong></div>
+    </div><div class="package-operational-note">${status.note}</div>`;
+}
+
+function setPackageScheduleDays(days){
+  const selected=Array.isArray(days)&&days.length?days:['monday','tuesday','wednesday'];
+  document.querySelectorAll('#packageScheduleDays input[type="checkbox"]').forEach(input=>{input.checked=selected.includes(input.value)});
+}
+function resetPackageModal(){
   fillStudentSelects();
+  fillTeacherOptions();
+  document.getElementById('packageType').value='Privada';
+  document.getElementById('packageTotal').value='20';
+  document.getElementById('packageStudent').value='';
+  document.getElementById('packageStudent2').value='';
+  document.getElementById('packageTeacher').value='';
+  document.getElementById('packageStartDate').value='';
+  document.getElementById('packageWeeklySessions').value='3';
+  document.getElementById('packageSessionDuration').value='1';
+  document.getElementById('packageStartTime').value='18:00';
+  document.getElementById('packageEndTime').value='19:00';
+  document.getElementById('packageOperationalStatus').value='Activo';
+  document.getElementById('packagePauseReason').value='';
+  setPackageScheduleDays(['monday','tuesday','wednesday']);
+  bindPrivatePackageDateCalculation();
+  refreshPackageEstimatedEndDate();
+}
+function openCreatePackage(){
+  if(!requireAdminActionSafe('Solo administración puede crear paquetes privados.'))return
+  editingPackageId=null;
+  resetPackageModal();
+  document.getElementById('packageModalTitle').innerText='Crear paquete privado / semiprivado';
+  document.getElementById('packageModalSaveBtn').innerText='Guardar paquete';
   document.getElementById('packageCode').value = generatePackageCode();
+  document.getElementById('packageCode').readOnly = true;
+  document.getElementById('packageStudent').disabled = false;
+  document.getElementById('packageStudent2').disabled = false;
+  document.getElementById('packageType').disabled = false;
+  document.getElementById('packageTotal').disabled = false;
   document.getElementById('createPackageModal').classList.add('active')
 }
-function closeCreatePackage(){document.getElementById('createPackageModal').classList.remove('active')}
+function closeCreatePackage(){
+  editingPackageId=null;
+  document.getElementById('createPackageModal').classList.remove('active')
+}
+function openEditPackage(id){
+  if(!requireAdminActionSafe('Solo administración puede editar paquetes privados.'))return
+  const pkg=normalizePackage(packages.find(item=>item.id===id || item.code===id));
+  if(!pkg){alert('No se encontró el paquete para editar.');return}
+  editingPackageId=pkg.id;
+  resetPackageModal();
+  document.getElementById('packageModalTitle').innerText='Editar paquete privado / semiprivado';
+  document.getElementById('packageModalSaveBtn').innerText='Guardar cambios';
+  document.getElementById('packageCode').value=pkg.code||pkg.id;
+  document.getElementById('packageType').value=pkg.type||'Privada';
+  document.getElementById('packageTotal').value=String(pkg.total||20);
+  document.getElementById('packageStartDate').value=pkg.startDate||'';
+  document.getElementById('packageWeeklySessions').value=String(Math.max(3,Number(pkg.weeklySessions)||3));
+  document.getElementById('packageSessionDuration').value=String(Number(pkg.sessionDuration)||1);
+  document.getElementById('packageStartTime').value=pkg.startTime||'18:00';
+  document.getElementById('packageEndTime').value=pkg.endTime||'19:00';
+  document.getElementById('packageTeacher').value=pkg.teacher||'';
+  document.getElementById('packageOperationalStatus').value=pkg.operationalStatus||'Activo';
+  document.getElementById('packagePauseReason').value=pkg.pauseReason||'';
+  const studentCodes=(pkg.students||[]).map(student=>student.code);
+  document.getElementById('packageStudent').value=studentCodes[0]||'';
+  document.getElementById('packageStudent2').value=studentCodes[1]||'';
+  setPackageScheduleDays(pkg.scheduleDays||pkg.days||['monday','tuesday','wednesday']);
+  refreshPackageEstimatedEndDate();
+  document.getElementById('packageStudent').disabled = true;
+  document.getElementById('packageStudent2').disabled = true;
+  document.getElementById('packageType').disabled = true;
+  document.getElementById('packageTotal').disabled = true;
+  document.getElementById('createPackageModal').classList.add('active')
+}
+function savePackageFromModal(){
+  if(editingPackageId) return updatePackageFromModal();
+  return createPackage();
+}
 function createPackage(){
+  if(!requireAdminActionSafe('Solo administración puede crear paquetes privados.'))return
   const students=loadStudents()
   const packageCode=document.getElementById('packageCode').value.trim() || generatePackageCode()
   const code1=document.getElementById('packageStudent').value
   const code2=document.getElementById('packageStudent2').value
   const type=document.getElementById('packageType').value
   const total=Number(document.getElementById('packageTotal').value)
-  const teacher=document.getElementById('packageTeacher').value.trim()
+  const scheduleInfo=getPrivatePackageScheduleFromForm()
+  const teacherInput=document.getElementById('packageTeacher').value.trim()
+  const teacherRef=teacherRefFromInput(teacherInput)
+  const teacher=teacherRef.teacher
+  const operationalStatus=document.getElementById('packageOperationalStatus').value||'Activo'
+  const pauseReason=document.getElementById('packagePauseReason').value.trim()
   if(!code1||!teacher){alert('Estudiante principal y profesor son obligatorios.');return}
   if(type==='Semiprivada'&&!code2){alert('La semiprivada necesita estudiante adicional.');return}
   if(code1===code2){alert('No puedes asignar dos veces el mismo estudiante.');return}
+  if(!scheduleInfo.startDate){alert('La fecha de inicio es obligatoria para calcular la fecha estimada de terminación.');return}
+  if(scheduleInfo.scheduleDays.length<3){alert('Selecciona mínimo 3 días por semana para paquetes privados o semiprivados.');return}
+  if(!scheduleInfo.startTime||!scheduleInfo.endTime){alert('Hora de inicio y hora final son obligatorias para conectar el paquete con calendario.');return}
+  if(scheduleInfo.startTime>=scheduleInfo.endTime){alert('La hora de inicio debe ser menor que la hora final.');return}
 
   const student1=students.find(s=>s.code===code1)
   const selected=[student1]
@@ -266,19 +1522,83 @@ function createPackage(){
     id:packageCode,
     code:packageCode,
     type,total,teacher,
+    startDate:scheduleInfo.startDate,
+    start:scheduleInfo.startDate,
+    estimatedEndDate:scheduleInfo.estimatedEndDate,
+    endDate:scheduleInfo.estimatedEndDate,
+    end:scheduleInfo.estimatedEndDate,
+    weeklySessions:scheduleInfo.weeklySessions,
+    sessionDuration:scheduleInfo.sessionDuration,
+    scheduleDays:scheduleInfo.scheduleDays,
+    days:scheduleInfo.scheduleDays,
+    startTime:scheduleInfo.startTime,
+    endTime:scheduleInfo.endTime,
+    operationalStatus,
+    pauseReason,
+    teacherId:teacherRef.teacherId,
+    teacherCode:teacherRef.teacherCode,
+    teacherEmail:teacherRef.teacherEmail,
     students:selected.map(s=>({code:s.code,name:s.name,email:s.email||''})),
-    sessions:[]
+    sessions:[],
+    reports:{},
+    createdAt:new Date().toISOString(),
+    updatedAt:new Date().toISOString()
   }
   packages.push(newPackage)
   savePackages()
   syncPackageToDossier(newPackage)
   renderPrivate()
   closeCreatePackage()
-  document.getElementById('packageTeacher').value=''
-  document.getElementById('packageCode').value=''
+}
+function updatePackageFromModal(){
+  if(!requireAdminActionSafe('Solo administración puede editar paquetes privados.'))return
+  const index=packages.findIndex(pkg=>pkg.id===editingPackageId || pkg.code===editingPackageId)
+  if(index<0){alert('No se encontró el paquete para actualizar.');return}
+  const existing=normalizePackage(packages[index])
+  const scheduleInfo=getPrivatePackageScheduleFromForm()
+  const teacherInput=document.getElementById('packageTeacher').value.trim()
+  const teacherRef=teacherRefFromInput(teacherInput)
+  const teacher=teacherRef.teacher
+  const operationalStatus=document.getElementById('packageOperationalStatus').value||'Activo'
+  const pauseReason=document.getElementById('packagePauseReason').value.trim()
+  if(!teacher){alert('Profesor es obligatorio.');return}
+  if(!scheduleInfo.startDate){alert('La fecha de inicio es obligatoria para calcular la fecha estimada de terminación.');return}
+  if(scheduleInfo.scheduleDays.length<3){alert('Selecciona mínimo 3 días por semana.');return}
+  if(!scheduleInfo.startTime||!scheduleInfo.endTime){alert('Hora de inicio y hora final son obligatorias.');return}
+  if(scheduleInfo.startTime>=scheduleInfo.endTime){alert('La hora de inicio debe ser menor que la hora final.');return}
+  const updated={
+    ...existing,
+    teacher,
+    teacherId:teacherRef.teacherId,
+    teacherCode:teacherRef.teacherCode,
+    teacherEmail:teacherRef.teacherEmail,
+    startDate:scheduleInfo.startDate,
+    start:scheduleInfo.startDate,
+    estimatedEndDate:scheduleInfo.estimatedEndDate,
+    endDate:scheduleInfo.estimatedEndDate,
+    end:scheduleInfo.estimatedEndDate,
+    weeklySessions:scheduleInfo.weeklySessions,
+    sessionDuration:scheduleInfo.sessionDuration,
+    scheduleDays:scheduleInfo.scheduleDays,
+    days:scheduleInfo.scheduleDays,
+    startTime:scheduleInfo.startTime,
+    endTime:scheduleInfo.endTime,
+    operationalStatus,
+    pauseReason,
+    updatedAt:new Date().toISOString()
+  }
+  packages[index]=updated
+  savePackages()
+  syncPackageToDossier(updated)
+  syncPrivateStaleNotification(updated)
+  renderPrivate()
+  closeCreatePackage()
+  if(currentPackageId===updated.id) openPackage(updated.id)
 }
 
+
 function openPackage(id){
+  fillTeacherOptions()
   currentPackageId=id
   const p=normalizePackage(packages.find(x=>x.id===id))
   if(!p)return
@@ -289,7 +1609,7 @@ function openPackage(id){
   const percent=Math.min(100,(used/Number(p.total))*100)
   const status=packageStatus(p)
   document.getElementById('privateName').innerText=`${p.code || p.id} · ${packageStudentNames(p)}`
-  document.getElementById('privateMeta').innerText=`${p.type} · ${p.teacher} · ${p.total} horas contratadas`
+  document.getElementById('privateMeta').innerText=`${p.type} · ${p.teacher} · ${p.total} horas contratadas · Inicio ${p.startDate||'sin fecha'} · Final estimado ${p.estimatedEndDate||'sin fecha'}`
   const statusEl=document.getElementById('privateStatus')
   statusEl.innerText=status
   statusEl.className='pill '+(status==='Por agotarse'?'warning':status==='Completado'?'done':'')
@@ -297,9 +1617,14 @@ function openPackage(id){
   document.getElementById('hoursBar').style.width=percent+'%'
   document.getElementById('remainingInfo').innerText=`Horas restantes: ${remaining}`
   document.getElementById('sessionTeacher').value=p.teacher
+  syncPrivateStaleNotification(p)
+  renderPrivateOperationalInfo(p)
   renderLinkedStudents(p)
   fillSessionStudentSelect(p)
   renderSessions(p)
+  fillPrivateReportStudentSelect(p)
+  syncPrivateReportAvailabilityNotifications(p)
+  renderPrivateProgressReports()
 }
 function renderLinkedStudents(p){
   const table=document.getElementById('linkedStudentsTable')
@@ -334,6 +1659,7 @@ function renderSessions(p){
     const row=document.createElement('tr')
     row.innerHTML=`
       <td>${s.date}</td>
+      <td>${s.startTime&&s.endTime?`${s.startTime}-${s.endTime}`:'Sin hora'}</td>
       <td>${s.studentName||'Todos'}</td>
       <td>${s.hours}h</td>
       <td>${s.teacher}</td>
@@ -352,19 +1678,49 @@ function addSession(){
   const normalized=normalizePackage(p)
   const date=document.getElementById('sessionDate').value
   const hours=Number(document.getElementById('sessionHours').value)
-  const teacher=document.getElementById('sessionTeacher').value.trim()
+  const startTime=document.getElementById('sessionStartTime').value
+  const endTime=document.getElementById('sessionEndTime').value || addHoursToTime(startTime,hours)
+  const teacherInput=document.getElementById('sessionTeacher').value.trim()
+  const teacherRef=teacherRefFromInput(teacherInput)
+  const teacher=teacherRef.teacher
   const note=document.getElementById('sessionNote').value.trim()
   const studentCode=document.getElementById('sessionStudent').value
   const studentName=studentCode==='ALL' ? 'Todos' : (normalized.students.find(s=>s.code===studentCode)?.name||'Sin estudiante')
-  if(!date||!hours||!teacher||!studentCode){alert('Fecha, horas, profesor y estudiante son obligatorios.');return}
+  if(!date||!hours||!startTime||!endTime||!teacher||!studentCode){alert('Fecha, horas, horario, profesor y estudiante son obligatorios.');return}
+  if(!isValidTimeRange(startTime,endTime)){alert('La hora de inicio debe ser menor que la hora final.');return}
   if(hours>remainingHours(normalized)){alert(`No puedes registrar ${hours}h. Solo quedan ${remainingHours(normalized)}h disponibles.`);return}
 
-  normalized.sessions.push({date,hours,teacher,note,studentCode,studentName})
+  const session={
+    date,hours,teacher,
+    teacherId:teacherRef.teacherId,
+    teacherCode:teacherRef.teacherCode,
+    teacherEmail:teacherRef.teacherEmail,
+    note,studentCode,studentName,startTime,endTime,
+    createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()
+  }
+
+  const scheduleData=buildPrivateScheduleData(normalized,session)
+  if(scheduleHasConflict(scheduleData)){
+    const ok=confirm('Se detectó un posible cruce de agenda para este profesor o estudiante. ¿Deseas guardar la sesión de todas formas?')
+    if(!ok)return
+  }
+
+  const scheduleId=createScheduleForPrivateSession(normalized,session)
+  if(scheduleId)session.scheduleId=String(scheduleId)
+
+  const attendanceId=syncPrivateSessionAttendance(normalized,session)
+  if(attendanceId)session.attendanceId=String(attendanceId)
+
+  normalized.sessions.push(session)
+  normalized.updatedAt=new Date().toISOString()
   packages=packages.map(item=>item.id===normalized.id?normalized:item)
   savePackages()
   syncPackageToDossier(normalized)
+  syncPrivateReportAvailabilityNotifications(normalized)
   openPackage(currentPackageId)
   document.getElementById('sessionDate').value=''
+  document.getElementById('sessionStartTime').value=''
+  document.getElementById('sessionEndTime').value=''
   document.getElementById('sessionNote').value=''
 }
 function syncPackageToDossier(p){
@@ -376,6 +1732,8 @@ function syncPackageToDossier(p){
     const payload={
       service:normalized.type,
       teacher:normalized.teacher,
+      teacherId:normalized.teacherId||'',
+      teacherCode:normalized.teacherCode||'',
       group:`Paquete ${normalized.total} horas`,
       trackingLabel:'Horas usadas',
       trackingValue:`${used} / ${normalized.total}`,
@@ -387,6 +1745,355 @@ function syncPackageToDossier(p){
   })
   saveStudents(students)
 }
+
+
+function privateReportUnlockSession(){return 18}
+function privateProgressValue(pkg){
+  const normalized=normalizePackage(pkg)
+  return Math.max((normalized.sessions||[]).length,Math.floor(usedHours(normalized)))
+}
+function isPrivateReportAvailable(pkg){return privateProgressValue(pkg)>=privateReportUnlockSession()}
+function privateReportStatusText(pkg){
+  const progress=privateProgressValue(pkg)
+  if(progress<privateReportUnlockSession())return `Bloqueado hasta sesión ${privateReportUnlockSession()} · avance actual ${progress}`
+  return 'Disponible desde sesión 18'
+}
+function defaultPrivateReport(){
+  return {
+    speaking:{intelligibility:'',fluency:'',accuracy:'',vocabulary:''},
+    writing:{vocabulary:'',grammar:'',structure:'',tools:''},
+    listening:'',
+    reading:'',
+    notes:'',
+    savedAt:'',
+    accepted:false,
+    acceptedAt:'',
+    acceptedBy:''
+  }
+}
+function privateReportKey(){return 'report1'}
+function getPrivateStudentReport(pkg,studentCode){
+  const normalized=normalizePackage(pkg)
+  const key=privateReportKey()
+  return normalized.reports?.[studentCode]?.[key] || defaultPrivateReport()
+}
+function scoreOptions(selectedValue){
+  const options=['','0','10','15','25']
+  const labels={'':'Seleccionar','0':'0%','10':'10%','15':'15%','25':'25%'}
+  return options.map(value=>`<option value="${value}" ${String(selectedValue??'')===value?'selected':''}>${labels[value]}</option>`).join('')
+}
+function sumValues(values){return values.reduce((sum,value)=>sum+(Number(value)||0),0)}
+function calculateReportScores(report){
+  const speakingRaw=sumValues([report.speaking?.intelligibility,report.speaking?.fluency,report.speaking?.accuracy,report.speaking?.vocabulary])
+  const writingRaw=sumValues([report.writing?.vocabulary,report.writing?.grammar,report.writing?.structure,report.writing?.tools])
+  const speaking=Math.min(25,speakingRaw*0.25)
+  const writing=Math.min(25,writingRaw*0.25)
+  const listening=Math.min(25,Number(report.listening)||0)
+  const reading=Math.min(25,Number(report.reading)||0)
+  const finalScore=Math.min(100,speaking+writing+listening+reading)
+  return {
+    speakingRaw,writingRaw,speaking,writing,listening,reading,finalScore,
+    percentage:finalScore,
+    total:finalScore
+  }
+}
+function readPrivateReportForm(){
+  return {
+    speaking:{
+      intelligibility:document.getElementById('pr_sp_int')?.value||'',
+      fluency:document.getElementById('pr_sp_flu')?.value||'',
+      accuracy:document.getElementById('pr_sp_acc')?.value||'',
+      vocabulary:document.getElementById('pr_sp_voc')?.value||''
+    },
+    writing:{
+      vocabulary:document.getElementById('pr_wr_voc')?.value||'',
+      grammar:document.getElementById('pr_wr_gra')?.value||'',
+      structure:document.getElementById('pr_wr_str')?.value||'',
+      tools:document.getElementById('pr_wr_too')?.value||''
+    },
+    listening:document.getElementById('pr_list')?.value||'',
+    reading:document.getElementById('pr_read')?.value||'',
+    notes:document.getElementById('pr_notes')?.value.trim()||''
+  }
+}
+function renderCurrentPrivateReportScore(){
+  const report=readPrivateReportForm()
+  const scores=calculateReportScores(report)
+  const speakingEl=document.getElementById('privateSpeakingScore')
+  const writingEl=document.getElementById('privateWritingScore')
+  const listeningEl=document.getElementById('privateListeningScore')
+  const readingEl=document.getElementById('privateReadingScore')
+  const finalEl=document.getElementById('privateFinalScore')
+  if(speakingEl)speakingEl.innerHTML=`Speaking: ${scores.speaking.toFixed(1)} / 25 <span class="sub">(suma criterios: ${scores.speakingRaw}%)</span>`
+  if(writingEl)writingEl.innerHTML=`Writing: ${scores.writing.toFixed(1)} / 25 <span class="sub">(suma criterios: ${scores.writingRaw}%)</span>`
+  if(listeningEl)listeningEl.innerText=`Listening: ${scores.listening.toFixed(1)} / 25`
+  if(readingEl)readingEl.innerText=`Reading: ${scores.reading.toFixed(1)} / 25`
+  if(finalEl)finalEl.innerText=`Total final: ${scores.finalScore.toFixed(1)}%`
+}
+function bindPrivateReportScoreListeners(container){
+  if(!container)return
+  container.querySelectorAll('select[id^="pr_"]').forEach(select=>{
+    select.addEventListener('change',renderCurrentPrivateReportScore)
+  })
+}
+function fillPrivateReportStudentSelect(pkg){
+  const select=document.getElementById('privateReportStudentSelect')
+  if(!select)return
+  const normalized=normalizePackage(pkg)
+  const currentValue=select.value
+  select.innerHTML=''
+  if(!normalized.students.length){select.innerHTML='<option value="">Sin estudiantes registrados</option>';return}
+  normalized.students.forEach(student=>{
+    const option=document.createElement('option')
+    option.value=student.code
+    option.textContent=`${student.code} · ${student.name}`
+    select.appendChild(option)
+  })
+  if(currentValue && normalized.students.some(student=>student.code===currentValue))select.value=currentValue
+}
+function renderPrivateProgressReports(){
+  const pkg=packages.find(x=>x.id===currentPackageId)
+  const container=document.getElementById('privateReportsContainer')
+  const studentCode=document.getElementById('privateReportStudentSelect')?.value
+  if(!pkg||!container)return
+  const normalized=normalizePackage(pkg)
+  const student=normalized.students.find(s=>s.code===studentCode)
+  container.innerHTML=''
+  if(!student){container.innerHTML='<div class="sub" style="margin-top:12px">No hay estudiante seleccionado.</div>';return}
+  const unlocked=isPrivateReportAvailable(normalized)
+  const report=getPrivateStudentReport(normalized,student.code)
+  const scores=calculateReportScores(report)
+  const card=document.createElement('div')
+  card.className='report-card '+(unlocked?'':'locked')
+  card.innerHTML=`
+    <div class="report-head">
+      <div>
+        <strong>Reporte de progreso privado</strong>
+        <div class="sub">Disponible desde sesión 18. Avance actual: ${privateProgressValue(normalized)}.</div>
+      </div>
+      <span class="report-badge ${unlocked?'':'locked'}">${privateReportStatusText(normalized)}</span>
+    </div>
+    ${unlocked?`
+      <h4>Speaking</h4>
+      <div class="score-grid">
+        <div class="field"><label>Intelligibility</label><select id="pr_sp_int">${scoreOptions(report.speaking?.intelligibility)}</select></div>
+        <div class="field"><label>Fluency</label><select id="pr_sp_flu">${scoreOptions(report.speaking?.fluency)}</select></div>
+        <div class="field"><label>Accuracy</label><select id="pr_sp_acc">${scoreOptions(report.speaking?.accuracy)}</select></div>
+        <div class="field"><label>Vocabulary</label><select id="pr_sp_voc">${scoreOptions(report.speaking?.vocabulary)}</select></div>
+      </div>
+      <div class="skill-result" id="privateSpeakingScore">Speaking: ${scores.speaking.toFixed(1)} / 25 <span class="sub">(suma criterios: ${scores.speakingRaw}%)</span></div>
+
+      <h4>Writing</h4>
+      <div class="score-grid">
+        <div class="field"><label>Vocabulary</label><select id="pr_wr_voc">${scoreOptions(report.writing?.vocabulary)}</select></div>
+        <div class="field"><label>Grammar</label><select id="pr_wr_gra">${scoreOptions(report.writing?.grammar)}</select></div>
+        <div class="field"><label>Structure</label><select id="pr_wr_str">${scoreOptions(report.writing?.structure)}</select></div>
+        <div class="field"><label>Use of Tools</label><select id="pr_wr_too">${scoreOptions(report.writing?.tools)}</select></div>
+      </div>
+      <div class="skill-result" id="privateWritingScore">Writing: ${scores.writing.toFixed(1)} / 25 <span class="sub">(suma criterios: ${scores.writingRaw}%)</span></div>
+
+      <div class="score-grid">
+        <div class="field"><label>Listening /25</label><select id="pr_list">${scoreOptions(report.listening)}</select></div>
+        <div class="field"><label>Reading /25</label><select id="pr_read">${scoreOptions(report.reading)}</select></div>
+      </div>
+      <div class="skill-result" id="privateListeningScore">Listening: ${scores.listening.toFixed(1)} / 25</div>
+      <div class="skill-result" id="privateReadingScore">Reading: ${scores.reading.toFixed(1)} / 25</div>
+
+      <div class="field">
+        <label>Observaciones</label>
+        <input id="pr_notes" value="${(report.notes||'').replace(/"/g,'&quot;')}" placeholder="Comentario breve para el progreso del estudiante">
+      </div>
+
+      <div class="final-score" id="privateFinalScore">Total final: ${scores.finalScore.toFixed(1)}%</div>
+      <div class="sub">${report.savedAt?'Última actualización: '+report.savedAt:'Sin guardar todavía'}</div>
+      <div class="report-acceptance">
+        <label><input type="checkbox" ${report.accepted?'checked':''} onchange="acceptPrivateProgressReport()"> Acepto que este reporte fue revisado por el estudiante.</label>
+        <small>${report.accepted?`Aceptado por ${report.acceptedBy||'usuario'} · ${report.acceptedAt||''}`:'Pendiente de aceptación.'}</small>
+      </div>
+      <div class="report-actions">
+        <button class="btn btn-primary" onclick="savePrivateProgressReport()">Guardar reporte</button>
+        <button class="btn btn-secondary" onclick="printCurrentPrivateProgressReport()">Imprimir / PDF</button>
+      </div>
+    `:`<div class="empty">El reporte se habilita al llegar a la sesión 18. Registra las sesiones del paquete y vuelve a revisar.</div>`}
+  `
+  container.appendChild(card)
+  bindPrivateReportScoreListeners(container)
+  renderCurrentPrivateReportScore()
+}
+function savePrivateProgressReport(){
+  const pkgIndex=packages.findIndex(x=>x.id===currentPackageId)
+  if(pkgIndex<0)return
+  const studentCode=document.getElementById('privateReportStudentSelect')?.value
+  if(!studentCode)return
+  const pkg=normalizePackage(packages[pkgIndex])
+  if(!isPrivateReportAvailable(pkg)){alert('El reporte privado se habilita desde la sesión 18.');return}
+  const student=pkg.students.find(s=>s.code===studentCode)
+  const formReport=readPrivateReportForm()
+  const allRequired=[
+    formReport.speaking.intelligibility,formReport.speaking.fluency,formReport.speaking.accuracy,formReport.speaking.vocabulary,
+    formReport.writing.vocabulary,formReport.writing.grammar,formReport.writing.structure,formReport.writing.tools,
+    formReport.listening,formReport.reading
+  ]
+  if(allRequired.some(value=>value==='')){
+    alert('Completa todos los criterios antes de guardar el reporte.')
+    return
+  }
+  const scores=calculateReportScores(formReport)
+  const report={
+    ...formReport,
+    scores,
+    finalScore:scores.finalScore,
+    percentage:scores.finalScore,
+    total:scores.finalScore,
+    savedAt:new Date().toISOString(),
+    accepted:false,
+    acceptedAt:'',
+    acceptedBy:''
+  }
+  pkg.reports=pkg.reports||{}
+  pkg.reports[studentCode]=pkg.reports[studentCode]||{}
+  pkg.reports[studentCode][privateReportKey()]=report
+  pkg.updatedAt=new Date().toISOString()
+  packages[pkgIndex]=pkg
+  savePackages()
+  upsertPrivateProgressReportNotification(pkg,student)
+  renderPrivateProgressReports()
+  alert('Reporte privado guardado correctamente.')
+}
+function nextPrivateNotificationCode(items){
+  const nums=(items||[]).map(n=>n.id||'').filter(id=>String(id).startsWith('NOT-')).map(id=>parseInt(String(id).replace('NOT-',''),10)).filter(n=>!Number.isNaN(n))
+  return `NOT-${String(nums.length?Math.max(...nums)+1:1).padStart(4,'0')}`
+}
+
+function syncPrivateStaleNotification(pkg){
+  const normalized=normalizePackage(pkg)
+  const status=getPrivateOperationalStatus(normalized)
+  const notifications=storageGet(NOTIFICATIONS_KEY,[])
+  const refId=`private-session-stale-${normalized.id||normalized.code}`
+  const index=notifications.findIndex(note=>note.refId===refId)
+  const shouldAlert=status.status==='En pausa'||status.status==='Congelado'
+  if(!shouldAlert){
+    if(index>=0 && notifications[index].status!=='Resuelta'){
+      notifications[index]={...notifications[index],status:'Resuelta',resolvedAt:new Date().toISOString(),updatedAt:new Date().toISOString()}
+      storageSet(NOTIFICATIONS_KEY,notifications)
+    }
+    return
+  }
+  const notification={
+    id:index>=0?notifications[index].id:nextPrivateNotificationCode(notifications),
+    refId,
+    type:'private_session_stale',
+    title:status.status==='Congelado'?'Paquete privado/semi congelado':'Paquete privado/semi en pausa',
+    message:`${normalized.code||normalized.id||'Paquete'} · ${packageStudentNames(normalized)}: ${status.note}`,
+    status:'Nueva',
+    level:status.status==='Congelado'?'danger':'warning',
+    link:'privadas.html',
+    privatePackageId:normalized.id||'',
+    packageId:normalized.id||'',
+    packageCode:normalized.code||normalized.id||'',
+    teacherId:normalized.teacherId||normalized.teacherCode||'',
+    teacherName:normalized.teacher||'',
+    daysIdle:status.daysIdle,
+    lastSessionDate:status.lastDate||'',
+    estimatedEndDate:status.estimatedEndDate||'',
+    createdAt:index>=0?(notifications[index].createdAt||new Date().toISOString()):new Date().toISOString(),
+    updatedAt:new Date().toISOString()
+  }
+  if(index>=0)notifications[index]={...notifications[index],...notification}
+  else notifications.push(notification)
+  storageSet(NOTIFICATIONS_KEY,notifications)
+}
+function getPrivateReportForNotification(pkg,studentCode){
+  const key=privateReportKey()
+  return pkg?.reports?.[studentCode]?.[key] || null
+}
+function upsertPrivateProgressReportNotification(pkg,student,options={}){
+  if(!student)return
+  const normalized=normalizePackage(pkg)
+  if(!isPrivateReportAvailable(normalized))return
+  const report=getPrivateReportForNotification(normalized,student.code)
+  const scores=report ? calculateReportScores(report) : null
+  const notifications=storageGet(NOTIFICATIONS_KEY,[])
+  const refId=`private-progress-report-${normalized.id||normalized.code}-${student.code}-r1`
+  const index=notifications.findIndex(note=>note.refId===refId)
+  const isAccepted=Boolean(report?.accepted)
+  const notification={
+    id:index>=0?notifications[index].id:nextPrivateNotificationCode(notifications),
+    refId,
+    type:'progress_report_private',
+    title:report?.savedAt?'Nuevo reporte de progreso privado':'Reporte privado disponible',
+    message:report?.savedAt
+      ? `${normalized.code||normalized.id||'Paquete'} · ${student.name||student.code}: reporte privado guardado con total ${Number(report.finalScore??report.percentage??scores?.finalScore??0).toFixed(1)}%. Pendiente de revisión y aceptación.`
+      : `${normalized.code||normalized.id||'Paquete'} · ${student.name||student.code}: ya llegó a sesión ${privateProgressValue(normalized)}. El reporte privado está disponible desde sesión 18.`,
+    status:isAccepted?'Resuelta':'Nueva',
+    level:'warning',
+    link:'privadas.html',
+    privatePackageId:normalized.id||'',
+    packageId:normalized.id||'',
+    packageCode:normalized.code||normalized.id||'',
+    studentId:student.code||'',
+    studentCode:student.code||'',
+    studentName:student.name||'',
+    teacherId:normalized.teacherId||normalized.teacherCode||'',
+    teacherName:normalized.teacher||'',
+    reportNumber:1,
+    accepted:isAccepted,
+    acceptedAt:report?.acceptedAt||'',
+    acceptedBy:report?.acceptedBy||'',
+    finalScore:report?.finalScore??report?.percentage??scores?.finalScore??'',
+    progressValue:privateProgressValue(normalized),
+    createdAt:index>=0?(notifications[index].createdAt||new Date().toISOString()):new Date().toISOString(),
+    updatedAt:new Date().toISOString()
+  }
+  if(index>=0)notifications[index]={...notifications[index],...notification}
+  else notifications.push(notification)
+  storageSet(NOTIFICATIONS_KEY,notifications)
+}
+function syncPrivateReportAvailabilityNotifications(pkg){
+  const normalized=normalizePackage(pkg)
+  if(!isPrivateReportAvailable(normalized))return
+  ;(normalized.students||[]).forEach(student=>{
+    const report=getPrivateReportForNotification(normalized,student.code)
+    if(report?.accepted)return
+    upsertPrivateProgressReportNotification(normalized,student,{reason:'available'})
+  })
+}
+function acceptPrivateProgressReport(){
+  const pkgIndex=packages.findIndex(x=>x.id===currentPackageId)
+  if(pkgIndex<0)return
+  const studentCode=document.getElementById('privateReportStudentSelect')?.value
+  if(!studentCode)return
+  const pkg=normalizePackage(packages[pkgIndex])
+  const key=privateReportKey()
+  pkg.reports=pkg.reports||{}
+  pkg.reports[studentCode]=pkg.reports[studentCode]||{}
+  pkg.reports[studentCode][key]=pkg.reports[studentCode][key]||defaultPrivateReport()
+  pkg.reports[studentCode][key].accepted=true
+  pkg.reports[studentCode][key].acceptedAt=new Date().toISOString()
+  {
+    const user=getCurrentWisdomUserSafe()
+    pkg.reports[studentCode][key].acceptedBy=user.name||user.email||user.role||'Usuario'
+  }
+  pkg.updatedAt=new Date().toISOString()
+  packages[pkgIndex]=pkg
+  savePackages()
+  const notifications=storageGet(NOTIFICATIONS_KEY,[])
+  const refId=`private-progress-report-${pkg.id||pkg.code}-${studentCode}-r1`
+  const idx=notifications.findIndex(note=>note.refId===refId)
+  if(idx>=0){
+    notifications[idx].accepted=true
+    notifications[idx].acceptedAt=pkg.reports[studentCode][key].acceptedAt
+    notifications[idx].acceptedBy=pkg.reports[studentCode][key].acceptedBy
+    notifications[idx].status='Resuelta'
+    notifications[idx].resolvedAt=new Date().toISOString()
+    notifications[idx].updatedAt=new Date().toISOString()
+    storageSet(NOTIFICATIONS_KEY,notifications)
+  }
+  renderPrivateProgressReports()
+  alert('Reporte aceptado y registrado.')
+}
+function printCurrentPrivateProgressReport(){window.print()}
+
 function backPrivate(){document.getElementById('privateDetail').classList.remove('active');document.getElementById('privateView').classList.add('active');renderPrivate()}
 
 
@@ -420,6 +2127,7 @@ function editSession(index){
   if(pkgIndex < 0) return
 
   const pkg = normalizePackage(packages[pkgIndex])
+  if(!requirePackageManagementSafe(pkg,'Solo administración o el profesor asignado pueden editar sesiones.'))return
   const session = pkg.sessions[index]
   if(!session) return
 
@@ -430,13 +2138,25 @@ function editSession(index){
   if(newHoursRaw === null) return
   const newHours = Number(newHoursRaw)
 
-  if(!newDate || !newHours || newHours <= 0){
-    alert('Fecha y horas válidas son obligatorias.')
+  const newStartTime = prompt('Hora inicio (HH:MM):', session.startTime || '')
+  if(newStartTime === null) return
+
+  const newEndTime = prompt('Hora fin (HH:MM):', session.endTime || addHoursToTime(newStartTime,newHours))
+  if(newEndTime === null) return
+
+  if(!newDate || !newHours || newHours <= 0 || !newStartTime || !newEndTime){
+    alert('Fecha, horas y horario válidos son obligatorios.')
+    return
+  }
+  if(!isValidTimeRange(newStartTime,newEndTime)){
+    alert('La hora de inicio debe ser menor que la hora final.')
     return
   }
 
-  const newTeacher = prompt('Profesor:', session.teacher)
-  if(newTeacher === null) return
+  const newTeacherInput = prompt('Profesor:', session.teacher)
+  if(newTeacherInput === null) return
+  const teacherRef=teacherRefFromInput(newTeacherInput)
+  const newTeacher=teacherRef.teacher
 
   const newNote = prompt('Nota:', session.note || '')
   if(newNote === null) return
@@ -450,17 +2170,39 @@ function editSession(index){
     return
   }
 
-  pkg.sessions[index] = {
+  const updatedSession = {
     ...session,
     date: newDate,
     hours: newHours,
     teacher: newTeacher,
-    note: newNote
+    teacherId: teacherRef.teacherId,
+    teacherCode: teacherRef.teacherCode,
+    teacherEmail: teacherRef.teacherEmail,
+    startTime: newStartTime,
+    endTime: newEndTime,
+    note: newNote,
+    updatedAt:new Date().toISOString()
   }
+
+  const scheduleData=buildPrivateScheduleData(pkg,updatedSession)
+  if(scheduleHasConflict(scheduleData,updatedSession.scheduleId||'')){
+    const ok=confirm('Se detectó un posible cruce de agenda con esta edición. ¿Deseas guardar de todas formas?')
+    if(!ok)return
+  }
+
+  const updatedScheduleId=updateScheduleForPrivateSession(pkg,updatedSession)
+  if(updatedScheduleId)updatedSession.scheduleId=String(updatedScheduleId)
+
+  const updatedAttendanceId=syncPrivateSessionAttendance(pkg,updatedSession)
+  if(updatedAttendanceId)updatedSession.attendanceId=String(updatedAttendanceId)
+
+  pkg.sessions[index] = updatedSession
+  pkg.updatedAt=new Date().toISOString()
 
   packages[pkgIndex] = pkg
   savePackages()
   syncPackageToDossier(pkg)
+  syncPrivateReportAvailabilityNotifications(pkg)
   openPackage(currentPackageId)
 }
 
@@ -469,16 +2211,21 @@ function deleteSession(index){
   if(pkgIndex < 0) return
 
   const pkg = normalizePackage(packages[pkgIndex])
+  if(!requirePackageManagementSafe(pkg,'Solo administración o el profesor asignado pueden borrar sesiones.'))return
   const session = pkg.sessions[index]
   if(!session) return
 
   const ok = confirm(`¿Borrar sesión ${session.date} (${session.hours}h)?`)
   if(!ok) return
 
+  deletePrivateSessionAttendance(pkg,session)
+  deleteScheduleForPrivateSession(session)
   pkg.sessions.splice(index,1)
+  pkg.updatedAt=new Date().toISOString()
   packages[pkgIndex] = pkg
   savePackages()
   syncPackageToDossier(pkg)
+  syncPrivateReportAvailabilityNotifications(pkg)
   openPackage(currentPackageId)
 }
 
@@ -496,10 +2243,199 @@ function runTests(){
   console.assert(/^PK-\d{4}$/.test('PK-0001'),'TEST: package code format')
   console.assert(typeof editSession === 'function','TEST: editSession exists')
   console.assert(typeof deleteSession === 'function','TEST: deleteSession exists')
+  console.assert(typeof renderPrivateProgressReports === 'function','TEST: private progress reports render exists')
+  console.assert(isPrivateReportAvailable({sessions:Array.from({length:18},()=>({hours:1})),total:20,students:[{code:'A',name:'A'}]})===true,'TEST: private report unlocks at session 18')
 }
 
+
+/* FASE 13 — Domain Hardening: privadas / semiprivadas */
+(function wisdomPhase13PrivateHardening(){
+  function safeArray(value){ return Array.isArray(value) ? value : []; }
+  function studentKey(student){
+    return String((student && (student.code || student.studentCode || student.studentId || student.id || student.email || student.name)) || '').trim().toLowerCase();
+  }
+  function dedupeStudents(students){
+    const seen = new Set();
+    return safeArray(students).filter(function(student){
+      const key = studentKey(student);
+      if(!key || seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+  function sessionKey(session){
+    return [
+      session && (session.id || session.sessionId || ''),
+      session && (session.date || ''),
+      session && (session.startTime || session.start || ''),
+      session && (session.endTime || session.end || ''),
+      session && (session.studentCode || session.studentId || session.studentName || '')
+    ].join('|');
+  }
+  function normalizePackageForProduction(pkg){
+    const normalized = (typeof normalizePackageSafe === 'function') ? normalizePackageSafe(pkg || {}) : ((typeof normalizePackage === 'function') ? normalizePackage(pkg || {}) : Object.assign({}, pkg || {}));
+    normalized.id = normalized.id || normalized.code || ('PK-' + Date.now());
+    normalized.code = normalized.code || normalized.id;
+    normalized.total = Math.max(1, Number(normalized.total) || 20);
+    normalized.students = dedupeStudents(normalized.students);
+    const seenSessions = new Set();
+    normalized.sessions = safeArray(normalized.sessions).filter(function(session){
+      const key = sessionKey(session);
+      if(!key || seenSessions.has(key)) return false;
+      seenSessions.add(key);
+      session.hours = Math.max(0, Number(session.hours) || 0);
+      session.updatedAt = session.updatedAt || new Date().toISOString();
+      return true;
+    });
+    normalized.updatedAt = new Date().toISOString();
+    return normalized;
+  }
+
+  if(typeof savePackages === 'function'){
+    const originalSavePackages = savePackages;
+    savePackages = function phase13SavePackages(){
+      if(Array.isArray(packages)){
+        packages = packages.map(normalizePackageForProduction);
+      }
+      return originalSavePackages.apply(this, arguments);
+    };
+  }
+
+  if(typeof createPackage === 'function'){
+    const originalCreatePackage = createPackage;
+    createPackage = function phase13CreatePackage(){
+      const type = document.getElementById('packageType') ? document.getElementById('packageType').value : '';
+      const code1 = document.getElementById('packageStudent') ? document.getElementById('packageStudent').value : '';
+      const code2 = document.getElementById('packageStudent2') ? document.getElementById('packageStudent2').value : '';
+      if(type === 'Semiprivada' && (!code1 || !code2 || code1 === code2)){
+        alert('La semiprivada necesita dos estudiantes diferentes.');
+        return;
+      }
+      return originalCreatePackage.apply(this, arguments);
+    };
+  }
+
+  if(typeof addSession === 'function'){
+    const originalAddSession = addSession;
+    addSession = function phase13AddSession(){
+      const pkg = Array.isArray(packages) ? packages.find(function(item){ return item.id === currentPackageId || item.code === currentPackageId; }) : null;
+      if(pkg && !dedupeStudents((typeof normalizePackage === 'function' ? normalizePackage(pkg) : pkg).students).length){
+        alert('No se puede registrar sesión en un paquete sin estudiantes vinculados.');
+        return;
+      }
+      return originalAddSession.apply(this, arguments);
+    };
+  }
+
+  (function wisdomPhase13RuntimeHardening(){
+  if(window.__wisdomPhase13RuntimeHardeningInstalled) return;
+  window.__wisdomPhase13RuntimeHardeningInstalled = true;
+
+  window.addEventListener('error', function(event){
+    try{
+      console.error('[Wisdom Fase 13] Runtime error:', event.error || event.message);
+    }catch(error){}
+  });
+
+  window.addEventListener('unhandledrejection', function(event){
+    try{
+      console.error('[Wisdom Fase 13] Unhandled promise rejection:', event.reason);
+    }catch(error){}
+  });
+
+  let storageReloadTimer = null;
+  window.addEventListener('storage', function(event){
+    try{
+      const watchedKeys = [
+        'wisdom_students_demo',
+        'wisdom_teachers_demo',
+        'wisdom_groups_demo',
+        'wisdom_private_demo',
+        'wisdom_schedules_demo',
+        'wisdom_teacher_availability',
+        'wisdom_calendar_manual_events',
+        'wisdom_attendance_demo',
+        'wisdom_notifications_demo',
+        'wisdom_requests_demo',
+        'wisdom_current_user'
+      ];
+      if(!event || !watchedKeys.includes(event.key)) return;
+      if(document.visibilityState !== 'visible') return;
+      clearTimeout(storageReloadTimer);
+      storageReloadTimer = setTimeout(function(){ window.location.reload(); }, 350);
+    }catch(error){}
+  });
+})();
+})();
+
 runTests()
+fillTeacherOptions()
+applyPrivateSecurityUI()
 renderPrivate()
 </script>
+
+<script>
+(function(){
+  function normalizeRoleForSidebar(role){
+    const raw=String(role||'').trim().toLowerCase();
+    const clean=raw.normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    if(['admin','administrador','administrativo','administrator'].includes(clean))return 'admin';
+    if(['teacher','profesor','docente','instructor'].includes(clean))return 'teacher';
+    if(['student','estudiante','alumno','learner'].includes(clean))return 'student';
+    return clean;
+  }
+  function getSidebarUser(){
+    try{
+      if(window.AuthService && typeof AuthService.getCurrentUser==='function'){
+        const user=AuthService.getCurrentUser();
+        if(user)return user;
+      }
+    }catch(error){}
+    try{
+      if(window.WisdomStorage && typeof WisdomStorage.get==='function'){
+        return WisdomStorage.get('wisdom_current_user',null) || {};
+      }
+    }catch(error){}
+    try{return JSON.parse(localStorage.getItem('wisdom_current_user')||'{}')}catch(error){return {}}
+  }
+  function roleLabel(role){
+    const normalized=normalizeRoleForSidebar(role);
+    return {admin:'Administrativo',teacher:'Profesor',student:'Estudiante'}[normalized] || role || 'Usuario';
+  }
+  window.wisdomSidebarLogout=function(){
+    try{
+      if(window.AuthService && typeof AuthService.logout==='function'){
+        AuthService.logout();
+      }else if(window.WisdomStorage && typeof WisdomStorage.remove==='function'){
+        WisdomStorage.remove('wisdom_current_user');
+      }else{
+        localStorage.removeItem('wisdom_current_user');
+      }
+    }catch(error){
+      try{localStorage.removeItem('wisdom_current_user')}catch(e){}
+    }
+    window.location.href='login.html';
+  };
+
+  const user=getSidebarUser() || {};
+  const role=normalizeRoleForSidebar(user.role || user.userRole || user.type || user.profile || user.access);
+  const userEl=document.getElementById('wisdomSidebarUser');
+  const roleEl=document.getElementById('wisdomSidebarRole');
+  if(userEl)userEl.textContent=user.name || user.email || 'Usuario';
+  if(roleEl)roleEl.textContent=roleLabel(role);
+
+  document.querySelectorAll('.wisdom-side-link[data-roles]').forEach(function(link){
+    const allowed=String(link.getAttribute('data-roles')||'').split(',').map(item=>item.trim());
+    if(role && allowed.length && !allowed.includes(role))link.style.display='none';
+  });
+
+  const current=(location.pathname.split('/').pop() || '').toLowerCase();
+  document.querySelectorAll('.wisdom-side-link[data-sidebar-link]').forEach(function(link){
+    const target=String(link.getAttribute('data-sidebar-link')||'').toLowerCase();
+    if(current===target)link.classList.add('active');
+  });
+})();
+</script>
+
 </body>
 </html>

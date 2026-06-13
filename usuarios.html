@@ -63,10 +63,53 @@ td{padding:12px 10px;border-top:1px solid var(--border);font-weight:600;vertical
 .link-preview strong{display:block;margin-bottom:4px}
 .readonly-soft{background:#f3f7f8!important;color:#526273!important}
 @media(max-width:900px){.form-grid{grid-template-columns:1fr}.topbar{flex-direction:column;align-items:flex-start}.toolbar{align-items:stretch}.search{min-width:100%}}
+
+
+/* ===========================
+   WISDOM ERP GLOBAL SIDEBAR — FASE 16
+   UX navigation layer only. Logic untouched.
+=========================== */
+.erp-app-shell{min-height:100vh;display:grid;grid-template-columns:260px 1fr;background:var(--light,#f5f9fc)}
+.erp-sidebar{background:rgba(255,255,255,.92);border-right:1px solid var(--border,#dcebf2);padding:24px 18px;position:sticky;top:0;height:100vh;overflow:auto;box-shadow:12px 0 32px rgba(13,43,69,.045);z-index:30}
+.erp-sidebar-logo{display:flex;align-items:center;justify-content:flex-start;padding:8px 0 18px;margin-bottom:18px;border-bottom:1px solid var(--border,#dcebf2)}
+.erp-sidebar-logo img{width:145px;max-width:100%;height:auto;display:block;object-fit:contain}
+.erp-menu-group{margin-bottom:16px}.erp-menu-title{color:var(--gray,#6b7c93);font-size:.70rem;font-weight:900;text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;display:flex;justify-content:space-between}.erp-menu-items{display:grid;gap:5px}
+.erp-side-link{display:flex;align-items:center;gap:10px;color:var(--text,#1f2d3d);text-decoration:none;padding:10px 12px;border-radius:14px;font-weight:800;font-size:.88rem;border:1px solid transparent;transition:.18s ease}
+.erp-side-link:hover,.erp-side-link.active{background:linear-gradient(135deg,var(--soft,#e7f8f8),#f7ffff);border-color:#caeff2;transform:translateX(2px)}
+.erp-side-dot{width:8px;height:8px;border-radius:50%;background:var(--accent,#1fb6b9);box-shadow:0 0 0 4px rgba(31,182,185,.12);flex:0 0 auto}
+.erp-sidebar-user{margin-top:22px;padding:14px;border-radius:18px;background:linear-gradient(135deg,#f7ffff,var(--soft,#e7f8f8));border:1px solid var(--border,#dcebf2)}
+.erp-sidebar-user strong{display:block;color:var(--primary,#0d2b45);font-size:.9rem;margin-bottom:4px}.erp-sidebar-user small{display:block;color:var(--gray,#6b7c93);font-weight:700;line-height:1.35}
+.erp-sidebar-logout{width:100%;margin-top:12px;padding:10px 12px;border-radius:999px;border:1px solid var(--border,#dcebf2);background:white;color:var(--primary,#0d2b45);font-weight:900;cursor:pointer}.erp-sidebar-logout:hover{background:var(--hover,#E6FF00);color:black}
+.erp-main-content{min-width:0;width:100%}.erp-mobile-bar{display:none;position:sticky;top:0;z-index:40;background:rgba(255,255,255,.94);border-bottom:1px solid var(--border,#dcebf2);padding:12px 16px;justify-content:space-between;align-items:center;gap:12px}.erp-mobile-bar strong{color:var(--primary,#0d2b45)}
+.erp-mobile-toggle{border:1px solid var(--border,#dcebf2);background:white;color:var(--primary,#0d2b45);border-radius:999px;padding:8px 12px;font-weight:900;cursor:pointer}.erp-role-hidden{display:none!important}
+@media(max-width:980px){.erp-app-shell{display:block}.erp-mobile-bar{display:flex}.erp-sidebar{position:fixed;left:0;top:0;bottom:0;width:min(84vw,300px);height:100vh;transform:translateX(-105%);transition:transform .22s ease}.erp-sidebar.open{transform:translateX(0)}.erp-main-content{width:100%}body.erp-menu-open{overflow:hidden}}
+
+</style>
+
+<style id="wisdom-phase16-ux-layer">
+.breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:14px;color:var(--gray);font-size:.82rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em}.breadcrumb a{color:var(--accent);text-decoration:none}.breadcrumb span{color:var(--primary)}
+.user-kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}.user-kpi{background:white;border:1px solid var(--border);border-radius:18px;padding:16px;box-shadow:0 8px 22px rgba(13,43,69,.05)}.user-kpi small{display:block;color:var(--gray);font-size:.72rem;font-weight:900;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}.user-kpi strong{display:block;color:var(--primary);font-size:1.55rem;line-height:1}.user-kpi.warning{background:var(--warning);border-color:#f4df8a}.user-kpi.danger{background:var(--danger);border-color:#ffd1d1}.user-kpi.ok{background:var(--ok);border-color:#c7f0d6}
+.access-helper{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}.access-helper .pill{font-size:.72rem}.compact-card{padding:16px}.compact-card summary{cursor:pointer;color:var(--primary);font-weight:900}.compact-card .note{margin-top:12px}.modal-section-title{grid-column:1/-1;margin-top:4px;padding-top:8px;color:var(--primary);font-weight:900;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;border-top:1px solid var(--border)}
+@media(max-width:900px){.user-kpi-grid{grid-template-columns:1fr 1fr}}@media(max-width:640px){.user-kpi-grid{grid-template-columns:1fr}table{min-width:920px}}
 </style>
 </head>
 <body>
+
+<div class="erp-app-shell">
+  <aside class="erp-sidebar" id="erpSidebar">
+    <a class="erp-sidebar-logo" href="dashboard.html" aria-label="Ir al dashboard"><img src="logo.jpg" alt="Wisdom Academy Logo"></a>
+    <div class="erp-menu-group"><div class="erp-menu-title">Panel</div><div class="erp-menu-items"><a class="erp-side-link " data-roles="admin,teacher,student" href="dashboard.html"><span class="erp-side-dot"></span> Dashboard</a></div></div>
+    <div class="erp-menu-group"><div class="erp-menu-title">Personas</div><div class="erp-menu-items"><a class="erp-side-link " data-roles="admin,teacher,student" href="estudiantes.html"><span class="erp-side-dot"></span> Estudiantes</a><a class="erp-side-link " data-roles="admin" href="profesores.html"><span class="erp-side-dot"></span> Profesores</a><a class="erp-side-link active" data-roles="admin" href="usuarios.html"><span class="erp-side-dot"></span> Usuarios</a></div></div>
+    <div class="erp-menu-group"><div class="erp-menu-title">Académico</div><div class="erp-menu-items"><a class="erp-side-link" data-roles="admin,teacher" href="grupales.html"><span class="erp-side-dot"></span> Grupales</a><a class="erp-side-link" data-roles="admin,teacher" href="privadas.html"><span class="erp-side-dot"></span> Privadas / Semi</a><a class="erp-side-link" data-roles="admin,teacher,student" href="calendario.html"><span class="erp-side-dot"></span> Calendario</a></div></div>
+    <div class="erp-menu-group"><div class="erp-menu-title">Evaluación</div><div class="erp-menu-items"><a class="erp-side-link" data-roles="admin,teacher" href="placement_portal_integrado.html"><span class="erp-side-dot"></span> Nuevo diagnóstico</a><a class="erp-side-link" data-roles="admin,teacher" href="diagnostico_resultados.html"><span class="erp-side-dot"></span> Resultados diagnóstico</a><a class="erp-side-link" data-roles="admin,teacher" href="evaluaciones.html"><span class="erp-side-dot"></span> Evaluaciones</a><a class="erp-side-link" data-roles="admin,teacher,student" href="resultados.html"><span class="erp-side-dot"></span> Resultados</a></div></div>
+    <div class="erp-menu-group"><div class="erp-menu-title">Gestión</div><div class="erp-menu-items"><a class="erp-side-link" data-roles="admin" href="finanzas.html"><span class="erp-side-dot"></span> Finanzas</a><a class="erp-side-link" data-roles="admin" href="solicitudes.html"><span class="erp-side-dot"></span> Solicitudes</a><a class="erp-side-link" data-roles="admin,teacher,student" href="reportes.html"><span class="erp-side-dot"></span> Reportes</a><a class="erp-side-link" data-roles="admin,teacher" href="mensajes.html"><span class="erp-side-dot"></span> Mensajes</a></div></div>
+    <div class="erp-menu-group"><div class="erp-menu-title">Práctica</div><div class="erp-menu-items"><a class="erp-side-link" data-roles="admin,teacher,student" href="Grammar_portal.html"><span class="erp-side-dot"></span> Grammar</a><a class="erp-side-link" data-roles="admin,teacher,student" href="Listening_portal.html"><span class="erp-side-dot"></span> Listening</a><a class="erp-side-link" data-roles="admin,teacher,student" href="Speaking_portal.html"><span class="erp-side-dot"></span> Speaking</a></div></div>
+    <div class="erp-sidebar-user"><strong id="erpSidebarUserName">Usuario</strong><small id="erpSidebarUserRole">Rol</small><small id="erpSidebarUserEmail">correo</small><button class="erp-sidebar-logout" type="button" onclick="if(typeof logout==='function'){logout()}else{window.location.href='login.html'}">Cerrar sesión</button></div>
+  </aside>
+  <main class="erp-main-content"><div class="erp-mobile-bar"><strong>Wisdom Academy</strong><button class="erp-mobile-toggle" type="button" onclick="toggleErpSidebar()">Menú</button></div>
+
 <div class="wrap">
+<div class="breadcrumb"><a href="dashboard.html">Dashboard</a><span>/</span><span>Usuarios</span></div>
 
   <div class="topbar">
     <div>
@@ -79,6 +122,22 @@ td{padding:12px 10px;border-top:1px solid var(--border);font-weight:600;vertical
       <button class="btn btn-secondary" onclick="window.location.href='dashboard.html'">Dashboard</button>
       <button class="btn btn-primary" onclick="openUserModal()">Crear usuario</button>
       <button class="btn btn-secondary" onclick="logout()">Cerrar sesión</button>
+    </div>
+  </div>
+
+  <div id="usersUXKpis" class="user-kpi-grid"></div>
+
+  <div class="access-helper"><span class="pill danger">Admin: acceso total</span><span class="pill warning">Profesor: operación académica</span><span class="pill ok">Estudiante: portal propio</span></div>
+
+  <div class="card" id="backupPanel">
+    <h3>Backup de usuarios</h3>
+    <div class="sub">Exporta e importa usuarios del demo. Antes de importar, se genera automáticamente un respaldo de seguridad.</div><br>
+    <div class="toolbar">
+      <button class="btn btn-secondary" onclick="exportUsersJSON()">Exportar usuarios JSON</button>
+      <button class="btn btn-secondary" onclick="exportUsersCSV()">Exportar usuarios CSV</button>
+      <button class="btn btn-secondary" onclick="exportAccessMatrixCSV()">Exportar matriz de acceso CSV</button>
+      <button class="btn btn-primary" onclick="document.getElementById('usersImportFile').click()">Importar usuarios JSON</button>
+      <input id="usersImportFile" type="file" accept="application/json,.json" style="display:none" onchange="importUsersJSON(event)">
     </div>
   </div>
 
@@ -125,11 +184,13 @@ td{padding:12px 10px;border-top:1px solid var(--border);font-weight:600;vertical
     </div>
   </div>
 
-  <div class="card">
-    <h3>Reglas del módulo</h3><br>
-    <div class="note">
+  <div class="card compact-card">
+    <details>
+      <summary>Reglas del módulo</summary>
+      <div class="note">
       <strong>Importante:</strong> este prototipo todavía guarda contraseñas en localStorage. Eso sirve para validar flujo, pero no para producción. Cuando pasemos a backend real, las contraseñas deben ir cifradas/hasheadas en un sistema de autenticación real.
-    </div>
+      </div>
+    </details>
   </div>
 
 </div>
@@ -139,6 +200,7 @@ td{padding:12px 10px;border-top:1px solid var(--border);font-weight:600;vertical
     <h2 id="modalTitle">Crear usuario</h2>
 
     <div class="form-grid">
+      <div class="modal-section-title">1. Tipo de acceso</div>
       <div class="field full">
         <label>Tipo de creación</label>
         <select id="creationMode" onchange="handleCreationModeChange()">
@@ -152,6 +214,7 @@ td{padding:12px 10px;border-top:1px solid var(--border);font-weight:600;vertical
         <div id="linkPreview" class="link-preview"></div>
       </div>
 
+      <div class="modal-section-title">2. Datos de usuario</div>
       <div class="field">
         <label>Código</label>
         <input id="userId" readonly placeholder="USR-0001">
@@ -189,6 +252,7 @@ td{padding:12px 10px;border-top:1px solid var(--border);font-weight:600;vertical
         <input id="userPassword" type="text" placeholder="Contraseña inicial">
       </div>
 
+      <div class="modal-section-title">3. Vinculación operativa</div>
       <div class="field full" id="teacherLinkField" style="display:none">
         <label>Profesor vinculado</label>
         <select id="linkedTeacher" onchange="fillFromLinkedTeacher()"></select>
@@ -212,19 +276,78 @@ td{padding:12px 10px;border-top:1px solid var(--border);font-weight:600;vertical
   </div>
 </div>
 
-<script src="storage.js"></script>
-<script src="schemaRegistry.js"></script>
+<script src="js/core/storage.js"></script>
+<script src="js/core/schemaRegistry.js"></script>
+<script src="js/core/demoSeed.js"></script>
+<script src="js/services/authService.js"></script>
+<script src="js/core/permissions.js"></script>
 <script>
 const CURRENT_USER_KEY='wisdom_current_user'
 const USERS_KEY='wisdom_users'
 const TEACHERS_KEY='wisdom_teachers_demo'
 const STUDENTS_KEY='wisdom_students_demo'
 
-const currentUser=WisdomStorage.get(CURRENT_USER_KEY,null)
+function normalizeRoleSafe(role){
+  const raw=String(role||'').trim().toLowerCase()
+  const clean=raw.normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+  if(['admin','administrador','administrativo','administrator'].includes(clean))return 'admin'
+  if(['teacher','profesor','docente','instructor'].includes(clean))return 'teacher'
+  if(['student','estudiante','alumno','learner'].includes(clean))return 'student'
+  return clean
+}
+
+function getCurrentUserSafe(){
+  if(typeof AuthService!=='undefined' && AuthService && typeof AuthService.getCurrentUser==='function'){
+    try{
+      const user=AuthService.getCurrentUser()
+      if(user && typeof user==='object') return {...user,role:normalizeRoleSafe(user.role||user.userRole||user.type||user.profile)}
+    }catch(error){console.warn('AuthService.getCurrentUser falló. Usuarios usará WisdomStorage.',error)}
+  }
+  const user=WisdomStorage.get(CURRENT_USER_KEY,null)
+  return user && typeof user==='object' ? {...user,role:normalizeRoleSafe(user.role||user.userRole||user.type||user.profile)} : null
+}
+
+const currentUser=getCurrentUserSafe()
 const urlParams=new URLSearchParams(window.location.search)
 const preselectedTeacherId=urlParams.get('teacher') || urlParams.get('teacherId') || ''
 const preselectedStudentId=urlParams.get('student') || urlParams.get('studentId') || urlParams.get('code') || ''
-if(!currentUser || currentUser.role!=='admin'){
+
+function isAdminUser(){
+  const localRole=normalizeRoleSafe(currentUser?.role || currentUser?.userRole || currentUser?.type || currentUser?.profile || currentUser?.access)
+
+  if(localRole==='admin') return true
+
+  if(typeof AuthService!=='undefined' && AuthService && typeof AuthService.isAdmin==='function'){
+    try{
+      if(AuthService.isAdmin(currentUser)) return true
+    }catch(error){
+      console.warn('AuthService.isAdmin() falló. Usando fallback local.',error)
+    }
+  }
+
+  if(typeof WisdomPermissions!=='undefined' && WisdomPermissions && typeof WisdomPermissions.isAdmin==='function'){
+    try{
+      if(WisdomPermissions.isAdmin(currentUser)) return true
+      if(WisdomPermissions.isAdmin()) return true
+    }catch(error){
+      console.warn('WisdomPermissions.isAdmin() falló. Usando fallback local.',error)
+    }
+  }
+
+  return false
+}
+
+function ensureAdminAccess(action='realizar esta acción'){
+  if(isAdminUser()) return true
+  alert(`Solo administración puede ${action}.`)
+  return false
+}
+
+function escapeHTML(value){
+  return String(value ?? '').replace(/[&<>'"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]))
+}
+
+if(!currentUser || !isAdminUser()){
   window.location.href='login.html'
 }
 
@@ -239,12 +362,16 @@ function load(key){return WisdomStorage.get(key,[])}
 function save(key,value){WisdomStorage.set(key,value)}
 
 function logout(){
-  WisdomStorage.remove(CURRENT_USER_KEY)
+  if(typeof AuthService!=='undefined' && AuthService && typeof AuthService.logout==='function'){
+    try{AuthService.logout()}catch(error){WisdomStorage.remove(CURRENT_USER_KEY)}
+  }else{
+    WisdomStorage.remove(CURRENT_USER_KEY)
+  }
   window.location.href='login.html'
 }
 
 function renderUserBox(){
-  document.getElementById('userBox').innerHTML=`<strong>${currentUser.name||'Admin'}</strong><small>${currentUser.email||''}</small>`
+  document.getElementById('userBox').innerHTML=`<strong>${escapeHTML(currentUser.name||'Admin')}</strong><small>${escapeHTML(currentUser.email||'')}</small>`
 }
 
 function normalizeUser(user={}){
@@ -371,11 +498,11 @@ function renderUsers(){
     const isSelf=user.email===currentUser.email
     const row=document.createElement('tr')
     row.innerHTML=`
-      <td>${user.id}</td>
-      <td><strong>${user.name||'-'}</strong><br><small>${user.email||'-'}</small></td>
+      <td>${escapeHTML(user.id)}</td>
+      <td><strong>${escapeHTML(user.name||'-')}</strong><br><small>${escapeHTML(user.email||'-')}</small></td>
       <td><span class="pill ${roleClass(user.role)}">${roleLabel(user.role)}</span></td>
-      <td>${getLinkedLabel(user)}</td>
-      <td><span class="pill ${statusClass(user.status)}">${user.status}</span></td>
+      <td>${escapeHTML(getLinkedLabel(user))}</td>
+      <td><span class="pill ${statusClass(user.status)}">${escapeHTML(user.status)}</span></td>
       <td>${user.loginAt ? new Date(user.loginAt).toLocaleString('es-CO') : '-'}</td>
       <td>
         <div class="actions">
@@ -489,6 +616,7 @@ function applyPreselectedPerson(){
 }
 
 function openUserModal(id=''){
+  if(!ensureAdminAccess('abrir o editar usuarios')) return
   clearForm()
   const users=getUsers()
   const title=document.getElementById('modalTitle')
@@ -586,6 +714,7 @@ function fillFromLinkedStudent(force=false){
 }
 
 function saveUser(){
+  if(!ensureAdminAccess('guardar usuarios')) return
   const id=document.getElementById('userId').value.trim()
   const role=document.getElementById('userRole').value
   const name=document.getElementById('userName').value.trim()
@@ -693,6 +822,7 @@ function saveUser(){
 }
 
 function toggleUserStatus(id){
+  if(!ensureAdminAccess('cambiar el estado de usuarios')) return
   const users=getUsers()
   const index=users.findIndex(user=>user.id===id)
   if(index<0) return
@@ -702,6 +832,11 @@ function toggleUserStatus(id){
     return
   }
 
+  if(users[index].role==='admin' && users[index].status==='Activo'){
+    const activeAdmins=users.filter(user=>user.role==='admin' && user.status==='Activo' && user.id!==id)
+    if(!activeAdmins.length){alert('Debe quedar al menos un administrador activo.');return}
+  }
+
   users[index].status=users[index].status==='Activo'?'Inactivo':'Activo'
   users[index].updatedAt=new Date().toISOString()
   setUsers(users)
@@ -709,6 +844,7 @@ function toggleUserStatus(id){
 }
 
 function deleteUser(id){
+  if(!ensureAdminAccess('borrar usuarios')) return
   const users=getUsers()
   const user=users.find(item=>item.id===id)
   if(!user) return
@@ -718,11 +854,173 @@ function deleteUser(id){
     return
   }
 
+  if(user.role==='admin'){
+    const activeAdmins=users.filter(item=>item.role==='admin' && item.status==='Activo' && item.id!==id)
+    if(!activeAdmins.length){alert('Debe quedar al menos un administrador activo.');return}
+  }
+
   const ok=confirm(`¿Seguro que quieres borrar el usuario de ${user.name}?`)
   if(!ok) return
 
   setUsers(users.filter(item=>item.id!==id))
   renderUsers()
+}
+
+
+function backupDateStamp(){
+  return new Date().toISOString().replace(/[:.]/g,'-').slice(0,19)
+}
+
+function downloadTextFile(filename, content, mime='application/json'){
+  const blob=new Blob([content],{type:mime+';charset=utf-8'})
+  const url=URL.createObjectURL(blob)
+  const link=document.createElement('a')
+  link.href=url
+  link.download=filename
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  URL.revokeObjectURL(url)
+}
+
+function csvEscape(value){
+  const text=String(value ?? '')
+  if(/["\n\r,;]/.test(text)) return '"'+text.replace(/"/g,'""')+'"'
+  return text
+}
+
+function arrayToCSV(headers, rows){
+  const csvRows=[]
+  csvRows.push(headers.map(csvEscape).join(','))
+  rows.forEach(row=>csvRows.push(headers.map(header=>csvEscape(row[header])).join(',')))
+  return csvRows.join('\n')
+}
+
+function exportUsersJSON(){
+  if(!ensureAdminAccess('exportar usuarios')) return
+  const data={
+    app:'Wisdom Academy',
+    module:'users',
+    key:USERS_KEY,
+    exportedAt:new Date().toISOString(),
+    count:getUsers().length,
+    users:getUsers()
+  }
+  downloadTextFile(`wisdom-users-backup-${backupDateStamp()}.json`,JSON.stringify(data,null,2),'application/json')
+}
+
+function exportUsersCSV(){
+  if(!ensureAdminAccess('exportar usuarios')) return
+  const headers=['User ID','Name','Email','Role','Teacher ID','Student ID','Status','Created At','Updated At','Last Login','Notes']
+  const rows=getUsers().map(user=>({
+    'User ID':user.id||user.userId||user.code||'',
+    'Name':user.name||'',
+    'Email':user.email||'',
+    'Role':roleLabel(user.role),
+    'Teacher ID':user.teacherId||user.teacherCode||'',
+    'Student ID':user.studentId||user.studentCode||'',
+    'Status':user.status||'',
+    'Created At':user.createdAt||'',
+    'Updated At':user.updatedAt||'',
+    'Last Login':user.loginAt||'',
+    'Notes':user.notes||''
+  }))
+  downloadTextFile(`wisdom-users-${backupDateStamp()}.csv`,arrayToCSV(headers,rows),'text/csv')
+}
+
+function exportAccessMatrixCSV(){
+  if(!ensureAdminAccess('exportar matriz de acceso')) return
+  const headers=['User ID','Name','Email','Role','Linked Entity','Linked ID','Linked Name','Status','Access Notes']
+  const rows=getUsers().map(user=>{
+    let linkedEntity='Administración'
+    let linkedId=''
+    let linkedName='Acceso administrativo'
+    if(user.role==='teacher'){
+      const teacher=getTeachers().find(item=>item.teacherId===user.teacherId)
+      linkedEntity='Profesor'
+      linkedId=user.teacherId||''
+      linkedName=teacher?.name||'Profesor no encontrado'
+    }
+    if(user.role==='student'){
+      const student=getStudents().find(item=>item.studentId===user.studentId || item.code===user.studentId)
+      linkedEntity='Estudiante'
+      linkedId=user.studentId||''
+      linkedName=student?.name||'Estudiante no encontrado'
+    }
+    return {
+      'User ID':user.id||'',
+      'Name':user.name||'',
+      'Email':user.email||'',
+      'Role':roleLabel(user.role),
+      'Linked Entity':linkedEntity,
+      'Linked ID':linkedId,
+      'Linked Name':linkedName,
+      'Status':user.status||'',
+      'Access Notes':user.notes||''
+    }
+  })
+  downloadTextFile(`wisdom-access-matrix-${backupDateStamp()}.csv`,arrayToCSV(headers,rows),'text/csv')
+}
+
+function normalizeImportedUsersPayload(payload){
+  if(Array.isArray(payload)) return payload
+  if(payload && Array.isArray(payload.users)) return payload.users
+  if(payload && Array.isArray(payload.data)) return payload.data
+  return []
+}
+
+function importUsersJSON(event){
+  if(!ensureAdminAccess('importar usuarios')) return
+  const file=event.target.files && event.target.files[0]
+  event.target.value=''
+  if(!file)return
+
+  const reader=new FileReader()
+  reader.onload=function(){
+    try{
+      const payload=JSON.parse(reader.result)
+      const imported=normalizeImportedUsersPayload(payload)
+      if(!Array.isArray(imported) || !imported.length){
+        alert('El archivo no contiene usuarios válidos.')
+        return
+      }
+
+      const normalized=(typeof SchemaRegistry!=='undefined' && SchemaRegistry.normalizeCollection)
+        ? SchemaRegistry.normalizeCollection(imported,'normalizeUser').map(normalizeUser)
+        : imported.map(normalizeUser)
+
+      const valid=normalized.filter(user=>user.id && user.email && user.role)
+      if(!valid.length){
+        alert('No se encontraron usuarios válidos para importar.')
+        return
+      }
+
+      const selfEmail=(currentUser.email||'').toLowerCase()
+      const selfStillExists=valid.some(user=>(user.email||'').toLowerCase()===selfEmail && user.status==='Activo')
+      if(selfEmail && !selfStillExists){
+        alert('Importación bloqueada: el archivo no conserva tu usuario administrador activo. Esto evita que pierdas el acceso.')
+        return
+      }
+
+      const duplicateEmails=valid.map(user=>(user.email||'').toLowerCase()).filter(Boolean)
+      const hasDuplicateEmails=duplicateEmails.some((email,index)=>duplicateEmails.indexOf(email)!==index)
+      if(hasDuplicateEmails){
+        alert('Importación bloqueada: el archivo tiene correos duplicados.')
+        return
+      }
+
+      const ok=confirm(`Vas a reemplazar los usuarios actuales por ${valid.length} usuario(s) importado(s). Antes se descargará un backup automático. ¿Continuar?`)
+      if(!ok)return
+
+      exportUsersJSON()
+      setUsers(valid)
+      renderUsers()
+      alert('Usuarios importados correctamente.')
+    }catch(error){
+      alert('No se pudo importar el archivo. Verifica que sea un JSON válido.')
+    }
+  }
+  reader.readAsText(file)
 }
 
 function seedDemoUsersIfEmpty(){
@@ -752,5 +1050,149 @@ if(preselectedTeacherId || preselectedStudentId){
   openUserModal()
 }
 </script>
+
+<style id="wisdom-phase13-modal-scroll-fix">
+.modal.active{overflow:auto!important;align-items:flex-start!important;}
+.modal-box{max-height:calc(100vh - 40px)!important;overflow:auto!important;}
+</style>
+
+<script id="wisdom-phase13-runtime-hardening">
+(function(){
+  if(window.__wisdomPhase13RuntimeHardeningApplied)return;
+  window.__wisdomPhase13RuntimeHardeningApplied=true;
+  window.addEventListener('error',function(event){
+    try{console.error('Wisdom FASE 13 runtime error:',event.error||event.message||event);}catch(error){}
+  });
+  window.addEventListener('unhandledrejection',function(event){
+    try{console.error('Wisdom FASE 13 promise rejection:',event.reason||event);}catch(error){}
+  });
+  window.addEventListener('storage',function(event){
+    try{
+      const criticalKeys=['wisdom_users','wisdom_teachers_demo','wisdom_students_demo','wisdom_groups_demo','wisdom_private_demo','wisdom_requests_demo'];
+      if(event && criticalKeys.includes(event.key) && document.visibilityState==='visible'){
+        console.info('Wisdom FASE 13: cambio externo detectado en',event.key);
+      }
+    }catch(error){}
+  });
+})();
+</script>
+
+<script id="wisdom-phase13-users-hardening">
+(function(){
+  if(window.__wisdomPhase13UsersHardeningApplied)return;
+  window.__wisdomPhase13UsersHardeningApplied=true;
+  function txt(v){return String(v||'').trim();}
+  function email(v){return txt(v).toLowerCase();}
+  function normRole(v){return (typeof normalizeRoleSafe==='function')?normalizeRoleSafe(v):txt(v).toLowerCase();}
+  function normUser(raw){
+    const u=(typeof normalizeUser==='function')?normalizeUser(raw||{}):(raw||{});
+    const id=txt(u.id||u.userId||u.code);
+    const role=normRole(u.role||'student');
+    return {...u,id,userId:id,code:u.code||id,email:email(u.email),role,status:u.status==='Inactivo'?'Inactivo':'Activo',teacherId:txt(u.teacherId||u.teacherCode),teacherCode:txt(u.teacherCode||u.teacherId),studentId:txt(u.studentId||u.studentCode),studentCode:txt(u.studentCode||u.studentId),updatedAt:u.updatedAt||new Date().toISOString()};
+  }
+  function dedupeUsers(list){
+    const out=[]; const ids=new Set(); const emails=new Set(); const links=new Set();
+    (Array.isArray(list)?list:[]).forEach(raw=>{
+      const u=normUser(raw); if(!u.id||!u.email||!u.role)return;
+      const idKey=u.id.toLowerCase(); const emailKey=u.email;
+      if(ids.has(idKey)||emails.has(emailKey))return;
+      const linkKey=u.role==='teacher'&&u.teacherId?`teacher:${u.teacherId}`:u.role==='student'&&u.studentId?`student:${u.studentId}`:'';
+      if(linkKey&&links.has(linkKey))return;
+      ids.add(idKey); emails.add(emailKey); if(linkKey)links.add(linkKey); out.push(u);
+    });
+    return out;
+  }
+  window.wisdomPhase13NormalizeUsers=dedupeUsers;
+  if(typeof setUsers==='function'){
+    const originalSetUsers=setUsers;
+    window.setUsers=function(users){return originalSetUsers.call(this,dedupeUsers(users));};
+  }
+  if(typeof saveUser==='function'){
+    const originalSaveUser=saveUser;
+    window.saveUser=function(){
+      const emailEl=document.getElementById('userEmail');
+      const passEl=document.getElementById('userPassword');
+      const roleEl=document.getElementById('userRole');
+      const emailValue=email(emailEl&&emailEl.value);
+      if(!emailValue || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailValue)){alert('Correo de usuario inválido.');return;}
+      if(emailEl)emailEl.value=emailValue;
+      const editingId=txt(document.getElementById('userId')&&document.getElementById('userId').value);
+      const users=(typeof getUsers==='function'?getUsers():[]).map(normUser);
+      if(users.some(u=>u.email===emailValue && u.id!==editingId)){alert('Ya existe un usuario con ese correo.');return;}
+      const role=roleEl&&roleEl.value;
+      if(role==='teacher'){
+        const teacherId=txt(document.getElementById('linkedTeacher')&&document.getElementById('linkedTeacher').value);
+        if(!teacherId){alert('El usuario profesor debe estar vinculado a un profesor existente.');return;}
+        if(users.some(u=>u.role==='teacher'&&u.teacherId===teacherId&&u.id!==editingId)){alert('Ese profesor ya tiene usuario vinculado.');return;}
+      }
+      if(role==='student'){
+        const studentId=txt(document.getElementById('linkedStudent')&&document.getElementById('linkedStudent').value);
+        if(!studentId){alert('El usuario estudiante debe estar vinculado a un estudiante existente.');return;}
+        if(users.some(u=>u.role==='student'&&u.studentId===studentId&&u.id!==editingId)){alert('Ese estudiante ya tiene usuario vinculado.');return;}
+      }
+      if(!editingId && passEl && !txt(passEl.value)){alert('La contraseña inicial es obligatoria en el demo.');return;}
+      return originalSaveUser.apply(this,arguments);
+    };
+  }
+  function activeAdminsAfter(excludedId){
+    const users=(typeof getUsers==='function'?getUsers():[]).map(normUser);
+    return users.filter(u=>u.role==='admin'&&u.status==='Activo'&&u.id!==excludedId).length;
+  }
+  if(typeof deleteUser==='function'){
+    const originalDeleteUser=deleteUser;
+    window.deleteUser=function(id){
+      const user=(typeof getUsers==='function'?getUsers():[]).map(normUser).find(u=>u.id===id);
+      if(user&&user.role==='admin'&&activeAdminsAfter(id)<1){alert('No puedes borrar el último administrador activo.');return;}
+      return originalDeleteUser.apply(this,arguments);
+    };
+  }
+  if(typeof toggleUserStatus==='function'){
+    const originalToggleUserStatus=toggleUserStatus;
+    window.toggleUserStatus=function(id){
+      const user=(typeof getUsers==='function'?getUsers():[]).map(normUser).find(u=>u.id===id);
+      if(user&&user.role==='admin'&&user.status==='Activo'&&activeAdminsAfter(id)<1){alert('No puedes inactivar el último administrador activo.');return;}
+      return originalToggleUserStatus.apply(this,arguments);
+    };
+  }
+})();
+</script>
+
+
+<script id="wisdom-phase16-usuarios-ux">
+(function(){
+  window.renderUsersUXKpis=function(){
+    const box=document.getElementById('usersUXKpis');
+    if(!box)return;
+    const userList=(typeof getUsers==='function'?getUsers():[]);
+    const active=userList.filter(u=>String(u.status||'Activo')==='Activo').length;
+    const admins=userList.filter(u=>u.role==='admin').length;
+    const teachers=userList.filter(u=>u.role==='teacher').length;
+    const students=userList.filter(u=>u.role==='student').length;
+    box.innerHTML=`<div class="user-kpi ok"><small>Usuarios activos</small><strong>${active}</strong></div><div class="user-kpi danger"><small>Administrativos</small><strong>${admins}</strong></div><div class="user-kpi warning"><small>Profesores</small><strong>${teachers}</strong></div><div class="user-kpi ok"><small>Estudiantes</small><strong>${students}</strong></div>`;
+  };
+  const originalRenderUsers=window.renderUsers;
+  window.renderUsers=function(){
+    if(typeof originalRenderUsers==='function')originalRenderUsers.apply(this,arguments);
+    if(typeof renderUsersUXKpis==='function')renderUsersUXKpis();
+  };
+  if(typeof renderUsersUXKpis==='function')renderUsersUXKpis();
+})();
+</script>
+</main>
+</div>
+
+<script>
+function toggleErpSidebar(){const sidebar=document.getElementById('erpSidebar');if(!sidebar)return;sidebar.classList.toggle('open');document.body.classList.toggle('erp-menu-open',sidebar.classList.contains('open'));}
+(function initErpSidebar(){
+  function normalizeRoleLocal(role){const clean=String(role||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');if(['admin','administrador','administrativo','administrator'].includes(clean))return 'admin';if(['teacher','profesor','docente','instructor'].includes(clean))return 'teacher';if(['student','estudiante','alumno','learner'].includes(clean))return 'student';return clean;}
+  function storageGetLocal(key,fallback){try{if(window.WisdomStorage&&typeof WisdomStorage.get==='function')return WisdomStorage.get(key,fallback);const raw=localStorage.getItem(key);return raw?JSON.parse(raw):fallback;}catch(error){return fallback;}}
+  function getCurrentUserLocal(){try{if(window.AuthService&&typeof AuthService.getCurrentUser==='function'){const user=AuthService.getCurrentUser();if(user)return user;}}catch(error){}return storageGetLocal('wisdom_current_user',null)||{};}
+  const user=getCurrentUserLocal();const role=normalizeRoleLocal(user.role||user.userRole||user.type||user.profile||user.access);const labels={admin:'Administrativo',teacher:'Profesor',student:'Estudiante'};
+  const name=document.getElementById('erpSidebarUserName');const roleEl=document.getElementById('erpSidebarUserRole');const email=document.getElementById('erpSidebarUserEmail');
+  if(name)name.textContent=user.name||user.fullName||user.email||'Usuario';if(roleEl)roleEl.textContent=labels[role]||role||'Rol';if(email)email.textContent=user.email||'';
+  document.querySelectorAll('.erp-side-link[data-roles]').forEach(link=>{const allowed=String(link.getAttribute('data-roles')||'').split(',').map(item=>item.trim()).filter(Boolean);if(role&&allowed.length&&!allowed.includes(role))link.classList.add('erp-role-hidden');link.addEventListener('click',()=>{const sidebar=document.getElementById('erpSidebar');if(sidebar)sidebar.classList.remove('open');document.body.classList.remove('erp-menu-open');});});
+})();
+</script>
+
 </body>
 </html>

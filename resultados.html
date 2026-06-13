@@ -572,7 +572,33 @@ td:last-child{
 }
 
 </style>
+
+<style>
+/* Wisdom Academy — FASE 13 Modal Safety Patch */
+.modal-box{
+  max-height:calc(100vh - 48px)!important;
+  overflow:auto!important;
+}
+.table-wrap{
+  max-width:100%;
+}
+</style>
+
+
+<style>
+/* ===========================
+   WISDOM FASE 16 — Academic UX Intelligence Layer
+   UX-only. Logic, storage keys and services untouched.
+=========================== */
+.ux-breadcrumb{display:flex;gap:8px;align-items:center;color:#68798d;font-size:.78rem;font-weight:900;letter-spacing:.05em;text-transform:uppercase;margin-bottom:12px;flex-wrap:wrap}
+.ux-breadcrumb a{color:#123e68;text-decoration:none}.ux-breadcrumb a:hover{text-decoration:underline}.ux-breadcrumb span{color:#9aacba}
+.ux-priority-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}.ux-priority-card{background:rgba(255,255,255,.96);border:1px solid #d8e6ed;border-radius:22px;padding:16px;box-shadow:0 10px 24px rgba(13,43,69,.07);position:relative;overflow:hidden}.ux-priority-card:before{content:"";position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,#16aeb7,#e6ff00)}.ux-priority-card.warning:before{background:#f6df94}.ux-priority-card.danger:before{background:#ffd0d8}.ux-priority-card.success:before{background:#c9ebd3}.ux-priority-card small{display:block;color:#68798d;font-weight:900;text-transform:uppercase;letter-spacing:.08em;font-size:.68rem;margin-bottom:8px}.ux-priority-card strong{display:block;color:#123e68;font-size:1.8rem;line-height:1}.ux-priority-card p{margin-top:8px;color:#68798d;font-size:.84rem;font-weight:700;line-height:1.3}.ux-panel{background:rgba(255,255,255,.96);border:1px solid #d8e6ed;border-radius:24px;padding:18px;margin-bottom:20px;box-shadow:0 10px 24px rgba(13,43,69,.07)}.ux-panel h2,.ux-panel h3{color:#123e68!important;margin-bottom:8px}.ux-panel .subline{color:#68798d;font-weight:750;line-height:1.4;margin-bottom:12px}.ux-action-strip{display:flex;gap:10px;flex-wrap:wrap}.ux-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border-radius:999px;background:#e6f7f8;color:#123e68;font-weight:900;font-size:.74rem}.ux-chip.danger{background:#fff0f2;color:#b00020}.ux-chip.warning{background:#fff8dd;color:#8a6100}.ux-chip.success{background:#edf9f0;color:#146c2e}.ux-chip.gray{background:#eef2f5;color:#68798d}.ux-wizard-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0 0 16px}.ux-step{border:1px solid #d8e6ed;border-radius:16px;padding:12px;background:#fbfdff;color:#123e68;font-weight:900}.ux-step small{display:block;color:#68798d;font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}.ux-risk-list{display:grid;gap:10px}.ux-risk-item{border:1px solid #d8e6ed;border-radius:16px;padding:12px;background:#fbfdff}.ux-risk-item strong{display:block;color:#123e68;margin-bottom:4px}.ux-risk-item small{display:block;color:#68798d;line-height:1.35;font-weight:700}
+@media(max-width:1050px){.ux-priority-grid,.ux-wizard-steps{grid-template-columns:repeat(2,1fr)}}@media(max-width:650px){.ux-priority-grid,.ux-wizard-steps{grid-template-columns:1fr}}
+@media print{.ux-breadcrumb,.ux-action-strip{display:none!important}.ux-panel,.ux-priority-card{box-shadow:none!important}}
+</style>
+
 </head>
+
 
 <body>
 <div class="app">
@@ -615,7 +641,16 @@ td:last-child{
   </div>
 
 
+  
   <div class="menu-group">
+    <div class="menu-title">Diagnóstico ▾</div>
+    <div class="menu-items">
+      <a class="side-link" data-roles="admin,teacher" href="placement_portal_integrado.html"><span class="dot"></span> Placement</a>
+      <a class="side-link" data-roles="admin,teacher" href="diagnostico_resultados.html"><span class="dot"></span> Resultados diagnóstico</a>
+    </div>
+  </div>
+
+<div class="menu-group">
     <div class="menu-title">Práctica y exámenes ▾</div>
     <div class="menu-items">
       <a class="side-link" data-roles="admin,teacher,student" href="Grammar_portal.html"><span class="dot"></span> Grammar</a>
@@ -637,6 +672,8 @@ td:last-child{
 
 <main class="main">
 
+  <nav class="ux-breadcrumb"><a href="dashboard.html">Dashboard</a><span>/</span><strong>Resultados</strong></nav>
+
   <div class="topbar">
     <div>
       <h1>Resultados <span id="rolePill" class="role-pill">Rol</span></h1>
@@ -652,6 +689,21 @@ td:last-child{
   </div>
 
   <div class="notice" id="roleNotice"></div>
+
+  <section class="ux-priority-grid" aria-label="Inteligencia de resultados">
+    <div class="ux-priority-card success"><small>Top performers</small><strong id="uxTopPerformers">0</strong><p>Resultados iguales o superiores a 90%.</p></div>
+    <div class="ux-priority-card danger"><small>En riesgo</small><strong id="uxRiskResults">0</strong><p>Resultados inferiores a 75%.</p></div>
+    <div class="ux-priority-card warning"><small>Formales</small><strong id="uxFormalResults">0</strong><p>Exámenes oficiales presentados.</p></div>
+    <div class="ux-priority-card"><small>Actividad reciente</small><strong id="uxRecentResults">0</strong><p>Resultados de los últimos 7 días.</p></div>
+  </section>
+
+  <section class="ux-panel" aria-label="Herramientas de práctica">
+    <h2>Herramientas rápidas</h2>
+    <div class="subline">Los accesos a Grammar, Listening y Speaking son herramientas de apoyo. La toma de decisiones debe hacerse desde resultados, reportes y dossier.</div>
+    <div class="ux-action-strip">
+      <span class="ux-chip">Grammar</span><span class="ux-chip">Listening</span><span class="ux-chip">Speaking</span><span class="ux-chip gray">Historial académico</span>
+    </div>
+  </section>
 
   <section class="metrics">
     <div class="metric">
@@ -763,8 +815,11 @@ td:last-child{
 </main>
 </div>
 
-<script src="storage.js"></script>
-<script src="schemaRegistry.js"></script>
+<script src="js/core/storage.js"></script>
+<script src="js/core/schemaRegistry.js"></script>
+<script src="js/services/authService.js"></script>
+<script src="js/core/permissions.js"></script>
+<script src="js/services/resultService.js"></script>
 <script>
 const CURRENT_USER_KEY = 'wisdom_current_user';
 const RESULTS_KEY = 'wisdom_exam_results';
@@ -786,13 +841,70 @@ if(typeof WisdomStorage === 'undefined'){
   };
 }
 
-const currentUser = WisdomStorage.get(CURRENT_USER_KEY, null);
+function getCurrentUserSafe(){
+  if(typeof AuthService !== 'undefined' && AuthService){
+    try{
+      if(typeof AuthService.getCurrentUser === 'function'){
+        const user = AuthService.getCurrentUser();
+        if(user && typeof user === 'object') return user;
+      }
+      if(typeof AuthService.currentUser === 'function'){
+        const user = AuthService.currentUser();
+        if(user && typeof user === 'object') return user;
+      }
+    }catch(error){
+      console.warn('AuthService no disponible para resultados. Usando WisdomStorage como respaldo.', error);
+    }
+  }
 
-if(!currentUser || !currentUser.role){
+  return WisdomStorage.get(CURRENT_USER_KEY, null);
+}
+
+function isAuthenticatedSafe(){
+  if(typeof AuthService !== 'undefined' && AuthService && typeof AuthService.isAuthenticated === 'function'){
+    try{
+      return Boolean(AuthService.isAuthenticated());
+    }catch(error){
+      console.warn('AuthService.isAuthenticated falló en resultados. Usando fallback.', error);
+    }
+  }
+  const user = getCurrentUserSafe();
+  return Boolean(user && user.role);
+}
+
+const currentUser = getCurrentUserSafe();
+
+if(!isAuthenticatedSafe() || !currentUser || !currentUser.role){
   window.location.href = 'login.html';
 }
 
+function hasPermission(methodName, fallback){
+  if(typeof WisdomPermissions !== 'undefined' && WisdomPermissions && typeof WisdomPermissions[methodName] === 'function'){
+    try{
+      return Boolean(WisdomPermissions[methodName]());
+    }catch(error){
+      console.warn('WisdomPermissions.' + methodName + ' falló en resultados. Usando fallback.', error);
+    }
+  }
+  return fallback;
+}
+
+function isAdmin(){ return hasPermission('isAdmin', currentUser.role === 'admin'); }
+function isTeacher(){ return hasPermission('isTeacher', currentUser.role === 'teacher'); }
+function isStudent(){ return hasPermission('isStudent', currentUser.role === 'student'); }
+
+
+
+function escapeHTML(value){
+  return String(value ?? '').replace(/[&<>'"]/g, function(char){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char];
+  });
+}
+
 function logout(){
+  if(typeof AuthService !== 'undefined' && AuthService && typeof AuthService.logout === 'function'){
+    try{ AuthService.logout(); }catch(error){ console.warn('AuthService.logout falló. Usando fallback.', error); }
+  }
   WisdomStorage.remove(CURRENT_USER_KEY);
   window.location.href = 'login.html';
 }
@@ -842,9 +954,9 @@ function renderSessionInfo(){
 
   const notice = document.getElementById('roleNotice');
 
-  if(currentUser.role === 'admin'){
+  if(isAdmin()){
     notice.innerText = 'Vista administrativa: puedes ver todos los resultados, filtrar por tipo de evaluación y detectar estudiantes en riesgo.';
-  }else if(currentUser.role === 'teacher'){
+  }else if(isTeacher()){
     notice.innerText = 'Vista de profesor: solo ves resultados asociados a tu teacherId o a estudiantes vinculados contigo.';
   }else{
     notice.innerText = 'Vista de estudiante: solo ves tu propio historial de práctica y exámenes.';
@@ -886,7 +998,7 @@ function getStudentFromCurrentUser(){
 }
 
 function studentBelongsToTeacher(student){
-  if(currentUser.role !== 'teacher') return true;
+  if(!isTeacher()) return true;
 
   const teacherId = getEffectiveTeacherId();
   const teacherName = currentUser.name || '';
@@ -898,9 +1010,9 @@ function studentBelongsToTeacher(student){
 }
 
 function resultBelongsToCurrentUser(result){
-  if(currentUser.role === 'admin') return true;
+  if(isAdmin()) return true;
 
-  if(currentUser.role === 'student'){
+  if(isStudent()){
     const student = getStudentFromCurrentUser();
     const studentId = currentUser.studentId || student?.code || currentUser.id || '';
     return (
@@ -910,7 +1022,7 @@ function resultBelongsToCurrentUser(result){
     );
   }
 
-  if(currentUser.role === 'teacher'){
+  if(isTeacher()){
     const teacherId = getEffectiveTeacherId();
 
     if(teacherId && (result.teacherId === teacherId || result.teacherCode === teacherId)) return true;
@@ -1109,19 +1221,19 @@ function renderResults(){
     row.innerHTML = `
       <td>${formatDate(result.date)}</td>
       <td>
-        <div class="student-name">${result.studentName}</div>
-        <div class="detail-small">${result.studentId || 'Sin código'}</div>
+        <div class="student-name">${escapeHTML(result.studentName)}</div>
+        <div class="detail-small">${escapeHTML(result.studentId || 'Sin código')}</div>
       </td>
-      <td>${findTeacherName(result)}</td>
-      <td><span class="pill">${result.type}</span></td>
+      <td>${escapeHTML(findTeacherName(result))}</td>
+      <td><span class="pill">${escapeHTML(result.type)}</span></td>
       <td><span class="pill ${result.mode === 'exam' ? 'danger' : 'gray'}">${result.mode === 'exam' ? 'Exam' : 'Practice'}</span></td>
       <td>
-        <strong>${result.level || '--'} · Unit ${result.unit || '--'}</strong>
-        <div class="detail-small">${result.unitTitle || ''}</div>
+        <strong>${escapeHTML(result.level || '--')} · Unit ${escapeHTML(result.unit || '--')}</strong>
+        <div class="detail-small">${escapeHTML(result.unitTitle || '')}</div>
       </td>
       <td><span class="score ${scoreClass}">${score === null ? '--' : score + '%'}</span></td>
-      <td><span class="pill ${status.className}">${status.label}</span></td>
-      <td>${status.action}</td>
+      <td><span class="pill ${status.className}">${escapeHTML(status.label)}</span></td>
+      <td>${escapeHTML(status.action)}</td>
     `;
     table.appendChild(row);
   });
@@ -1137,7 +1249,7 @@ function resetFilters(){
 }
 
 function clearAllResults(){
-  if(currentUser.role !== 'admin') return;
+  if(!isAdmin()){alert('Solo administración puede borrar resultados.');return;}
   const firstConfirm = confirm('¿Seguro que quieres borrar TODOS los resultados guardados en este navegador? Esta acción no se puede deshacer.');
   if(!firstConfirm) return;
   const typed = prompt('Para confirmar, escribe BORRAR RESULTADOS');
@@ -1160,5 +1272,271 @@ applyRoleVisibility();
 renderResults();
 </script>
 
+
+<script>
+/* Wisdom Academy — FASE 13 Academic Traceability Hardening
+   Module: resultados
+   Conservative patch: does not rename public functions, IDs, keys, or visual structure.
+*/
+(function(){
+  if (window.__wisdomPhase13AcademicHardening) return;
+  window.__wisdomPhase13AcademicHardening = true;
+
+  const MODULE_NAME = "resultados";
+  const CURRENT_USER_KEY = window.CURRENT_USER_KEY || "wisdom_current_user";
+  const EVALUATIONS_KEY = window.EVALUATIONS_KEY || "wisdom_evaluations";
+  const EXAM_RESULTS_KEY = window.EXAM_RESULTS_KEY || "wisdom_exam_results";
+  const ASSESSMENT_RESULTS_KEY = window.ASSESSMENT_RESULTS_KEY || "wisdom_assessment_results";
+  const INTERVENTIONS_KEY = window.INTERVENTIONS_KEY || "wisdom_interventions";
+
+  function getStore(){
+    return (typeof WisdomStorage !== "undefined" && WisdomStorage && typeof WisdomStorage.get === "function" && typeof WisdomStorage.set === "function")
+      ? WisdomStorage
+      : {
+          get(key, fallback) {
+            try {
+              const raw = localStorage.getItem(key);
+              return raw ? JSON.parse(raw) : fallback;
+            } catch(error) {
+              console.warn("FASE 13: storage get fallback failed", key, error);
+              return fallback;
+            }
+          },
+          set(key, value) {
+            localStorage.setItem(key, JSON.stringify(value));
+          }
+        };
+  }
+
+  function asArray(value){
+    return Array.isArray(value) ? value : [];
+  }
+
+  function cleanText(value){
+    return String(value ?? "").trim();
+  }
+
+  function safeNumber(value, fallback = null){
+    if (value === null || value === undefined || value === "") return fallback;
+    const parsed = Number(String(value).replace("%","").trim());
+    return Number.isFinite(parsed) ? parsed : fallback;
+  }
+
+  function clampScore(value){
+    const score = safeNumber(value, null);
+    if (score === null) return null;
+    return Math.max(0, Math.min(100, Math.round(score * 10) / 10));
+  }
+
+  function normalizeEvaluationPhase13(item = {}){
+    const base = (typeof SchemaRegistry !== "undefined" && SchemaRegistry && typeof SchemaRegistry.normalizeEvaluation === "function")
+      ? SchemaRegistry.normalizeEvaluation(item)
+      : {...item};
+
+    const studentId = cleanText(base.studentId || base.studentCode || item.studentId || item.studentCode || "");
+    const type = cleanText(base.type || item.type || "Evaluación");
+    const level = cleanText(base.level || item.level || "");
+    const unit = cleanText(base.unit || item.unit || "");
+    const evaluationId = cleanText(base.evaluationId || base.id || item.evaluationId || item.id || [
+      "EVAL", studentId, type, level, unit, cleanText(base.dueDate || item.dueDate || "")
+    ].join("-").replace(/\s+/g,"-"));
+
+    return {
+      ...item,
+      ...base,
+      id: cleanText(base.id || evaluationId),
+      evaluationId,
+      studentId,
+      studentCode: cleanText(base.studentCode || studentId),
+      studentName: cleanText(base.studentName || item.studentName || item.name || "Estudiante"),
+      studentEmail: cleanText(base.studentEmail || item.studentEmail || item.email || ""),
+      teacherId: cleanText(base.teacherId || base.teacherCode || item.teacherId || item.teacherCode || ""),
+      teacherCode: cleanText(base.teacherCode || base.teacherId || item.teacherCode || item.teacherId || ""),
+      type,
+      level,
+      unit,
+      unitTitle: cleanText(base.unitTitle || item.unitTitle || ""),
+      dueDate: cleanText(base.dueDate || item.dueDate || ""),
+      status: cleanText(base.status || item.status || "pending"),
+      attemptsAllowed: Math.max(1, Math.min(3, safeNumber(base.attemptsAllowed || item.attemptsAllowed || item.attempts || 1, 1))),
+      createdAt: cleanText(base.createdAt || item.createdAt || new Date().toISOString()),
+      updatedAt: cleanText(base.updatedAt || item.updatedAt || new Date().toISOString())
+    };
+  }
+
+  function normalizeResultPhase13(item = {}){
+    const base = (typeof SchemaRegistry !== "undefined" && SchemaRegistry && typeof SchemaRegistry.normalizeResult === "function")
+      ? SchemaRegistry.normalizeResult(item)
+      : {...item};
+
+    const score = clampScore(base.score ?? base.finalScore ?? base.percentage ?? item.score ?? item.finalScore ?? item.percentage);
+    const studentId = cleanText(base.studentId || base.studentCode || item.studentId || item.studentCode || "");
+    const evaluationId = cleanText(base.evaluationId || base.evalId || base.assessmentId || base.assignmentId || item.evaluationId || "");
+    const submittedAt = cleanText(base.submittedAt || item.submittedAt || base.date || item.date || base.createdAt || item.createdAt || new Date().toISOString());
+    const id = cleanText(base.id || base.resultId || item.id || item.resultId || [
+      "RES", evaluationId || studentId, cleanText(base.type || item.type || "Evaluación"), submittedAt
+    ].join("-").replace(/\s+/g,"-"));
+
+    return {
+      ...item,
+      ...base,
+      id,
+      resultId: cleanText(base.resultId || id),
+      evaluationId,
+      studentId,
+      studentCode: cleanText(base.studentCode || studentId),
+      studentName: cleanText(base.studentName || item.studentName || item.name || "Estudiante"),
+      studentEmail: cleanText(base.studentEmail || item.studentEmail || item.email || ""),
+      teacherId: cleanText(base.teacherId || base.teacherCode || item.teacherId || item.teacherCode || ""),
+      teacherCode: cleanText(base.teacherCode || base.teacherId || item.teacherCode || item.teacherId || ""),
+      type: cleanText(base.type || base.skill || item.type || "Evaluación"),
+      mode: cleanText(base.mode || item.mode || "practice").toLowerCase(),
+      level: cleanText(base.level || item.level || ""),
+      unit: cleanText(base.unit || item.unit || ""),
+      unitTitle: cleanText(base.unitTitle || item.unitTitle || ""),
+      score,
+      percentage: score,
+      finalScore: score,
+      submittedAt,
+      createdAt: cleanText(base.createdAt || item.createdAt || submittedAt),
+      updatedAt: cleanText(base.updatedAt || item.updatedAt || submittedAt)
+    };
+  }
+
+  function signatureEvaluation(item){
+    const n = normalizeEvaluationPhase13(item);
+    return n.evaluationId || [n.studentId, n.type, n.level, n.unit, n.dueDate].join("|").toLowerCase();
+  }
+
+  function signatureResult(item){
+    const n = normalizeResultPhase13(item);
+    return n.evaluationId || n.id || [n.studentId, n.type, n.level, n.unit, n.submittedAt, n.score].join("|").toLowerCase();
+  }
+
+  function dedupe(items, signatureFn){
+    const map = new Map();
+    asArray(items).forEach(item => {
+      const key = signatureFn(item);
+      if (!key) return;
+      const previous = map.get(key);
+      if (!previous) {
+        map.set(key, item);
+        return;
+      }
+      const prevUpdated = Date.parse(previous.updatedAt || previous.submittedAt || previous.createdAt || 0) || 0;
+      const nextUpdated = Date.parse(item.updatedAt || item.submittedAt || item.createdAt || 0) || 0;
+      if (nextUpdated >= prevUpdated) map.set(key, item);
+    });
+    return Array.from(map.values());
+  }
+
+  function reconcileEvaluationStatuses(evaluations, results){
+    const resultByEvaluation = new Set(
+      asArray(results).map(normalizeResultPhase13).filter(r => r.evaluationId).map(r => r.evaluationId)
+    );
+    const today = new Date().toISOString().slice(0,10);
+
+    return asArray(evaluations).map(raw => {
+      const evaluation = normalizeEvaluationPhase13(raw);
+      const hasResult = evaluation.resultId || resultByEvaluation.has(evaluation.evaluationId);
+      if (hasResult && evaluation.status !== "cancelled") {
+        return {...evaluation, status:"submitted", updatedAt:evaluation.updatedAt || new Date().toISOString()};
+      }
+      if (evaluation.dueDate && evaluation.dueDate < today && evaluation.status === "pending") {
+        return {...evaluation, status:"overdue", updatedAt:evaluation.updatedAt || new Date().toISOString()};
+      }
+      return evaluation;
+    });
+  }
+
+  function runAcademicIntegritySweep(reason = "manual"){
+    const Store = getStore();
+
+    const evaluations = dedupe(asArray(Store.get(EVALUATIONS_KEY, [])), signatureEvaluation).map(normalizeEvaluationPhase13);
+    const examResults = dedupe(asArray(Store.get(EXAM_RESULTS_KEY, [])), signatureResult).map(normalizeResultPhase13);
+    const assessmentResults = dedupe(asArray(Store.get(ASSESSMENT_RESULTS_KEY, [])), signatureResult).map(normalizeResultPhase13);
+    const allResults = [...examResults, ...assessmentResults];
+    const reconciledEvaluations = reconcileEvaluationStatuses(evaluations, allResults);
+
+    Store.set(EVALUATIONS_KEY, reconciledEvaluations);
+    Store.set(EXAM_RESULTS_KEY, examResults);
+    Store.set(ASSESSMENT_RESULTS_KEY, assessmentResults);
+
+    const interventions = asArray(Store.get(INTERVENTIONS_KEY, []));
+    if (interventions.length) {
+      const cleanInterventions = dedupe(interventions, item => {
+        const id = cleanText(item.id || item.interventionId);
+        return id || [item.evaluationId, item.studentId || item.studentCode, item.type, item.createdAt].join("|").toLowerCase();
+      });
+      Store.set(INTERVENTIONS_KEY, cleanInterventions);
+    }
+
+    console.info("FASE 13 Academic Integrity Sweep", {
+      module: MODULE_NAME,
+      reason,
+      evaluations: reconciledEvaluations.length,
+      examResults: examResults.length,
+      assessmentResults: assessmentResults.length
+    });
+
+    return {
+      evaluations: reconciledEvaluations,
+      examResults,
+      assessmentResults
+    };
+  }
+
+  window.WisdomPhase13AcademicHardening = {
+    runAcademicIntegritySweep,
+    normalizeEvaluationPhase13,
+    normalizeResultPhase13,
+    dedupeEvaluations(items) { return dedupe(items, signatureEvaluation).map(normalizeEvaluationPhase13); },
+    dedupeResults(items) { return dedupe(items, signatureResult).map(normalizeResultPhase13); }
+  };
+
+  window.addEventListener("error", function(event){
+    console.error("FASE 13 runtime error", MODULE_NAME, event.error || event.message);
+  });
+
+  window.addEventListener("unhandledrejection", function(event){
+    console.error("FASE 13 unhandled promise rejection", MODULE_NAME, event.reason);
+  });
+
+  window.addEventListener("storage", function(event){
+    const watched = [EVALUATIONS_KEY, EXAM_RESULTS_KEY, ASSESSMENT_RESULTS_KEY, INTERVENTIONS_KEY, CURRENT_USER_KEY];
+    if (watched.includes(event.key) && document.visibilityState === "visible") {
+      console.info("FASE 13 storage sync refresh", MODULE_NAME, event.key);
+      window.location.reload();
+    }
+  });
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => runAcademicIntegritySweep("DOMContentLoaded"));
+  } else {
+    runAcademicIntegritySweep("immediate");
+  }
+})();
+</script>
+
+<script>
+(function(){
+  function read(key){try{const raw=localStorage.getItem(key);return raw?JSON.parse(raw):[]}catch(e){return []}}
+  function scoreOf(r){const v=r.score??r.finalScore??r.percentage;const n=Number(String(v??'').replace('%',''));return Number.isFinite(n)?n:null}
+  function dateOf(r){const d=new Date(r.submittedAt||r.date||r.createdAt||r.updatedAt||'');return Number.isNaN(d.getTime())?null:d}
+  function set(id,val){const el=document.getElementById(id);if(el)el.textContent=val}
+  function update(){
+    const rows=[...read('wisdom_exam_results'),...read('wisdom_assessment_results')];
+    let top=0,risk=0,formal=0,recent=0;const now=Date.now();
+    rows.forEach(r=>{const s=scoreOf(r);if(s!==null&&s>=90)top++;if(s!==null&&s<75)risk++;const mode=String(r.mode||'').toLowerCase();if(mode.includes('exam')||mode.includes('formal'))formal++;const d=dateOf(r);if(d&&now-d.getTime()<=7*24*60*60*1000)recent++;});
+    const body=document.querySelector('tbody');
+    if(!rows.length && body){const text=body.innerText.toLowerCase();risk=(text.match(/riesgo|intervenci|critical|danger/g)||[]).length;}
+    set('uxTopPerformers',top);set('uxRiskResults',risk);set('uxFormalResults',formal);set('uxRecentResults',recent);
+  }
+  window.addEventListener('load',()=>setTimeout(update,150));
+  ['input','change','click'].forEach(evt=>document.addEventListener(evt,()=>setTimeout(update,120),true));
+})();
+</script>
+
 </body>
+
 </html>

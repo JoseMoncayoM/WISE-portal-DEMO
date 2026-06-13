@@ -58,10 +58,54 @@ td{padding:12px 10px;border-top:1px solid var(--border);font-weight:600;vertical
 .userbox small{color:var(--gray)}
 .actions{display:flex;gap:8px;flex-wrap:wrap}
 @media(max-width:900px){.grid,.form-grid{grid-template-columns:1fr}.topbar{flex-direction:column;align-items:flex-start}}
+
+
+/* ===========================
+   WISDOM ERP GLOBAL SIDEBAR — FASE 16
+   UX navigation layer only. Logic untouched.
+=========================== */
+.erp-app-shell{min-height:100vh;display:grid;grid-template-columns:260px 1fr;background:var(--light,#f5f9fc)}
+.erp-sidebar{background:rgba(255,255,255,.92);border-right:1px solid var(--border,#dcebf2);padding:24px 18px;position:sticky;top:0;height:100vh;overflow:auto;box-shadow:12px 0 32px rgba(13,43,69,.045);z-index:30}
+.erp-sidebar-logo{display:flex;align-items:center;justify-content:flex-start;padding:8px 0 18px;margin-bottom:18px;border-bottom:1px solid var(--border,#dcebf2)}
+.erp-sidebar-logo img{width:145px;max-width:100%;height:auto;display:block;object-fit:contain}
+.erp-menu-group{margin-bottom:16px}.erp-menu-title{color:var(--gray,#6b7c93);font-size:.70rem;font-weight:900;text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px;display:flex;justify-content:space-between}.erp-menu-items{display:grid;gap:5px}
+.erp-side-link{display:flex;align-items:center;gap:10px;color:var(--text,#1f2d3d);text-decoration:none;padding:10px 12px;border-radius:14px;font-weight:800;font-size:.88rem;border:1px solid transparent;transition:.18s ease}
+.erp-side-link:hover,.erp-side-link.active{background:linear-gradient(135deg,var(--soft,#e7f8f8),#f7ffff);border-color:#caeff2;transform:translateX(2px)}
+.erp-side-dot{width:8px;height:8px;border-radius:50%;background:var(--accent,#1fb6b9);box-shadow:0 0 0 4px rgba(31,182,185,.12);flex:0 0 auto}
+.erp-sidebar-user{margin-top:22px;padding:14px;border-radius:18px;background:linear-gradient(135deg,#f7ffff,var(--soft,#e7f8f8));border:1px solid var(--border,#dcebf2)}
+.erp-sidebar-user strong{display:block;color:var(--primary,#0d2b45);font-size:.9rem;margin-bottom:4px}.erp-sidebar-user small{display:block;color:var(--gray,#6b7c93);font-weight:700;line-height:1.35}
+.erp-sidebar-logout{width:100%;margin-top:12px;padding:10px 12px;border-radius:999px;border:1px solid var(--border,#dcebf2);background:white;color:var(--primary,#0d2b45);font-weight:900;cursor:pointer}.erp-sidebar-logout:hover{background:var(--hover,#E6FF00);color:black}
+.erp-main-content{min-width:0;width:100%}.erp-mobile-bar{display:none;position:sticky;top:0;z-index:40;background:rgba(255,255,255,.94);border-bottom:1px solid var(--border,#dcebf2);padding:12px 16px;justify-content:space-between;align-items:center;gap:12px}.erp-mobile-bar strong{color:var(--primary,#0d2b45)}
+.erp-mobile-toggle{border:1px solid var(--border,#dcebf2);background:white;color:var(--primary,#0d2b45);border-radius:999px;padding:8px 12px;font-weight:900;cursor:pointer}.erp-role-hidden{display:none!important}
+@media(max-width:980px){.erp-app-shell{display:block}.erp-mobile-bar{display:flex}.erp-sidebar{position:fixed;left:0;top:0;bottom:0;width:min(84vw,300px);height:100vh;transform:translateX(-105%);transition:transform .22s ease}.erp-sidebar.open{transform:translateX(0)}.erp-main-content{width:100%}body.erp-menu-open{overflow:hidden}}
+
+</style>
+
+<style id="wisdom-phase16-ux-layer">
+.breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:14px;color:var(--gray);font-size:.82rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em}.breadcrumb a{color:var(--accent);text-decoration:none}.breadcrumb span{color:var(--primary)}
+.teacher-kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}.teacher-kpi{background:white;border:1px solid var(--border);border-radius:18px;padding:16px;box-shadow:0 8px 22px rgba(13,43,69,.05)}.teacher-kpi small{display:block;color:var(--gray);font-size:.72rem;font-weight:900;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}.teacher-kpi strong{display:block;color:var(--primary);font-size:1.55rem;line-height:1}.teacher-kpi.warning{background:var(--warning);border-color:#f4df8a}.teacher-kpi.danger{background:var(--danger);border-color:#ffd1d1}.teacher-kpi.ok{background:var(--ok);border-color:#c7f0d6}
+.section-tag{display:inline-block;margin-bottom:10px;background:var(--soft);color:var(--accent);border-radius:999px;padding:5px 10px;font-size:.7rem;font-weight:900;text-transform:uppercase;letter-spacing:.07em}.actions .btn{padding:8px 11px;font-size:.78rem}
+.modal-section-title{grid-column:1/-1;margin-top:4px;padding-top:8px;color:var(--primary);font-weight:900;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;border-top:1px solid var(--border)}
+@media(max-width:900px){.teacher-kpi-grid{grid-template-columns:1fr 1fr}}@media(max-width:640px){.teacher-kpi-grid{grid-template-columns:1fr}table{min-width:900px}}
 </style>
 </head>
 <body>
+
+<div class="erp-app-shell">
+  <aside class="erp-sidebar" id="erpSidebar">
+    <a class="erp-sidebar-logo" href="dashboard.html" aria-label="Ir al dashboard"><img src="logo.jpg" alt="Wisdom Academy Logo"></a>
+    <div class="erp-menu-group"><div class="erp-menu-title">Panel</div><div class="erp-menu-items"><a class="erp-side-link " data-roles="admin,teacher,student" href="dashboard.html"><span class="erp-side-dot"></span> Dashboard</a></div></div>
+    <div class="erp-menu-group"><div class="erp-menu-title">Personas</div><div class="erp-menu-items"><a class="erp-side-link " data-roles="admin,teacher,student" href="estudiantes.html"><span class="erp-side-dot"></span> Estudiantes</a><a class="erp-side-link active" data-roles="admin" href="profesores.html"><span class="erp-side-dot"></span> Profesores</a><a class="erp-side-link " data-roles="admin" href="usuarios.html"><span class="erp-side-dot"></span> Usuarios</a></div></div>
+    <div class="erp-menu-group"><div class="erp-menu-title">Académico</div><div class="erp-menu-items"><a class="erp-side-link" data-roles="admin,teacher" href="grupales.html"><span class="erp-side-dot"></span> Grupales</a><a class="erp-side-link" data-roles="admin,teacher" href="privadas.html"><span class="erp-side-dot"></span> Privadas / Semi</a><a class="erp-side-link" data-roles="admin,teacher,student" href="calendario.html"><span class="erp-side-dot"></span> Calendario</a></div></div>
+    <div class="erp-menu-group"><div class="erp-menu-title">Evaluación</div><div class="erp-menu-items"><a class="erp-side-link" data-roles="admin,teacher" href="placement_portal_integrado.html"><span class="erp-side-dot"></span> Nuevo diagnóstico</a><a class="erp-side-link" data-roles="admin,teacher" href="diagnostico_resultados.html"><span class="erp-side-dot"></span> Resultados diagnóstico</a><a class="erp-side-link" data-roles="admin,teacher" href="evaluaciones.html"><span class="erp-side-dot"></span> Evaluaciones</a><a class="erp-side-link" data-roles="admin,teacher,student" href="resultados.html"><span class="erp-side-dot"></span> Resultados</a></div></div>
+    <div class="erp-menu-group"><div class="erp-menu-title">Gestión</div><div class="erp-menu-items"><a class="erp-side-link" data-roles="admin" href="finanzas.html"><span class="erp-side-dot"></span> Finanzas</a><a class="erp-side-link" data-roles="admin" href="solicitudes.html"><span class="erp-side-dot"></span> Solicitudes</a><a class="erp-side-link" data-roles="admin,teacher,student" href="reportes.html"><span class="erp-side-dot"></span> Reportes</a><a class="erp-side-link" data-roles="admin,teacher" href="mensajes.html"><span class="erp-side-dot"></span> Mensajes</a></div></div>
+    <div class="erp-menu-group"><div class="erp-menu-title">Práctica</div><div class="erp-menu-items"><a class="erp-side-link" data-roles="admin,teacher,student" href="Grammar_portal.html"><span class="erp-side-dot"></span> Grammar</a><a class="erp-side-link" data-roles="admin,teacher,student" href="Listening_portal.html"><span class="erp-side-dot"></span> Listening</a><a class="erp-side-link" data-roles="admin,teacher,student" href="Speaking_portal.html"><span class="erp-side-dot"></span> Speaking</a></div></div>
+    <div class="erp-sidebar-user"><strong id="erpSidebarUserName">Usuario</strong><small id="erpSidebarUserRole">Rol</small><small id="erpSidebarUserEmail">correo</small><button class="erp-sidebar-logout" type="button" onclick="if(typeof logout==='function'){logout()}else{window.location.href='login.html'}">Cerrar sesión</button></div>
+  </aside>
+  <main class="erp-main-content"><div class="erp-mobile-bar"><strong>Wisdom Academy</strong><button class="erp-mobile-toggle" type="button" onclick="toggleErpSidebar()">Menú</button></div>
+
 <div class="wrap">
+<div class="breadcrumb"><a href="dashboard.html">Dashboard</a><span>/</span><span>Profesores</span></div>
 
 <section>
   <div class="topbar">
@@ -73,12 +117,19 @@ td{padding:12px 10px;border-top:1px solid var(--border);font-weight:600;vertical
     <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
       <div class="userbox" id="userBox"></div>
       <button class="btn btn-secondary" onclick="window.location.href='dashboard.html'">Dashboard</button>
+      <button class="btn btn-secondary" onclick="exportTeachersJSON()">Exportar JSON</button>
+      <button class="btn btn-secondary" onclick="exportTeachersCSV()">Exportar CSV</button>
+      <button class="btn btn-secondary" onclick="document.getElementById('teachersImportFile').click()">Importar JSON</button>
+      <input id="teachersImportFile" type="file" accept="application/json,.json" style="display:none" onchange="importTeachersJSON(event)">
       <button class="btn btn-primary" onclick="openTeacherModal()">Crear profesor</button>
       <button class="btn btn-secondary" onclick="logout()">Cerrar sesión</button>
     </div>
   </div>
 
+  <div id="teacherUXKpis" class="teacher-kpi-grid"></div>
+
   <div class="card">
+    <span class="section-tag">Gestión docente</span>
     <input class="search" id="teacherSearch" placeholder="Buscar por código, nombre, correo o idioma..." onkeyup="renderTeachers()">
     <div class="table-wrap">
       <table>
@@ -99,13 +150,22 @@ td{padding:12px 10px;border-top:1px solid var(--border);font-weight:600;vertical
     </div>
   </div>
 
+  <div class="card">
+    <span class="section-tag">Disponibilidad</span>
+    <h3>Disponibilidad docente</h3>
+    <div class="sub">Resumen operativo de disponibilidad y carga de agenda por profesor.</div><br>
+    <div id="teacherScheduleOverview"></div>
+  </div>
+
   <div class="grid">
     <div class="card">
+      <span class="section-tag">Pendientes</span>
       <h3>Clases grupales sin profesor</h3><br>
       <div id="unassignedGroups"></div>
     </div>
 
     <div class="card">
+      <span class="section-tag">Pendientes</span>
       <h3>Paquetes privados / semi sin profesor</h3><br>
       <div id="unassignedPackages"></div>
     </div>
@@ -118,6 +178,7 @@ td{padding:12px 10px;border-top:1px solid var(--border);font-weight:600;vertical
   <div class="modal-box">
     <h2 id="teacherModalTitle">Crear profesor</h2>
     <div class="form-grid">
+      <div class="modal-section-title">Identificación</div>
       <div class="field">
         <label>Código</label>
         <input id="teacherId" readonly placeholder="TCH-0001">
@@ -129,6 +190,7 @@ td{padding:12px 10px;border-top:1px solid var(--border);font-weight:600;vertical
           <option>Inactivo</option>
         </select>
       </div>
+      <div class="modal-section-title">Información de contacto</div>
       <div class="field">
         <label>Nombre</label>
         <input id="teacherName" placeholder="Nombre completo">
@@ -141,6 +203,7 @@ td{padding:12px 10px;border-top:1px solid var(--border);font-weight:600;vertical
         <label>Teléfono</label>
         <input id="teacherPhone" placeholder="Número de contacto">
       </div>
+      <div class="modal-section-title">Operación académica</div>
       <div class="field">
         <label>Tarifa por hora</label>
         <input id="teacherHourlyRate" type="number" min="0" placeholder="20000">
@@ -173,15 +236,62 @@ td{padding:12px 10px;border-top:1px solid var(--border);font-weight:600;vertical
   </div>
 </div>
 
-<script src="storage.js"></script>
-<script src="schemaRegistry.js"></script>
+<script>
+window.__wisdomOriginalAlert = window.alert;
+window.__wisdomSilentServiceMessages = [/service\s+carg/i,/service\s+loaded/i,/cargado\s+correctamente/i,/se\s+carg[oó]/i];
+window.alert = function(message){
+  const text = String(message || '');
+  if (window.__wisdomSilentServiceMessages && window.__wisdomSilentServiceMessages.some(pattern => pattern.test(text))) return;
+  return window.__wisdomOriginalAlert.call(window, message);
+};
+</script>
+<script src="js/core/storage.js"></script>
+<script src="js/core/schemaRegistry.js"></script>
+<script src="js/core/demoSeed.js"></script>
+<script src="js/services/authService.js"></script>
+<script src="js/core/permissions.js"></script>
+<script src="js/services/teacherService.js"></script>
+<script src="js/services/groupService.js"></script>
+<script src="js/services/scheduleService.js"></script>
+<script src="js/services/reportService.js"></script>
+<script>
+if (window.__wisdomOriginalAlert) {
+  window.alert = window.__wisdomOriginalAlert;
+  delete window.__wisdomOriginalAlert;
+  delete window.__wisdomSilentServiceMessages;
+}
+</script>
 <script>
 const CURRENT_USER_KEY='wisdom_current_user'
 const TEACHERS_KEY='wisdom_teachers_demo'
 const USERS_KEY='wisdom_users'
 const GROUPS_KEY='wisdom_groups_demo'
 const PRIVATE_KEY='wisdom_private_demo'
+const AVAILABILITY_KEY='wisdom_teacher_availability'
 const DEFAULT_HOURLY_RATE=20000
+
+function hasReportServiceMethod(method){
+  return typeof ReportService !== 'undefined' && ReportService && typeof ReportService[method] === 'function'
+}
+
+function callReportService(method,...args){
+  if(!hasReportServiceMethod(method)) return null
+  try{
+    return ReportService[method](...args)
+  }catch(error){
+    console.warn(`ReportService.${method} falló. Se usará fallback seguro.`,error)
+    return null
+  }
+}
+
+function getTeacherSummarySafe(teacherId){
+  return callReportService('getTeacherSummary',teacherId)
+}
+
+function generateTeacherReportSafe(teacherId){
+  return callReportService('generateTeacherReport',teacherId)
+}
+
 
 function safeParse(value,fallback=[]){
   try{
@@ -215,11 +325,190 @@ function remove(key){
 
 function money(value){return new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:0}).format(Number(value)||0)}
 
-const currentUser=(typeof WisdomStorage !== 'undefined' && WisdomStorage && typeof WisdomStorage.get === 'function')
-  ? WisdomStorage.get(CURRENT_USER_KEY,null)
-  : JSON.parse(localStorage.getItem(CURRENT_USER_KEY) || 'null')
+function getDateStamp(){
+  const now=new Date()
+  const pad=value=>String(value).padStart(2,'0')
+  return `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}_${pad(now.getHours())}-${pad(now.getMinutes())}`
+}
 
-if(!currentUser || currentUser.role!=='admin'){
+function downloadTextFile(filename,content,mimeType='application/json'){
+  const blob=new Blob([content],{type:mimeType})
+  const url=URL.createObjectURL(blob)
+  const link=document.createElement('a')
+  link.href=url
+  link.download=filename
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  URL.revokeObjectURL(url)
+}
+
+function exportTeachersJSON(){
+  if(!requireAdminAction('Solo administración puede exportar profesores.')) return
+  const currentTeachers=loadTeachers()
+  const backup={
+    app:'Wisdom Academy',
+    module:'teachers',
+    key:TEACHERS_KEY,
+    version:'1.0.0',
+    exportedAt:new Date().toISOString(),
+    count:currentTeachers.length,
+    data:currentTeachers
+  }
+  downloadTextFile(`wisdom-teachers-backup-${getDateStamp()}.json`,JSON.stringify(backup,null,2),'application/json')
+}
+
+function escapeCSV(value){
+  const text=String(value ?? '')
+  return `"${text.replace(/"/g,'""')}"`
+}
+
+function exportTeachersCSV(){
+  if(!requireAdminAction('Solo administración puede exportar profesores.')) return
+  const currentTeachers=loadTeachers()
+  const headers=['id','code','teacherId','teacherCode','name','email','phone','languages','hourlyRate','status','createdAt','updatedAt']
+  const rows=currentTeachers.map(teacher=>headers.map(header=>escapeCSV(teacher[header])).join(','))
+  const csv=[headers.join(','),...rows].join('\n')
+  downloadTextFile(`wisdom-teachers-${getDateStamp()}.csv`,csv,'text/csv;charset=utf-8')
+}
+
+function extractTeachersFromBackup(parsed){
+  if(Array.isArray(parsed)) return parsed
+  if(parsed && Array.isArray(parsed.data)) return parsed.data
+  if(parsed && Array.isArray(parsed[TEACHERS_KEY])) return parsed[TEACHERS_KEY]
+  if(parsed && Array.isArray(parsed.teachers)) return parsed.teachers
+  return null
+}
+
+function importTeachersJSON(event){
+  if(!requireAdminAction('Solo administración puede importar profesores.')){ if(event && event.target) event.target.value=''; return }
+  const input=event.target
+  const file=input.files && input.files[0]
+  if(!file)return
+
+  const reader=new FileReader()
+  reader.onload=function(){
+    try{
+      const parsed=JSON.parse(reader.result)
+      const importedTeachers=extractTeachersFromBackup(parsed)
+
+      if(!Array.isArray(importedTeachers)){
+        alert('El archivo no contiene una lista válida de profesores.')
+        input.value=''
+        return
+      }
+
+      const normalized=normalizeTeacherCollectionSafe(importedTeachers)
+      const invalid=normalized.filter(teacher=>!getTeacherId(teacher) || !teacher.name)
+
+      if(invalid.length){
+        alert('El archivo contiene profesores sin código o nombre. Revisa el backup antes de importarlo.')
+        input.value=''
+        return
+      }
+
+      const currentTeachers=loadTeachers()
+      const backupBeforeImport={
+        app:'Wisdom Academy',
+        module:'teachers',
+        key:TEACHERS_KEY,
+        version:'1.0.0',
+        exportedAt:new Date().toISOString(),
+        reason:'automatic-before-import',
+        count:currentTeachers.length,
+        data:currentTeachers
+      }
+      save(`${TEACHERS_KEY}_backup_before_import`,backupBeforeImport)
+
+      const ok=confirm(`Vas a reemplazar ${currentTeachers.length} profesor(es) actuales por ${normalized.length} profesor(es) del archivo. Se guardará una copia automática en localStorage antes de importar. ¿Deseas continuar?`)
+      if(!ok){
+        input.value=''
+        return
+      }
+
+      save(TEACHERS_KEY,normalized)
+      teachers=normalized
+      renderTeachers()
+      renderUnassigned()
+      alert('Profesores importados correctamente.')
+    }catch(error){
+      alert('No se pudo importar el archivo. Verifica que sea un JSON válido.')
+    }finally{
+      input.value=''
+    }
+  }
+  reader.readAsText(file)
+}
+
+
+function normalizeRole(role){
+  const raw=String(role||'').trim().toLowerCase()
+  const clean=raw.normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+  if(['admin','administrador','administrativo','administrator'].includes(clean)) return 'admin'
+  if(['teacher','profesor','docente','instructor'].includes(clean)) return 'teacher'
+  if(['student','estudiante','alumno','learner'].includes(clean)) return 'student'
+  return clean
+}
+
+function getCurrentUserSafe(){
+  if(typeof AuthService !== 'undefined' && AuthService && typeof AuthService.getCurrentUser === 'function'){
+    try{
+      const user=AuthService.getCurrentUser()
+      if(user) return user
+    }catch(error){
+      console.warn('AuthService.getCurrentUser() falló. Usando fallback seguro.',error)
+    }
+  }
+
+  if(typeof WisdomStorage !== 'undefined' && WisdomStorage && typeof WisdomStorage.get === 'function'){
+    return WisdomStorage.get(CURRENT_USER_KEY,null)
+  }
+
+  try{
+    return JSON.parse(localStorage.getItem(CURRENT_USER_KEY) || 'null')
+  }catch(error){
+    return null
+  }
+}
+
+const currentUser=getCurrentUserSafe()
+
+if(currentUser){
+  currentUser.role=normalizeRole(currentUser.role || currentUser.userRole || currentUser.type || currentUser.profile || currentUser.access)
+}
+
+function isAdminUser(){
+  const localRole=normalizeRole(currentUser?.role || currentUser?.userRole || currentUser?.type || currentUser?.profile || currentUser?.access)
+
+  if(localRole==='admin') return true
+
+  if(typeof AuthService !== 'undefined' && AuthService && typeof AuthService.isAdmin === 'function'){
+    try{
+      if(AuthService.isAdmin(currentUser)) return true
+    }catch(error){
+      console.warn('AuthService.isAdmin() falló. Usando fallback local.',error)
+    }
+  }
+
+  if(typeof WisdomPermissions !== 'undefined' && WisdomPermissions && typeof WisdomPermissions.isAdmin === 'function'){
+    try{
+      if(WisdomPermissions.isAdmin(currentUser)) return true
+      if(WisdomPermissions.isAdmin()) return true
+    }catch(error){
+      console.warn('WisdomPermissions.isAdmin() falló. Usando fallback local.',error)
+    }
+  }
+
+  return false
+}
+
+function requireAdminAction(message='No autorizado. Solo administración puede ejecutar esta acción.'){
+  if(isAdminUser()) return true
+  alert(message)
+  return false
+}
+
+if(!currentUser || !isAdminUser()){
   window.location.href='login.html'
 }
 
@@ -228,7 +517,15 @@ let groups=loadGroups()
 let packages=loadPackages()
 
 function logout(){
-  remove(CURRENT_USER_KEY)
+  if(typeof AuthService !== 'undefined' && AuthService && typeof AuthService.logout === 'function'){
+    try{
+      AuthService.logout()
+    }catch(error){
+      remove(CURRENT_USER_KEY)
+    }
+  }else{
+    remove(CURRENT_USER_KEY)
+  }
   window.location.href='login.html'
 }
 
@@ -283,10 +580,41 @@ function normalizeTeacherCollectionSafe(collection=[]){
   return items.map(normalizeTeacherSafe)
 }
 
+function hasTeacherService(){
+  return typeof TeacherService !== 'undefined' && TeacherService
+}
+
+function callTeacherService(method,...args){
+  if(!hasTeacherService() || typeof TeacherService[method] !== 'function') return null
+  try{
+    return TeacherService[method](...args)
+  }catch(error){
+    console.warn(`TeacherService.${method} falló. Se usará fallback seguro.`,error)
+    return null
+  }
+}
+
+function readTeachersFromStorage(){
+  return normalizeTeacherCollectionSafe(load(TEACHERS_KEY))
+}
+
 function loadTeachers(){
-  const normalized=load(TEACHERS_KEY).map(normalizeTeacherSafe)
-  save(TEACHERS_KEY,normalized)
-  return normalized
+  const serviceTeachers=callTeacherService('getAll')
+  const storageTeachers=readTeachersFromStorage()
+
+  if(storageTeachers.length){
+    return storageTeachers
+  }
+
+  if(Array.isArray(serviceTeachers) && serviceTeachers.length){
+    return normalizeTeacherCollectionSafe(serviceTeachers)
+  }
+
+  if(Array.isArray(serviceTeachers)){
+    return normalizeTeacherCollectionSafe(serviceTeachers)
+  }
+
+  return []
 }
 
 function generateLegacyCompatibleId(teacher){
@@ -294,15 +622,225 @@ function generateLegacyCompatibleId(teacher){
   return ''
 }
 
-function saveTeachers(){
+function saveTeachersFallback(){
   teachers=normalizeTeacherCollectionSafe(teachers)
   save(TEACHERS_KEY,teachers)
 }
 
-function loadGroups(){return load(GROUPS_KEY)}
-function saveGroups(){save(GROUPS_KEY,groups)}
+function hasGroupService(){
+  return typeof GroupService !== 'undefined' && GroupService
+}
+
+function callGroupService(method,...args){
+  if(!hasGroupService() || typeof GroupService[method] !== 'function') return null
+  try{
+    return GroupService[method](...args)
+  }catch(error){
+    console.warn(`GroupService.${method} falló. Se usará fallback seguro.`,error)
+    return null
+  }
+}
+
+function loadGroups(){
+  const serviceGroups=callGroupService('getAll')
+  const storageGroups=load(GROUPS_KEY)
+  if(Array.isArray(storageGroups) && storageGroups.length) return storageGroups
+  if(Array.isArray(serviceGroups)) return serviceGroups
+  return []
+}
+
+function saveGroups(){
+  save(GROUPS_KEY,groups)
+}
+
+function persistGroupAssignment(id,payload){
+  callGroupService('update',id,payload)
+  groups=loadGroups().map(group=>{
+    if(group.id!==id && group.code!==id)return group
+    return {...group,...payload}
+  })
+  saveGroups()
+}
+
 function loadPackages(){return load(PRIVATE_KEY)}
 function savePackages(){save(PRIVATE_KEY,packages)}
+
+function hasScheduleServiceMethod(method){
+  return typeof ScheduleService !== 'undefined' && ScheduleService && typeof ScheduleService[method] === 'function'
+}
+
+function callScheduleService(method,...args){
+  if(!hasScheduleServiceMethod(method)) return null
+  try{
+    return ScheduleService[method](...args)
+  }catch(error){
+    console.warn(`ScheduleService.${method} falló. Se usará fallback seguro.`,error)
+    return null
+  }
+}
+
+function normalizeScheduleTeacherRef(item={}){
+  const teacherId=item.teacherId || item.teacherCode || item.teacher || ''
+  return {
+    ...item,
+    teacherId,
+    teacherCode:item.teacherCode || teacherId,
+    teacher:item.teacher || item.teacherName || getTeacherNameById(teacherId) || ''
+  }
+}
+
+function getTeacherAvailabilityBlocks(teacher){
+  const id=getTeacherId(teacher)
+  const byService=callScheduleService('getTeacherAvailability',id)
+    || callScheduleService('getAvailabilityByTeacher',id)
+    || callScheduleService('getAvailability',id)
+
+  if(Array.isArray(byService)) return byService.map(normalizeScheduleTeacherRef)
+
+  const stored=load(AVAILABILITY_KEY)
+  return (Array.isArray(stored)?stored:[])
+    .map(normalizeScheduleTeacherRef)
+    .filter(item=>item.teacherId===id || item.teacherCode===id || item.teacher===teacher.name)
+}
+
+function getTeacherSchedules(teacher){
+  const id=getTeacherId(teacher)
+  const byTeacher=callScheduleService('getByTeacher',id)
+  if(Array.isArray(byTeacher)) return byTeacher.map(normalizeScheduleTeacherRef)
+
+  const all=callScheduleService('getAll')
+  if(Array.isArray(all)){
+    return all.map(normalizeScheduleTeacherRef).filter(item=>
+      item.teacherId===id || item.teacherCode===id || item.teacher===teacher.name
+    )
+  }
+
+  return []
+}
+
+function scheduleDaysForGroup(group={}){
+  if(Array.isArray(group.scheduleDays) && group.scheduleDays.length) return group.scheduleDays
+  if(Array.isArray(group.days) && group.days.length) return group.days
+  if(Array.isArray(group.classDays) && group.classDays.length) return group.classDays
+  return []
+}
+
+function buildSchedulePayloadForGroup(group,teacherPayload={}){
+  const sourceId=group.id || group.code || ''
+  return {
+    id:group.scheduleId || `SCH-GROUP-${sourceId}`,
+    scheduleId:group.scheduleId || `SCH-GROUP-${sourceId}`,
+    source:'Grupales',
+    sourceModule:'grupales',
+    sourceId,
+    groupId:sourceId,
+    groupCode:group.code || group.id || '',
+    type:'Grupo',
+    title:`${group.code || group.id || 'Grupo'} · ${group.name || 'Grupo'}`,
+    teacher:teacherPayload.teacher || group.teacher || '',
+    teacherName:teacherPayload.teacher || group.teacher || '',
+    teacherId:teacherPayload.teacherId || group.teacherId || group.teacherCode || '',
+    teacherCode:teacherPayload.teacherCode || teacherPayload.teacherId || group.teacherCode || group.teacherId || '',
+    teacherEmail:teacherPayload.teacherEmail || group.teacherEmail || '',
+    scheduleDays:scheduleDaysForGroup(group),
+    days:scheduleDaysForGroup(group),
+    startTime:group.startTime || group.classStart || '',
+    endTime:group.endTime || group.classEnd || '',
+    start:group.startTime || group.classStart || '',
+    end:group.endTime || group.classEnd || '',
+    startDate:group.start || '',
+    endDate:group.end || '',
+    modality:group.modality || group.mode || 'Presencial',
+    location:group.classroom || group.location || group.room || '',
+    classroom:group.classroom || group.location || group.room || '',
+    status:group.status || 'Activo',
+    updatedAt:new Date().toISOString()
+  }
+}
+
+function upsertScheduleForGroupAssignment(id,teacherPayload){
+  if(!hasScheduleServiceMethod('update') && !hasScheduleServiceMethod('create')) return ''
+  const group=loadGroups().find(item=>item.id===id || item.code===id)
+  if(!group) return ''
+
+  const payload=buildSchedulePayloadForGroup({...group,...teacherPayload},teacherPayload)
+  let saved=null
+
+  if(group.scheduleId && hasScheduleServiceMethod('update')){
+    saved=callScheduleService('update',group.scheduleId,payload)
+  }
+
+  if(!saved && hasScheduleServiceMethod('exists') && callScheduleService('exists',payload.id) && hasScheduleServiceMethod('update')){
+    saved=callScheduleService('update',payload.id,payload)
+  }
+
+  if(!saved && hasScheduleServiceMethod('create')){
+    saved=callScheduleService('create',payload)
+  }
+
+  const scheduleId=(saved && (saved.id || saved.scheduleId)) || payload.id
+  if(scheduleId){
+    groups=loadGroups().map(item=>{
+      if(item.id!==id && item.code!==id) return item
+      return {...item,scheduleId,updatedAt:new Date().toISOString()}
+    })
+    saveGroups()
+  }
+  return scheduleId
+}
+
+function syncScheduleTeacherAssignment(type,id,teacherPayload){
+  if(type==='group'){
+    upsertScheduleForGroupAssignment(id,teacherPayload)
+    return
+  }
+
+  if(type==='package'){
+    const pkg=loadPackages().find(item=>item.id===id || item.code===id)
+    if(!pkg || !pkg.scheduleId || !hasScheduleServiceMethod('update')) return
+    callScheduleService('update',pkg.scheduleId,{...teacherPayload,updatedAt:new Date().toISOString()})
+  }
+}
+
+function renderTeacherScheduleOverview(){
+  const container=document.getElementById('teacherScheduleOverview')
+  if(!container)return
+
+  const currentTeachers=loadTeachers()
+  if(!currentTeachers.length){
+    container.innerHTML='<div class="empty">No hay profesores creados todavía.</div>'
+    return
+  }
+
+  const rows=currentTeachers.map(teacher=>{
+    const id=getTeacherId(teacher)
+    const availability=getTeacherAvailabilityBlocks(teacher)
+    const schedules=getTeacherSchedules(teacher)
+    const assignments=countTeacherAssignments(teacher)
+    const availabilityText=availability.length
+      ? availability.slice(0,3).map(item=>`${item.day || item.date || 'Día'} · ${item.start || item.startTime || ''}-${item.end || item.endTime || ''}`).join('<br>')
+      : '<span class="sub">Sin disponibilidad registrada</span>'
+    return `
+      <tr>
+        <td>${id}</td>
+        <td><strong>${teacher.name || '-'}</strong><br><span class="sub">${teacher.email || ''}</span></td>
+        <td><span class="pill ${teacher.status==='Activo'?'ok':'danger'}">${teacher.status || 'Activo'}</span></td>
+        <td>${availabilityText}</td>
+        <td><span class="pill ${schedules.length?'warning':'ok'}">${schedules.length} horario(s)</span></td>
+        <td>${assignments.groups} grupos · ${assignments.packages} paquetes</td>
+      </tr>
+    `
+  }).join('')
+
+  container.innerHTML=`
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Código</th><th>Profesor</th><th>Estado</th><th>Disponibilidad</th><th>Agenda</th><th>Asignaciones</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  `
+}
 
 function getTeacherId(teacher){
   return teacher.id || teacher.teacherId || teacher.code
@@ -315,6 +853,38 @@ function generateTeacherCode(){
     .map(code=>parseInt(code.replace('TCH-',''),10))
   const nextNumber=numbers.length?Math.max(...numbers)+1:1
   return `TCH-${String(nextNumber).padStart(4,'0')}`
+}
+
+function persistTeacherCreate(payload){
+  callTeacherService('create',payload)
+
+  teachers=loadTeachers()
+  const id=getTeacherId(payload)
+  const exists=teachers.some(teacher=>getTeacherId(teacher)===id)
+  if(!exists){
+    teachers.push(normalizeTeacherSafe(payload))
+    saveTeachersFallback()
+  }
+  return payload
+}
+
+function persistTeacherUpdate(id,payload){
+  callTeacherService('update',id,payload)
+
+  teachers=loadTeachers()
+  const index=teachers.findIndex(teacher=>getTeacherId(teacher)===id)
+  if(index===-1)return null
+  teachers[index]=normalizeTeacherSafe({...teachers[index],...payload,updatedAt:new Date().toISOString()})
+  saveTeachersFallback()
+  return teachers[index]
+}
+
+function persistTeacherDelete(id){
+  callTeacherService('delete',id)
+
+  teachers=loadTeachers().filter(item=>getTeacherId(item)!==id)
+  saveTeachersFallback()
+  return true
 }
 
 function countTeacherAssignments(teacher){
@@ -407,6 +977,8 @@ function clearTeacherForm(){
 }
 
 function openTeacherModal(id=''){
+  if(!requireAdminAction('Solo administración puede crear o editar profesores.')) return
+  teachers=loadTeachers()
   clearTeacherForm()
   const title=document.getElementById('teacherModalTitle')
 
@@ -434,6 +1006,7 @@ function closeTeacherModal(){
 }
 
 function saveTeacher(){
+  if(!requireAdminAction('Solo administración puede guardar profesores.')) return
   const id=document.getElementById('teacherId').value.trim()
   const name=document.getElementById('teacherName').value.trim()
   const email=document.getElementById('teacherEmail').value.trim().toLowerCase()
@@ -475,18 +1048,19 @@ function saveTeacher(){
   })
 
   if(index>=0){
-    teachers[index]=normalizeTeacherSafe({...teachers[index],...payload})
+    persistTeacherUpdate(id,payload)
   }else{
-    teachers.push(normalizeTeacherSafe({...payload,createdAt:new Date().toISOString()}))
+    persistTeacherCreate({...payload,createdAt:new Date().toISOString()})
   }
 
-  saveTeachers()
+  teachers=loadTeachers()
   closeTeacherModal()
   renderTeachers()
   renderUnassigned()
 }
 
 function toggleTeacherStatus(id){
+  if(!requireAdminAction('Solo administración puede cambiar el estado de profesores.')) return
   const index=teachers.findIndex(teacher=>getTeacherId(teacher)===id)
   if(index===-1)return
 
@@ -498,14 +1072,15 @@ function toggleTeacherStatus(id){
     if(!ok)return
   }
 
-  teachers[index].status=teachers[index].status==='Activo'?'Inactivo':'Activo'
-  teachers[index].updatedAt=new Date().toISOString()
-  saveTeachers()
+  const newStatus=teachers[index].status==='Activo'?'Inactivo':'Activo'
+  persistTeacherUpdate(id,{status:newStatus,updatedAt:new Date().toISOString()})
+  teachers=loadTeachers()
   renderTeachers()
   renderUnassigned()
 }
 
 function deleteTeacher(id){
+  if(!requireAdminAction('Solo administración puede borrar profesores.')) return
   const teacher=teachers.find(item=>getTeacherId(item)===id)
   if(!teacher)return
 
@@ -518,8 +1093,8 @@ function deleteTeacher(id){
   const confirmed=confirm(`¿Seguro que quieres borrar a ${teacher.name}? Esta acción solo se permite porque no tiene grupos ni privadas asignadas.`)
   if(!confirmed)return
 
-  teachers=teachers.filter(item=>getTeacherId(item)!==id)
-  saveTeachers()
+  persistTeacherDelete(id)
+  teachers=loadTeachers()
   renderTeachers()
   renderUnassigned()
 }
@@ -534,6 +1109,7 @@ function teacherOptionsHTML(){
 }
 
 function openAssignModal(type,id){
+  if(!requireAdminAction('Solo administración puede asignar profesores.')) return
   document.getElementById('assignType').value=type
   document.getElementById('assignId').value=id
   document.getElementById('assignTeacher').innerHTML=teacherOptionsHTML()
@@ -545,6 +1121,7 @@ function closeAssignModal(){
 }
 
 function saveAssignment(){
+  if(!requireAdminAction('Solo administración puede guardar asignaciones docentes.')) return
   const type=document.getElementById('assignType').value
   const id=document.getElementById('assignId').value
   const teacherId=document.getElementById('assignTeacher').value
@@ -571,11 +1148,7 @@ function saveAssignment(){
   }
 
   if(type==='group'){
-    groups=loadGroups().map(group=>{
-      if(group.id!==id && group.code!==id)return group
-      return {...group,...teacherPayload}
-    })
-    saveGroups()
+    persistGroupAssignment(id,teacherPayload)
   }
 
   if(type==='package'){
@@ -586,9 +1159,12 @@ function saveAssignment(){
     savePackages()
   }
 
+  syncScheduleTeacherAssignment(type,id,teacherPayload)
+
   closeAssignModal()
   renderUnassigned()
   renderTeachers()
+  renderTeacherScheduleOverview()
 }
 
 function renderUnassigned(){
@@ -659,9 +1235,143 @@ function renderAll(){
   renderUser()
   renderTeachers()
   renderUnassigned()
+  renderTeacherScheduleOverview()
 }
 
 renderAll()
 </script>
+
+<style id="wisdom-phase13-modal-scroll-fix">
+.modal.active{overflow:auto!important;align-items:flex-start!important;}
+.modal-box{max-height:calc(100vh - 40px)!important;overflow:auto!important;}
+</style>
+
+<script id="wisdom-phase13-runtime-hardening">
+(function(){
+  if(window.__wisdomPhase13RuntimeHardeningApplied)return;
+  window.__wisdomPhase13RuntimeHardeningApplied=true;
+  window.addEventListener('error',function(event){
+    try{console.error('Wisdom FASE 13 runtime error:',event.error||event.message||event);}catch(error){}
+  });
+  window.addEventListener('unhandledrejection',function(event){
+    try{console.error('Wisdom FASE 13 promise rejection:',event.reason||event);}catch(error){}
+  });
+  window.addEventListener('storage',function(event){
+    try{
+      const criticalKeys=['wisdom_users','wisdom_teachers_demo','wisdom_students_demo','wisdom_groups_demo','wisdom_private_demo','wisdom_requests_demo'];
+      if(event && criticalKeys.includes(event.key) && document.visibilityState==='visible'){
+        console.info('Wisdom FASE 13: cambio externo detectado en',event.key);
+      }
+    }catch(error){}
+  });
+})();
+</script>
+
+<script id="wisdom-phase13-professors-hardening">
+(function(){
+  if(window.__wisdomPhase13ProfessorsHardeningApplied)return;
+  window.__wisdomPhase13ProfessorsHardeningApplied=true;
+  function cleanText(value){return String(value||'').trim();}
+  function cleanEmail(value){return cleanText(value).toLowerCase();}
+  function normTeacher(item){
+    const t=(typeof normalizeTeacherSafe==='function')?normalizeTeacherSafe(item||{}):(item||{});
+    const id=cleanText(t.id||t.teacherId||t.teacherCode||t.code);
+    const email=cleanEmail(t.email);
+    return {
+      ...t,
+      id, code:id, teacherId:id, teacherCode:id,
+      name:cleanText(t.name),
+      email,
+      hourlyRate:Math.max(1,Number(t.hourlyRate)||20000),
+      status:t.status==='Inactivo'?'Inactivo':'Activo',
+      updatedAt:t.updatedAt||new Date().toISOString()
+    };
+  }
+  function dedupeTeachers(list){
+    const result=[]; const seenIds=new Set(); const seenEmails=new Set();
+    (Array.isArray(list)?list:[]).forEach(raw=>{
+      const t=normTeacher(raw); if(!t.id||!t.name)return;
+      const idKey=t.id.toLowerCase(); const emailKey=t.email;
+      if(seenIds.has(idKey))return;
+      if(emailKey && seenEmails.has(emailKey))return;
+      seenIds.add(idKey); if(emailKey)seenEmails.add(emailKey); result.push(t);
+    });
+    return result;
+  }
+  window.wisdomPhase13NormalizeTeachers=dedupeTeachers;
+  if(typeof saveTeachersFallback==='function'){
+    const originalSaveTeachersFallback=saveTeachersFallback;
+    window.saveTeachersFallback=function(){
+      try{teachers=dedupeTeachers(teachers);}catch(error){console.warn('FASE 13: no se pudo normalizar teachers antes de guardar.',error)}
+      return originalSaveTeachersFallback.apply(this,arguments);
+    };
+  }
+  if(typeof save==='function'){
+    const originalSave=save;
+    window.save=function(key,value){
+      try{if(key==='wisdom_teachers_demo')value=dedupeTeachers(value);}catch(error){console.warn('FASE 13: normalización de profesores falló.',error)}
+      return originalSave.call(this,key,value);
+    };
+  }
+  if(typeof saveTeacher==='function'){
+    const originalSaveTeacher=saveTeacher;
+    window.saveTeacher=function(){
+      const emailEl=document.getElementById('teacherEmail');
+      const rateEl=document.getElementById('teacherHourlyRate');
+      const email=cleanEmail(emailEl&&emailEl.value);
+      const rate=Number(rateEl&&rateEl.value);
+      if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){alert('Correo de profesor inválido.');return;}
+      if(!Number.isFinite(rate)||rate<=0){alert('La tarifa por hora debe ser mayor a 0.');return;}
+      if(emailEl)emailEl.value=email;
+      return originalSaveTeacher.apply(this,arguments);
+    };
+  }
+})();
+</script>
+
+
+<script id="wisdom-phase16-profesores-ux">
+(function(){
+  window.renderTeacherUXKpis=function(){
+    const box=document.getElementById('teacherUXKpis');
+    if(!box)return;
+    const teacherList=(typeof loadTeachers==='function'?loadTeachers():[]);
+    const groupList=(typeof loadGroups==='function'?loadGroups():[]);
+    const packageList=(typeof loadPackages==='function'?loadPackages():[]);
+    const active=teacherList.filter(t=>String(t.status||'Activo')==='Activo').length;
+    const inactive=teacherList.length-active;
+    const unassignedGroups=groupList.filter(g=>!(g.teacherId||g.teacherCode||g.teacher)).length;
+    const unassignedPackages=packageList.filter(p=>!(p.teacherId||p.teacherCode||p.teacher)).length;
+    box.innerHTML=`<div class="teacher-kpi ok"><small>Profesores activos</small><strong>${active}</strong></div><div class="teacher-kpi ${inactive?'warning':''}"><small>Profesores inactivos</small><strong>${inactive}</strong></div><div class="teacher-kpi ${unassignedGroups?'danger':'ok'}"><small>Grupos sin profesor</small><strong>${unassignedGroups}</strong></div><div class="teacher-kpi ${unassignedPackages?'danger':'ok'}"><small>Privadas/Semi sin profesor</small><strong>${unassignedPackages}</strong></div>`;
+  };
+  const originalRenderTeachers=window.renderTeachers;
+  window.renderTeachers=function(){
+    if(typeof originalRenderTeachers==='function')originalRenderTeachers.apply(this,arguments);
+    if(typeof renderTeacherUXKpis==='function')renderTeacherUXKpis();
+  };
+  const originalRenderUnassigned=window.renderUnassigned;
+  window.renderUnassigned=function(){
+    if(typeof originalRenderUnassigned==='function')originalRenderUnassigned.apply(this,arguments);
+    if(typeof renderTeacherUXKpis==='function')renderTeacherUXKpis();
+  };
+  if(typeof renderTeacherUXKpis==='function')renderTeacherUXKpis();
+})();
+</script>
+</main>
+</div>
+
+<script>
+function toggleErpSidebar(){const sidebar=document.getElementById('erpSidebar');if(!sidebar)return;sidebar.classList.toggle('open');document.body.classList.toggle('erp-menu-open',sidebar.classList.contains('open'));}
+(function initErpSidebar(){
+  function normalizeRoleLocal(role){const clean=String(role||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');if(['admin','administrador','administrativo','administrator'].includes(clean))return 'admin';if(['teacher','profesor','docente','instructor'].includes(clean))return 'teacher';if(['student','estudiante','alumno','learner'].includes(clean))return 'student';return clean;}
+  function storageGetLocal(key,fallback){try{if(window.WisdomStorage&&typeof WisdomStorage.get==='function')return WisdomStorage.get(key,fallback);const raw=localStorage.getItem(key);return raw?JSON.parse(raw):fallback;}catch(error){return fallback;}}
+  function getCurrentUserLocal(){try{if(window.AuthService&&typeof AuthService.getCurrentUser==='function'){const user=AuthService.getCurrentUser();if(user)return user;}}catch(error){}return storageGetLocal('wisdom_current_user',null)||{};}
+  const user=getCurrentUserLocal();const role=normalizeRoleLocal(user.role||user.userRole||user.type||user.profile||user.access);const labels={admin:'Administrativo',teacher:'Profesor',student:'Estudiante'};
+  const name=document.getElementById('erpSidebarUserName');const roleEl=document.getElementById('erpSidebarUserRole');const email=document.getElementById('erpSidebarUserEmail');
+  if(name)name.textContent=user.name||user.fullName||user.email||'Usuario';if(roleEl)roleEl.textContent=labels[role]||role||'Rol';if(email)email.textContent=user.email||'';
+  document.querySelectorAll('.erp-side-link[data-roles]').forEach(link=>{const allowed=String(link.getAttribute('data-roles')||'').split(',').map(item=>item.trim()).filter(Boolean);if(role&&allowed.length&&!allowed.includes(role))link.classList.add('erp-role-hidden');link.addEventListener('click',()=>{const sidebar=document.getElementById('erpSidebar');if(sidebar)sidebar.classList.remove('open');document.body.classList.remove('erp-menu-open');});});
+})();
+</script>
+
 </body>
 </html>

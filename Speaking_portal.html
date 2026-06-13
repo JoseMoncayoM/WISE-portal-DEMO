@@ -247,6 +247,10 @@ input{
   font-size:14px;
 }
 
+/* Phase 16 visual consistency correction */
+.card .notice{line-height:1.45;}
+#uxFlowCard .score-badge{margin-bottom:6px;}
+
 </style>
 </head>
 
@@ -284,6 +288,20 @@ input{
   <h1>Speaking Hub</h1>
   <p>Complete speaking bank: A1, A2, B1 and B2 · 5 questions per unit.</p>
 </div>
+
+<div class="card" id="uxFlowCard">
+<h3>Proceso de Speaking</h3>
+<div style="display:flex;gap:10px;flex-wrap:wrap">
+<span class="score-badge">1. Preparación</span>
+<span class="score-badge">2. Grabación</span>
+<span class="score-badge">3. Revisión</span>
+<span class="score-badge">4. Envío</span>
+</div>
+<div class="notice" style="margin-top:12px">
+Esta actividad forma parte de tu seguimiento académico. Tu profesor podrá revisar el resultado y darte retroalimentación.
+</div>
+</div>
+
 
 <div class="card">
   <div class="grid-2">
@@ -380,6 +398,27 @@ input{
 </div>
 
 </div>
+
+
+<script src="storage.js"></script>
+<script>
+window.WisdomStorage = window.WisdomStorage || {
+  get(key, fallback = null) {
+    try {
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
+    } catch (error) {
+      return fallback;
+    }
+  },
+  set(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+  },
+  remove(key) {
+    localStorage.removeItem(key);
+  }
+};
+</script>
 
 <script>
 
@@ -1614,24 +1653,42 @@ if(portalCurrentUser.role === 'student'){
 }
 
 function populateUnits(){
-  unitEl.innerHTML='';
-  TASKS.filter(t=>t.level===levelEl.value).forEach(t=>{
-    const o=document.createElement('option');
-    o.value=t.unit;
-    o.textContent=`Unit ${t.unit} · ${t.title}`;
+  const unitsForLevel = TASKS.filter(t => t.level === levelEl.value);
+
+  unitEl.innerHTML = '';
+
+  unitsForLevel.forEach(t => {
+    const o = document.createElement('option');
+    o.value = String(t.unit);
+    o.textContent = `Unit ${t.unit} · ${t.title}`;
     unitEl.appendChild(o);
   });
+
+  if (unitsForLevel.length) {
+    const currentStillValid = unitsForLevel.some(t => String(t.unit) === String(unitEl.value));
+    if (!unitEl.value || !currentStillValid) {
+      unitEl.value = String(unitsForLevel[0].unit);
+    }
+  }
+
   load();
 }
 
 function load(){
-  let t = TASKS.find(x=>x.level===levelEl.value && x.unit==unitEl.value);
+  let t = TASKS.find(x => x.level === levelEl.value && String(x.unit) === String(unitEl.value));
+
   if(!t){
-    t = TASKS.find(x=>x.level===levelEl.value) || TASKS[0];
+    t = TASKS.find(x => x.level === levelEl.value) || TASKS[0];
     if(!t) return;
-    if(typeof portalShowSavedNotice === 'function') portalShowSavedNotice('No se encontró la unidad exacta de Speaking. Se cargó una tarea disponible del nivel seleccionado.');
+
+    unitEl.value = String(t.unit);
+
+    if(typeof portalShowSavedNotice === 'function') {
+      portalShowSavedNotice('No se encontró la unidad exacta de Speaking. Se cargó una tarea disponible del nivel seleccionado.');
+    }
   }
-  topicEl.textContent=`${t.level} · Unit ${t.unit} · ${t.topic}`;
+
+  topicEl.textContent = `${t.level} · Unit ${t.unit} · ${t.topic}`;
   promptEl.value = formatQuestionsForPrompt(t);
 }
 

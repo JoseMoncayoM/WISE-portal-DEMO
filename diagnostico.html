@@ -42,10 +42,6 @@ h1{color:white;font-size:clamp(2rem,4vw,3rem);letter-spacing:-.04em}.sub{color:r
 .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.detail-box{background:#fbfdff;border:1px solid var(--premium-line);border-radius:18px;padding:16px}.detail-box h3{color:var(--premium-blue);margin-bottom:10px}.list{margin-left:18px;display:grid;gap:6px;line-height:1.4}.score-big{font-size:2.4rem;color:var(--premium-blue);font-weight:900;line-height:1}
 @media(max-width:1050px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.metrics{grid-template-columns:repeat(2,1fr)}.filters,.detail-grid{grid-template-columns:1fr}}
 @media(max-width:650px){.main{padding:18px}.metrics,.filters{grid-template-columns:1fr}}
-
-/* FASE 16 — Diagnóstico decision layer */
-.breadcrumb{color:var(--gray);font-size:.78rem;font-weight:900;text-transform:uppercase;letter-spacing:.12em;margin-bottom:14px}.decision-strip{display:grid;grid-template-columns:1.2fr .8fr;gap:16px;margin-bottom:20px}.decision-card{background:linear-gradient(135deg,#ffffff,#f8ffff);border:1px solid var(--premium-line);border-radius:24px;padding:18px;box-shadow:var(--premium-shadow-soft)}.decision-card h2{color:var(--premium-blue);margin:0 0 8px}.review-list{display:grid;gap:10px;margin-top:12px}.review-item{background:#fff8dd;border:1px solid #f6df94;color:#8a6100;border-radius:16px;padding:12px;font-weight:800}.review-item strong{display:block;color:#123e68;margin-bottom:4px}@media(max-width:900px){.decision-strip{grid-template-columns:1fr}}
-
 </style>
 </head>
 <body>
@@ -61,7 +57,6 @@ h1{color:white;font-size:clamp(2rem,4vw,3rem);letter-spacing:-.04em}.sub{color:r
 </aside>
 
 <main class="main">
-  <div class="breadcrumb">Dashboard / Diagnóstico / Resultados</div>
   <div class="topbar">
     <div>
       <h1>Resultados diagnóstico <span id="rolePill" class="role-pill">Rol</span></h1>
@@ -82,22 +77,6 @@ h1{color:white;font-size:clamp(2rem,4vw,3rem);letter-spacing:-.04em}.sub{color:r
     <div class="metric"><span>Promedio general</span><strong id="avgScore">--</strong><small>Puntaje</small></div>
     <div class="metric"><span>Nivel más común</span><strong id="commonLevel">--</strong><small>Estimado</small></div>
     <div class="metric"><span>Baja confianza</span><strong id="lowConfidence">0</strong><small>Revisar manualmente</small></div>
-  </section>
-
-
-  <section class="decision-strip" id="diagnosticDecisionLayer">
-    <div class="decision-card">
-      <h2>Revisión manual recomendada</h2>
-      <div class="sub" style="color:var(--gray);font-weight:800">Prioriza diagnósticos con baja confianza o señales contradictorias antes de asignar nivel definitivo.</div>
-      <div id="manualReviewList" class="review-list"></div>
-    </div>
-    <div class="decision-card">
-      <h2>Lectura rápida</h2>
-      <div class="review-list">
-        <div class="review-item"><strong>Nivel predominante</strong><span id="uxDominantLevel">--</span></div>
-        <div class="review-item"><strong>Casos nuevos</strong><span id="uxNewDiagnostics">--</span></div>
-      </div>
-    </div>
   </section>
 
   <section class="panel">
@@ -478,23 +457,42 @@ renderResults();
 </script>
 
 <script>
-/* FASE 16 — Diagnostic prioritization. Additive only. */
+/* Wisdom Academy FASE 13 Closure Hardening */
 (function(){
-  function set(id,v){const el=document.getElementById(id); if(el) el.textContent=v||'--'}
-  function rows(){return [...document.querySelectorAll('tbody tr')].filter(r=>r.innerText.trim());}
-  function refreshDiagnosticUX(){
-    const all=rows();
-    const low=all.filter(r=>/baja|low/i.test(r.innerText));
-    const host=document.getElementById('manualReviewList');
-    if(host){host.innerHTML=low.slice(0,5).map(r=>`<div class="review-item"><strong>Revisar diagnóstico</strong><span>${r.innerText.trim().slice(0,180)}</span></div>`).join('') || '<div class="empty">No hay diagnósticos de baja confianza visibles.</div>';}
-    set('uxNewDiagnostics',String(all.length));
-    const common=document.getElementById('commonLevel')?.innerText || '--'; set('uxDominantLevel',common);
-  }
-  const original=window.renderResults;
-  if(typeof original==='function'){window.renderResults=function(){const result=original.apply(this,arguments); setTimeout(refreshDiagnosticUX,0); return result;}}
-  window.addEventListener('load',()=>setTimeout(refreshDiagnosticUX,250));
+ if(window.__wisdomPhase13Closure) return;
+ window.__wisdomPhase13Closure=true;
+
+ window.addEventListener('error', e=>console.error('FASE13',e.error||e.message));
+ window.addEventListener('unhandledrejection', e=>console.error('FASE13 Promise',e.reason));
+
+ window.addEventListener('storage', function(ev){
+   const watched=[
+     'wisdom_placement_results',
+     'wisdom_last_placement_result',
+     'wisdom_exam_results',
+     'wisdom_assessment_results',
+     'wisdom_students_demo'
+   ];
+   if(watched.includes(ev.key) && document.visibilityState==='visible'){
+      location.reload();
+   }
+ });
+
+ if(window.WisdomStorage && WisdomStorage.get && WisdomStorage.set){
+   try{
+     const placements = WisdomStorage.get('wisdom_placement_results',[]);
+     if(Array.isArray(placements)){
+       const seen=new Map();
+       placements.forEach(p=>{
+         const k=(p.placementId||p.resultId||p.id||JSON.stringify(p)).toString();
+         seen.set(k,p);
+       });
+       WisdomStorage.set('wisdom_placement_results', Array.from(seen.values()));
+     }
+   }catch(e){}
+ }
 })();
 </script>
-
 </body>
+
 </html>
